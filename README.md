@@ -4,6 +4,7 @@ Multiplataform movile app for managing the logistic aspect of a food bank social
 ## Developed  by:
 * Vicente Javier Viera Guízar
 * Renet de Jesús Pérez Gómez
+* Alexa Serrano Negrete
 * Escriban sus nombres aqui.....
 
 # Instructions to run the program for developing:
