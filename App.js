@@ -1,16 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TailwindProvider } from 'tailwindcss-react-native';
+import { StyleSheet} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Login from './src/layouts/Login';
 
+//Component incharge of crating the screens
+const Stack = createNativeStackNavigator(); 
+
+//All the screens should be inside of NavigationContainer
 export default function App() {
     return (
-        <TailwindProvider>
-            <View className="flex-1 items-center justify-center bg-white">
-                <Text className="text-red-900">Open up App.js to start working on your app!</Text>
-                <StatusBar style="auto" />
-            </View>
-        </TailwindProvider>
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Login" component={Login} />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }
 
@@ -21,4 +25,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    tim:{
+        width: 50,
+        height: 20
+    }
 });
