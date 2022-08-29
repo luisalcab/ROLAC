@@ -4,7 +4,11 @@ import { Input, Icon, Button } from "@rneui/themed";
 import { Formik } from 'formik';
 import * as Yup from 'yup'
 
-const LogInForm = () => {
+const LogInForm = ({navigation}) => {
+    const nav2Registration = () => {
+        navigation.navigate("Register");
+    }
+
     const logInSchema = Yup.object().shape({
         email:Yup.
             string().
@@ -31,7 +35,7 @@ const LogInForm = () => {
         >
             {({errors, touched, handleChange, handleSubmit}) => {
                 return(
-                    <View style={{with:"100%",height:"30%",justifyContent:"space-around", alignItems:"center"}}>
+                    <View style={{width:"100%",height:"30%",justifyContent:"space-around", alignItems:"center"}}>
                         <Input
                             placeholder="Correo"
                             leftIcon={<Icon type="material" name="mail"/>}
@@ -53,6 +57,23 @@ const LogInForm = () => {
                                 width: "80%",
                                 borderBottomEndRadius:10,
                                 borderBottomLeftRadius:10,
+                                marginTop:10,
+                                backgroundColor:"gray"
+                            }}
+                            titleStyle={{
+                                width: "100%"
+                            }}
+                            icon={<Icon name="arrow-forward-ios" type="material"/>}
+                            iconRight={true}
+                        />
+                        <Button 
+                            onPress={nav2Registration} 
+                            title="Registrarse"
+                            buttonStyle={{
+                                width: "80%",
+                                borderBottomEndRadius:10,
+                                borderBottomLeftRadius:10,
+                                marginTop:30,
                                 backgroundColor:"gray"
                             }}
                             titleStyle={{

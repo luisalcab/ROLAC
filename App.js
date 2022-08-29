@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './src/layouts/Login';
+import Register from './src/layouts/Register';
 
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 
@@ -12,6 +13,7 @@ export default function App() {
         <NavigationContainer initialRouteName="Login">
             <Stack.Navigator>
                 <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="Register" component={Register} />
             </Stack.Navigator>
         </NavigationContainer>
     );
