@@ -1,12 +1,13 @@
 import React from 'react'
 import { StyleSheet} from 'react-native';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
+import { Image } from '@rneui/themed';
 import LogInForm from '../components/LogInForm';
 
 const Login = () => {
   return (
     <View style={styles.screen}>
-        {/* <Image style={styles.logo} source={require('../img/710750.png')}/> */}
+        <Image source={require("../img/710750.png")} style={styles.pic}/>
         <LogInForm/>
     </View>
   )
@@ -15,9 +16,15 @@ const Login = () => {
 const styles = StyleSheet.create({
     screen:{
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "flex-start",
         width: "100%",
         height: "100%"
+    },
+    pic:{
+      width: "80%",
+      height: "40%",
+      marginHorizontal:"10%",
+      marginTop:"10%"
     }
 })
 

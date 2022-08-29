@@ -11,8 +11,8 @@ const LogInForm = () => {
             email("Email no valido").
 			required("Email requerido"),
         password:Yup.
-                string().
-                required("Contraseña requerida")
+            string().
+            required("Contraseña requerida")
     })
 
   return (
@@ -29,13 +29,14 @@ const LogInForm = () => {
         }}
         validationSchema={logInSchema}
         >
-            {({errors, touched, values, handleChange, handleSubmit}) => {
+            {({errors, touched, handleChange, handleSubmit}) => {
                 return(
-                    <View style={{with:"100%",height:"30%",justifyContent:"space-around"}}>
+                    <View style={{with:"100%",height:"30%",justifyContent:"space-around", alignItems:"center"}}>
                         <Input
                             placeholder="Correo"
                             leftIcon={<Icon type="material" name="mail"/>}
                             onChangeText={handleChange("email")}
+                            errorMessage={errors.email && touched.email ? errors.email : ""}
                             style={{with:"100%",height:20}}
                         />
                         <Input
@@ -45,7 +46,21 @@ const LogInForm = () => {
                             onChangeText={handleChange("password")}
                             style={{with:"100%",height:20}}
                         />
-                        <Button onPress={handleSubmit} title="Submit" />
+                        <Button 
+                            onPress={handleSubmit} 
+                            title="Submit"
+                            buttonStyle={{
+                                width: "80%",
+                                borderBottomEndRadius:10,
+                                borderBottomLeftRadius:10,
+                                backgroundColor:"gray"
+                            }}
+                            titleStyle={{
+                                width: "100%"
+                            }}
+                            icon={<Icon name="arrow-forward-ios" type="material"/>}
+                            iconRight={true}
+                        />
                     </View>
                 )
             }}
