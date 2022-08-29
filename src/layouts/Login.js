@@ -1,26 +1,31 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
-
+import { StyleSheet} from 'react-native';
+import {View} from 'react-native';
+import { Image } from '@rneui/themed';
+import LogInForm from '../components/LogInForm';
 
 const Login = () => {
   return (
-    <View style={styles.container}>
-        <Text>LOG in!!</Text>
+    <View style={styles.screen}>
+        <Image source={require("../img/710750.png")} style={styles.pic}/>
+        <LogInForm/>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-    container: {
+    screen:{
         flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: "flex-start",
+        width: "100%",
+        height: "100%"
     },
-    tim:{
-        width: 50,
-        height: 20
+    pic:{
+      width: "80%",
+      height: "40%",
+      marginHorizontal:"10%",
+      marginTop:"10%"
     }
-});
+})
 
 export default Login
