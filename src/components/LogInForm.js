@@ -6,7 +6,9 @@ const LogInForm = () => {
   return (
     <>
         <View>
-            <Input/>
+            <Input
+                
+            />
         </View>
     </>
   )
