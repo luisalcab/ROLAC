@@ -10,23 +10,10 @@ const Stack = createNativeStackNavigator();
 //All the screens should be inside of NavigationContainer
 export default function App() {
     return (
-        <NavigationContainer>
+        <NavigationContainer initialRouteName="Login">
             <Stack.Navigator>
                 <Stack.Screen name="Login" component={Login} />
             </Stack.Navigator>
         </NavigationContainer>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    tim:{
-        width: 50,
-        height: 20
-    }
-});
