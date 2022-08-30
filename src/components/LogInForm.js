@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import { Input, Icon, Button } from "@rneui/themed";
 import { Formik } from 'formik';
 import * as Yup from 'yup'
@@ -33,7 +33,7 @@ const LogInForm = ({navigation}) => {
         }}
         validationSchema={logInSchema}
         >
-            {({errors, touched, handleChange, handleSubmit}) => {
+            {({errors, touched, handleChange, handleSubmit, values}) => {
                 return(
                     <View style={{width:"100%",height:"30%",justifyContent:"space-around", alignItems:"center"}}>
                         <Input
@@ -42,13 +42,16 @@ const LogInForm = ({navigation}) => {
                             onChangeText={handleChange("email")}
                             errorMessage={errors.email && touched.email ? errors.email : ""}
                             style={{with:"100%",height:20}}
+                            value={values.email}
                         />
                         <Input
                             placeholder="Contraseña"
                             secureTextEntry={true}
                             leftIcon={<Icon type="material" name="lock"/>}
                             onChangeText={handleChange("password")}
+                            errorMessage={errors.password && touched.password ? errors.password : ""}
                             style={{with:"100%",height:20}}
+                            value={values.password}
                         />
                         <Button 
                             onPress={handleSubmit} 
@@ -57,7 +60,7 @@ const LogInForm = ({navigation}) => {
                                 width: "80%",
                                 borderBottomEndRadius:10,
                                 borderBottomLeftRadius:10,
-                                marginTop:10,
+                                marginTop:30,
                                 backgroundColor:"gray"
                             }}
                             titleStyle={{
@@ -73,7 +76,7 @@ const LogInForm = ({navigation}) => {
                                 width: "80%",
                                 borderBottomEndRadius:10,
                                 borderBottomLeftRadius:10,
-                                marginTop:30,
+                                marginTop:50,
                                 backgroundColor:"gray"
                             }}
                             titleStyle={{
