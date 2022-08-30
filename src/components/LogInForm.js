@@ -35,7 +35,7 @@ const LogInForm = ({navigation}) => {
         >
             {({errors, touched, handleChange, handleSubmit, values}) => {
                 return(
-                    <View style={{width:"100%",height:"30%",justifyContent:"space-around", alignItems:"center"}}>
+                    <>
                         <Input
                             placeholder="Correo"
                             leftIcon={<Icon type="material" name="mail"/>}
@@ -53,39 +53,41 @@ const LogInForm = ({navigation}) => {
                             style={{with:"100%",height:20}}
                             value={values.password}
                         />
-                        <Button 
-                            onPress={handleSubmit} 
-                            title="Submit"
-                            buttonStyle={{
-                                width: "80%",
-                                borderBottomEndRadius:10,
-                                borderBottomLeftRadius:10,
-                                marginTop:30,
-                                backgroundColor:"gray"
-                            }}
-                            titleStyle={{
-                                width: "100%"
-                            }}
-                            icon={<Icon name="arrow-forward-ios" type="material"/>}
-                            iconRight={true}
-                        />
-                        <Button 
-                            onPress={nav2Registration} 
-                            title="Registrarse"
-                            buttonStyle={{
-                                width: "80%",
-                                borderBottomEndRadius:10,
-                                borderBottomLeftRadius:10,
-                                marginTop:50,
-                                backgroundColor:"gray"
-                            }}
-                            titleStyle={{
-                                width: "100%"
-                            }}
-                            icon={<Icon name="arrow-forward-ios" type="material"/>}
-                            iconRight={true}
-                        />
-                    </View>
+                        <View style={{flex:1, justifyContent:"space-around", alignItems:"center", flexDirection:"column"}}>    
+                            <Button 
+                                onPress={handleSubmit} 
+                                title="Submit"
+                                buttonStyle={{
+                                    width: "80%",
+                                    height:50,
+                                    borderBottomEndRadius:10,
+                                    borderBottomLeftRadius:10,
+                                    backgroundColor:"gray"
+                                }}
+                                titleStyle={{
+                                    width: "100%"
+                                }}
+                                icon={<Icon name="arrow-forward-ios" type="material"/>}
+                                iconRight={true}
+                            />
+                            <Button 
+                                onPress={nav2Registration} 
+                                title="Registrarse"
+                                buttonStyle={{
+                                    width: "80%",
+                                    height:50,
+                                    borderBottomEndRadius:10,
+                                    borderBottomLeftRadius:10,
+                                    backgroundColor:"gray"
+                                }}
+                                titleStyle={{
+                                    width: "100%"
+                                }}
+                                icon={<Icon name="arrow-forward-ios" type="material"/>}
+                                iconRight={true}
+                            />
+                        </View>
+                    </>
                 )
             }}
         </Formik>    
