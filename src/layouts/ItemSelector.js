@@ -1,5 +1,5 @@
-import React, { useEffect, useState} from "react"
-import {View, Text, Button, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
+import React, {useState} from "react"
+import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
 import Item from "../components/Item"
 
 const DATA = [
@@ -39,10 +39,17 @@ const ItemSelector = ({navigation}) => {
     let [items, setItems] = useState(DATA);
     let [cart, setCart] = useState([]);
 
-    const updateCart = (id, quantity) => {
+    const nav2Cart = () => {
+        navigation.navigate("Cart");
+    }
+
+    const updateCart = (id, quantity, active) => {
         let filtered = cart.filter(item => item.id !== id);
-        let updatedCart = quantity === 0 ? filtered : [...filtered, {id, quantity}];
-        setCart(updatedCart);
+        if (!active){
+            setCart(filtered);
+        } else {
+            setCart([...filtered, {id, quantity}]);
+        }
     }
 
     const renderItem = ({item}) => (
@@ -51,12 +58,10 @@ const ItemSelector = ({navigation}) => {
             name={item.name}
             source={item.source}
             unit={item.unit}
-            rank={item.rank}
             cost={item.cost}
-            count={cart.find(i => i.id === item.id) ? cart.find(i => i.id === item.id).quantity : 0}
             updateCart={updateCart}
         />
-    )
+    );
 
     return (
         <View style={styles.container}>
@@ -126,6 +131,6 @@ styles = StyleSheet.create({
         fontWeight: "bold",
         color: "rgb(224, 174, 31)",
     }
-})
+});
 
 export default ItemSelector;

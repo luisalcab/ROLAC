@@ -1,7 +1,22 @@
-import {View, Text, Image, Button, StyleSheet, TouchableOpacity} from "react-native"
+import {View, Text, Image, StyleSheet, TouchableOpacity} from "react-native"
+import { useState } from "react";
 import NumberInput from "./NumberInput";
 
-const Item = ({id, name, source, unit, rank, cost, count, updateCart}) => {
+const Item = ({id, name, source, unit, cost, updateCart}) => {
+    let [count, setCount] = useState(0);
+    let [active, setActive] = useState(false);
+
+    const manageActivation = () => {
+        if (!active && count > 0){
+            updateCart(id, name, cost, count, true);
+            setActive(true);
+        } else if (active){
+            updateCart(id, name, cost, count, false);
+            setActive(false);
+            setCount(0);
+        }
+    }
+
     return(
         <View style={styles.container}>
             <Image source={source} style={styles.img}></Image>
@@ -15,9 +30,11 @@ const Item = ({id, name, source, unit, rank, cost, count, updateCart}) => {
                         <Text style={styles.cost}>{"$" + cost}</Text>
                     </View>
                     <View style={styles.cartBox}>
-                        <NumberInput id={id} value={count} updateCart={updateCart} style={styles.counter}/>
-                        <TouchableOpacity style={styles.addBtn}>
-                            <Text style={styles.butonLabel}>Add</Text>
+                        <NumberInput id={id} value={count} updateCount={setCount} updateCart={updateCart} style={styles.counter}/>
+                        <TouchableOpacity style={[styles.btn, !active ? styles.add : styles.remove]} onPress={manageActivation}>
+                            <Text style={[styles.butonLabel, active ? {color: "rgb(224, 31, 81)"} : {}]}>
+                                {!active ? "Añadir" : "Borrar"}
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -32,7 +49,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         padding: 10,
         borderBottomColor: "rgb(97, 88, 88)",
-        borderBottomWidth: 1
+        borderBottomWidth: 2
     },
     img: { // Image
         height: 100,
@@ -81,14 +98,13 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%"
     },
-    addBtn: { // Add button
+    btn: { // Add button
         flex: 1,
-        width: 90,
+        width: 100,
         justifyContent: "center",
+        alignItems: "center",
         textAlign: "center",
-        paddingHorizontal: 25,
         borderRadius: 10,
-        borderColor: "rgb(224, 174, 31)",
         borderWidth: 2,
         marginHorizontal: "1%",
         backgroundColor: "oldlace"
@@ -97,7 +113,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
         color: "rgb(224, 174, 31)",
+    },
+    add: {
+        borderColor: "rgb(224, 174, 31)"
+    },
+    remove: {
+        borderColor: "rgb(224, 31, 81)"
     }
-})
+});
 
 export default Item;

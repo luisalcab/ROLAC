@@ -1,15 +1,17 @@
 import {View, Text, StyleSheet, TouchableOpacity} from "react-native"
 
-const NumberInput = ({id, value, updateCart}) => {
+const NumberInput = ({id, value, updateCount, updateCart}) => {
     const increase = () => {
         if (value < 99){
-            updateCart(id, value + 1)
+            updateCount(value + 1);
+            updateCart(id, value + 1, true);
         }
     }
 
     const decrease = () => {
         if (value > 0) {
-            updateCart(id, value - 1)
+            updateCount(value - 1);
+            updateCart(id, value - 1, true);
         }
     }
 
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
     },
     valueLabel: {
         height: 30,
-        width: 30,
+        width: 40,
         alignItems: "center",
         padding: 4,
         borderColor: "rgb(97, 88, 88)",
@@ -75,6 +77,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "700",
     }
-})
+});
 
 export default NumberInput;
