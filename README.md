@@ -6,7 +6,7 @@ Multiplataform movile app for managing the logistic aspect of a food bank social
 * Renet de Jesús Pérez Gómez
 * Alexa Serrano Negrete
 * Luis Alberto Alcántara Cabrales
-* Escriban sus nombres aqui.....
+* Oscar Jahir Valdés Caballero 😄
 
 # Instructions to run the program for developing:
 1. Install Nodejs [Link to Nodejs](https://nodejs.org/es/)
