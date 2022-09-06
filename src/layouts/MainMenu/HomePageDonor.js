@@ -45,7 +45,7 @@ const HomePageDonor = (props) => {
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            onPress={() => alert("Catalogo donacion monetaria")}
+            onPress={() => props.navigation.navigate("ItemSelector")}
           >
             <Icon name="fast-food-outline" type="ionicon" size={50} />
             <Text>Donacion monetaria</Text>

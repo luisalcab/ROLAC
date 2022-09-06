@@ -57,19 +57,19 @@ export default function App() {
 
     return (
         <ItemsContext.Provider value={providerItems}>
-        <CartContext.Provider value={providerCart}>
-            <NavigationContainer initialRouteName="ItemSelector">
-                <Stack.Navigator>
-                    <Stack.Screen name="ItemSelector" component={ItemSelector} />
-                    <Stack.Screen name="Cart" component={Cart} />
-                    <Stack.Screen name="Login" component={Login} />
-                    <Stack.Screen name="Register" component={Register} />
-                    <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
-                    <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menu principal'}}/>
-                    <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
-                </Stack.Navigator>
-            </NavigationContainer>
-        </CartContext.Provider>
+            <CartContext.Provider value={providerCart}>
+                <NavigationContainer initialRouteName="ManagerDonorComponent">
+                    <Stack.Navigator>
+                        <Stack.Screen name="Login" component={Login} />
+                        <Stack.Screen name="ItemSelector" component={ItemSelector} />
+                        <Stack.Screen name="Cart" component={Cart} />
+                        <Stack.Screen name="Register" component={Register} />
+                        <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
+                        <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menu principal'}}/>
+                        <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </CartContext.Provider>
         </ItemsContext.Provider>
     );
 }

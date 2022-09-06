@@ -7,7 +7,7 @@ import FBConnection from "../contexts/FBConnection";
 import {getDoc, deleteDoc, updateDoc, collection} from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
 
-const LogInForm = (props) => {
+const LogInForm = ({navigation}) => {
     const {db, app} = FBConnection;
     const auth = getAuth();
 
@@ -41,13 +41,12 @@ const LogInForm = (props) => {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             // console.log(auth.currentUser);
-            props.navigation.navigate("HomePageDonor", {userAuth: auth})
+            navigation.navigate("HomePageDonor", {userAuth: auth})
 
         }catch (e){
             console.log(e);
         } 
     }
-
   return (
     <>
         <Formik
