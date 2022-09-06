@@ -13,7 +13,7 @@ const CartItem = ({id, name, cost, count}) => {
         <View style={styles.container}>
             <Text style={[styles.label, styles.counter]}>{count}</Text>
             <Text style={[styles.label, styles.name]}>{name}</Text>
-            <Text style={[styles.label, styles.subtotal]}>{"$" + cost*count}</Text>
+            <Text style={[styles.label, styles.subtotal]}>{"$" + (Math.round(cost*count * 100) / 100).toFixed(2)}</Text>
             <TouchableOpacity style={styles.btn} onPress={removeItem}>
                 <Text style={styles.butonLabel}>Borrar</Text>
             </TouchableOpacity>
