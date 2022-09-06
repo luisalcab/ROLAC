@@ -1,12 +1,18 @@
-import React from 'react';
+import {useEffect} from 'react';
 import {View} from 'react-native';
-import { Input, Icon, Button } from "@rneui/themed";
-import { Formik } from 'formik';
-import * as Yup from 'yup'
+import {Input, Icon, Button} from "@rneui/themed";
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import FBConnection from "../contexts/FBConnection";
+import {getDoc, deleteDoc, updateDoc, collection} from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
 
-const LogInForm = ({navigation}) => {
+const LogInForm = (props) => {
+    const {db, app} = FBConnection;
+    const auth = getAuth();
+
     const nav2Registration = () => {
-        navigation.navigate("Register");
+        props.navigation.navigate("Register");
     }
 
     const logInSchema = Yup.object().shape({
@@ -19,6 +25,29 @@ const LogInForm = ({navigation}) => {
             required("Contraseña requerida")
     })
 
+    const handleSubmit = async(data) => {
+        const {email, password} = data;
+        // signInWithEmailAndPassword(auth, "bruh@gmail.com", "bruhMomentums")
+        // .then((userAuth) => {
+        //   console.log("logeado exitosamente")
+        // }).catch(() =>{
+        //   console.log("Error en login")
+        // })
+        
+        // console.log("Fuera: ", auth.currentUser.uid)
+        // console.log("Fuera: ", auth.currentUser.email)
+        // console.log(email)
+        // console.log(password)
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            // console.log(auth.currentUser);
+            props.navigation.navigate("HomePageDonor", {userAuth: auth})
+
+        }catch (e){
+            console.log(e);
+        } 
+    }
+
   return (
     <>
         <Formik
@@ -28,7 +57,7 @@ const LogInForm = ({navigation}) => {
             }
         }
         onSubmit={(values, {resetForm}) => {
-            console.log(values)
+            handleSubmit(values);
             resetForm();
         }}
         validationSchema={logInSchema}

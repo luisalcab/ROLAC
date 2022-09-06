@@ -1,14 +1,16 @@
 import React, { useMemo, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import Login from './src/layouts/Login';
 import Register from './src/layouts/Register';
 import ItemSelector from './src/layouts/ItemSelector';
 import RegisterCCForm from './src/components/RegisterCCForm';
 import Cart from './src/layouts/Cart';
+import HomePageDonor from './src/layouts/MainMenu/HomePageDonor';
+import ManagerDonorComponent from './src/components/administrationProfiles/ManagerDonorComponent'; 
 import {CartContext} from './src/contexts/CartContext';
 import {ItemsContext} from './src/contexts/ItemsContext';
-
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 
 
@@ -63,10 +65,11 @@ export default function App() {
                     <Stack.Screen name="Login" component={Login} />
                     <Stack.Screen name="Register" component={Register} />
                     <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
+                    <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menu principal'}}/>
+                    <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </CartContext.Provider>
         </ItemsContext.Provider>
-
     );
 }
