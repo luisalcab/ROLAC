@@ -1,13 +1,20 @@
-import {View, Text, StyleSheet, TouchableOpacity} from "react-native"
+import {useContext} from "react";
+import {View, Text, StyleSheet, TouchableOpacity, useColorScheme} from "react-native"
+import {CartContext} from "../contexts/CartContext";
 
 const CartItem = ({id, name, cost, count}) => {
+    const {cart, setCart} = useContext(CartContext);
+
+    const removeItem = () => {
+        setCart(cart.filter(item => item.id != id));
+    }
+
     return(
         <View style={styles.container}>
             <Text style={[styles.label, styles.counter]}>{count}</Text>
             <Text style={[styles.label, styles.name]}>{name}</Text>
-            <Text style={[styles.label, styles.cost]}>{"$" + cost}</Text>
             <Text style={[styles.label, styles.subtotal]}>{"$" + cost*count}</Text>
-            <TouchableOpacity style={styles.btn} onPress={manageActivation}>
+            <TouchableOpacity style={styles.btn} onPress={removeItem}>
                 <Text style={styles.butonLabel}>Borrar</Text>
             </TouchableOpacity>
         </View>
@@ -18,38 +25,35 @@ const styles = StyleSheet.create({
     container: { // Whole component
         flex: 1,
         flexDirection: "row",
+        alignItems: "baseline",
         padding: 10,
         borderBottomColor: "rgb(97, 88, 88)",
         borderBottomWidth: 2
     },
     label: {
         marginHorizontal: 10,
-        fontSize: 18,
-        fontWeight: "700",
-        color: "rgb(97, 88, 88)",
-    },
-    counter: {
-        width: 40
-    },
-    name: { // Title text
-        fontSize: 18,
-        fontWeight: "700",
-        color: "rgb(97, 88, 88)",
-    },
-    cost: { // Cost of the item
         fontSize: 16,
         fontWeight: "700",
         color: "rgb(97, 88, 88)",
     },
+    counter: {
+        width: 30
+    },
+    name: { // Title text
+        flex: 1,
+        fontWeight: "700",
+        color: "rgb(97, 88, 88)",
+    },
     subtotal: {
-        fontWeight: "bold"
+        fontWeight: "bold",
+        width: 70
     },
     btn: { // Add button
-        flex: 1,
-        width: 90,
+        width: 70,
         justifyContent: "center",
+        alignItems: "center",
         textAlign: "center",
-        paddingHorizontal: 25,
+        paddingHorizontal: 5,
         borderRadius: 10,
         borderWidth: 2,
         marginHorizontal: "1%",

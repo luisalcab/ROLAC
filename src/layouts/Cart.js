@@ -1,22 +1,25 @@
-import React, { useEffect, useState} from "react"
+import React, { useContext, useEffect, useState} from "react"
 import {View, Text, Button, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
+import {CartContext} from "../contexts/CartContext"
+import CartItem from "../components/CartItem"
 
-const Cart = (data) => {
-    let [cart, setCart] = useState(data)
+const Cart = () => {
+    const {cart, setCart} = useContext(CartContext);
 
-    const removeItem = (id) => {
-        setCart(cart.filter(item => item.id != id))
-    }
-
-    const renderItem = ({id, name, cost, count}) => (
+    const renderItem = ({item}) => (
         <CartItem
-            id={id}
-            name={name}
-            cost={cost}
-            count={count}
-            removeItem={removeItem}
+            id={item.id}
+            name={item.name}
+            cost={item.cost}
+            count={item.count}
         />
     );
+
+    const grandTotal = () => {
+        let sum = 0;
+        cart.map(item => {sum += item.count * item.cost});
+        return sum;
+    }
 
     return (
         <View style={styles.container}>
@@ -25,16 +28,19 @@ const Cart = (data) => {
             </View>
             <View style={styles.tableHeaders}>
                 <Text style={styles.columnTitle}>UDS</Text>
-                <Text style={styles.columnTitle}>NOMBRE</Text>
-                <Text style={styles.columnTitle}>PRECIO</Text>
-                <Text style={styles.columnTitle}>SUBT</Text>
+                <Text style={[styles.columnTitle, {flex: 1}]}>NOMBRE</Text>
+                <Text style={[styles.columnTitle, {marginRight: 120}]}>SUBT</Text>
             </View>
             <View style={styles.listContainer}>
                 <FlatList
                     data={cart}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
-                /> 
+                    extraData={cart}
+                />
+                <View style={styles.totalBox}>
+                    <Text style={styles.total}>{"TOTAL: " + grandTotal()}</Text>
+                </View>
             </View>
             <View style={styles.footer}>
                 <TouchableOpacity style={styles.button}>
@@ -62,23 +68,34 @@ styles = StyleSheet.create({
         fontWeight: "700",
         color: "rgb(224, 31, 81)"
     },
-    listContainer: { // Container of flat-list
-        flex: 1,
-        width: "100%"
-    },
     tableHeaders: {
         flexDirection: "row",
-        marginBottom: 10,
+        paddingVertical: 10,
         borderBottomColor: "rgb(97, 88, 88)",
         borderBottomWidth: 2
     },
     columnTitle: {
         fontSize: 18,
+        marginHorizontal: 10,
         fontWeight: "bold",
         color: "rgb(97, 88, 88)",
     },
-    list: { // Item list
-        alignItems: "stretch"
+    listContainer: { // Container of flat-list
+        flex: 1,
+        width: "100%"
+    },
+    totalBox: {
+        paddingVertical: 10,
+        alignItems: "center",
+        borderTopColor: "rgb(97, 88, 88)",
+        borderBottomColor: "rgb(97, 88, 88)",
+        borderTopWidth: 2,
+        borderBottomWidth: 2
+    },
+    total: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "rgb(97, 88, 88)",
     },
     footer: { // Footer with button
         height: "10%",

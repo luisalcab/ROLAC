@@ -1,17 +1,28 @@
 import {View, Text, Image, StyleSheet, TouchableOpacity} from "react-native"
-import { useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import NumberInput from "./NumberInput";
+import {CartContext} from "../contexts/CartContext";
 
-const Item = ({id, name, source, unit, cost, updateCart}) => {
-    let [count, setCount] = useState(0);
-    let [active, setActive] = useState(false);
+const Item = ({id, name, source, unit, cost}) => {
+    const [count, setCount] = useState(0);
+    const [active, setActive] = useState(false);
+
+    const {cart, setCart} = useContext(CartContext);
+
+    useEffect(() => {
+        if (cart.find(e => e.id === id)){
+            setActive(true);
+        } else {
+            setActive(false);
+        }
+    }, [cart]);
 
     const manageActivation = () => {
         if (!active && count > 0){
-            updateCart(id, name, cost, count, true);
+            setCart([...cart, {id, name, cost, count}]);
             setActive(true);
         } else if (active){
-            updateCart(id, name, cost, count, false);
+            setCart(cart.filter(item => item.id !== id));
             setActive(false);
             setCount(0);
         }
@@ -30,9 +41,17 @@ const Item = ({id, name, source, unit, cost, updateCart}) => {
                         <Text style={styles.cost}>{"$" + cost}</Text>
                     </View>
                     <View style={styles.cartBox}>
-                        <NumberInput id={id} value={count} updateCount={setCount} updateCart={updateCart} style={styles.counter}/>
-                        <TouchableOpacity style={[styles.btn, !active ? styles.add : styles.remove]} onPress={manageActivation}>
-                            <Text style={[styles.butonLabel, active ? {color: "rgb(224, 31, 81)"} : {}]}>
+                        <NumberInput
+                            id={id}
+                            count={count}
+                            updateCount={setCount}
+                            active={active}
+                            style={styles.counter}/>
+                        <TouchableOpacity 
+                            style={[styles.btn, !active ? styles.add : styles.remove]} 
+                            onPress={manageActivation}>
+                            <Text
+                                style={[styles.butonLabel, active ? {color: "rgb(224, 31, 81)"} : {}]}>
                                 {!active ? "Añadir" : "Borrar"}
                             </Text>
                         </TouchableOpacity>

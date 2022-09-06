@@ -1,17 +1,31 @@
+import { useContext } from "react";
 import {View, Text, StyleSheet, TouchableOpacity} from "react-native"
+import {CartContext} from "../contexts/CartContext";
 
-const NumberInput = ({id, value, updateCount, updateCart}) => {
-    const increase = () => {
-        if (value < 99){
-            updateCount(value + 1);
-            updateCart(id, value + 1, true);
-        }
+const NumberInput = ({id, count, updateCount, active}) => {
+    const {cart, setCart} = useContext(CartContext);
+
+    const updateCart = (val) => {
+        let tempCart = cart.map(item => item.id === id ? {...item, count: count + val} : item)
+        setCart(tempCart);
+
     }
 
     const decrease = () => {
-        if (value > 0) {
-            updateCount(value - 1);
-            updateCart(id, value - 1, true);
+        if (count > 0) {
+            updateCount(count - 1);
+            if (active) {
+                updateCart(-1);
+            }
+        }
+    }
+
+    const increase = () => {
+        if (count < 99){
+            updateCount(count + 1);
+            if (active) {
+                updateCart(1);
+            }
         }
     }
 
@@ -21,7 +35,7 @@ const NumberInput = ({id, value, updateCount, updateCart}) => {
                 <Text style={styles.label}>{"-"}</Text>
             </TouchableOpacity>
             <View style={styles.valueLabel}>
-                <Text style={styles.label}>{value}</Text>
+                <Text style={styles.label}>{count}</Text>
             </View>
             <TouchableOpacity onPress={increase} style={styles.increaseBtn}>
                 <Text style={styles.label}>{"+"}</Text>

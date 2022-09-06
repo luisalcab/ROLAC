@@ -1,57 +1,15 @@
-import React, {useState} from "react"
+import React, {useContext} from "react"
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
 import Item from "../components/Item"
-
-const DATA = [
-    {id: 1, name: 'Pan', source: require("../img/item_apple.jpg"), unit: 'pza', urgent: true, cost: 30.00},
-    {id: 2, name: 'Leche', source: require("../img/item_milk.jpg"), unit: 'lt', urgent: false, cost: 20.50},
-    {id: 3, name: 'Huevo', source: require("../img/item_eggs.jpg"), unit: 'docena', urgent: true, cost: 28.99},
-    {id: 4, name: 'Jamón', source: require("../img/item_apple.jpg"), unit: 'empaque', urgent: true, cost: 76.80},
-    {id: 5, name: 'Atún', source: require("../img/item_milk.jpg"), unit: 'lata', urgent: false, cost: 19.60},
-    {id: 6, name: 'Frijol', source: require("../img/item_eggs.jpg"), unit: 'kg', urgent: false, cost: 24.00},
-    {id: 7, name: 'Arroz', source: require("../img/item_milk.jpg"), unit: 'kg', urgent: true, cost: 26.20},
-    {id: 8, name: 'Manzana', source: require("../img/item_apple.jpg"), unit: 'pza', urgent: false, cost: 8.10},
-    {id: 9, name: 'Aguacate', source: require("../img/item_milk.jpg"), unit: 'pza', urgent: true, cost: 27.90},
-    {id: 10, name: 'Cebolla', source: require("../img/item_eggs.jpg"), unit: 'pza', urgent: false, cost: 12.30},
-    {id: 11, name: 'Pan', source: require("../img/item_apple.jpg"), unit: 'pza', urgent: true, cost: 30.00},
-    {id: 12, name: 'Leche', source: require("../img/item_milk.jpg"), unit: 'lt', urgent: false, cost: 20.50},
-    {id: 13, name: 'Huevo', source: require("../img/item_eggs.jpg"), unit: 'docena', urgent: true, cost: 28.99},
-    {id: 14, name: 'Jamón', source: require("../img/item_apple.jpg"), unit: 'empaque', urgent: true, cost: 76.80},
-    {id: 15, name: 'Atún', source: require("../img/item_milk.jpg"), unit: 'lata', urgent: false, cost: 19.60},
-    {id: 16, name: 'Frijol', source: require("../img/item_eggs.jpg"), unit: 'kg', urgent: false, cost: 24.00},
-    {id: 17, name: 'Arroz', source: require("../img/item_milk.jpg"), unit: 'kg', urgent: true, cost: 26.20},
-    {id: 18, name: 'Manzana', source: require("../img/item_apple.jpg"), unit: 'pza', urgent: false, cost: 8.10},
-    {id: 19, name: 'Aguacate', source: require("../img/item_milk.jpg"), unit: 'pza', urgent: true, cost: 27.90},
-    {id: 20, name: 'Cebolla', source: require("../img/item_eggs.jpg"), unit: 'pza', urgent: false, cost: 12.30},
-    {id: 21, name: 'Pan', source: require("../img/item_apple.jpg"), unit: 'pza', urgent: true, cost: 30.00},
-    {id: 22, name: 'Leche', source: require("../img/item_milk.jpg"), unit: 'lt', urgent: false, cost: 20.50},
-    {id: 23, name: 'Huevo', source: require("../img/item_eggs.jpg"), unit: 'docena', urgent: true, cost: 28.99},
-    {id: 24, name: 'Jamón', source: require("../img/item_apple.jpg"), unit: 'empaque', urgent: true, cost: 76.80},
-    {id: 25, name: 'Atún', source: require("../img/item_milk.jpg"), unit: 'lata', urgent: false, cost: 19.60},
-    {id: 26, name: 'Frijol', source: require("../img/item_eggs.jpg"), unit: 'kg', urgent: false, cost: 24.00},
-    {id: 27, name: 'Arroz', source: require("../img/item_milk.jpg"), unit: 'kg', urgent: true, cost: 26.20},
-    {id: 28, name: 'Manzana', source: require("../img/item_apple.jpg"), unit: 'pza', urgent: false, cost: 8.10},
-    {id: 29, name: 'Aguacate', source: require("../img/item_milk.jpg"), unit: 'pza', urgent: true, cost: 27.90},
-    {id: 30, name: 'Cebolla', source: require("../img/item_eggs.jpg"), unit: 'pza', urgent: false, cost: 12.30},
-]
+import { ItemsContext } from "../contexts/ItemsContext";
 
 const ItemSelector = ({navigation}) => {
-    let [items, setItems] = useState(DATA);
-    let [cart, setCart] = useState([]);
+    const {items, setItems} = useContext(ItemsContext);
 
     const nav2Cart = () => {
         navigation.navigate("Cart");
     }
-
-    const updateCart = (id, quantity, active) => {
-        let filtered = cart.filter(item => item.id !== id);
-        if (!active){
-            setCart(filtered);
-        } else {
-            setCart([...filtered, {id, quantity}]);
-        }
-    }
-
+    
     const renderItem = ({item}) => (
         <Item
             id={item.id}
@@ -59,7 +17,6 @@ const ItemSelector = ({navigation}) => {
             source={item.source}
             unit={item.unit}
             cost={item.cost}
-            updateCart={updateCart}
         />
     );
 
@@ -76,7 +33,7 @@ const ItemSelector = ({navigation}) => {
                 /> 
             </View>
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={nav2Cart}>
                     <Text style={styles.buttonLabel}>Carrito</Text>
                 </TouchableOpacity>
             </View>
@@ -103,9 +60,6 @@ styles = StyleSheet.create({
     listContainer: { // Container of flat-list
         flex: 1,
         width: "100%"
-    },
-    list: { // Item list
-        alignItems: "stretch"
     },
     footer: { // Footer with button
         height: "10%",
