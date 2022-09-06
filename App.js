@@ -47,7 +47,7 @@ const DATA = [
     {id: 30, name: 'Cebolla', source: require("./src/img/item_eggs.jpg"), unit: 'pza', urgent: false, cost: 12.30},
 ];
 
-//All the screens should be inside of NavigationContainer
+// All the screens should be inside of NavigationContainer
 export default function App() {
     const [cart, setCart] = useState([]);
     const [items, setItems] = useState(DATA);

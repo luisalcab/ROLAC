@@ -39,7 +39,7 @@ const Cart = () => {
                     extraData={cart}
                 />
                 <View style={styles.totalBox}>
-                    <Text style={styles.total}>{"TOTAL: " + grandTotal()}</Text>
+                    <Text style={styles.total}>{"TOTAL: " + (Math.round(grandTotal() * 100)/ 100).toFixed(2)}</Text>
                 </View>
             </View>
             <View style={styles.footer}>
