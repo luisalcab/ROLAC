@@ -3,6 +3,8 @@ import {View, Text} from 'react-native';
 import {Input, Icon, Button, } from "@rneui/themed";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {getDoc, deleteDoc, updateDoc, collection} from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
 
 const RegisterDonorForm = ({navigation}) => {
     const donorSchema = Yup.object().shape({
@@ -24,6 +26,7 @@ const RegisterDonorForm = ({navigation}) => {
             <Formik
                 initialValues={{
                     name:"",
+                    lastName: "",
                     email:"",
                     password:""
                 }}
@@ -42,6 +45,13 @@ const RegisterDonorForm = ({navigation}) => {
                                     placeholder="Nombre"
                                     leftIcon={<Icon type="feather" name="user"/>}
                                     onChangeText={handleChange("name")}
+                                    errorMessage={errors.name && touched.name ? errors.name : ""}
+                                    value={values.name}
+                                />
+                                <Input
+                                    placeholder="Apellidos"
+                                    leftIcon={<Icon type="feather" name="lastName"/>}
+                                    onChangeText={handleChange("lastName")}
                                     errorMessage={errors.name && touched.name ? errors.name : ""}
                                     value={values.name}
                                 />
