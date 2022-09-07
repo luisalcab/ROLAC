@@ -8,18 +8,25 @@ const DatePicker = ({day, setSchedule, schedule}) => {
     const [date, setDate] = useState(false);
     const [dateText, setDateText] = useState("00:00 am");
 
-    const handleConfirm = async(d) => {
-            console.log(d)
-            setDateText(Moment(d).format("hh:mm"));
-            console.log(dateText)
-            setDate(false);
+    
+    const handleConfirm = (d) => {
+        
+        const s = Moment(d).format("hh:mm");
+        setDateText(s);
+        console.log(s)
+        console.log(dateText)
 
-            setSchedule(previous => ({
-                ...previous,
-                [day]:dateText
-            }));
-            console.log(schedule)
-        };
+        const aux = schedule;
+        setSchedule({
+            ...aux,
+            [day]:dateText
+        });
+
+        console.log(day)
+        console.log("---------------------------")
+
+        setDate(false);
+    };
 
   return (
     <View style={styles.item}>
@@ -35,7 +42,7 @@ const DatePicker = ({day, setSchedule, schedule}) => {
                 color:"black"
             }}
         />
-        {date && <DateTimePickerModal isVisible={true} mode="time" onConfirm={handleConfirm} onCancel={() => setDate(false)}/>}
+        <DateTimePickerModal isVisible={date} mode="time" onConfirm={(d) => handleConfirm(d)} onCancel={() => setDate(false)}/>
         <View style={styles.line}></View>
         <Button
             onPress={() => setDateText("ola")}

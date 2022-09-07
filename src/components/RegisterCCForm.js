@@ -83,6 +83,9 @@ const RegisterCCForm = () => {
                                 <DatePicker day="Domingo" setSchedule={setSchedule} schedule={schedule}/>
                             </ScrollView>
                         </View>
+                        <Button
+                            onPress={() => {console.log(schedule)}}
+                        />
                     </View>
                 )
             }}
