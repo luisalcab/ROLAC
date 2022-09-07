@@ -1,14 +1,13 @@
 import React from 'react'
-import { StyleSheet} from 'react-native';
-import {View} from 'react-native';
-import { Image } from '@rneui/themed';
+import {StyleSheet, View} from 'react-native';
+import {Image} from '@rneui/themed';
 import LogInForm from '../components/LogInForm';
 
-const Login = () => {
+const Login = ({navigation}) => {
   return (
     <View style={styles.screen}>
         <Image source={require("../img/710750.png")} style={styles.pic}/>
-        <LogInForm/>
+        <LogInForm navigation={navigation}/>
     </View>
   )
 }
