@@ -2,6 +2,8 @@ import React, {useState, useEffect, useRef} from 'react';
 import { View, Text, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { StyleSheet} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import {Icon} from '@rneui/themed';
+import { Formik } from 'formik';
 
 const openGallery = async (setImage) => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -24,27 +26,29 @@ const CreateProduct = () => {
     const [image, setImage] = useState(null);
 
     return (
-        <View style = {styles.screen}>
-            <Text style = {styles.title}>Producto</Text>
-            <>
-            <TouchableOpacity onPress={()=>openGallery(setImage)}>
+        <Formik>
+            <View style = {styles.screen}>
+                <Text style = {styles.title}>Producto</Text>
                 <>
-                <ImageBackground source={{ uri: image }} style={styles.pic1}>
-                    <Image source={require('../img/editing.png')} style={styles.pic2} />
-                </ImageBackground>
-                </>
-            </TouchableOpacity>
+                <TouchableOpacity onPress={()=>openGallery(setImage)}>
+                    <>
+                    <ImageBackground source={{ uri: image }} style={styles.pic1}>
+                        <Icon name="edit" type="feather" color="white" size={50} marginTop = "30%"/>
+                    </ImageBackground>
+                    </>
+                </TouchableOpacity>
 
-            </>
-            <>
-            <TouchableOpacity onPress={()=>console.log("Hola")} style = {styles.button1}>
-                <Text style = {styles.text}>Guardar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=>console.log("Hola")} style = {styles.button2}>
-                <Text style = {styles.text}>Cancelar</Text>
-            </TouchableOpacity>
-            </>
-        </View>
+                </>
+                <>
+                <TouchableOpacity onPress={()=>console.log("Hola")} style = {styles.button1}>
+                    <Text style = {styles.text}>Guardar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>console.log("Hola")} style = {styles.button2}>
+                    <Text style = {styles.text}>Cancelar</Text>
+                </TouchableOpacity>
+                </>
+            </View>
+        </Formik>
     )
 }
 
@@ -69,13 +73,6 @@ const styles = StyleSheet.create({
         backgroundColor: "gray",
         borderRadius: 10, 
         absolute: "left"
-    },
-    pic2:{
-        width: 50,
-        height: 50,
-        alignSelf: "center",
-        marginTop: "30%",
-        backgroundColor: "gray"
     },
     button1:{
         alignSelf: "center",
