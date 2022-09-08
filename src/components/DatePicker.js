@@ -10,20 +10,14 @@ const DatePicker = ({day, setSchedule, schedule}) => {
 
     
     const handleConfirm = (d) => {
-        
         const s = Moment(d).format("hh:mm");
         setDateText(s);
-        console.log(s)
-        console.log(dateText)
 
         const aux = schedule;
         setSchedule({
             ...aux,
             [day]:dateText
         });
-
-        console.log(day)
-        console.log("---------------------------")
 
         setDate(false);
     };
@@ -42,10 +36,10 @@ const DatePicker = ({day, setSchedule, schedule}) => {
                 color:"black"
             }}
         />
-        <DateTimePickerModal isVisible={date} mode="time" onConfirm={(d) => handleConfirm(d)} onCancel={() => setDate(false)}/>
+        <DateTimePickerModal isVisible={date} mode="time" onConfirm={handleConfirm} onCancel={() => setDate(false)}/>
         <View style={styles.line}></View>
         <Button
-            onPress={() => setDateText("ola")}
+            onPress={() => setDateText("Closed")}
             title="Closed"
             buttonStyle={{
                 backgroundColor:"transparent",
