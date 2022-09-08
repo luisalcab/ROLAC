@@ -31,11 +31,11 @@ const RegisterCCForm = () => {
         longitude:Yup.
             string().
             required("Coordenadas Requeridas").
-            matches(/^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/gi, "Coordenada no Válida"),
+            matches(/^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$/, "Coordenada no Válida"),
         latitude:Yup.
             string().
             required("Coordenadas Requeridas").
-            matches(/^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/g, "Coordenada no Válida")
+            matches(/^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/, "Coordenada no Válida")
     })
 
 
