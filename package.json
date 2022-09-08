@@ -11,7 +11,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@expo/webpack-config": "^0.17.0",
-    "@react-native-community/datetimepicker": "^6.2.0",
+    "@react-native-community/datetimepicker": "6.2.0",
     "@react-navigation/native": "^6.0.12",
     "@react-navigation/native-stack": "^6.8.0",
     "@rneui/base": "0.0.0-edge.2",

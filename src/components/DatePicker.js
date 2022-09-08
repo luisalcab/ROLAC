@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {View, Text, StyleSheet} from 'react-native';
 import {Button} from "@rneui/themed";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -6,11 +6,19 @@ import Moment from 'moment';
 
 const DatePicker = ({day, setSchedule, schedule}) => {
     const [date, setDate] = useState(false);
-    const [dateText, setDateText] = useState("00:00 am");
+    const [dateText, setDateText] = useState("00:00");
 
-    
+    useEffect (() => {
+        const aux = schedule;
+        setSchedule({
+            ...aux,
+            [day]:dateText
+        });
+    }, [dateText])
+
     const handleConfirm = (d) => {
-        const s = Moment(d).format("hh:mm");
+        
+        const s = Moment(d).format("HH:mm");
         setDateText(s);
 
         const aux = schedule;
