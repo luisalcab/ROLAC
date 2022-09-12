@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import {Icon} from '@rneui/themed';
 import { Formik } from 'formik';
 import { Input } from 'react-native-elements';
+import * as Yup from 'yup'
 
 const openGallery = async (setImage) => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -25,33 +26,65 @@ const openGallery = async (setImage) => {
 const CreateProduct = () => {
 
     const [image, setImage] = useState(null);
-    const [name, setName] = useState(null);
-    const [cost, setPrice] = useState(null);
-    const [urgent, setUrgent] = useState(null);
-    const [active, setActive] = useState(null);
-    const [unit, setUnit] = useState(null);
+
+    const productSchema = Yup.object().shape({
+        name:Yup.
+            string().
+            required("Nombre requerido"),
+        cost:Yup.
+            number().
+            required("Costo requerido"),
+
+    })
 
     return (
-        <Formik>
-            <View style = {styles.screen}>
-                <Text style = {styles.title}>Producto</Text>
-                <>
-                <TouchableOpacity onPress={()=>openGallery(setImage)} style = {styles.picTouch}>
-                    <ImageBackground source={{ uri: image }} style={styles.pic}>
-                        <Icon name="edit" type="feather" color="white" size={50} marginTop = "30%"/>
-                    </ImageBackground>
-                </TouchableOpacity>
-                <Input placeholder="Nombre" style = {styles.nameIn}/>
-                </>
-                <>
-                <TouchableOpacity onPress={()=>console.log("Hola")} style = {styles.button1}>
-                    <Text style = {styles.text}>Guardar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={()=>console.log("Hola")} style = {styles.button2}>
-                    <Text style = {styles.text}>Cancelar</Text>
-                </TouchableOpacity>
-                </>
-            </View>
+        <Formik
+            initialValues={{
+                name: "",
+                cost: 0,
+                urgent: false,
+                active: false,
+                unit: ""
+            }}
+            onSubmit={(values, {resetForm}) => {
+                console.log(values)
+                resetForm();
+            }}
+            validationSchema={productSchema}
+        >
+            {({errors, touched, handleChange, handleSubmit}) => {
+                return(
+                    <View style = {styles.screen}>
+                        <Text style = {styles.title}>Producto</Text>
+                        <View style = {styles.box1}>
+                            <TouchableOpacity onPress={()=>openGallery(setImage)} style = {styles.picTouch}>
+                                <ImageBackground source={{ uri: image }} style={styles.pic}>
+                                    <Icon name="edit" type="feather" color="white" size={50} marginTop = "30%"/>
+                                </ImageBackground>
+                            </TouchableOpacity>
+                            <View style = {styles.nameIn}>
+                                <Input placeholder="Nombre"
+                                errorMessage={errors.name && touched.name ? errors.name : ""}
+                                onChangeText = {handleChange("name")}/>
+                            </View>
+                        </View>
+                        <View style = {styles.box2}>
+                            <Input placeholder="Costo"
+                            onChangeText = {handleChange("cost")}
+                            errorMessage={errors.cost && touched.cost ? errors.cost : ""}
+                            style = {styles.costIn}/>
+                        </View>
+                        <View style = {styles.box3}>
+                            <TouchableOpacity onPress={handleSubmit} style = {styles.button1}>
+                                <Text style = {styles.text}>Guardar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>console.log("Hola")} style = {styles.button2}>
+                                <Text style = {styles.text}>Cancelar</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                )
+            }}
         </Formik>
     )
 }
@@ -106,8 +139,28 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     nameIn:{
-        width: "100%",
+        width: "50%",
+        height: 40,
+        marginHorizontal: "5%",
+        marginTop: "25%"
     },
+    box1:{
+        flexDirection: "row",
+        flex: 0.4,
+        justifyContent: "space-around"
+    },
+    box2:{
+        flexDirection: "row",
+        justifyContent: "space-around",
+        flex: 0.2
+    },
+    box3:{
+        flexDirection: "row",
+        justifyContent: "space-around"
+    },
+    costIn:{
+        keyboardType: "numeric",
+    }
 });
 
 export default CreateProduct
