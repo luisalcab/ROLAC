@@ -6,8 +6,8 @@ import CreateProductForm from '../components/CreateProductForm';
 const CreateProduct = () => {
     return (
         <View style = {styles.screen}>
-        <Text style = {styles.title}>Producto</Text>
-        <CreateProductForm/>
+            <Text style = {styles.title}>Producto</Text>
+            <CreateProductForm/>
         </View>
     )
 }
