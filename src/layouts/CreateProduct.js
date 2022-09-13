@@ -33,8 +33,9 @@ const CreateProduct = () => {
             required("Nombre requerido"),
         cost:Yup.
             number().
-            required("Costo requerido"),
-
+            required("Costo requerido").
+            positive("Costo debe ser positivo")
+            
     })
 
     return (
@@ -44,7 +45,8 @@ const CreateProduct = () => {
                 cost: 0,
                 urgent: false,
                 active: false,
-                unit: ""
+                unit: "",
+                image: null
             }}
             onSubmit={(values, {resetForm}) => {
                 console.log(values)
@@ -63,23 +65,26 @@ const CreateProduct = () => {
                                 </ImageBackground>
                             </TouchableOpacity>
                             <View style = {styles.nameIn}>
+                                <Text style = {styles.textInfo}>Nombre:</Text>
                                 <Input placeholder="Nombre"
                                 errorMessage={errors.name && touched.name ? errors.name : ""}
                                 onChangeText = {handleChange("name")}/>
                             </View>
                         </View>
                         <View style = {styles.box2}>
+                            <Text style = {styles.textInfo}>Costo:</Text>
                             <Input placeholder="Costo"
                             onChangeText = {handleChange("cost")}
                             errorMessage={errors.cost && touched.cost ? errors.cost : ""}
+                            keyboardType = "numeric"
                             style = {styles.costIn}/>
                         </View>
                         <View style = {styles.box3}>
                             <TouchableOpacity onPress={handleSubmit} style = {styles.button1}>
-                                <Text style = {styles.text}>Guardar</Text>
+                                <Text style = {styles.textB}>Guardar</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={()=>console.log("Hola")} style = {styles.button2}>
-                                <Text style = {styles.text}>Cancelar</Text>
+                                <Text style = {styles.textB}>Cancelar</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -106,13 +111,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         textAlign: "center",
-        marginVertical: 10
+        marginVertical: 10,
+        marginBottom: -10
     },
     pic:{
         width: 150,
         height: 150,
         marginHorizontal:"5%",
-        marginTop:"10%",
         backgroundColor: "gray",
         borderRadius: 10, 
         absolute: "left"
@@ -133,7 +138,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: "center"
     },
-    text:{
+    textB:{
         color: "white",
         textAlign: "center",
         fontSize: 20
@@ -142,7 +147,7 @@ const styles = StyleSheet.create({
         width: "50%",
         height: 40,
         marginHorizontal: "5%",
-        marginTop: "25%"
+        marginTop: "20%"
     },
     box1:{
         flexDirection: "row",
@@ -150,16 +155,22 @@ const styles = StyleSheet.create({
         justifyContent: "space-around"
     },
     box2:{
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "space-around",
         flex: 0.2
     },
     box3:{
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "space-around"
     },
-    costIn:{
-        keyboardType: "numeric",
+    textInfo:{
+        fontSize: 20,
+        fontWeight: "bold",
+        textAlign: "left",
+        marginHorizontal: "3%"
+    },
+    costIn: {
+        width: "50%"
     }
 });
 
