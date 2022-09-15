@@ -25,6 +25,23 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const Login = ({navigation}) => {
+    useEffect(() => {
+        const setData = async() => {
+        try {
+            const docRef = await addDoc(collection(db, "1"), {
+                    first: "Alan",
+                    middle: "Mathison",
+                    last: "Turing",
+                    born: 1912
+                });
+                console.log("Document written with ID: ", docRef.id);
+            } catch (e) {
+                console.log("Error adding document: ", e);
+            }
+        }
+        setData();
+    }, [])
+  
   return (
     <View style={styles.screen}>
         <Image source={require("../img/5e8827daba0aa_logo.png")} style={styles.pic}/>

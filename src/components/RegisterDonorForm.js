@@ -29,6 +29,7 @@ const RegisterDonorForm = ({navigation}) => {
                 initialValues={{
                     name:"",
                     lastName: "",
+                    lastName: "",
                     email:"",
                     password:""
                 }}

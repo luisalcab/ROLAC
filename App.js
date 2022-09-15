@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+<<<<<<< HEAD
 import { YellowBox } from 'react-native-web';
 
 import Login from './src/layouts/Login';
@@ -18,6 +19,13 @@ import { UserInformation } from './src/contexts/userInformation';
 
 
 
+=======
+
+import Login from './src/layouts/Login';
+import Register from './src/layouts/Register';
+import HomePageDonor from './src/layouts/MainMenu/HomePageDonor';
+import ManagerDonorComponent from './src/components/administrationProfiles/ManagerDonorComponent'; 
+>>>>>>> 538e3a1ecec13eee46ea42b08284dcc869edda98
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 
 
@@ -65,6 +73,7 @@ export default function App() {
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
 
     return (
+<<<<<<< HEAD
         <UserInformation.Provider value={providerUserInformation}>
             <ItemsContext.Provider value={providerItems}>
                 <CartContext.Provider value={providerCart}>
@@ -85,5 +94,17 @@ export default function App() {
         </UserInformation.Provider>
         
         
+=======
+        <NavigationContainer 
+        initialRouteName="Login"
+        >
+            <Stack.Navigator>
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menu principal'}}/>
+                <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
+                <Stack.Screen name="Register" component={Register} />
+            </Stack.Navigator>
+        </NavigationContainer>
+>>>>>>> 538e3a1ecec13eee46ea42b08284dcc869edda98
     );
 }
