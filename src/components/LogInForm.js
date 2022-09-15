@@ -1,12 +1,21 @@
-import React from 'react';
+import {useContext} from 'react';
 import {View} from 'react-native';
-import { Input, Icon, Button } from "@rneui/themed";
-import { Formik } from 'formik';
-import * as Yup from 'yup'
+import {Input, Icon, Button} from "@rneui/themed";
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {getDoc, doc} from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import firebaseConection from "../contexts/FBConnection"
+import { UserInformation } from '../contexts/userInformation';
 
 const LogInForm = ({navigation}) => {
+
+    const {userInformation, setUserInformation} = useContext(UserInformation);
+
+    const auth = getAuth();
+
     const nav2Registration = () => {
-        navigation.navigate("Register");
+        navigation.navigate("RegisterDonor");
     }
 
     const logInSchema = Yup.object().shape({
@@ -19,6 +28,53 @@ const LogInForm = ({navigation}) => {
             required("Contraseña requerida")
     })
 
+    const handleSubmit = async(data) => {
+        const {email, password} = data;
+        console.log(email)
+        console.log(password)
+
+        await signInWithEmailAndPassword(auth, email, password)
+        .then(async () => {
+            const querySnapshotDonor = await getDoc(doc(firebaseConection.db, "donor", auth.currentUser.uid))
+            if(querySnapshotDonor.exists()){
+                const { currentUser } = auth;
+                const { lastName, name } = querySnapshotDonor.data();
+                console.log("Lo que es auth: ", currentUser);
+                console.log("Lo que se encontro: ", lastName, " - ", name);
+                setUserInformation({
+                    auth: currentUser,
+                    name: name,
+                    lastName: lastName
+                });
+
+                navigation.navigate("HomePageDonor", {navigation: navigation})
+            } else {
+                const querySnapshotCollectionCenter = await getDoc(doc(firebaseConection.db, "collection_center", auth.currentUser.uid))
+                if(querySnapshotCollectionCenter.exists()){
+                    alert("Es centro de acopio")
+                } else {
+                    const querySnapshotManger = await getDoc(doc(firebaseConection.db, "BAMXmanager", auth.currentUser.uid))
+                    if(querySnapshotManger.exists()){
+                        alert("Es administrador de centro de acopio")
+                    } else {
+                        alert("Usuario o contraseña incorrectas");
+
+                    }
+                }
+                
+            }
+
+
+
+        })
+        .catch((e) => {
+            console.log(e)
+            alert("Usuario o contraseña incorrectas");
+        });
+
+        
+         
+    }
   return (
     <>
         <Formik
@@ -28,7 +84,7 @@ const LogInForm = ({navigation}) => {
             }
         }
         onSubmit={(values, {resetForm}) => {
-            console.log(values)
+            handleSubmit(values);
             resetForm();
         }}
         validationSchema={logInSchema}

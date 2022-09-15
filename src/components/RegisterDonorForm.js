@@ -3,8 +3,12 @@ import {View} from 'react-native';
 import {Input, Icon, Button, } from "@rneui/themed";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {getDoc, deleteDoc, updateDoc, collection, doc, setDoc} from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import firebaseConection from '../contexts/FBConnection';
 
 const RegisterDonorForm = ({navigation}) => {
+    const auth = getAuth();
     const donorSchema = Yup.object().shape({
         name:Yup.
             string().
@@ -24,12 +28,35 @@ const RegisterDonorForm = ({navigation}) => {
             <Formik
                 initialValues={{
                     name:"",
+                    lastName: "",
                     email:"",
                     password:""
                 }}
                 onSubmit={(values, {resetForm}) => {
                     console.log(values)
-                    navigation.navigate("Login");
+
+                    createUserWithEmailAndPassword(auth, values.email, values.password)
+                    .then(userCredential => {
+                        const user = userCredential;                    
+                        setDoc(doc(firebaseConection.db, "donor", user.user.uid), {
+                            email: values.email,
+                            lastName: values.lastName,
+                            name: values.name
+                        })
+                        .then(() => {
+                            alert("Se a creado el perfil");
+                            navigation.navigate("Login");
+                        })
+                        .catch(() => {
+                            alert("Ha habido un error a la hora de crear el perfil");
+                            navigation.navigate("Login");
+                        })
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                    })
+
                     resetForm();
                 }}
                 validationSchema={donorSchema}
@@ -40,10 +67,17 @@ const RegisterDonorForm = ({navigation}) => {
                             <View style={{width:"100%", height:"100%" ,flex:1 ,alignItems:"center"}}>
                                 <Input
                                     placeholder="Nombre"
-                                    leftIcon={<Icon type="feather" name="user"/>}
+                                    leftIcon={<Icon type="material" name="person"/>}
                                     onChangeText={handleChange("name")}
                                     errorMessage={errors.name && touched.name ? errors.name : ""}
                                     value={values.name}
+                                />
+                                <Input
+                                    placeholder="Apellidos"
+                                    leftIcon={<Icon type="material" name="people"/>}
+                                    onChangeText={handleChange("lastName")}
+                                    errorMessage={errors.name && touched.name ? errors.name : ""}
+                                    value={values.lastName}
                                 />
                                 <Input
                                     placeholder="Email"
