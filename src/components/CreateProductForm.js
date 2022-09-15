@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import React, {useState} from 'react';
+import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { StyleSheet} from 'react-native';
 import {Icon} from '@rneui/themed';
 import { Formik } from 'formik';
@@ -20,8 +20,10 @@ const CreateProductForm = () => {
         cost:Yup.
             number().
             required("Costo requerido").
-            positive("Costo debe ser positivo")
-            
+            positive("Costo debe ser positivo"),
+        unit:Yup.
+            string().
+            required("Unidad requerida")
     })
 
     return (
@@ -57,18 +59,21 @@ const CreateProductForm = () => {
                             </TouchableOpacity>
                             <View style = {styles.nameIn}>
                                 <Text style = {styles.textInfo}>Nombre:</Text>
-                                <Input placeholder="Nombre"
+                                <Input placeholder="Nombre producto" 
                                 errorMessage={errors.name && touched.name ? errors.name : ""}
                                 onChangeText = {handleChange("name")}/>
                             </View>
                         </View>
                         <View style = {styles.box2}>
+                            <Text style = {styles.textInfo}>Unidades:</Text>
+                            <Input placeholder="Unidades (kg, l, u...)"
+                            onChangeText = {handleChange("unit")}
+                            errorMessage={errors.cost && touched.cost ? errors.cost : ""}/>
                             <Text style = {styles.textInfo}>Costo:</Text>
-                            <Input placeholder="Costo"
+                            <Input placeholder="Precio simbolico"
                             onChangeText = {handleChange("cost")}
                             errorMessage={errors.cost && touched.cost ? errors.cost : ""}
-                            keyboardType = "numeric"
-                            style = {styles.costIn}/>
+                            keyboardType = "numeric"/>
                         </View>
                         <View style = {styles.box3}>
                             <TouchableOpacity onPress={handleSubmit} style = {styles.button1}>
@@ -89,8 +94,8 @@ const styles = StyleSheet.create({
     picTouch:{
         width: 150,
         height: 150,
-        marginTop:"10%",
-        borderRadius: 10
+        borderRadius: 10, 
+        marginTop: 10,
     },
     pic:{
         width: 150,
@@ -125,17 +130,15 @@ const styles = StyleSheet.create({
         width: "50%",
         height: 40,
         marginHorizontal: "5%",
-        marginTop: "20%"
+        marginTop: "12%",
     },
     box1:{
         flexDirection: "row",
-        flex: 0.4,
         justifyContent: "space-around"
     },
     box2:{
         flexDirection: "column",
-        justifyContent: "space-around",
-        flex: 0.2
+        justifyContent: "space-around"
     },
     box3:{
         flexDirection: "column",
@@ -145,10 +148,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         textAlign: "left",
-        marginHorizontal: "3%"
-    },
-    costIn: {
-        width: "50%"
+        marginHorizontal: "3%",
+        marginTop: "2%"
     }
 });
 

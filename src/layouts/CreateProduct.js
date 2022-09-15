@@ -1,13 +1,19 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import { StyleSheet} from 'react-native';
 import CreateProductForm from '../components/CreateProductForm';
 
 const CreateProduct = () => {
     return (
         <View style = {styles.screen}>
-            <Text style = {styles.title}>Producto</Text>
-            <CreateProductForm/>
+            <View style = {styles.banner}>
+                <Text style = {styles.title}>Producto</Text>
+            </View>
+            <View>
+                <ScrollView>
+                    <CreateProductForm/>
+                </ScrollView>
+            </View>
         </View>
     )
 }
@@ -22,9 +28,13 @@ const styles = StyleSheet.create({
     title:{
         fontSize: 20,
         fontWeight: "bold",
-        textAlign: "center",
-        marginVertical: 10,
-        marginBottom: -10
+        textAlign: "center"
+    },
+    banner:{
+        backgroundColor: "white",
+        width: "100%",
+        height: 40,
+        justifyContent: "center"
     }
 });
 
