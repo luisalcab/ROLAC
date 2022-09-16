@@ -30,24 +30,19 @@ const LogInForm = ({navigation}) => {
 
     const handleSubmit = async(data) => {
         const {email, password} = data;
-        console.log(email)
-        console.log(password)
-
         await signInWithEmailAndPassword(auth, email, password)
         .then(async () => {
             const querySnapshotDonor = await getDoc(doc(firebaseConection.db, "donor", auth.currentUser.uid))
             if(querySnapshotDonor.exists()){
-                const { currentUser } = auth;
                 const { lastName, name } = querySnapshotDonor.data();
-                console.log("Lo que es auth: ", currentUser);
-                console.log("Lo que se encontro: ", lastName, " - ", name);
                 setUserInformation({
-                    auth: currentUser,
+                    auth: auth,
+                    uid: auth.currentUser.uid,
                     name: name,
                     lastName: lastName
                 });
 
-                navigation.navigate("HomePageDonor", {navigation: navigation})
+                navigation.navigate("HomePageDonor", {navigation: navigation});
             } else {
                 const querySnapshotCollectionCenter = await getDoc(doc(firebaseConection.db, "collection_center", auth.currentUser.uid))
                 if(querySnapshotCollectionCenter.exists()){
@@ -55,25 +50,25 @@ const LogInForm = ({navigation}) => {
                 } else {
                     const querySnapshotManger = await getDoc(doc(firebaseConection.db, "BAMXmanager", auth.currentUser.uid))
                     if(querySnapshotManger.exists()){
-                        alert("Es administrador de centro de acopio")
+                        const { lastName, name } = querySnapshotManger.data();
+                        setUserInformation({
+                            auth: auth,
+                            uid: auth.currentUser.uid,
+                            name: name,
+                            lastName: lastName
+                        });
+        
+                        navigation.navigate("HomePageManagerBAMX", {navigation: navigation});
                     } else {
                         alert("Usuario o contraseña incorrectas");
 
                     }
                 }
-                
             }
-
-
-
         })
         .catch((e) => {
-            console.log(e)
             alert("Usuario o contraseña incorrectas");
         });
-
-        
-         
     }
   return (
     <>

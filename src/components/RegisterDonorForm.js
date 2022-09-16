@@ -40,7 +40,6 @@ const RegisterDonorForm = ({navigation}) => {
                     .then(userCredential => {
                         const user = userCredential;                    
                         setDoc(doc(firebaseConection.db, "donor", user.user.uid), {
-                            email: values.email,
                             lastName: values.lastName,
                             name: values.name
                         })
@@ -54,8 +53,10 @@ const RegisterDonorForm = ({navigation}) => {
                         })
                     })
                     .catch((error) => {
-                        const errorCode = error.code;
-                        const errorMessage = error.message;
+                        console.log(error)
+                        if(error.code == 'auth/email-already-in-use'){
+                            alert("Ya hay una cuenta que utiliza ese correo");
+                        }
                     })
 
                     resetForm();

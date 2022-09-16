@@ -1,16 +1,18 @@
 import React, { useMemo, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-<<<<<<< HEAD
 import { YellowBox } from 'react-native-web';
 
+
 import Login from './src/layouts/Login';
-import RegisterDonor from './src/layouts/RegisterDonor';
+import RegisterDonor from './src/layouts/Register';
 import ItemSelector from './src/layouts/ItemSelector';
 import RegisterCCForm from './src/components/RegisterCCForm';
 import Cart from './src/layouts/Cart';
 import HomePageDonor from './src/layouts/MainMenu/HomePageDonor';
 import ManagerDonorComponent from './src/components/administrationProfiles/ManagerDonorComponent'; 
+import HomePageManagerBAMX from './src/layouts/MainMenu/HomePageManagerBAMX';
+import ManagerAdminComponent from './src/components/administrationProfiles/ManagerAdminComponent';
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -18,14 +20,12 @@ import {ItemsContext} from './src/contexts/ItemsContext';
 import { UserInformation } from './src/contexts/userInformation';
 
 
+// They are warnings that are ignored, they have no effect on the correct execution of the program
+YellowBox.ignoreWarnings([
+    'Non-serializable values were found in the navigation state',
+    'AsyncStorage has been extracted from react-native core and will be removed in a future release'
+])
 
-=======
-
-import Login from './src/layouts/Login';
-import Register from './src/layouts/Register';
-import HomePageDonor from './src/layouts/MainMenu/HomePageDonor';
-import ManagerDonorComponent from './src/components/administrationProfiles/ManagerDonorComponent'; 
->>>>>>> 538e3a1ecec13eee46ea42b08284dcc869edda98
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 
 
@@ -73,7 +73,6 @@ export default function App() {
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
 
     return (
-<<<<<<< HEAD
         <UserInformation.Provider value={providerUserInformation}>
             <ItemsContext.Provider value={providerItems}>
                 <CartContext.Provider value={providerCart}>
@@ -87,6 +86,9 @@ export default function App() {
                             <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
                             <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal'}}/>
                             <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
+                            <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal'}}/>
+                            <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
+                            options={{title: 'Administrar cuenta'}}/>
                         </Stack.Navigator>
                     </NavigationContainer>
                 </CartContext.Provider>
@@ -94,17 +96,5 @@ export default function App() {
         </UserInformation.Provider>
         
         
-=======
-        <NavigationContainer 
-        initialRouteName="Login"
-        >
-            <Stack.Navigator>
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menu principal'}}/>
-                <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
-                <Stack.Screen name="Register" component={Register} />
-            </Stack.Navigator>
-        </NavigationContainer>
->>>>>>> 538e3a1ecec13eee46ea42b08284dcc869edda98
     );
 }

@@ -10,9 +10,10 @@ import Map from "../../components/MainMenu/Map.js";
 import { UserInformation } from "../../contexts/userInformation.js";
 
 
-const HomePageDonor = (navigation) => {
+const HomePageDonor = ({navigation}) => {
 
   const {userInformation, setUserInformation} = useContext(UserInformation);
+  
   console.log("En homepage: ", userInformation)
 
   return (
@@ -25,7 +26,7 @@ const HomePageDonor = (navigation) => {
         <Text style={styles.title}>Hola {userInformation.name}</Text>
 
         <TouchableOpacity
-          // onPress={() => props.navigation.navigate('ManagerDonorComponent', {userId: props.route.params.userAuth})}
+        onPress={() => navigation.navigate('ManagerDonorComponent', {navigation: navigation})}
         >
           <Icon name="user" type="font-awesome" size={50} />
         </TouchableOpacity>

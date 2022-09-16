@@ -12,13 +12,22 @@ import {
   Image,
 } from "react-native";
 import { Icon, Overlay } from "@rneui/base";
-import Map from "../../components/MainMenu/Map.js";
 
-const HomePageManagerBAMX = (props) => {
+const HomePageManagerBAMX = ({navigation}) => {
   // console.log("Desde homepage: ", props.route.params.userAuth.currentUser.email)
   return (
     <View>
-        <Text>Vista adminstrador BMAX</Text>
+        <Text>Vista adminstrador BAMX</Text>
+        <TouchableOpacity
+        onPress={() => navigation.navigate('ManagerAdminComponent', {navigation: navigation})}
+        >
+          <Icon name="user" type="font-awesome" size={50} />
+        </TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => navigation.navigate('ManagerAdminComponent', {navigation: navigation})}
+        >
+          <Icon name="user-plus" type="font-awesome" size={50} />
+        </TouchableOpacity>
     </View>
   );
 };

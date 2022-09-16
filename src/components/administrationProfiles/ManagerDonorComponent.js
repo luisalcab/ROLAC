@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Button,
   TextInput,
@@ -6,124 +6,222 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
+import { Dialog } from "@rneui/themed";
 import { Formik } from "formik";
 
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import  {
+  getAuth,  
+  reauthenticateWithCredential, 
+  EmailAuthProvider, 
+  updateEmail,
+  sendPasswordResetEmail
+} from "firebase/auth";
 import firebaseConection from "../../contexts/FBConnection";
+import { UserInformation } from "../../contexts/userInformation";
 
-const ManagerDonorComponent = (props) => {
+
+
+const ManagerDonorComponent = ({navigation}) => {
   const [donor, setDonor] = useState(null);
-
+  const {userInformation, setUserInformation} = useContext(UserInformation);
+  const [userValidation, setUserValidation] = useState({
+    email: '',
+    password: ''
+  })
+  const [showDialog, setShowDialog] = useState({state: false})
+  const auth = getAuth()
+ 
   useEffect(() => {
     async function getManagerById(id) {
       const querySnapshot = await getDoc(
         doc(firebaseConection.db, "donor", id)
       );
       
-      const { email, lastName, name, password } = querySnapshot.data();
+      const { lastName, name } = querySnapshot.data();
       
       setDonor({
         id: querySnapshot.id,
-        email,
+        email: userInformation.auth.currentUser.email,
         lastName,
-        name,
-        password,
+        name
       });
     }
-    // getManagerById(props.route.params.managerId)
-    getManagerById(props.route.params.userId.currentUser.uid);
+
+    getManagerById(userInformation.uid);
   }, []);
 
+
+  const handleChangeText = (name, value) => { setUserValidation({ ... userValidation, [name]: value}); }
+
+  const displayDialog = () => { setShowDialog({state: true})}
+  const hideDialog = () => {setShowDialog({state: false})} 
+
   const updateDonor = async (value) => {
+    if (value.email != "") {
+      updateEmail(userInformation.auth.currentUser, value.email)
+      .catch(() => {
+        alert("Ha habido un error a la hora de actualizar el usuario")
+        navigation.navigate('HomePageDonor', {navigation: navigation});
+      });
+    }
+
     if (value.name != "") {
       donor.name = value.name;
     }
     if (value.lastName != "") {
       donor.lastName = value.lastName;
     }
-    if (value.email != "") {
-      donor.email = value.email;
-    }
 
     await updateDoc(
-      doc(firebaseConection.db, "donor", props.route.params.userId.currentUser.uid),
+      doc(firebaseConection.db, "donor", userInformation.uid),
       {
         name: donor.name,
-        lastName: donor.lastName,
-        email: donor.email,
+        lastName: donor.lastName
       }
-    );
+    )
+    .then(() => {
+      setUserInformation({...userInformation, name: donor.name, lastName: donor.lastName})
+      console.log("Despues de actualizar usuario: ", userInformation)
+    })
+    .catch(() => {
+      alert("Ha habido un error a la hora de actualizar el usuario")
+      navigation.navigate('HomePageDonor', {navigation: navigation}); 
+    });
+    
 
     alert("Se ha actualizado la información");
-    // props.navigation.navigate('HomePageDonor');
+    navigation.navigate('HomePageDonor', {navigation: navigation});
   };
 
   const removeManager = async () => {
-    await deleteDoc(doc(firebaseConection.db, "donor", props.route.params.userId.currentUser.uid));
-    alert("Usuario borrado exitosamente");
-    props.navigation.navigate('HomePageDonor');
+    hideDialog()
+    const {email, password} = userValidation;
+  
+    const credential = await EmailAuthProvider.credential(email, password);
+    
+    reauthenticateWithCredential(auth.currentUser, credential)
+    .then((userCredential) => {      
+      userCredential.user.delete()
+      .then(() => {
+          deleteDoc(doc(firebaseConection.db, "donor", userInformation.uid))
+          .then(() => {
+            alert("Usuario borrado exitosamente");
+            navigation.navigate('Login');
+          });
+      })
+      })
+    .catch((error) => {
+      alert("Ha ocurrido un error durante el proceso de eliminación del usuario");
+    });
   };
 
+  const sendEmailRecoverPassword = () => {
+    //Por alguna razón no funciona con el correo institucional "@tec"
+    sendPasswordResetEmail(userInformation.auth, userInformation.auth.currentUser.email)
+    .then(() => {
+      alert(`Se ha enviado un correo a ${userInformation.auth.currentUser.email} para actualizar tu contraseña, revisa tu bandeja de spam`);
+    })
+    .catch((error) => alert("Ha ocurrido un error, intente de nuevo mas tarde"))
+  }
   return (
-    <>
-      {donor ? (
-        <Formik
-          initialValues={donor}
-          onSubmit={(values) => updateDonor(values)}
+    <>  
+        <Dialog
+          isVisible={showDialog.state}
         >
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <ScrollView>
-              <View style={styles.container}>
-                <Text>Nombre(s) actuales</Text>
-                <View style={styles.inputGroup}>
-                  <TextInput
-                    placeholder="Name"
-                    onChangeText={handleChange("name")}
-                    onBlur={handleBlur("name")}
-                    value={values.name}
-                  />
-                </View>
-                <Text>Apellidos actuales</Text>
-                <View style={styles.inputGroup}>
-                  <TextInput
-                    placeholder="Last name"
-                    onChangeText={handleChange("lastName")}
-                    onBlur={handleBlur("lastName")}
-                    value={values.lastName}
-                  />
-                </View>
-                <Text>Email actual</Text>
-                <View style={styles.inputGroup}>
-                  <TextInput
-                    placeholder="Email"
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    value={values.email}
-                  />
-                </View>
-                <View style={styles.buttonContainer}>
+          <Dialog.Title title="Autenticacion de usuario"/>
+          <View>
+            <TextInput
+            
+            placeholder = "Email actual"
+            onChangeText={(value) => handleChangeText('email', value)}
+            />
+          </View>
+          <View>
+            <TextInput
+            placeholder = "Contraseña actual"
+            onChangeText={(value) => handleChangeText('password', value)}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button          
+              title="Confirmar"
+              onPress={() => removeManager()}
+              color="#0E4DA4"
+            />
+            <Button          
+              title="Cancelar"
+              onPress={() => hideDialog()}
+              color="#E74C3C"
+            />
+          </View>
+        </Dialog>
+      {donor ? (
+          <Formik
+            initialValues={donor}
+            onSubmit={(values) => updateDonor(values)}
+          >
+            {({ handleChange, handleBlur, handleSubmit, values }) => (
+              <ScrollView>
+                <View style={styles.container}>
+                  <Text>Nombre(s) actuales</Text>
+                  <View style={styles.inputGroup}>
+                    <TextInput
+                      placeholder="Name"
+                      onChangeText={handleChange("name")}
+                      onBlur={handleBlur("name")}
+                      value={values.name}
+                    />
+                  </View>
+                  <Text>Apellidos actuales</Text>
+                  <View style={styles.inputGroup}>
+                    <TextInput
+                      placeholder="Last name"
+                      onChangeText={handleChange("lastName")}
+                      onBlur={handleBlur("lastName")}
+                      value={values.lastName}
+                    />
+                  </View>
+                  <Text>Email actual</Text>
+                  <View style={styles.inputGroup}>
+                    <TextInput
+                      placeholder="Email"
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      value={values.email}
+                    />
+                  </View>
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      color="#0E4DA4"
+                      onPress={handleSubmit}
+                      title="Actualizar"
+                    />
+                    <Button
+                      color="#E74C3C"
+                      onPress={() => displayDialog()}
+                      title="Eliminar cuenta"
+                    />
+                  </View>
+                  <View>
                   <Button
-                    color="#0E4DA4"
-                    onPress={handleSubmit}
-                    title="Actualizar"
+                  color="#0E4DA4"
+                  onPress={() => sendEmailRecoverPassword()}
+                  title="Actualizar contraseña"
                   />
-                  <Button
-                    color="#E74C3C"
-                    onPress={() => removeManager()}
-                    title="Eliminar cuenta"
-                  />
+                  </View>
                 </View>
-              </View>
-            </ScrollView>
-          )}
-        </Formik>
+              </ScrollView>
+            )}
+          </Formik>
       ) : (
         <View style={styles.loader}>
           <ActivityIndicator size="large" color="#9e9e9e"></ActivityIndicator>
         </View>
       )}
+
     </>
   );
 };
