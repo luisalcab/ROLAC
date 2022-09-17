@@ -1,13 +1,26 @@
 import React, {useContext} from "react"
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
 import Item from "../components/Item"
-import { ItemsContext } from "../contexts/ItemsContext";
+import {ItemsContext} from "../contexts/ItemsContext";
+import {Icon} from "@rneui/themed";
 
 const ItemSelector = ({navigation}) => {
     const {items, setItems} = useContext(ItemsContext);
 
     const nav2Cart = () => {
         navigation.navigate("Cart");
+    }
+
+    const sortByName = () => {
+        setItems((prev) => {
+            return prev.sort((a, b) => a.name - b.name);
+        })
+    }
+
+    const sortByPriority = () => {
+        setItems((prev) => {
+            return prev.sort((a, b) => Number(a.uregent) - Number(b.urgent));
+        })
     }
     
     const renderItem = ({item}) => (
@@ -24,6 +37,7 @@ const ItemSelector = ({navigation}) => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Donación en especie</Text>
+                <Icon name="sort" color="rgb(97, 88, 88)" type="font-awesome-5" style={styles.sortIcon}/>
             </View>
             <View style={styles.listContainer}>
                 <FlatList
@@ -47,8 +61,9 @@ styles = StyleSheet.create({
     },
     header: { // Header section with back button, title and filter
         height: "6%",
-        justifyContent: "center",
-        paddingBottom: 10,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end",
         backgroundColor: "rgb(251, 249, 250)"
     },
     title: { // Title text
@@ -56,6 +71,10 @@ styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "700",
         color: "rgb(224, 31, 81)"
+    },
+    sortIcon: {
+        marginRight: 32,
+        marginLeft: 50
     },
     listContainer: { // Container of flat-list
         flex: 1,

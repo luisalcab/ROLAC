@@ -11,6 +11,7 @@ import HomePageDonor from './src/layouts/MainMenu/HomePageDonor';
 import ManagerDonorComponent from './src/components/administrationProfiles/ManagerDonorComponent'; 
 import {CartContext} from './src/contexts/CartContext';
 import {ItemsContext} from './src/contexts/ItemsContext';
+import AdminSettings from './src/layouts/AdminSettings';
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 
 
@@ -58,8 +59,10 @@ export default function App() {
     return (
         <ItemsContext.Provider value={providerItems}>
             <CartContext.Provider value={providerCart}>
-                <NavigationContainer initialRouteName="ManagerDonorComponent">
+                <NavigationContainer initialRouteName="AdminSettings">
                     <Stack.Navigator>
+                        {/*  HIDE NAVIGATION ==> screenOptions={{headerShown: false}}  */}
+                        <Stack.Screen name="AdminSettings" component={AdminSettings} />
                         <Stack.Screen name="Login" component={Login} />
                         <Stack.Screen name="ItemSelector" component={ItemSelector} />
                         <Stack.Screen name="Cart" component={Cart} />

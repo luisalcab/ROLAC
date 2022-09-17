@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState} from "react"
+import React, {useContext, useState} from "react"
 import {View, Text, Button, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
 import {CartContext} from "../contexts/CartContext"
 import CartItem from "../components/CartItem"
