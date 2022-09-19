@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import {Input, Icon, Button, } from "@rneui/themed";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -62,18 +62,18 @@ const RegisterDonorForm = ({navigation}) => {
                                 />
                                 <View style={{flex:1,justifyContent:"flex-start",width:"100%",height:"auto"}}>
                                     <Button
-                                        onPress={() => console.log("Negocio")}
+                                        onPress={() => navigation.navigate("RegisterCCForm")}
                                         title="¿Eres un Negocio?"
                                         buttonStyle={{
                                             backgroundColor:"transparent",
-                                            width:160,
+                                            width:160
                                         }}
                                         titleStyle={{
                                             color:"black",
                                             fontWeight: 'bold',
                                             textDecorationLine: 'underline'
                                         }}
-                                    >¿Eres un Negocio?
+                                    >
                                     </Button>
                                 </View>
                                 <Button
@@ -88,11 +88,11 @@ const RegisterDonorForm = ({navigation}) => {
                                         shadowColor: "#000",
                                         shadowOffset: {
                                             width: 0,
-                                            height: 3,
+                                            height: 3
                                         },
                                         shadowOpacity: 0.27,
                                         shadowRadius: 4.65,
-                                        elevation: 6,
+                                        elevation: 6
                                     }}
                                     titleStyle={{
                                         color:"black",

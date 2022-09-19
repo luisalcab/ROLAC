@@ -58,7 +58,7 @@ const LogInForm = ({navigation}) => {
                             leftIcon={<Icon type="material" name="mail"/>}
                             onChangeText={handleChange("email")}
                             errorMessage={errors.email && touched.email ? errors.email : ""}
-                            style={{with:"100%",height:20}}
+                            style={{width:"100%",height:20}}
                             value={values.email}
                         />
                         <Input
@@ -67,7 +67,7 @@ const LogInForm = ({navigation}) => {
                             leftIcon={<Icon type="material" name="lock"/>}
                             onChangeText={handleChange("password")}
                             errorMessage={errors.password && touched.password ? errors.password : ""}
-                            style={{with:"100%",height:20}}
+                            style={{width:"100%",height:20}}
                             value={values.password}
                         />
                         <View style={{flex:1, justifyContent:"space-around", alignItems:"center", flexDirection:"column"}}>    
