@@ -120,7 +120,7 @@ const RegisterDonorForm = ({navigation}) => {
                                         height:80,
                                         borderRadius: 5,
                                         backgroundColor:"white",
-                                        marginBottom: "20%",
+                                        marginBottom: "5%",
                                         shadowColor: "#000",
                                         shadowOffset: {
                                             width: 0,
