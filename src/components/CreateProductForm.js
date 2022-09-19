@@ -61,21 +61,23 @@ const CreateProductForm = () => {
                                 <Text style = {styles.textInfo}>Nombre:</Text>
                                 <Input placeholder="Nombre producto" 
                                 errorMessage={errors.name && touched.name ? errors.name : ""}
-                                onChangeText = {handleChange("name")}/>
+                                onChangeText = {handleChange("name")}
+                                returnKeyType="done"/>
                             </View>
                         </View>
                         <View style = {styles.box2}>
                             <Text style = {styles.textInfo}>Unidades:</Text>
                             <Input placeholder="Unidades (kg, l, u...)"
                             onChangeText = {handleChange("unit")}
-                            errorMessage={errors.cost && touched.cost ? errors.cost : ""}/>
+                            errorMessage={errors.cost && touched.cost ? errors.cost : ""}
+                            returnKeyType="done"/>
                             <Text style = {styles.textInfo}>Costo:</Text>
                             <Input placeholder="Precio simbolico"
                             onChangeText = {handleChange("cost")}
                             errorMessage={errors.cost && touched.cost ? errors.cost : ""}
                             keyboardType = "numeric"/>
                         </View>
-                        <View style = {styles.box3}>
+                        <View style = {styles.box4}>
                             <TouchableOpacity onPress={handleSubmit} style = {styles.button1}>
                                 <Text style = {styles.textB}>Guardar</Text>
                             </TouchableOpacity>
@@ -141,6 +143,10 @@ const styles = StyleSheet.create({
         justifyContent: "space-around"
     },
     box3:{
+        flexDirection: "row",
+        justifyContent: "space-around"
+    },
+    box4:{
         flexDirection: "column",
         justifyContent: "space-around"
     },
