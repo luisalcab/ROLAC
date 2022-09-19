@@ -14,7 +14,7 @@ const HomePageDonor = ({navigation}) => {
 
   const {userInformation, setUserInformation} = useContext(UserInformation);
   
-  console.log("En homepage: ", userInformation)
+  // console.log("En homepage: ", userInformation)
 
   return (
     <View>
