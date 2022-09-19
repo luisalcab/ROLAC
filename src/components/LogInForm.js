@@ -1,10 +1,16 @@
-import React from 'react';
+import {useEffect} from 'react';
 import {View} from 'react-native';
-import { Input, Icon, Button } from "@rneui/themed";
-import { Formik } from 'formik';
-import * as Yup from 'yup'
+import {Input, Icon, Button} from "@rneui/themed";
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import FBConnection from "../contexts/FBConnection";
+import {getDoc, deleteDoc, updateDoc, collection} from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
 
 const LogInForm = ({navigation}) => {
+    const {db, app} = FBConnection;
+    const auth = getAuth();
+
     const nav2Registration = () => {
         navigation.navigate("Register");
     }
@@ -19,6 +25,17 @@ const LogInForm = ({navigation}) => {
             required("Contraseña requerida")
     })
 
+    const handleSubmit = async(data) => {
+        const {email, password} = data;
+
+        try {
+            const user = await signInWithEmailAndPassword(auth, email, password);
+            console.log(user.user);
+        }catch (e){
+            console.log(e);
+        } 
+    }
+
   return (
     <>
         <Formik
@@ -28,7 +45,7 @@ const LogInForm = ({navigation}) => {
             }
         }
         onSubmit={(values, {resetForm}) => {
-            console.log(values)
+            handleSubmit(values);
             resetForm();
         }}
         validationSchema={logInSchema}
