@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {View, Text, StyleSheet} from 'react-native';
 import {Button} from "@rneui/themed";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -6,20 +6,29 @@ import Moment from 'moment';
 
 const DatePicker = ({day, setSchedule, schedule}) => {
     const [date, setDate] = useState(false);
-    const [dateText, setDateText] = useState("00:00 am");
+    const [dateText, setDateText] = useState("00:00");
 
-    const handleConfirm = async(d) => {
-            console.log(d)
-            setDateText(Moment(d).format("hh:mm"));
-            console.log(dateText)
-            setDate(false);
+    useEffect (() => {
+        const aux = schedule;
+        setSchedule({
+            ...aux,
+            [day]:dateText
+        });
+    }, [dateText])
 
-            setSchedule(previous => ({
-                ...previous,
-                [day]:dateText
-            }));
-            console.log(schedule)
-        };
+    const handleConfirm = (d) => {
+        
+        const s = Moment(d).format("HH:mm");
+        setDateText(s);
+
+        const aux = schedule;
+        setSchedule({
+            ...aux,
+            [day]:dateText
+        });
+
+        setDate(false);
+    };
 
   return (
     <View style={styles.item}>
@@ -35,10 +44,10 @@ const DatePicker = ({day, setSchedule, schedule}) => {
                 color:"black"
             }}
         />
-        {date && <DateTimePickerModal isVisible={true} mode="time" onConfirm={handleConfirm} onCancel={() => setDate(false)}/>}
+        <DateTimePickerModal isVisible={date} mode="time" onConfirm={handleConfirm} onCancel={() => setDate(false)}/>
         <View style={styles.line}></View>
         <Button
-            onPress={() => setDateText("ola")}
+            onPress={() => setDateText("Closed")}
             title="Closed"
             buttonStyle={{
                 backgroundColor:"transparent",

@@ -31,16 +31,16 @@ const RegisterCCForm = () => {
         longitude:Yup.
             string().
             required("Coordenadas Requeridas").
-            matches(/^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/gi, "Coordenada no Válida"),
+            matches(/^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$/, "Coordenada no Válida"),
         latitude:Yup.
             string().
             required("Coordenadas Requeridas").
-            matches(/^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/gi, "Coordenada no Válida")
+            matches(/^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/, "Coordenada no Válida")
     })
 
 
   return (
-    <View style={styles.screen}>
+    <ScrollView contentContainerStyle={styles.screen}>
         <Formik
             initialValues={{
                 name:"",
@@ -71,6 +71,7 @@ const RegisterCCForm = () => {
                             errorMessage={errors.email && touched.email ? errors.email : ""}
                             value={values.email}
                         />
+
                         <View style={{width:"100%", height:"40%"}}>
                             <Text style={styles.text}>Horario de Atención</Text>
                             <ScrollView style={styles.ScrollView}>
@@ -83,11 +84,55 @@ const RegisterCCForm = () => {
                                 <DatePicker day="Domingo" setSchedule={setSchedule} schedule={schedule}/>
                             </ScrollView>
                         </View>
+
+                        <Text style={styles.text}>Dirección</Text>
+                        <Input
+                            placeholder="Longitud"
+                            leftIcon={<Icon type="material" name="mail"/>}
+                            onChangeText={handleChange("longitude")}
+                            errorMessage={errors.longitude && touched.longitude ? errors.longitude : ""}
+                            value={values.longitude}
+                        />
+                        <Input
+                            placeholder="Latitiud"
+                            leftIcon={<Icon type="material" name="mail"/>}
+                            onChangeText={handleChange("latitude")}
+                            errorMessage={errors.latitude && touched.latitude ? errors.latitude : ""}
+                            value={values.latitude}
+                        />
+                        <Button
+                            onPress={handleSubmit}
+                            title="Registrarse"
+                            buttonStyle={{
+                                width:"80%",
+                                height:"20%",
+                                borderRadius: 5,
+                                backgroundColor:"white",
+                                marginBottom: "20%",
+                                padding: "1%",
+                                shadowColor: "#000",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 3
+                                },
+                                shadowOpacity: 0.27,
+                                shadowRadius: 4.65,
+                                elevation: 6
+                            }}
+                            titleStyle={{
+                                color:"black",
+                                width:"80%",
+                                height:"100%",
+                                fontSize:20
+                            }}
+                            icon={<Icon name="arrow-forward-ios" type="material"/>}
+                            iconRight={true}
+                        />
                     </View>
                 )
             }}
         </Formik>
-    </View>
+    </ScrollView>
   )
 }
 
