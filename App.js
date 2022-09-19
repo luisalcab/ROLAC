@@ -56,6 +56,16 @@ export default function App() {
     const providerCart = useMemo(() => ({cart, setCart}), [cart, setCart]);
     const providerItems = useMemo(() => ({items, setItems}), [items, setItems]);
 
+    const getItems = (){
+        useEffect(() => {
+            const subscriber = firestore()
+                .collection("Items")
+                .onSnapshot(docs => setItems(docs));
+            
+                return subscriber;
+        }, []);
+    }
+
     return (
         <ItemsContext.Provider value={providerItems}>
             <CartContext.Provider value={providerCart}>
