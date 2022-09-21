@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground, Switch } from 'react-native';
 import { StyleSheet} from 'react-native';
 import {Icon} from '@rneui/themed';
 import { Formik } from 'formik';
@@ -48,7 +48,7 @@ const CreateProductForm = () => {
             }}
             validationSchema={productSchema}
         >
-            {({errors, touched, handleChange, handleSubmit}) => {
+            {({errors, touched, handleChange, handleSubmit, setFieldValue}) => {
                 return(
                     <>
                         <View style = {styles.box1}>
@@ -66,6 +66,12 @@ const CreateProductForm = () => {
                             </View>
                         </View>
                         <View style = {styles.box2}>
+                            <Text style = {styles.textInfo}>Activo:</Text>
+                            <Switch/>
+                            <Text style = {styles.textInfo}>Prioridad:</Text>
+                            <Switch/>
+                        </View>
+                        <View style = {styles.box3}>
                             <Text style = {styles.textInfo}>Unidades:</Text>
                             <Input placeholder="Unidades (kg, l, u...)"
                             onChangeText = {handleChange("unit")}
@@ -136,26 +142,28 @@ const styles = StyleSheet.create({
     },
     box1:{
         flexDirection: "row",
-        justifyContent: "space-around"
+        justifyContent: "space-around",
     },
     box2:{
-        flexDirection: "column",
-        justifyContent: "space-around"
+        flexDirection: "row",
+        justifyContent: "space-around",
+        marginTop: "3%"
     },
     box3:{
-        flexDirection: "row",
-        justifyContent: "space-around"
+        flexDirection: "column",
+        justifyContent: "space-around",
+        marginTop: "3%"
     },
     box4:{
         flexDirection: "column",
-        justifyContent: "space-around"
+        justifyContent: "space-around",
+        marginTop: "3%"
     },
     textInfo:{
         fontSize: 20,
         fontWeight: "bold",
         textAlign: "left",
         marginHorizontal: "3%",
-        marginTop: "2%"
     }
 });
 
