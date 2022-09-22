@@ -8,13 +8,13 @@ import DatePicker from './DatePicker';
 const RegisterCCForm = () => {
     const [schedule, setSchedule] = useState(
         {
-            Lunes:"",
-            Martes:"",
-            Miércoles:"",
-            Jueves:"",
-            Viernes:"",
-            Sabado:"",
-            Domingo:""
+            Lunes:{open:"", close:""},
+            Martes:{open:"", close:""},
+            Miércoles:{open:"", close:""},
+            Jueves:{open:"", close:""},
+            Viernes:{open:"", close:""},
+            Sabado:{open:"", close:""},
+            Domingo:{open:"", close:""}
         });
 
     const registerSchema = Yup.object().shape({
@@ -101,7 +101,7 @@ const RegisterCCForm = () => {
                             value={values.latitude}
                         />
                         <Button
-                            onPress={handleSubmit}
+                            onPress={() => console.log(schedule)}
                             title="Registrarse"
                             buttonStyle={{
                                 width:"80%",

@@ -5,29 +5,22 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Moment from 'moment';
 
 const DatePicker = ({day, setSchedule, schedule}) => {
-    const [date, setDate] = useState(false);
-    const [dateText, setDateText] = useState("00:00");
-
-    useEffect (() => {
-        const aux = schedule;
-        setSchedule({
-            ...aux,
-            [day]:dateText
-        });
-    }, [dateText])
+    const [setUp, setSetUp] = useState({
+        date: false,
+        openDate: "00:00",
+        closeDate: "00:00",
+        open: false,
+        close: false
+    });
 
     const handleConfirm = (d) => {
-        
-        const s = Moment(d).format("HH:mm");
-        setDateText(s);
-
-        const aux = schedule;
-        setSchedule({
-            ...aux,
-            [day]:dateText
-        });
-
-        setDate(false);
+        if(setUp.open){
+            setSetUp({...setUp, openDate: Moment(d).format("HH:mm"), open: false, date: false});
+            setSchedule({...schedule, [day]: {...schedule[day], open: Moment(d).format("HH:mm")}});
+        }else{
+            setSetUp({...setUp, closeDate: Moment(d).format("HH:mm"), close: false, date: false});
+            setSchedule({...schedule, [day]: {...schedule[day], close: Moment(d).format("HH:mm")}});
+        }
     };
 
   return (
@@ -35,8 +28,8 @@ const DatePicker = ({day, setSchedule, schedule}) => {
         <Text>{day}</Text>
         <View style={styles.line}></View>
         <Button
-            onPress={() => setDate(true)}
-            title={dateText}
+            onPress={() => setSetUp({...setUp, date: true, open: true})}
+            title={setUp.openDate}
             buttonStyle={{
                 backgroundColor:"transparent",
             }}
@@ -44,10 +37,23 @@ const DatePicker = ({day, setSchedule, schedule}) => {
                 color:"black"
             }}
         />
-        <DateTimePickerModal isVisible={date} mode="time" onConfirm={handleConfirm} onCancel={() => setDate(false)}/>
+        <Button
+            onPress={() => setSetUp({...setUp, date: true, close: true})}
+            title={setUp.closeDate}
+            buttonStyle={{
+                backgroundColor:"transparent",
+            }}
+            titleStyle={{
+                color:"black"
+            }}
+        />
+        <DateTimePickerModal isVisible={setUp.date} mode="time" onConfirm={handleConfirm} onCancel={() => setSetUp({...setUp, date: false, open: false, close: false})}/>
         <View style={styles.line}></View>
         <Button
-            onPress={() => setDateText("Closed")}
+            onPress={() => {
+                setSetUp({...setUp, openDate: "---", closeDate: "---"});
+                setSchedule({...schedule, [day]: {open: null, close: null}})
+                }}
             title="Closed"
             buttonStyle={{
                 backgroundColor:"transparent",
