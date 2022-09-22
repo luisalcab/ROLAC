@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, {useMemo, useState, useEffect} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Login from './src/layouts/Login';
 import Register from './src/layouts/Register';
@@ -12,6 +12,10 @@ import ManagerDonorComponent from './src/components/administrationProfiles/Manag
 import {CartContext} from './src/contexts/CartContext';
 import {ItemsContext} from './src/contexts/ItemsContext';
 import AdminSettings from './src/layouts/AdminSettings';
+import FBConnection from './src/contexts/FBConnection';
+import QRGenerator from './src/layouts/QRGenerator';
+import QRScanner from './src/layouts/QRScanner';
+
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 
 
@@ -55,27 +59,29 @@ export default function App() {
 
     const providerCart = useMemo(() => ({cart, setCart}), [cart, setCart]);
     const providerItems = useMemo(() => ({items, setItems}), [items, setItems]);
-
-    const getItems = (){
+    
+    /* const getItems = (){
         useEffect(() => {
-            const subscriber = firestore()
+            const subscriber = FBConnection.db
                 .collection("Items")
                 .onSnapshot(docs => setItems(docs));
             
-                return subscriber;
+                return () => subscriber();
         }, []);
-    }
+    } */
 
     return (
         <ItemsContext.Provider value={providerItems}>
             <CartContext.Provider value={providerCart}>
-                <NavigationContainer initialRouteName="AdminSettings">
+                <NavigationContainer initialRouteName="QRScanner">
                     <Stack.Navigator>
                         {/*  HIDE NAVIGATION ==> screenOptions={{headerShown: false}}  */}
-                        <Stack.Screen name="AdminSettings" component={AdminSettings} />
-                        <Stack.Screen name="Login" component={Login} />
+                        <Stack.Screen name="QRScanner" component={QRScanner} />
                         <Stack.Screen name="ItemSelector" component={ItemSelector} />
                         <Stack.Screen name="Cart" component={Cart} />
+                        <Stack.Screen name="QRGenerator" component={QRGenerator} />
+                        <Stack.Screen name="Login" component={Login} />
+                        <Stack.Screen name="AdminSettings" component={AdminSettings} />
                         <Stack.Screen name="Register" component={Register} />
                         <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
                         <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menu principal'}}/>

@@ -1,5 +1,7 @@
 import React, {useState} from "react"
 import {View, Text, TouchableOpacity, StyleSheet, TextInput} from 'react-native'
+import FBConnection from "../contexts/FBConnection";
+import {collection, updateDoc, doc, addDoc} from "firebase/firestore";
 
 const AdminSettings = ({navigation}) => {
     const [editView, setEditView] = useState(false);
@@ -9,9 +11,16 @@ const AdminSettings = ({navigation}) => {
         lastName :"Valdés"
     });
 
+    const id = "Wei8t7Ee8FR2YdQsNqF6n95mrCv1";
+
     /* const nav2Cart = () => {
         navigation.navigate("Cart");
     } */
+
+    const handleSave = async () => {
+        // alert("name: " + info.name + ", lastName: " + info.lastName);
+        await addDoc(doc(FBConnection.db, "BAMXmanager"), info);
+    }
 
     return (
         <View style={styles.container}>
@@ -23,7 +32,7 @@ const AdminSettings = ({navigation}) => {
                     <Text style={styles.fieldLabel}>Nombre</Text>
                     <View style={[styles.fieldValueBox, editView && {backgroundColor: "rgb(220, 220, 220)"}]}>
                         {editView ?
-                            <TextInput style={styles.fieldValue} value={info.name} onChange={(e) => setInfo({...prev, name: e.target.value})}></TextInput> :
+                            <TextInput style={styles.fieldValue} value={info.name} onChangeText={(text) => setInfo(prev => ({...prev, name: text}))}></TextInput> :
                             <Text style={styles.fieldValue}>{info.name}</Text>
                         }
                     </View>
@@ -32,7 +41,7 @@ const AdminSettings = ({navigation}) => {
                     <Text style={styles.fieldLabel}>Apellido</Text>
                     <View style={[styles.fieldValueBox, editView && {backgroundColor: "rgb(220, 220, 220)"}]}>
                         {editView ?
-                            <TextInput style={styles.fieldValue} value={info.lastName} onChange={() => setInfo({...prev, lastName: e.target.value})}></TextInput> :
+                            <TextInput style={styles.fieldValue} value={info.lastName} onChangeText={(text) => setInfo(prev => ({...prev, lastName: text}))}></TextInput> :
                             <Text style={styles.fieldValue}>{info.lastName}</Text>
                         }
                     </View>
@@ -41,7 +50,7 @@ const AdminSettings = ({navigation}) => {
                     <Text style={styles.fieldLabel}>Correo</Text>
                     <View style={[styles.fieldValueBox, editView && {backgroundColor: "rgb(220, 220, 220)"}]}>
                         {editView ?
-                            <TextInput style={styles.fieldValue} value={info.email} onChange={() => setInfo({...prev, email: e.target.value})}></TextInput> :
+                            <TextInput style={styles.fieldValue} value={info.email} onChangeText={(text) => setInfo(prev => ({...prev, email: text}))}></TextInput> :
                             <Text style={styles.fieldValue}>{info.email}</Text>
                         }
                     </View>
@@ -50,7 +59,7 @@ const AdminSettings = ({navigation}) => {
             <View style={styles.footer}>
                 {editView ?
                     <View style={styles.buttonGroup}>
-                        <TouchableOpacity style={[styles.button, {backgroundColor: "rgb(96, 218, 104)"}]}>
+                        <TouchableOpacity style={[styles.button, {backgroundColor: "rgb(96, 218, 104)"}]} onPress={() => handleSave()}>
                             <Text style={styles.buttonLabel}>Guardar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.button, {backgroundColor: "rgb(255, 93, 93)"}]} onPress={() => setEditView(false)}>

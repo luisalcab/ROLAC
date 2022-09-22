@@ -37,7 +37,7 @@ const ItemSelector = ({navigation}) => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Donación en especie</Text>
-                <Icon name="sort" color="rgb(97, 88, 88)" type="font-awesome-5" style={styles.sortIcon}/>
+                {/* <Icon name="sort" color="rgb(97, 88, 88)" type="font-awesome-5" style={styles.sortIcon}/> */}
             </View>
             <View style={styles.listContainer}>
                 <FlatList
