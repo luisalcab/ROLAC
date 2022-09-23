@@ -27,6 +27,7 @@ export const RegisterCCProvider = ({children}) => {
     const [data, setData] = useState({
         name:"",
         email:"",
+        dates: {},
         longitude:"",
         latitude:""
     })
@@ -41,11 +42,11 @@ export const RegisterCCProvider = ({children}) => {
             }
         }
 
-        if(data.name !== "") uploadData();
+        uploadData();
     },[data])
 
     return(
-        <RegisterCCProvider.Provider value={{data, setData}}>
+        <RegisterCCProvider.Provider value={setData}>
             {children}
         </RegisterCCProvider.Provider>
     )

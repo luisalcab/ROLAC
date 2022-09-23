@@ -1,9 +1,10 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import {View, ScrollView, Text, StyleSheet} from 'react-native';
 import {Input, Icon, Button, Image } from "@rneui/themed";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import DatePicker from './DatePicker';
+import {RegisterContext} from "../contexts/RegisterCC"
 
 const RegisterCCForm = () => {
     const [schedule, setSchedule] = useState(
