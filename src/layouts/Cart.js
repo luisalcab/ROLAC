@@ -2,10 +2,13 @@ import React, {useContext} from "react"
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
 import {CartContext} from "../contexts/CartContext"
 import CartItem from "../components/CartItem"
+import { StripeProvider } from '@stripe/stripe-react-native';
+import {publishableKey} from '../../uitls/enviromentVariables';
+import PaymentScreen from "../components/stripe/PaymentScreen";
 
 const Cart = ({navigation}) => {
     const {cart} = useContext(CartContext);
-
+    
     const nav2QR = () => {
         navigation.navigate("QRGenerator");
     }
@@ -22,6 +25,7 @@ const Cart = ({navigation}) => {
     const grandTotal = () => {
         let sum = 0;
         cart.map(item => {sum += item.count * item.cost});
+        console.log("Esto es suma: ", sum)
         return sum;
     }
 
@@ -46,12 +50,18 @@ const Cart = ({navigation}) => {
                     <Text style={styles.total}>{"TOTAL: " + (Math.round(grandTotal() * 100)/ 100).toFixed(2)}</Text>
                 </View>
             </View>
-            <View style={styles.footer}>
+            <StripeProvider
+                publishableKey={publishableKey}>
+                <PaymentScreen grandTotal = { (Math.round(grandTotal() * 100)/ 100).toFixed(2) }/>
+            </StripeProvider>
+            {/* <View style={styles.footer}>
                 <TouchableOpacity style={styles.button} onPress={() => nav2QR()}>
                     <Text style={styles.buttonLabel}>Pagar</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
         </View>
+
+
     );
 }
 

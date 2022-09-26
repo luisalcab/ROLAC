@@ -30,6 +30,9 @@ import FBConnection from './src/contexts/FBConnection';
 import QRGenerator from './src/layouts/QRGenerator';
 import QRScanner from './src/layouts/QRScanner';
 
+//Import utils
+import enviromentVariables from './uitls/enviromentVariables';
+
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 
 
@@ -83,9 +86,6 @@ export default function App() {
                     <NavigationContainer initialRouteName="Login">
                         <Stack.Navigator>
                             <Stack.Screen name="Login" component={Login} />
-                            <Stack.Screen name="ItemSelector" component={ItemSelector} 
-                            options={{title:"Banco de alimentos"}}/>
-                            <Stack.Screen name="Cart" component={Cart} />
                             <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
                             <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
                             <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal'}}/>
@@ -95,7 +95,10 @@ export default function App() {
                             options={{title: 'Administrar cuenta'}}/>
                             <Stack.Screen name="QRScanner" component={QRScanner} />
                             <Stack.Screen name="QRGenerator" component={QRGenerator} />
-                            <Stack.Screen name="AdminSettings" component={AdminSettings} />     
+                            <Stack.Screen name="AdminSettings" component={AdminSettings} /> 
+                            <Stack.Screen name="Cart" component={Cart} /> 
+                            <Stack.Screen name="ItemSelector" component={ItemSelector} 
+                            options={{title:"Banco de alimentos"}}/>   
                         </Stack.Navigator>
                     </NavigationContainer>
                 </CartContext.Provider>

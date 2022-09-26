@@ -47,7 +47,7 @@ styles = StyleSheet.create({
         flex: 1
     },
     header: { // Header section with back button, title and filter
-        height: "6%",
+        height: "5%",
         justifyContent: "center",
         paddingBottom: 10,
         backgroundColor: "rgb(251, 249, 250)"
