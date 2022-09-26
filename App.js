@@ -73,15 +73,15 @@ export default function App() {
     return (
         <ItemsContext.Provider value={providerItems}>
             <CartContext.Provider value={providerCart}>
-                <NavigationContainer initialRouteName="QRScanner">
+                <NavigationContainer initialRouteName="AdminSettings">
                     <Stack.Navigator>
                         {/*  HIDE NAVIGATION ==> screenOptions={{headerShown: false}}  */}
+                        <Stack.Screen name="AdminSettings" component={AdminSettings} />
                         <Stack.Screen name="QRScanner" component={QRScanner} />
                         <Stack.Screen name="ItemSelector" component={ItemSelector} />
                         <Stack.Screen name="Cart" component={Cart} />
                         <Stack.Screen name="QRGenerator" component={QRGenerator} />
                         <Stack.Screen name="Login" component={Login} />
-                        <Stack.Screen name="AdminSettings" component={AdminSettings} />
                         <Stack.Screen name="Register" component={Register} />
                         <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
                         <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menu principal'}}/>

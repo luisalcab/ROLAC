@@ -56,6 +56,7 @@ const QRScanner = () => {
                 <BarCodeScanner 
                     onBarCodeScanned={scanned ? undefined: handleScan}
                     style={{width:"100%", height:"100%"}}
+                    barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
                 />
             </View>
             <View style={styles.footer}>

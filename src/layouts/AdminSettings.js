@@ -18,8 +18,8 @@ const AdminSettings = ({navigation}) => {
     } */
 
     const handleSave = async () => {
-        // alert("name: " + info.name + ", lastName: " + info.lastName);
-        await addDoc(doc(FBConnection.db, "BAMXmanager"), info);
+        alert("name: " + info.name + ", lastName: " + info.lastName);
+        await updateDoc(doc(FBConnection.db, "BAMXmanager"), info);
     }
 
     return (
