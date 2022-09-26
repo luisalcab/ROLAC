@@ -1,24 +1,24 @@
 import React from 'react';
-import { View, Text, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, Text} from 'react-native';
 import { StyleSheet} from 'react-native';
 import CreateProductForm from '../components/CreateProductForm';
+import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const CreateProduct = () => {
     return (
-        <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}>
-            <View style = {styles.screen}>
-                <View style = {styles.banner}>
-                    <Text style = {styles.title}>Producto</Text>
-                </View>
-                <View>
-                    <ScrollView>
-                        <CreateProductForm/>
-                    </ScrollView>
-                </View>
+        <View style = {styles.screen}>
+            <View style = {styles.banner}>
+                <Text style = {styles.title}>Producto</Text>
             </View>
-        </KeyboardAvoidingView>
+            <View>
+                <KeyboardAwareScrollView
+                enableOnAndroid={true}
+                extraHeight={0.01}
+                enableAutomaticScroll = {true}>
+                    <CreateProductForm/>
+                </KeyboardAwareScrollView>
+            </View>
+        </View>
     )
 }
 
@@ -39,9 +39,6 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 40,
         justifyContent: "center"
-    }, 
-    container:{
-        flex: 2,
     }
 });
 

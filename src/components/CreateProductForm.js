@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, TouchableOpacity, ImageBackground, Switch } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground, Switch} from 'react-native';
 import { StyleSheet} from 'react-native';
 import {Icon} from '@rneui/themed';
 import { Formik } from 'formik';
@@ -12,6 +12,8 @@ const CreateProductForm = () => {
 
     const [image, setImage] = useState(null);
     const [URL, setURL] = useState(null);
+    const [switchOnActive, setSwitchOnActive] = useState(false);
+    const [switchOnUrgent, setSwitchOnUrgent] = useState(false);
 
     const productSchema = Yup.object().shape({
         name:Yup.
@@ -23,7 +25,7 @@ const CreateProductForm = () => {
             positive("Costo debe ser positivo"),
         unit:Yup.
             string().
-            required("Unidad requerida")
+            required("Unidad requerida"),
     })
 
     return (
@@ -37,18 +39,18 @@ const CreateProductForm = () => {
                 image: null
             }}
             onSubmit={(values, {resetForm}) => {
-                uploadImage(image, setURL).then(() => {
+                uploadImage(image, setURL, values.name).then(() => {
                     console.log("Image uploaded");
                     console.log(URL);
                 }).catch((error) => {
                     console.log(error);
                 });
                 console.log(values)
-                resetForm();
+                //resetForm();
             }}
             validationSchema={productSchema}
         >
-            {({errors, touched, handleChange, handleSubmit, setFieldValue}) => {
+            {({errors, touched, handleChange, handleSubmit, values}) => {
                 return(
                     <>
                         <View style = {styles.box1}>
@@ -67,15 +69,15 @@ const CreateProductForm = () => {
                         </View>
                         <View style = {styles.box2}>
                             <Text style = {styles.textInfo}>Activo:</Text>
-                            <Switch/>
+                            <Switch onValueChange={(value) => {values.active = value; setSwitchOnActive(value)}} value={switchOnActive}/>
                             <Text style = {styles.textInfo}>Prioridad:</Text>
-                            <Switch/>
+                            <Switch onValueChange={(value) => {values.urgent = value; setSwitchOnUrgent(value)}} value={switchOnUrgent}/>
                         </View>
                         <View style = {styles.box3}>
                             <Text style = {styles.textInfo}>Unidades:</Text>
                             <Input placeholder="Unidades (kg, l, u...)"
                             onChangeText = {handleChange("unit")}
-                            errorMessage={errors.cost && touched.cost ? errors.cost : ""}
+                            errorMessage={errors.unit && touched.unit ? errors.unit : ""}
                             returnKeyType="done"/>
                             <Text style = {styles.textInfo}>Costo:</Text>
                             <Input placeholder="Precio simbolico"
@@ -147,17 +149,17 @@ const styles = StyleSheet.create({
     box2:{
         flexDirection: "row",
         justifyContent: "space-around",
-        marginTop: "3%"
+        marginTop: "8%"
     },
     box3:{
         flexDirection: "column",
         justifyContent: "space-around",
-        marginTop: "3%"
+        marginTop: "8%"
     },
     box4:{
         flexDirection: "column",
         justifyContent: "space-around",
-        marginTop: "3%"
+        marginTop: "8%"
     },
     textInfo:{
         fontSize: 20,
