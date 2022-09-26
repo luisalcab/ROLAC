@@ -26,6 +26,12 @@ const CreateProductForm = () => {
         unit:Yup.
             string().
             required("Unidad requerida"),
+        urgent:Yup.
+            boolean().
+            required("Urgente requerido"),
+        active:Yup.
+            boolean().
+            required("Activo requerido"),
     })
 
     return (
@@ -36,17 +42,17 @@ const CreateProductForm = () => {
                 urgent: false,
                 active: false,
                 unit: "",
-                image: null
+                imageURL: "https://www.freeiconspng.com/uploads/no-image-icon-15.png",
             }}
             onSubmit={(values, {resetForm}) => {
                 uploadImage(image, setURL, values.name).then(() => {
                     console.log("Image uploaded");
-                    console.log(URL);
+                    values.imageURL = URL;
                 }).catch((error) => {
                     console.log(error);
                 });
                 console.log(values)
-                //resetForm();
+                resetForm();
             }}
             validationSchema={productSchema}
         >
