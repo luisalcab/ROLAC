@@ -1,10 +1,14 @@
-import React, { useContext, useEffect, useState} from "react"
-import {View, Text, Button, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
+import React, {useContext} from "react"
+import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
 import {CartContext} from "../contexts/CartContext"
 import CartItem from "../components/CartItem"
 
-const Cart = () => {
-    const {cart, setCart} = useContext(CartContext);
+const Cart = ({navigation}) => {
+    const {cart} = useContext(CartContext);
+
+    const nav2QR = () => {
+        navigation.navigate("QRGenerator");
+    }
 
     const renderItem = ({item}) => (
         <CartItem
@@ -43,7 +47,7 @@ const Cart = () => {
                 </View>
             </View>
             <View style={styles.footer}>
-                <TouchableOpacity onPress={() => alert("¡GRACIAS POR TU DONACIÓN!")} style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => nav2QR()}>
                     <Text style={styles.buttonLabel}>Pagar</Text>
                 </TouchableOpacity>
             </View>

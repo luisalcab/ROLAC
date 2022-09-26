@@ -25,6 +25,10 @@ YellowBox.ignoreWarnings([
     'Non-serializable values were found in the navigation state',
     'AsyncStorage has been extracted from react-native core and will be removed in a future release'
 ])
+import AdminSettings from './src/layouts/AdminSettings';
+import FBConnection from './src/contexts/FBConnection';
+import QRGenerator from './src/layouts/QRGenerator';
+import QRScanner from './src/layouts/QRScanner';
 
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 
@@ -89,12 +93,13 @@ export default function App() {
                             <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal'}}/>
                             <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
                             options={{title: 'Administrar cuenta'}}/>
+                            <Stack.Screen name="QRScanner" component={QRScanner} />
+                            <Stack.Screen name="QRGenerator" component={QRGenerator} />
+                            <Stack.Screen name="AdminSettings" component={AdminSettings} />     
                         </Stack.Navigator>
                     </NavigationContainer>
                 </CartContext.Provider>
             </ItemsContext.Provider>
         </UserInformation.Provider>
-        
-        
-    );
+    )
 }

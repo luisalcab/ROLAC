@@ -1,46 +1,34 @@
 import React, {useContext} from "react"
-import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
-import Item from "../components/Item"
-import { ItemsContext } from "../contexts/ItemsContext";
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
+import {CartContext} from "../contexts/CartContext"
+import QRCode from "react-native-qrcode-svg"
 
-const ItemSelector = ({navigation}) => {
-    const {items, setItems} = useContext(ItemsContext);
+const QRGenerator = () => {
+    const {cart} = useContext(CartContext);
 
-    const nav2Cart = () => {
-        navigation.navigate("Cart");
-    }
-    
-    const renderItem = ({item}) => (
-        <Item
-            id={item.id}
-            name={item.name}
-            source={item.source}
-            unit={item.unit}
-            cost={item.cost}
-        />
-    );
+    let message = [];
+
+    cart.forEach(item => {
+        message.push({name: item.name, count: item.count});
+    });
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.title}>Donación en especie</Text>
-                {/* <Icon name="sort" color="rgb(97, 88, 88)" type="font-awesome-5" style={styles.sortIcon}/> */}
+                <Text style={styles.title}>Código de Pedido</Text>
             </View>
-            <View style={styles.listContainer}>
-                <FlatList
-                    data={items}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id}
-                /> 
+            <View style={styles.qrContainer}>
+                <QRCode value={JSON.stringify(message)} size={200}/>
             </View>
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.button} onPress={nav2Cart}>
-                    <Text style={styles.buttonLabel}>Carrito</Text>
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonLabel}>Volver al carrito</Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
 }
+
 
 styles = StyleSheet.create({
     container: { // Whole layout
@@ -58,9 +46,11 @@ styles = StyleSheet.create({
         fontWeight: "700",
         color: "rgb(224, 31, 81)"
     },
-    listContainer: { // Container of flat-list
+    qrContainer: { // Container of QR
         flex: 1,
-        width: "100%"
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center"
     },
     footer: { // Footer with button
         height: "10%",
@@ -88,4 +78,4 @@ styles = StyleSheet.create({
     }
 });
 
-export default ItemSelector;
+export default QRGenerator;
