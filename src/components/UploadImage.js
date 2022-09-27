@@ -2,10 +2,10 @@ import React from 'react';
 import {storage} from '../contexts/FBConnection';
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage"
 
-const uploadImage = async (uri, setURL, id) => {
+const uploadImage = async (uri, setImageURL, id) => {
     const response = await fetch(uri);
     const blob = await response.blob();
-    const filename = id + '.jpg';
+    const filename = id + ".jpg";
     const storageRef = ref(storage, `images/${filename}`);
     const uploadTask = uploadBytesResumable(storageRef, blob);
     uploadTask.on('state_changed', 
@@ -23,10 +23,10 @@ const uploadImage = async (uri, setURL, id) => {
     }, 
     (error) => {
         console.log(error);
-    }, 
-    () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setURL(downloadURL);
+    });
+    await uploadTask.then( async () => {
+        await getDownloadURL(storageRef).then(async(url) => {
+            await setImageURL(url);
         });
     });
 }

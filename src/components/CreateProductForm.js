@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, TouchableOpacity, ImageBackground, Switch} from 'react-native';
 import { StyleSheet} from 'react-native';
 import {Icon} from '@rneui/themed';
@@ -7,13 +7,23 @@ import { Input } from 'react-native-elements';
 import * as Yup from 'yup'
 import openGallery from './OpenGallery';
 import uploadImage from './UploadImage';
+import uploadData from './UploadData';
 
 const CreateProductForm = () => {
 
     const [image, setImage] = useState(null);
-    const [URL, setURL] = useState(null);
+    const [imageURL, setImageURL] = useState(null);
+    const [values, setValues] = useState(null);
     const [switchOnActive, setSwitchOnActive] = useState(false);
     const [switchOnUrgent, setSwitchOnUrgent] = useState(false);
+
+    useEffect(() => {
+        if (imageURL != null) {
+            uploadData({values, imageURL});
+            setImageURL(null);
+            setValues(null);
+        }
+    }, [imageURL && values]);
 
     const productSchema = Yup.object().shape({
         name:Yup.
@@ -42,17 +52,19 @@ const CreateProductForm = () => {
                 urgent: false,
                 active: false,
                 unit: "",
-                imageURL: "https://www.freeiconspng.com/uploads/no-image-icon-15.png",
             }}
-            onSubmit={(values, {resetForm}) => {
-                uploadImage(image, setURL, values.name).then(() => {
-                    console.log("Image uploaded");
-                    values.imageURL = URL;
-                }).catch((error) => {
-                    console.log(error);
-                });
-                console.log(values)
-                resetForm();
+            onSubmit={async (values, {resetForm}) => {
+                if(image == null){
+                    values.imageURL = "https://www.freeiconspng.com/uploads/no-image-icon-15.png";
+                } else {
+                    await uploadImage(image, setImageURL, values.name).then(() => {
+                        setValues(values);
+                        resetForm();
+                    },
+                    (error) => {
+                        console.log(error);
+                    });
+                }
             }}
             validationSchema={productSchema}
         >
