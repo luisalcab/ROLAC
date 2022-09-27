@@ -5,7 +5,16 @@ const GetProducts = async () => {
     const querySnapshot = await getDocs(collection(db, 'products'));
     const products = [];
     querySnapshot.forEach((doc) => {
-        products.push({...doc.data(), id: doc.id});
+        const {name, cost, urgent, imageURL, active, unit} = doc.data();
+        products.push({
+            id: doc.id,
+            imageURL,
+            name,
+            cost,
+            urgent,
+            active,
+            unit
+        });
     });
     return products;
 }

@@ -14,7 +14,6 @@ const ProductsAdmin = () => {
     return (
         <View>
             <Text>Products Admin</Text>
-
         </View>
     );
 }
