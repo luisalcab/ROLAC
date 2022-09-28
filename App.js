@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Login from './src/layouts/Login';
 import ProductsAdmin from './src/components/ProductsAdmin';
+import CreateProduct from './src/layouts/CreateProduct';
 
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 
@@ -10,9 +10,12 @@ const Stack = createNativeStackNavigator();
 //All the screens should be inside of NavigationContainer
 export default function App() {
     return (
-        <NavigationContainer initialRouteName="Login">
+        <NavigationContainer initialRouteName="Administración de productos">
             <Stack.Navigator>
-                <Stack.Screen name="Login" component={ProductsAdmin} />
+                <Stack.Screen name="Administración de productos" 
+                component={ProductsAdmin}  options = {{headerBackTitle: "BACK"}}/>
+                <Stack.Screen name="Create Product" 
+                component={CreateProduct} options = {{headerBackTitle: "ATRÁS"}}/>
             </Stack.Navigator>
         </NavigationContainer>
     );

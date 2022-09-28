@@ -4,7 +4,7 @@ import { StyleSheet} from 'react-native';
 import CreateProductForm from '../components/CreateProductForm';
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const CreateProduct = () => {
+const CreateProduct = ({navigation}) => {
     return (
         <View style = {styles.screen}>
             <View style = {styles.banner}>
@@ -15,7 +15,7 @@ const CreateProduct = () => {
                 enableOnAndroid={true}
                 extraHeight={0.01}
                 enableAutomaticScroll = {true}>
-                    <CreateProductForm/>
+                    <CreateProductForm navigation={navigation}/>
                 </KeyboardAwareScrollView>
             </View>
         </View>

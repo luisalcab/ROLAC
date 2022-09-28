@@ -8,8 +8,9 @@ import * as Yup from 'yup'
 import openGallery from './OpenGallery';
 import uploadImage from './UploadImage';
 import uploadData from './UploadData';
+import { LogBox } from 'react-native';
 
-const CreateProductForm = () => {
+const CreateProductForm = ({navigation}) => {
 
     const [image, setImage] = useState(null);
     const [imageURL, setImageURL] = useState(null);
@@ -17,11 +18,16 @@ const CreateProductForm = () => {
     const [switchOnActive, setSwitchOnActive] = useState(false);
     const [switchOnUrgent, setSwitchOnUrgent] = useState(false);
 
+    LogBox.ignoreLogs([
+        'Non-serializable values were found in the navigation state',
+    ]);
+
     useEffect(() => {
         if (imageURL != null) {
             uploadData({values, imageURL});
             setImageURL(null);
             setValues(null);
+            navigation.navigate("Administración de productos", {navigation: navigation})
         }
     }, [imageURL && values]);
 
@@ -107,7 +113,9 @@ const CreateProductForm = () => {
                             <TouchableOpacity onPress={handleSubmit} style = {styles.button1}>
                                 <Text style = {styles.textB}>Guardar</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>console.log("Hola")} style = {styles.button2}>
+                            <TouchableOpacity 
+                            onPress={()=> navigation.navigate("Administración de productos", {navigation: navigation})} 
+                            style = {styles.button2}>
                                 <Text style = {styles.textB}>Cancelar</Text>
                             </TouchableOpacity>
                         </View>

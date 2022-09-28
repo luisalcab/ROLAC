@@ -27,6 +27,7 @@
     "expo-status-bar": "~1.4.0",
     "firebase": "^9.9.4",
     "formik": "^2.2.9",
+    "nachos-ui": "^0.2.0-beta.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "^0.69.6",
