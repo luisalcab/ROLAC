@@ -1,10 +1,14 @@
 import React from 'react'
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import {Input, Icon, Button, } from "@rneui/themed";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {getDoc, deleteDoc, updateDoc, collection, doc, setDoc} from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import firebaseConection from '../contexts/FBConnection';
 
 const RegisterDonorForm = ({navigation}) => {
+    const auth = getAuth();
     const donorSchema = Yup.object().shape({
         name:Yup.
             string().
@@ -24,12 +28,37 @@ const RegisterDonorForm = ({navigation}) => {
             <Formik
                 initialValues={{
                     name:"",
+                    lastName: "",
+                    lastName: "",
                     email:"",
                     password:""
                 }}
                 onSubmit={(values, {resetForm}) => {
                     console.log(values)
-                    navigation.navigate("Login");
+
+                    createUserWithEmailAndPassword(auth, values.email, values.password)
+                    .then(userCredential => {
+                        const user = userCredential;                    
+                        setDoc(doc(firebaseConection.db, "donor", user.user.uid), {
+                            lastName: values.lastName,
+                            name: values.name
+                        })
+                        .then(() => {
+                            alert("Se a creado el perfil");
+                            navigation.navigate("Login");
+                        })
+                        .catch(() => {
+                            alert("Ha habido un error a la hora de crear el perfil");
+                            navigation.navigate("Login");
+                        })
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        if(error.code == 'auth/email-already-in-use'){
+                            alert("Ya hay una cuenta que utiliza ese correo");
+                        }
+                    })
+
                     resetForm();
                 }}
                 validationSchema={donorSchema}
@@ -40,10 +69,17 @@ const RegisterDonorForm = ({navigation}) => {
                             <View style={{width:"100%", height:"100%" ,flex:1 ,alignItems:"center"}}>
                                 <Input
                                     placeholder="Nombre"
-                                    leftIcon={<Icon type="feather" name="user"/>}
+                                    leftIcon={<Icon type="material" name="person"/>}
                                     onChangeText={handleChange("name")}
                                     errorMessage={errors.name && touched.name ? errors.name : ""}
                                     value={values.name}
+                                />
+                                <Input
+                                    placeholder="Apellidos"
+                                    leftIcon={<Icon type="material" name="people"/>}
+                                    onChangeText={handleChange("lastName")}
+                                    errorMessage={errors.name && touched.name ? errors.name : ""}
+                                    value={values.lastName}
                                 />
                                 <Input
                                     placeholder="Email"
@@ -62,18 +98,18 @@ const RegisterDonorForm = ({navigation}) => {
                                 />
                                 <View style={{flex:1,justifyContent:"flex-start",width:"100%",height:"auto"}}>
                                     <Button
-                                        onPress={() => console.log("Negocio")}
+                                        onPress={() => navigation.navigate("RegisterCCForm")}
                                         title="¿Eres un Negocio?"
                                         buttonStyle={{
                                             backgroundColor:"transparent",
-                                            width:160,
+                                            width:160
                                         }}
                                         titleStyle={{
                                             color:"black",
                                             fontWeight: 'bold',
                                             textDecorationLine: 'underline'
                                         }}
-                                    >¿Eres un Negocio?
+                                    >
                                     </Button>
                                 </View>
                                 <Button
@@ -84,15 +120,15 @@ const RegisterDonorForm = ({navigation}) => {
                                         height:80,
                                         borderRadius: 5,
                                         backgroundColor:"white",
-                                        marginBottom: "20%",
+                                        marginBottom: "5%",
                                         shadowColor: "#000",
                                         shadowOffset: {
                                             width: 0,
-                                            height: 3,
+                                            height: 3
                                         },
                                         shadowOpacity: 0.27,
                                         shadowRadius: 4.65,
-                                        elevation: 6,
+                                        elevation: 6
                                     }}
                                     titleStyle={{
                                         color:"black",
