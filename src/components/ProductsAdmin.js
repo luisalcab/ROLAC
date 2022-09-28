@@ -7,11 +7,13 @@ import { LogBox } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import {Icon} from '@rneui/themed';
 import RemoveProduct from './RemoveProduct';
+import { RefresherContext } from '../Contexts/RefresherContext';
+import { useContext } from 'react';
 
 const ProductsAdmin = ({navigation}) => {
 
     const [products, setProducts] = useState([]);
-    const [refresh, setRefresh] = useState(false);
+    const {refresh, setRefresh} = useContext(RefresherContext);
 
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',
@@ -29,13 +31,14 @@ const ProductsAdmin = ({navigation}) => {
         GetProducts().then((products) => {
             setProducts(products);
         });
-        setRefresh(!refresh);
+        setRefresh(false);
         console.log("2do");
     }, [refresh]);
 
     const removeProduct = (id) => {
+        console.log(refresh);
         RemoveProduct(id);
-        setRefresh(!refresh);
+        setRefresh(true);
     }
 
     return (

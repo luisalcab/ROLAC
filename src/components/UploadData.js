@@ -1,5 +1,5 @@
 import React from 'react';
-import {db} from '../contexts/FBConnection';
+import {db} from './FBConnection';
 import {collection, addDoc} from "firebase/firestore";
 
 const uploadData = async (values) => {

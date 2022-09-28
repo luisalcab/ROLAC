@@ -9,6 +9,8 @@ import openGallery from './OpenGallery';
 import uploadImage from './UploadImage';
 import uploadData from './UploadData';
 import { LogBox } from 'react-native';
+import { RefresherContext } from '../Contexts/RefresherContext';
+import { useContext } from 'react';
 
 const CreateProductForm = ({navigation}) => {
 
@@ -17,8 +19,7 @@ const CreateProductForm = ({navigation}) => {
     const [values, setValues] = useState(null);
     const [switchOnActive, setSwitchOnActive] = useState(false);
     const [switchOnUrgent, setSwitchOnUrgent] = useState(false);
-
-    const {setRefresh} = params;
+    const {refresh, setRefresh} = useContext(RefresherContext);
 
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',

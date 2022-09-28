@@ -1,4 +1,4 @@
-import {db} from '../contexts/FBConnection';
+import {db} from './FBConnection';
 import {collection, getDocs} from "firebase/firestore";
 
 const GetProducts = async () => {

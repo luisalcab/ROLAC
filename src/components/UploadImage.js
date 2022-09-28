@@ -1,5 +1,5 @@
 import React from 'react';
-import {storage} from '../contexts/FBConnection';
+import {storage} from './FBConnection';
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage"
 
 const uploadImage = async (uri, setImageURL, id) => {
