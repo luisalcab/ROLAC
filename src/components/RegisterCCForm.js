@@ -7,6 +7,9 @@ import DatePicker from './DatePicker';
 import {RegisterContext} from "../contexts/RegisterCC"
 
 const RegisterCCForm = () => {
+    const {setData} = useContext(RegisterContext);
+
+    //Set the schedule data
     const [schedule, setSchedule] = useState(
         {
             Lunes:{open:"", close:""},
@@ -26,9 +29,6 @@ const RegisterCCForm = () => {
             string().
             email("Email no valido").
             required("Email requerido"),
-        direction:Yup.
-            string().
-            required("Direccion Requeida"),
         longitude:Yup.
             string().
             required("Coordenadas Requeridas").
@@ -46,12 +46,23 @@ const RegisterCCForm = () => {
             initialValues={{
                 name:"",
                 email:"",
-                direction:"",
                 longitude:"",
                 latitude:""
             }}
-            onSubmit={(values, {resetForm}) => {
-                console.log(values)
+            onSubmit={async(values, {resetForm}) => {
+                try{
+                    //WrapUp all the values
+                    const allData = {
+                        ...values,
+                        dates: schedule
+                    }
+                    
+                    //Call the context and reset form
+                    await setData(allData);
+                    resetForm();
+                }catch(error){
+
+                }
             }}
             validationSchema={registerSchema}
         >
@@ -102,7 +113,7 @@ const RegisterCCForm = () => {
                             value={values.latitude}
                         />
                         <Button
-                            onPress={() => console.log(schedule)}
+                            onPress={handleSubmit}
                             title="Registrarse"
                             buttonStyle={{
                                 width:"80%",

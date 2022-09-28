@@ -18,7 +18,7 @@ import ManagerAdminComponent from './src/components/administrationProfiles/Manag
 import {CartContext} from './src/contexts/CartContext';
 import {ItemsContext} from './src/contexts/ItemsContext';
 import { UserInformation } from './src/contexts/userInformation';
-
+import {RegisterCCProvider} from "./src/contexts/RegisterCC"
 
 // They are warnings that are ignored, they have no effect on the correct execution of the program
 YellowBox.ignoreWarnings([

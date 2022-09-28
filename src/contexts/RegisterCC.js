@@ -3,7 +3,9 @@ import {initializeApp} from 'firebase/app';
 import {getFirestore} from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
 
-//FireBase Cofiguration
+export const RegisterContext = createContext();
+
+//FireBase Cofiguration//Create Context
 const firebaseConfig = {
     apiKey: "AIzaSyDQoMWvjK0Dv2mJshp8Zc15H8Dq3z6G8Hc",
     authDomain: "rolac-f16b1.firebaseapp.com",
@@ -19,34 +21,33 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-//Create Context
-export const RegisterContext = createContext();
-
 //Create the provider
 export const RegisterCCProvider = ({children}) => {
     const [data, setData] = useState({
         name:"",
         email:"",
-        dates: {},
+        dates: "",
         longitude:"",
         latitude:""
     })
 
     useEffect(() =>{
         const uploadData = async() => {
-            try{
-                const docRef = await addDoc(collection(db, "users"), data);
-                console.log(docRef.id);
-            }catch(error){
-                console.log(error);
-            }
+            console.log(data);
+            // try{
+            //     const docRef = await addDoc(collection(db, "users"), data);
+            //     console.log(docRef.id);
+            // }catch(error){
+            //     console.log(error);
+            // }
         }
 
         uploadData();
     },[data])
 
+    //Main provider component
     return(
-        <RegisterCCProvider.Provider value={setData}>
+        <RegisterCCProvider.Provider value={{setData}}>
             {children}
         </RegisterCCProvider.Provider>
     )
