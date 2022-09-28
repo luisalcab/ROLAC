@@ -7,13 +7,18 @@ const ProductsAdmin = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        setProducts(GetProducts());
-        console.log(products);
+        GetProducts().then((products) => {
+            setProducts(products);
+            console.log(products);
+        });
     }, []);
 
     return (
         <View>
             <Text>Products Admin</Text>
+            {products.map((product) => (
+                <Text key={product.id}>{product.values.name}</Text>
+            ))}
         </View>
     );
 }
