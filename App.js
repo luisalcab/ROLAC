@@ -73,6 +73,8 @@ export default function App() {
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
 
     return (
+        <RegisterCCProvider>
+
         <UserInformation.Provider value={providerUserInformation}>
             <ItemsContext.Provider value={providerItems}>
                 <CartContext.Provider value={providerCart}>
@@ -94,6 +96,7 @@ export default function App() {
                 </CartContext.Provider>
             </ItemsContext.Provider>
         </UserInformation.Provider>
+        </RegisterCCProvider>
         
         
     );

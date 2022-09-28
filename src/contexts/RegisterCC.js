@@ -47,8 +47,8 @@ export const RegisterCCProvider = ({children}) => {
 
     //Main provider component
     return(
-        <RegisterCCProvider.Provider value={{setData}}>
+        <RegisterContext.Provider value={{setData}}>
             {children}
-        </RegisterCCProvider.Provider>
+        </RegisterContext.Provider>
     )
 }
