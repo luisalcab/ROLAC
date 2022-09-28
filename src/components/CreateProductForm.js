@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { View, Text, TouchableOpacity, ImageBackground, Switch} from 'react-native';
-import { StyleSheet} from 'react-native';
+import React, { useEffect, useState, useContext } from 'react';
+import { View, Text, TouchableOpacity, ImageBackground, Switch, StyleSheet} from 'react-native';
 import {Icon} from '@rneui/themed';
 import { Formik } from 'formik';
 import { Input } from 'react-native-elements';
@@ -8,9 +7,8 @@ import * as Yup from 'yup'
 import openGallery from './OpenGallery';
 import uploadImage from './UploadImage';
 import uploadData from './UploadData';
-import { LogBox } from 'react-native';
 import { RefresherContext } from '../Contexts/RefresherContext';
-import { useContext } from 'react';
+import { LogBox } from 'react-native';
 
 const CreateProductForm = ({navigation}) => {
 
@@ -65,7 +63,8 @@ const CreateProductForm = ({navigation}) => {
             }}
             onSubmit={async (values, {resetForm}) => {
                 if(image == null){
-                    values.imageURL = "https://www.freeiconspng.com/uploads/no-image-icon-15.png";
+                    setImageURL("https://www.freeiconspng.com/uploads/no-image-icon-15.png");
+                    setValues(values);
                 } else {
                     await uploadImage(image, setImageURL, values.name).then(() => {
                         setValues(values);

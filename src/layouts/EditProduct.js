@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import CreateProductForm from '../components/CreateProductForm';
+import EditProductForm from '../components/EditProductForm';
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const CreateProduct = ({navigation}) => {
+const EditProduct = ({navigation}) => {
     return (
         <View style = {styles.screen}>
             <View>
@@ -11,7 +11,7 @@ const CreateProduct = ({navigation}) => {
                 enableOnAndroid={true}
                 extraHeight={0.01}
                 enableAutomaticScroll = {true}>
-                    <CreateProductForm navigation={navigation}/>
+                    <EditProductForm navigation={navigation}/>
                 </KeyboardAwareScrollView>
             </View>
         </View>
@@ -19,7 +19,7 @@ const CreateProduct = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
-    screen:{
+    screen: {
         flex: 1,
         justifyContent: "flex-start",
         width: "100%",
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CreateProduct
+export default EditProduct

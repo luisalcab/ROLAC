@@ -1,19 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import GetProducts from './GetProducts';
-import { View, Text, TouchableOpacity, Image} from 'react-native';
-import { StyleSheet} from 'react-native';
-import { Card } from '@rneui/themed';
-import { LogBox } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, LogBox } from 'react-native';
+import { Card, Icon } from '@rneui/themed';
 import { ScrollView } from 'react-native-gesture-handler';
-import {Icon} from '@rneui/themed';
 import RemoveProduct from './RemoveProduct';
 import { RefresherContext } from '../Contexts/RefresherContext';
-import { useContext } from 'react';
 
 const ProductsAdmin = ({navigation}) => {
 
     const [products, setProducts] = useState([]);
     const {refresh, setRefresh} = useContext(RefresherContext);
+    const [refreshing, setRefreshing] = useState(refresh);
 
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',
@@ -27,17 +24,18 @@ const ProductsAdmin = ({navigation}) => {
     }, []);
 
     useEffect(() => {
-        if (refresh === false) return;
+        if (refresh === false && refreshing === false) return;
         GetProducts().then((products) => {
             setProducts(products);
         });
         setRefresh(false);
+        setRefreshing(false);
         console.log("2do");
-    }, [refresh]);
+    }, [refresh || refreshing]);
 
     const removeProduct = (id) => {
-        console.log(refresh);
         RemoveProduct(id);
+        setRefreshing(true);
         setRefresh(true);
     }
 
@@ -70,7 +68,7 @@ const ProductsAdmin = ({navigation}) => {
                 </ScrollView>
             </View>
             <View style = {styles.box1}>
-                <TouchableOpacity onPress={() => navigation.navigate("Create Product", {navigation: navigation})}
+                <TouchableOpacity onPress={() => navigation.navigate("Crear producto", {navigation: navigation})}
                 style = {styles.button}>
                     <Text style = {styles.textButton}>Crear producto</Text>
                 </TouchableOpacity>
@@ -102,14 +100,14 @@ const styles = StyleSheet.create({
         marginHorizontal: "5%",
         marginVertical: "2%",
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-between"
     },
     button:{
         width: "50%",
         height: 40,
         justifyContent: "center",
         backgroundColor: "black",
-        borderRadius: 10,
+        borderRadius: 10
     },
     products:{
         flex: 1,
@@ -126,28 +124,29 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
-        height: 50,
+        height: 50
     },
     cardContent:{
         flexDirection: "row",
         justifyContent: "space-evenly",
-        alignItems: "center",
+        alignItems: "center"
     },
     cardImage:{
-        width: "5%",
+        width: "25%",
         height: 100,
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     },
     image:{
         width: 100,
         height: 100,
-        borderRadius: 10,
+        borderRadius: 10
     },
     cardTitle:{
         fontSize: 20,
         fontWeight: "bold",
         textAlign: "right",
+        alignItems: "flex-start"
     },
     cardButton:{
         width: "10%",
@@ -167,7 +166,7 @@ const styles = StyleSheet.create({
         width: "40%",
         height: 40,
         justifyContent: "center",
-        alignItems: "center",
+        flexWrap: "wrap",
     }
 });
 
