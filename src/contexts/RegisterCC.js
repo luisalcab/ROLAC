@@ -33,14 +33,15 @@ export const RegisterCCProvider = ({children}) => {
 
     useEffect(() =>{
         const uploadData = async() => {
-            console.log(data);
-            // try{
-            //     const docRef = await addDoc(collection(db, "users"), data);
-            //     console.log(docRef.id);
-            // }catch(error){
-            //     console.log(error);
-            // }
+        if(data["name"] === "") return;
+
+        try{
+            const docRef = await addDoc(collection(db, "requests"), { data });
+            // await setDoc(doc(db, "collection_center"), data);
+        }catch(error){
+            console.log(error);
         }
+    }
 
         uploadData();
     },[data])

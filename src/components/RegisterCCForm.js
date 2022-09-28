@@ -6,8 +6,12 @@ import * as Yup from 'yup';
 import DatePicker from './DatePicker';
 import {RegisterContext} from "../contexts/RegisterCC"
 
-const RegisterCCForm = () => {
+const RegisterCCForm = ({navigation}) => {
     const {setData} = useContext(RegisterContext);
+
+    const nav2Registration = () => {
+        navigation.navigate("RegisterDonor");
+    }
 
     //Set the schedule data
     const [schedule, setSchedule] = useState(
@@ -60,6 +64,8 @@ const RegisterCCForm = () => {
                     //Call the context and reset form
                     await setData(allData);
                     resetForm();
+
+                    nav2Registration();
                 }catch(error){
 
                 }
