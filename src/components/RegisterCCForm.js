@@ -1,11 +1,19 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import {View, ScrollView, Text, StyleSheet} from 'react-native';
 import {Input, Icon, Button, Image } from "@rneui/themed";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import DatePicker from './DatePicker';
+import {RegisterContext} from "../contexts/RegisterCC"
 
-const RegisterCCForm = () => {
+const RegisterCCForm = ({navigation}) => {
+    const {setData} = useContext(RegisterContext);
+
+    const nav2Registration = () => {
+        navigation.navigate("RegisterDonor");
+    }
+
+    //Set the schedule data
     const [schedule, setSchedule] = useState(
         {
             Lunes:{open:"", close:""},
@@ -25,9 +33,6 @@ const RegisterCCForm = () => {
             string().
             email("Email no valido").
             required("Email requerido"),
-        direction:Yup.
-            string().
-            required("Direccion Requeida"),
         longitude:Yup.
             string().
             required("Coordenadas Requeridas").
@@ -45,12 +50,25 @@ const RegisterCCForm = () => {
             initialValues={{
                 name:"",
                 email:"",
-                direction:"",
                 longitude:"",
                 latitude:""
             }}
-            onSubmit={(values, {resetForm}) => {
-                console.log(values)
+            onSubmit={async(values, {resetForm}) => {
+                try{
+                    //WrapUp all the values
+                    const allData = {
+                        ...values,
+                        dates: schedule
+                    }
+                    
+                    //Call the context and reset form
+                    await setData(allData);
+                    resetForm();
+
+                    nav2Registration();
+                }catch(error){
+
+                }
             }}
             validationSchema={registerSchema}
         >
@@ -101,7 +119,7 @@ const RegisterCCForm = () => {
                             value={values.latitude}
                         />
                         <Button
-                            onPress={() => console.log(schedule)}
+                            onPress={handleSubmit}
                             title="Registrarse"
                             buttonStyle={{
                                 width:"80%",

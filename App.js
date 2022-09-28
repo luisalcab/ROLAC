@@ -18,7 +18,7 @@ import ManagerAdminComponent from './src/components/administrationProfiles/Manag
 import {CartContext} from './src/contexts/CartContext';
 import {ItemsContext} from './src/contexts/ItemsContext';
 import { UserInformation } from './src/contexts/userInformation';
-
+import {RegisterCCProvider} from "./src/contexts/RegisterCC"
 
 // They are warnings that are ignored, they have no effect on the correct execution of the program
 YellowBox.ignoreWarnings([
@@ -80,6 +80,8 @@ export default function App() {
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
 
     return (
+        <RegisterCCProvider>
+
         <UserInformation.Provider value={providerUserInformation}>
             <ItemsContext.Provider value={providerItems}>
                 <CartContext.Provider value={providerCart}>
@@ -104,5 +106,8 @@ export default function App() {
                 </CartContext.Provider>
             </ItemsContext.Provider>
         </UserInformation.Provider>
-    )
+        </RegisterCCProvider>
+        
+        
+    );
 }
