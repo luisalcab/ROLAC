@@ -10,13 +10,15 @@ import uploadImage from './UploadImage';
 import uploadData from './UploadData';
 import { LogBox } from 'react-native';
 
-const CreateProductForm = ({navigation, setRefresh}) => {
+const CreateProductForm = ({navigation}) => {
 
     const [image, setImage] = useState(null);
     const [imageURL, setImageURL] = useState(null);
     const [values, setValues] = useState(null);
     const [switchOnActive, setSwitchOnActive] = useState(false);
     const [switchOnUrgent, setSwitchOnUrgent] = useState(false);
+
+    const {setRefresh} = params;
 
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',

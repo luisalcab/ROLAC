@@ -67,7 +67,7 @@ const ProductsAdmin = ({navigation}) => {
                 </ScrollView>
             </View>
             <View style = {styles.box1}>
-                <TouchableOpacity onPress={() => navigation.navigate("Create Product", {navigation: navigation, setRefresh: setRefresh})}
+                <TouchableOpacity onPress={() => navigation.navigate("Create Product", {navigation: navigation})}
                 style = {styles.button}>
                     <Text style = {styles.textButton}>Crear producto</Text>
                 </TouchableOpacity>
