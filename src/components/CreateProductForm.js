@@ -10,7 +10,7 @@ import uploadImage from './UploadImage';
 import uploadData from './UploadData';
 import { LogBox } from 'react-native';
 
-const CreateProductForm = ({navigation}) => {
+const CreateProductForm = ({navigation, setRefresh}) => {
 
     const [image, setImage] = useState(null);
     const [imageURL, setImageURL] = useState(null);
@@ -27,6 +27,7 @@ const CreateProductForm = ({navigation}) => {
             uploadData({values, imageURL});
             setImageURL(null);
             setValues(null);
+            setRefresh(true);
             navigation.navigate("Administración de productos", {navigation: navigation})
         }
     }, [imageURL && values]);
@@ -114,7 +115,8 @@ const CreateProductForm = ({navigation}) => {
                                 <Text style = {styles.textB}>Guardar</Text>
                             </TouchableOpacity>
                             <TouchableOpacity 
-                            onPress={()=> navigation.navigate("Administración de productos", {navigation: navigation})} 
+                            onPress={()=> {navigation.navigate("Administración de productos", {navigation: navigation})
+                            setRefresh(true);}} 
                             style = {styles.button2}>
                                 <Text style = {styles.textB}>Cancelar</Text>
                             </TouchableOpacity>

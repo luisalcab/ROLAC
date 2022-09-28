@@ -6,10 +6,12 @@ import { Card } from '@rneui/themed';
 import { LogBox } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import {Icon} from '@rneui/themed';
+import RemoveProduct from './RemoveProduct';
 
 const ProductsAdmin = ({navigation}) => {
 
     const [products, setProducts] = useState([]);
+    const [refresh, setRefresh] = useState(false);
 
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',
@@ -19,7 +21,22 @@ const ProductsAdmin = ({navigation}) => {
         GetProducts().then((products) => {
             setProducts(products);
         });
+        console.log("1ro");
     }, []);
+
+    useEffect(() => {
+        if (refresh === false) return;
+        GetProducts().then((products) => {
+            setProducts(products);
+        });
+        setRefresh(!refresh);
+        console.log("2do");
+    }, [refresh]);
+
+    const removeProduct = (id) => {
+        RemoveProduct(id);
+        setRefresh(!refresh);
+    }
 
     return (
         <View style = {styles.screen}>
@@ -39,7 +56,7 @@ const ProductsAdmin = ({navigation}) => {
                                         <TouchableOpacity style = {styles.button2} onPress = {() => console.log("Pressed")}>
                                             <Icon name = "edit" size = {30} color = "black"/>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style = {styles.button2} onPress = {() => console.log("Pressed")}>
+                                        <TouchableOpacity style = {styles.button2} onPress = {() => removeProduct(product.id)}>
                                             <Icon type='feather' name = "trash" size = {30} color = "black"/>
                                         </TouchableOpacity>
                                     </View>
@@ -50,7 +67,7 @@ const ProductsAdmin = ({navigation}) => {
                 </ScrollView>
             </View>
             <View style = {styles.box1}>
-                <TouchableOpacity onPress={() => navigation.navigate("Create Product", {navigation:navigation})}
+                <TouchableOpacity onPress={() => navigation.navigate("Create Product", {navigation: navigation, setRefresh: setRefresh})}
                 style = {styles.button}>
                     <Text style = {styles.textButton}>Crear producto</Text>
                 </TouchableOpacity>
