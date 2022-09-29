@@ -10,7 +10,8 @@ const Map = () => {
   const [showDialog, setShowDialog] = useState({ state: false });
   const [dialogInformation, setDialogInformation] = useState({
     address: "",
-    collection_center_name: "",
+    name: "",
+    schedule: {}
   });
   const [origin, setOrigin] = useState({
     latitude: 20.677505759857546,
@@ -24,12 +25,13 @@ const Map = () => {
     const querySnapshot = await getDocs(collection(firebaseConection.db, "collection_center"));
 
     querySnapshot.forEach((docs) => {
-      const { address, collection_center_name, email, latitude, longitude } =
+      const { address, dates, name, email, latitude, longitude } =
         docs.data();
       collCenter.push({
         id: docs.id,
         address,
-        collection_center_name,
+        dates,
+        name,
         email,
         latitude,
         longitude,
@@ -45,34 +47,85 @@ const Map = () => {
 
   const displayDialog = (data) => {
     setShowDialog({ state: true });
-    // console.log("Dentro de Dialog", data)
     setDialogInformation({
       address: data.address,
-      collection_center_name: data.collection_center_name,
+      name: data.name,
+      schedule: data.dates
     });
   };
   const hideDialog = () => {
     setShowDialog({ state: false });
     setDialogInformation({
       address: "",
-      collection_center_name: "",
+      name: "",
+      schedule: {}
     });
   };
   const dialog = () => {
+    
+    var activeDays = "" 
+    var daysInOrder = {
+      lunes: {
+        close: "",
+        open: "",
+        name: "Lunes"
+      },
+      martes: {
+        close: "",
+        open: "",
+        name: "Martes"
+      },
+      miercoles: {
+        close: "",
+        open: "",
+        name: "Miercoles"
+      },
+      jueves: {
+        close: "",
+        open: "",
+        name: "Jueves"
+      },
+      viernes: {
+        close: "",
+        open: "",
+        name: "Viernes"
+      },
+      sabado: {
+        close: "",
+        open: "",
+        name: "Sabado"
+      },
+      domingo: {
+        close: "",
+        open: "",
+        name: "Domingo"
+      }
+    }
+
+    for (const iterator in dialogInformation.schedule) {
+      if(dialogInformation.schedule[iterator].open != null){
+        daysInOrder[iterator].open = dialogInformation.schedule[iterator].open 
+        daysInOrder[iterator].close = dialogInformation.schedule[iterator].close 
+      }
+    }
+
+    for (const iterator in daysInOrder) {
+      if(daysInOrder[iterator].open != ""){
+        activeDays += `- ${daysInOrder[iterator].name}: ${daysInOrder[iterator].open} a ${daysInOrder[iterator].close} \n`
+      }
+    }
+
     return (
       <Dialog isVisible={showDialog.state}>
-        <Dialog.Title title={dialogInformation.collection_center_name} />
+        <Dialog.Title title={dialogInformation.name} />
         <View>
           <Text>
             {`
           Dirección: 
-          ${dialogInformation.address}
+${dialogInformation.address}
 
           Horario:
-          - Lunes: 8:00am a 3:00pm
-          - Martes: 8:00am a 3:00pm
-          - Viernes: 8:00am a 3:00pm
-          - Sabados: 10:00am a 12:00pm 
+${activeDays}
           `}
           </Text>
         </View>
@@ -84,7 +137,6 @@ const Map = () => {
       </Dialog>
     );
   };
-  console.log("Esto es centro colección: ", collectionCenter)
   return (
     <>
       {dialog()}
@@ -103,7 +155,7 @@ const Map = () => {
         `;
           return (
             <Marker
-              title={marker.collection_center_name}
+              title={marker.name}
               key={marker.id}
               coordinate={{
                 latitude: marker.latitude,
