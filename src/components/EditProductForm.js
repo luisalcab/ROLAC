@@ -9,12 +9,13 @@ import uploadImage from './UploadImage';
 import uploadData from './UploadData';
 import { RefresherContext } from '../Contexts/RefresherContext';
 import { ProductInfoContext } from '../Contexts/ProductInfoContext';
+import updateData from './UpdateProduct';
 
 
 const CreateProductForm = ({navigation}) => {
 
     const {productInfo, setProductInfo} = useContext(ProductInfoContext);
-    const [image, setImage] = useState(productInfo.imageURL);
+    const [image, setImage] = useState(null);
     const [imageURL, setImageURL] = useState(null);
     const [values, setValues] = useState(null);
     const [switchOnActive, setSwitchOnActive] = useState(productInfo.values.active);
@@ -27,7 +28,7 @@ const CreateProductForm = ({navigation}) => {
 
     useEffect(() => {
         if (imageURL != null) {
-            uploadData({values, imageURL});
+            updateData({values, imageURL}, productInfo.id);
             setImageURL(null);
             setValues(null);
             setRefresh(true);
@@ -51,8 +52,8 @@ const CreateProductForm = ({navigation}) => {
                 unit: productInfo.values.unit,
             }}
             onSubmit={async (values, {resetForm}) => {
-                if (imageURL == null) {
-                    setImageURL(productInfo.values.imageURL);
+                if (image === null) {
+                    setImageURL(productInfo.imageURL);
                     setValues(values);
                     resetForm();
                 } else {
@@ -71,9 +72,15 @@ const CreateProductForm = ({navigation}) => {
                 <>
                     <View style = {styles.box1}>
                         <TouchableOpacity onPress={()=>openGallery(setImage)} style = {styles.picTouch}>
-                            <ImageBackground source={{ uri: image }} style={styles.pic}>
-                                <Icon name="edit" type="feather" color="white" size={50} marginTop = "30%"/>
-                            </ImageBackground>
+                            {image == null ? (
+                                <ImageBackground source={{uri: productInfo.imageURL}} style = {styles.pic}>
+                                    <Icon name="edit" type="feather" color="white" size={50} marginTop = "30%"/>
+                                </ImageBackground>
+                            ) : (
+                                <ImageBackground source={{ uri: image }} style={styles.pic}>
+                                    <Icon name="edit" type="feather" color="white" size={50} marginTop = "30%"/>
+                                </ImageBackground>
+                            )}
                         </TouchableOpacity>
                         <View style = {styles.nameIn}>
                             <Text style = {styles.textInfo}>Nombre:</Text>
@@ -82,6 +89,35 @@ const CreateProductForm = ({navigation}) => {
                             onChangeText = {handleChange("name")}
                             returnKeyType="done"/>
                         </View>
+                    </View>
+                    <View style = {styles.box2}>
+                        <Text style = {styles.textInfo}>Activo:</Text>
+                        <Switch onValueChange={(value) => {values.active = value; setSwitchOnActive(value)}} value={switchOnActive}/>
+                        <Text style = {styles.textInfo}>Prioridad:</Text>
+                        <Switch onValueChange={(value) => {values.urgent = value; setSwitchOnUrgent(value)}} value={switchOnUrgent}/>
+                    </View>
+                    <View style = {styles.box3}>
+                        <Text style = {styles.textInfo}>Unidades:</Text>
+                        <Input placeholder={productInfo.values.unit}
+                        onChangeText = {handleChange("unit")}
+                        errorMessage={errors.unit && touched.unit ? errors.unit : ""}
+                        returnKeyType="done"/>
+                        <Text style = {styles.textInfo}>Costo:</Text>
+                        <Input placeholder={productInfo.values.cost}
+                        onChangeText = {handleChange("cost")}
+                        errorMessage={errors.cost && touched.cost ? errors.cost : ""}
+                        keyboardType = "numeric"/>
+                    </View>
+                    <View style = {styles.box4}>
+                        <TouchableOpacity onPress={handleSubmit} style = {styles.button1}>
+                            <Text style = {styles.textB}>Guardar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                        onPress={()=> {navigation.navigate("Administración de productos", {navigation: navigation})
+                        setRefresh(true);}} 
+                        style = {styles.button2}>
+                            <Text style = {styles.textB}>Cancelar</Text>
+                        </TouchableOpacity>
                     </View>
                 </>
             )}
