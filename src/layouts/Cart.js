@@ -3,7 +3,7 @@ import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
 import {CartContext} from "../contexts/CartContext"
 import CartItem from "../components/CartItem"
 import { StripeProvider } from '@stripe/stripe-react-native';
-import {publishableKey} from '../../uitls/enviromentVariables';
+import {publishableKey} from '../../utils/enviromentVariables';
 import PaymentScreen from "../components/stripe/PaymentScreen";
 
 const Cart = ({navigation}) => {
@@ -51,7 +51,7 @@ const Cart = ({navigation}) => {
                 </View>
                 <StripeProvider
                     publishableKey="pk_test_51LkUu8L3fb2NBnm32ovLcCuet2FDgfprjfA1lAaL0cqZ8SdJHzS1v7erGYck9PWWpY43cfquaZAJUudpNihX0bqu00WVCmQvro">
-                    <PaymentScreen grandTotal = { (Math.round(grandTotal() * 100)/ 100).toFixed(2) }/>
+                    <PaymentScreen grandTotal = { grandTotal() }/>
                 </StripeProvider>
             </View>
             {/* <View style={styles.footer}>

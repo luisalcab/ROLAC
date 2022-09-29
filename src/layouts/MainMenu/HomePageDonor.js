@@ -36,7 +36,7 @@ const HomePageDonor = ({navigation}) => {
       <View style={styles.positionTitle}>
         <Text style={styles.title}>Centros de acopio disponibles</Text>
       </View>
-      {/* <Map style={styles.map} /> */}
+      <Map style={styles.map} />
       <View>
         <View style={styles.positionTitle}>
           <Text style={styles.title}>Opciones de donaciones</Text>

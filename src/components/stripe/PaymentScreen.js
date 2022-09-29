@@ -4,11 +4,12 @@ import { View, Button  } from 'react-native';
 import axios from 'axios';
 import { UserInformation } from '../../contexts/userInformation';
 import * as Location from 'expo-location'
-
+import { setDoc, doc, addDoc, collection } from 'firebase/firestore'
+import firebaseConection from '../../contexts/FBConnection'
 function PaymentScreen({grandTotal}) {
     const {confirmPayment, loading} = useConfirmPayment();
     
-    grandTotal *= 100; // Become to stripe format
+    const grandTotalFormat = ((Math.round(grandTotal * 100)/ 100).toFixed(2)) * 100; // Become to stripe format
 
     const API_URL = 'https://us-central1-rolac-f16b1.cloudfunctions.net';
     
@@ -20,10 +21,9 @@ function PaymentScreen({grandTotal}) {
     const [payment, setPayment] = useState({
       last4: '',
       postalCode: '',
-      latitude: '',
-      longitude: '',
-      name: '',
-      amount: grandTotal
+      name: `${userInformation.name} ${userInformation.lastName}`,
+      amount: grandTotal,
+      id: userInformation.uid
     });
 
     const fetchPaymentIntentClientSecret = async () => {
@@ -33,7 +33,9 @@ function PaymentScreen({grandTotal}) {
           1099 = 10.99
         */
        
-       return axios.post(`${API_URL}/create_payment_intent`, { "amount": grandTotal, "currency": "mxn" })
+
+       return axios.post(`${API_URL}/create_payment_intent`, 
+       { "amount": grandTotalFormat, "currency": "mxn" })
        .then((response) => {
           const {paymentIntent} = JSON.parse(JSON.stringify(response.data))
           return paymentIntent;
@@ -44,14 +46,6 @@ function PaymentScreen({grandTotal}) {
       const handlePayPress = async () => {
         Location.installWebGeolocationPolyfill()
         navigator.geolocation.getCurrentPosition(async (position) => {
-          console.log("Longuitud: ", position.coords.latitude)
-          console.log("Latitud: ", position.coords.latitude)
-              setPayment({
-                ...payment,
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              })
-
               // Gather the customer's billing information (for example, email)
               const billingDetails = {
                 email: email,
@@ -68,13 +62,28 @@ function PaymentScreen({grandTotal}) {
                 },
               });
           
-              console.log("Informacion de usuario: ", userInformation)
-              console.log("Informacion de pago: ",payment)
+
 
               if (error) {
                 console.log('Payment confirmation error', error);
               } else if (paymentIntent) {
-                console.log('Success from promise', paymentIntent);
+                addDoc(collection(firebaseConection.db,"monetary_donation"), {
+                  last4: payment.last4,
+                  postalCode: payment.postalCode,
+                  name: payment.name,
+                  amount: payment.amount,
+                  idUser: payment.id,
+                  idStripe: paymentIntent.id,
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude
+                })
+                .then(() => {
+                  console.log('Success from promise', paymentIntent);
+                })
+                .catch(() => {
+                  console.log('Payment error');
+                });
+
               }
             },
             error => Alert.alert(error.message),
@@ -104,7 +113,6 @@ function PaymentScreen({grandTotal}) {
             last4: cardDetails.last4,
             postalCode: cardDetails.postalCode,
           });
-          // console.log('cardDetails', cardDetails);
         }}
         // onFocus={(focusedField) => {
         //   console.log('focusField', focusedField);

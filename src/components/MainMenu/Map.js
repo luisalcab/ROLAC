@@ -84,7 +84,7 @@ const Map = () => {
       </Dialog>
     );
   };
-
+  console.log("Esto es centro colección: ", collectionCenter)
   return (
     <>
       {dialog()}
