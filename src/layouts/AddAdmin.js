@@ -20,19 +20,19 @@ const AddAdmin = ({navigation}) => {
             <View style={styles.body}>
                 <View style={styles.fieldBox}>
                     <Text style={styles.fieldLabel}>Nombre</Text>
-                    <View style={[styles.fieldValueBox, editView && {backgroundColor: "rgb(220, 220, 220)"}]}>
+                    <View style={[styles.fieldValueBox, {backgroundColor: "rgb(220, 220, 220)"}]}>
                         <TextInput style={styles.fieldValue} defaultValue={info.name}></TextInput>
                     </View>
                 </View>
                 <View style={styles.fieldBox}>
                     <Text style={styles.fieldLabel}>Apellido</Text>
-                    <View style={[styles.fieldValueBox, editView && {backgroundColor: "rgb(220, 220, 220)"}]}>
+                    <View style={[styles.fieldValueBox, {backgroundColor: "rgb(220, 220, 220)"}]}>
                         <TextInput style={styles.fieldValue} defaultValue={info.lastName}></TextInput>
                     </View>
                 </View>
                 <View style={styles.fieldBox}>
                     <Text style={styles.fieldLabel}>Correo</Text>
-                    <View style={[styles.fieldValueBox, editView && {backgroundColor: "rgb(220, 220, 220)"}]}>
+                    <View style={[styles.fieldValueBox, {backgroundColor: "rgb(220, 220, 220)"}]}>
                         <TextInput style={styles.fieldValue} defaultValue={info.email}></TextInput>
                     </View>
                 </View>

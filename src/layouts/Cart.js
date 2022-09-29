@@ -49,11 +49,11 @@ const Cart = ({navigation}) => {
                 <View style={styles.totalBox}>
                     <Text style={styles.total}>{"TOTAL: " + (Math.round(grandTotal() * 100)/ 100).toFixed(2)}</Text>
                 </View>
+                <StripeProvider
+                    publishableKey="pk_test_51LkUu8L3fb2NBnm32ovLcCuet2FDgfprjfA1lAaL0cqZ8SdJHzS1v7erGYck9PWWpY43cfquaZAJUudpNihX0bqu00WVCmQvro">
+                    <PaymentScreen grandTotal = { (Math.round(grandTotal() * 100)/ 100).toFixed(2) }/>
+                </StripeProvider>
             </View>
-            <StripeProvider
-                publishableKey="pk_test_51LkUu8L3fb2NBnm32ovLcCuet2FDgfprjfA1lAaL0cqZ8SdJHzS1v7erGYck9PWWpY43cfquaZAJUudpNihX0bqu00WVCmQvro">
-                <PaymentScreen grandTotal = { (Math.round(grandTotal() * 100)/ 100).toFixed(2) }/>
-            </StripeProvider>
             {/* <View style={styles.footer}>
                 <TouchableOpacity style={styles.button} onPress={() => nav2QR()}>
                     <Text style={styles.buttonLabel}>Pagar</Text>

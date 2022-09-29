@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
-  Button,
   TextInput,
   View,
   ScrollView,
@@ -19,7 +18,7 @@ import {
   updateEmail,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { Dialog } from "@rneui/themed";
+import { Dialog, Input, Icon, Button } from "@rneui/themed";
 import { UserInformation } from "../../contexts/userInformation";
 
 const ManagerAdminComponent = ({ navigation }) => {
@@ -87,17 +86,17 @@ const ManagerAdminComponent = ({ navigation }) => {
           lastName: lastName,
         }
       )
-        .then(() => {
-          setUserInformation({
-            ...userInformation,
-            name: name,
-            lastName: lastName,
-          });
-        })
-        .catch(() => {
-          alert("Ha habido un error a la hora de actualizar el usuario");
-          navigation.navigate("HomePageManagerBAMX", { navigation: navigation });
+      .then(() => {
+        setUserInformation({
+          ...userInformation,
+          name: name,
+          lastName: lastName,
         });
+      })
+      .catch(() => {
+        alert("Ha habido un error a la hora de actualizar el usuario");
+        navigation.navigate("HomePageManagerBAMX", { navigation: navigation });
+      });
     }
     // alert("Se ha actualizado la información");
     navigation.navigate("HomePageManagerBAMX", { navigation: navigation });
@@ -185,52 +184,64 @@ const ManagerAdminComponent = ({ navigation }) => {
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <ScrollView>
               <View style={styles.container}>
-                <Text>Nombre(s) actuales</Text>
-                <View style={styles.inputGroup}>
-                  <TextInput
+                  <Text style={styles.label}>Nombre(s) actuales</Text>                
+                  <Input
                     placeholder="Name"
+                    leftIcon={<Icon type="material" name="person"/>}
                     onChangeText={handleChange("name")}
                     onBlur={handleBlur("name")}
                     value={values.name}
                   />
-                </View>
-                <Text>Apellidos actuales</Text>
-                <View style={styles.inputGroup}>
-                  <TextInput
+                  <Text style={styles.label}>Apellidos actuales</Text>
+                  <Input
                     placeholder="Last name"
+                    leftIcon={<Icon type="material" name="person"/>}
                     onChangeText={handleChange("lastName")}
                     onBlur={handleBlur("lastName")}
                     value={values.lastName}
                   />
-                </View>
-                <Text>Email actual</Text>
-                <View style={styles.inputGroup}>
-                  <TextInput
+                  <Text style={styles.label}>Email actual</Text>
+                  <Input
                     placeholder="Email"
+                    leftIcon={<Icon type="material" name="person"/>}
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
                     value={values.email}
                   />
-                </View>
-                <View style={styles.buttonContainer}>
-                  <Button
-                    color="#0E4DA4"
-                    onPress={handleSubmit}
-                    title="Actualizar"
-                  />
-                  <Button
-                    color="#E74C3C"
-                    onPress={() => displayDialog()}
-                    title="Eliminar cuenta"
-                  />
-                </View>
-                <View>
-                  <Button
-                    color="#0E4DA4"
-                    onPress={() => sendEmailRecoverPassword()}
-                    title="Actualizar contraseña"
-                  />
-                </View>
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      color="#0E4DA4"
+                      onPress={handleSubmit}
+                      title="Actualizar"
+                    />
+                    <Button
+                      color="#E74C3C"
+                      onPress={() => displayDialog()}
+                      title="Eliminar cuenta"
+                    />
+                  </View>
+                  <View>
+                    <Button
+                      color="#0E4DA4"
+                      buttonStyle = {{
+                        borderRadius: 5,
+                        backgroundColor: "#0E4DA4",
+                        marginHorizontal: "5%",
+                        shadowColor: "#000",
+                        shadowOffset: {
+                          width: 0,
+                          height: 12,
+                        },
+                        shadowOpacity: 0.58,
+                        shadowRadius: 16.00,
+                        
+                        elevation: 24,
+                      }}
+
+                      onPress={() => sendEmailRecoverPassword()}
+                      title="Actualizar contraseña"
+                    />
+                  </View>
               </View>
             </ScrollView>
           )}
@@ -247,7 +258,11 @@ const ManagerAdminComponent = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 35,
+    marginTop: 35,
+  },
+  label: {
+    fontSize: 20,
+    marginLeft: 5
   },
   loader: {
     height: "100%",
