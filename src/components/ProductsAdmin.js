@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import GetProducts from './GetProducts';
 import { View, Text, TouchableOpacity, Image, StyleSheet, LogBox } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 import { Card, Icon } from '@rneui/themed';
 import { ScrollView } from 'react-native-gesture-handler';
 import RemoveProduct from './RemoveProduct';
@@ -13,6 +14,7 @@ const ProductsAdmin = ({navigation}) => {
     const {refresh, setRefresh} = useContext(RefresherContext);
     const [refreshing, setRefreshing] = useState(refresh);
     const {productInfo, setProductInfo} = useContext(ProductInfoContext);
+    const [search, setSearch] = useState('');
 
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',
@@ -39,16 +41,43 @@ const ProductsAdmin = ({navigation}) => {
         RemoveProduct(id);
         setRefreshing(true);
         setRefresh(true);
+        setSearch('');
     }
 
     const editProduct = (product) => {
         setProductInfo(product);
+        setSearch('');
         navigation.navigate("Editar producto", {navigation: navigation});
     }
+
+    const searchFilterFunction = (text) => {
+        if (text) {
+            const newData = products.filter(function (item) {
+                const itemData = item.values.name ? item.values.name.toUpperCase() : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return itemData.indexOf(textData) > -1;
+            });
+            setProducts(newData);
+            setSearch(text);
+        } else {
+            GetProducts().then((products) => {
+                setProducts(products);
+            });
+            setSearch(text);
+        }
+    };
 
     return (
         <View style = {styles.screen}>
             <View style = {styles.products}>
+                <SearchBar
+                    placeholder="Buscar producto..."
+                    onChangeText={text => searchFilterFunction(text)}
+                    onClear={text => searchFilterFunction('')}
+                    value={search}
+                    lightTheme = {true}
+                    round = {true}
+                />
                 <ScrollView>
                     {products.map((product) => {
                         return (
@@ -175,7 +204,7 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: "center",
         flexWrap: "wrap",
-    }
+    },
 });
 
 export default ProductsAdmin;
