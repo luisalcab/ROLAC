@@ -37,13 +37,11 @@ const RegisterCCForm = ({navigation}) => {
             string().
             required("Dirección Requerida"),
         longitude:Yup.
-            string().
-            required("Coordenadas Requeridas").
-            matches(/^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$/, "Coordenada no Válida"),
+            number().
+            required("Coordenadas Requeridas"),
         latitude:Yup.
-            string().
-            required("Coordenadas Requeridas").
-            matches(/^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/, "Coordenada no Válida")
+            number().
+            required("Coordenadas Requeridas")
     })
 
 
@@ -54,8 +52,8 @@ const RegisterCCForm = ({navigation}) => {
                 name:"",
                 email:"",
                 adress:"",
-                longitude:"",
-                latitude:""
+                longitude:0,
+                latitude:0
             }}
             onSubmit={async(values, {resetForm}) => {
                 try{

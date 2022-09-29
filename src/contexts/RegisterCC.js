@@ -28,8 +28,8 @@ export const RegisterCCProvider = ({children}) => {
         email:"",
         adress:"",
         dates: "",
-        longitude:"",
-        latitude:""
+        longitude:0,
+        latitude:0
     })
 
     useEffect(() =>{
