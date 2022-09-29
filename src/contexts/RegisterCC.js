@@ -26,7 +26,7 @@ export const RegisterCCProvider = ({children}) => {
     const [data, setData] = useState({
         name:"",
         email:"",
-        adress:"",
+        address:"",
         dates: "",
         longitude:0,
         latitude:0
@@ -34,10 +34,10 @@ export const RegisterCCProvider = ({children}) => {
 
     useEffect(() =>{
         const uploadData = async() => {
-        const {name, email, adress, dates, longitude, latitude} = data;
+        const {name, email, address, dates, longitude, latitude} = data;
 
         //Validation for empty objects
-        if([name, email, adress, dates, longitude, latitude].includes("")) return;
+        if([name, email, address, dates, longitude, latitude].includes("")) return;
 
         //The request to the database
         try{

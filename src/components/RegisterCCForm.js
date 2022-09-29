@@ -36,7 +36,7 @@ const RegisterCCForm = ({navigation}) => {
             string().
             email("Email no valido").
             required("Email requerido"),
-        adress:Yup.
+        address:Yup.
             string().
             required("Dirección Requerida"),
         longitude:Yup.
@@ -54,7 +54,7 @@ const RegisterCCForm = ({navigation}) => {
             initialValues={{
                 name:"",
                 email:"",
-                adress:"",
+                address:"",
                 longitude:0,
                 latitude:0
             }}
@@ -97,22 +97,20 @@ const RegisterCCForm = ({navigation}) => {
                         <Input
                             placeholder="Dirección"
                             leftIcon={<Icon type="fontisto" name="direction-sign"/>}
-                            onChangeText={handleChange("adress")}
-                            errorMessage={errors.adress && touched.adress ? errors.adress : ""}
-                            value={values.adress}
+                            onChangeText={handleChange("address")}
+                            errorMessage={errors.address && touched.address ? errors.address : ""}
+                            value={values.address}
                         />
 
-                        <View style={{width:"100%", height:"40%"}}>
+                        <View style={{width:"100%", height:"40%", marginBottom:"15%"}}>
                             <Text style={styles.text}>Horario de Atención</Text>
-                            <ScrollView style={styles.ScrollView}>
-                                <DatePicker day="Lunes" setSchedule={setSchedule} schedule={schedule}/>
-                                <DatePicker day="Martes" setSchedule={setSchedule} schedule={schedule}/>
-                                <DatePicker day="Miércoles" setSchedule={setSchedule} schedule={schedule}/>
-                                <DatePicker day="Jueves" setSchedule={setSchedule} schedule={schedule}/>
-                                <DatePicker day="Viernes" setSchedule={setSchedule} schedule={schedule}/>
-                                <DatePicker day="Sabado" setSchedule={setSchedule} schedule={schedule}/>
-                                <DatePicker day="Domingo" setSchedule={setSchedule} schedule={schedule}/>
-                            </ScrollView>
+                            <DatePicker day="Lunes" setSchedule={setSchedule} schedule={schedule}/>
+                            <DatePicker day="Martes" setSchedule={setSchedule} schedule={schedule}/>
+                            <DatePicker day="Miércoles" setSchedule={setSchedule} schedule={schedule}/>
+                            <DatePicker day="Jueves" setSchedule={setSchedule} schedule={schedule}/>
+                            <DatePicker day="Viernes" setSchedule={setSchedule} schedule={schedule}/>
+                            <DatePicker day="Sabado" setSchedule={setSchedule} schedule={schedule}/>
+                            <DatePicker day="Domingo" setSchedule={setSchedule} schedule={schedule}/>
                         </View>
 
                         <Text style={styles.text}>Dirección</Text>
