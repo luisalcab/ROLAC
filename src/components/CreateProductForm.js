@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, TouchableOpacity, ImageBackground, Switch, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground, Switch, StyleSheet, LogBox } from 'react-native';
 import {Icon} from '@rneui/themed';
 import { Formik } from 'formik';
 import { Input } from 'react-native-elements';
@@ -8,7 +8,6 @@ import openGallery from './OpenGallery';
 import uploadImage from './UploadImage';
 import uploadData from './UploadData';
 import { RefresherContext } from '../Contexts/RefresherContext';
-import { LogBox } from 'react-native';
 
 const CreateProductForm = ({navigation}) => {
 

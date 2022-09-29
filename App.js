@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProductsAdmin from './src/components/ProductsAdmin';
 import CreateProduct from './src/layouts/CreateProduct';
+import EditProduct from './src/layouts/EditProduct';
 import {RefresherProvider} from './src/Contexts/RefresherContext';
 import {ProductInfoProvider} from './src/Contexts/ProductInfoContext';
 
@@ -20,6 +21,8 @@ export default function App() {
                         component={ProductsAdmin}  options = {{headerBackTitle: "ATRÁS"}}/>
                         <Stack.Screen name="Crear producto" 
                         component={CreateProduct} options = {{headerBackTitle: "ATRÁS"}}/>
+                        <Stack.Screen name="Editar producto"
+                        component={EditProduct} options = {{headerBackTitle: "ATRÁS"}}/>
                     </Stack.Navigator>
                 </NavigationContainer>
             </RefresherProvider>

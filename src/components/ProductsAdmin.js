@@ -5,12 +5,14 @@ import { Card, Icon } from '@rneui/themed';
 import { ScrollView } from 'react-native-gesture-handler';
 import RemoveProduct from './RemoveProduct';
 import { RefresherContext } from '../Contexts/RefresherContext';
+import { ProductInfoContext } from '../Contexts/ProductInfoContext';
 
 const ProductsAdmin = ({navigation}) => {
 
     const [products, setProducts] = useState([]);
     const {refresh, setRefresh} = useContext(RefresherContext);
     const [refreshing, setRefreshing] = useState(refresh);
+    const {productInfo, setProductInfo} = useContext(ProductInfoContext);
 
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',
@@ -39,6 +41,11 @@ const ProductsAdmin = ({navigation}) => {
         setRefresh(true);
     }
 
+    const editProduct = (product) => {
+        setProductInfo(product);
+        navigation.navigate("Editar producto", {navigation: navigation});
+    }
+
     return (
         <View style = {styles.screen}>
             <View style = {styles.products}>
@@ -54,7 +61,8 @@ const ProductsAdmin = ({navigation}) => {
                                         <Text style = {styles.cardTitle}>{product.values.name}</Text>
                                     </View>
                                     <View style = {styles.cardButton}>
-                                        <TouchableOpacity style = {styles.button2} onPress = {() => console.log("Pressed")}>
+                                        <TouchableOpacity style = {styles.button2} 
+                                        onPress = {() => editProduct(product)}>
                                             <Icon name = "edit" size = {30} color = "black"/>
                                         </TouchableOpacity>
                                         <TouchableOpacity style = {styles.button2} onPress = {() => removeProduct(product.id)}>
