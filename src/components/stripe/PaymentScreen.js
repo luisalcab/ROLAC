@@ -3,13 +3,14 @@ import { CardField, useStripe, useConfirmPayment } from '@stripe/stripe-react-na
 import { View, Button  } from 'react-native';
 import axios from 'axios';
 import { UserInformation } from '../../contexts/userInformation';
-import * as Location from 'expo-location'
-import { setDoc, doc, addDoc, collection } from 'firebase/firestore'
-import firebaseConection from '../../contexts/FBConnection'
+import * as Location from 'expo-location';
+import { addDoc, collection } from 'firebase/firestore';
+import firebaseConection from '../../contexts/FBConnection';
+
 function PaymentScreen({grandTotal}) {
     const {confirmPayment, loading} = useConfirmPayment();
     
-    const grandTotalFormat = ((Math.round(grandTotal * 100)/ 100).toFixed(2)) * 100; // Become to stripe format
+    const grandTotalFormat = ((Math.round(grandTotal * 100)/ 100).toFixed(2)) * 100; // Become to stripe 
 
     const API_URL = 'https://us-central1-rolac-f16b1.cloudfunctions.net';
     

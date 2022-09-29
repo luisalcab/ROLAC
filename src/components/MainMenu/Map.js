@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, ActivityIndicator } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { collection, getDocs } from "firebase/firestore";
 import { Dialog } from "@rneui/themed";
 
 import firebaseConection from "../../contexts/FBConnection";
+
+import * as Location from 'expo-location';
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 const Map = () => {
   const [showDialog, setShowDialog] = useState({ state: false });
@@ -13,12 +16,10 @@ const Map = () => {
     name: "",
     schedule: {}
   });
-  const [origin, setOrigin] = useState({
-    latitude: 20.677505759857546,
-    longitude: -103.34068998874568,
-  });
 
   const [collectionCenter, setCollectionCenter] = useState([]);
+
+  const [initialPosition, setInitialPosition] = useState(null); 
 
   async function getColletionCenterPositions() {
     const collCenter = [];
@@ -37,12 +38,26 @@ const Map = () => {
         longitude,
       });
     });
-
+    
     setCollectionCenter(collCenter);
   }
+  showPosition = (position) => { 
+    setInitialPosition({
+      latitude: position.coords.latitude, 
+      longitude: position.coords.longitude,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    })
+  };
 
-  useEffect(() => {
+  findCoordinates = () => {
+    Location.installWebGeolocationPolyfill()
+    navigator.geolocation.getCurrentPosition(showPosition);
+  };
+
+  useEffect(async () => {
     getColletionCenterPositions();
+    findCoordinates()
   }, []);
 
   const displayDialog = (data) => {
@@ -53,6 +68,7 @@ const Map = () => {
       schedule: data.dates
     });
   };
+
   const hideDialog = () => {
     setShowDialog({ state: false });
     setDialogInformation({
@@ -61,45 +77,18 @@ const Map = () => {
       schedule: {}
     });
   };
+
   const dialog = () => {
     
     var activeDays = "" 
     var daysInOrder = {
-      lunes: {
-        close: "",
-        open: "",
-        name: "Lunes"
-      },
-      martes: {
-        close: "",
-        open: "",
-        name: "Martes"
-      },
-      miercoles: {
-        close: "",
-        open: "",
-        name: "Miercoles"
-      },
-      jueves: {
-        close: "",
-        open: "",
-        name: "Jueves"
-      },
-      viernes: {
-        close: "",
-        open: "",
-        name: "Viernes"
-      },
-      sabado: {
-        close: "",
-        open: "",
-        name: "Sabado"
-      },
-      domingo: {
-        close: "",
-        open: "",
-        name: "Domingo"
-      }
+      lunes: { close: "", open: "", name: "Lunes" },
+      martes: { close: "", open: "", name: "Martes" },
+      miercoles: { close: "", open: "", name: "Miercoles" },
+      jueves: { close: "", open: "", name: "Jueves" },
+      viernes: { close: "", open: "", name: "Viernes" },
+      sabado: { close: "", open: "", name: "Sabado" },
+      domingo: { close: "", open: "", name: "Domingo" }
     }
 
     for (const iterator in dialogInformation.schedule) {
@@ -137,37 +126,35 @@ ${activeDays}
       </Dialog>
     );
   };
+
   return (
     <>
       {dialog()}
-      <MapView
-        initialRegion={{
-          latitude: origin.latitude,
-          longitude: origin.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        style={styles.map}
-      >
-        {collectionCenter.map((marker) => {
-          const data = `
-            Dirección: ${marker.address}
-        `;
-          return (
-            <Marker
-              title={marker.name}
-              key={marker.id}
-              coordinate={{
-                latitude: marker.latitude,
-                longitude: marker.longitude,
-              }}
-              onPress={() => {
-                displayDialog(marker);
-              }}
-            />
-          );
-        })}
-      </MapView>
+      {initialPosition ? (
+        <MapView
+          initialRegion={initialPosition}
+          style={styles.map}>
+          {collectionCenter.map((marker) => {
+            return (
+              <Marker
+                title={marker.name}
+                key={marker.id}
+                coordinate={{
+                  latitude: marker.latitude,
+                  longitude: marker.longitude,
+                }}
+                onPress={() => {
+                  displayDialog(marker);
+                }}
+              />
+            );
+          })}
+        </MapView>
+      ) : (
+        <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#9e9e9e"></ActivityIndicator>
+      </View>
+      )}
     </>
   );
 };
