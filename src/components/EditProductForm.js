@@ -37,9 +37,15 @@ const CreateProductForm = ({navigation}) => {
     }, [imageURL && values]);
 
     const productSchema = Yup.object().shape({
+        name:Yup.
+            string().
+            matches(/[A-Za-z]/, "Solo letras"),
         cost:Yup.
             number().
             positive("Costo debe ser positivo"),
+        unit:Yup.
+            string().
+            matches(/[A-Za-z]/, "Solo letras")
     })
 
     return (
@@ -68,7 +74,7 @@ const CreateProductForm = ({navigation}) => {
             }}
             validationSchema={productSchema}
         >
-            {({ handleChange, handleSubmit, values, errors }) => (
+            {({ handleChange, handleSubmit, values, errors, touched }) => (
                 <>
                     <View style = {styles.box1}>
                         <TouchableOpacity onPress={()=>openGallery(setImage)} style = {styles.picTouch}>

@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
         width: "10%",
         height: 40,
         justifyContent: "center",
-        alignItems: "right",
+        //alignItems: "right",
         flexDirection: "row",
     },
     button2:{

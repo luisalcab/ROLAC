@@ -8,9 +8,9 @@ const CreateProduct = ({navigation}) => {
         <View style = {styles.screen}>
             <View>
                 <KeyboardAwareScrollView
-                enableOnAndroid={true}
-                extraHeight={0.01}
-                enableAutomaticScroll = {true}>
+                    enableOnAndroid={true}
+                    extraHeight={0.01}
+                    enableAutomaticScroll = {true}>
                     <CreateProductForm navigation={navigation}/>
                 </KeyboardAwareScrollView>
             </View>

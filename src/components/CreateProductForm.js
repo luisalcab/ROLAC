@@ -35,14 +35,16 @@ const CreateProductForm = ({navigation}) => {
     const productSchema = Yup.object().shape({
         name:Yup.
             string().
-            required("Nombre requerido"),
+            required("Nombre requerido").
+            matches(/[A-Za-z]/, "Solo letras"),
         cost:Yup.
             number().
             required("Costo requerido").
             positive("Costo debe ser positivo"),
         unit:Yup.
             string().
-            required("Unidad requerida"),
+            required("Unidad requerida").
+            matches(/[A-Za-z]/, "Solo letras"),
         urgent:Yup.
             boolean().
             required("Urgente requerido"),
