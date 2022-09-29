@@ -24,6 +24,7 @@
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
     "firebase": "^9.9.2",
+    "fontisto": "^3.0.4",
     "formik": "^2.2.9",
     "luxon": "^3.0.3",
     "moment": "^2.29.4",

@@ -31,7 +31,7 @@ import QRGenerator from './src/layouts/QRGenerator';
 import QRScanner from './src/layouts/QRScanner';
 
 //Import utils
-import enviromentVariables from './uitls/enviromentVariables';
+import enviromentVariables from './utils/enviromentVariables';
 
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 

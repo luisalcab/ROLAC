@@ -33,6 +33,9 @@ const RegisterCCForm = ({navigation}) => {
             string().
             email("Email no valido").
             required("Email requerido"),
+        adress:Yup.
+            string().
+            required("Dirección Requerida"),
         longitude:Yup.
             string().
             required("Coordenadas Requeridas").
@@ -50,6 +53,7 @@ const RegisterCCForm = ({navigation}) => {
             initialValues={{
                 name:"",
                 email:"",
+                adress:"",
                 longitude:"",
                 latitude:""
             }}
@@ -67,7 +71,7 @@ const RegisterCCForm = ({navigation}) => {
 
                     nav2Registration();
                 }catch(error){
-
+                    console.log(error);
                 }
             }}
             validationSchema={registerSchema}
@@ -88,6 +92,13 @@ const RegisterCCForm = ({navigation}) => {
                             onChangeText={handleChange("email")}
                             errorMessage={errors.email && touched.email ? errors.email : ""}
                             value={values.email}
+                        />
+                        <Input
+                            placeholder="Dirección"
+                            leftIcon={<Icon type="fontisto" name="direction-sign"/>}
+                            onChangeText={handleChange("adress")}
+                            errorMessage={errors.adress && touched.adress ? errors.adress : ""}
+                            value={values.adress}
                         />
 
                         <View style={{width:"100%", height:"40%"}}>

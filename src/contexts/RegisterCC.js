@@ -26,6 +26,7 @@ export const RegisterCCProvider = ({children}) => {
     const [data, setData] = useState({
         name:"",
         email:"",
+        adress:"",
         dates: "",
         longitude:"",
         latitude:""
@@ -33,8 +34,12 @@ export const RegisterCCProvider = ({children}) => {
 
     useEffect(() =>{
         const uploadData = async() => {
-        if(data["name"] === "") return;
+        const {name, email, adress, dates, longitude, latitude} = data;
 
+        //Validation for empty objects
+        if([name, email, adress, dates, longitude, latitude].includes("")) return;
+
+        //The request to the database
         try{
             const docRef = await addDoc(collection(db, "requests"), { data });
             // await setDoc(doc(db, "collection_center"), data);
@@ -43,6 +48,7 @@ export const RegisterCCProvider = ({children}) => {
         }
     }
 
+        //The function calling of the request
         uploadData();
     },[data])
 

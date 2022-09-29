@@ -3,7 +3,7 @@ import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
 import {CartContext} from "../contexts/CartContext"
 import CartItem from "../components/CartItem"
 import { StripeProvider } from '@stripe/stripe-react-native';
-import {publishableKey} from '../../uitls/enviromentVariables';
+import {publishableKey} from '../../utils/enviromentVariables';
 import PaymentScreen from "../components/stripe/PaymentScreen";
 
 const Cart = ({navigation}) => {
