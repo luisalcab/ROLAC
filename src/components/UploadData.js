@@ -1,4 +1,3 @@
-import React from 'react';
 import {db} from './FBConnection';
 import {collection, addDoc} from "firebase/firestore";
 
