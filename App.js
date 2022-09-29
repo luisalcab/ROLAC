@@ -13,6 +13,7 @@ import HomePageDonor from './src/layouts/MainMenu/HomePageDonor';
 import ManagerDonorComponent from './src/components/administrationProfiles/ManagerDonorComponent'; 
 import HomePageManagerBAMX from './src/layouts/MainMenu/HomePageManagerBAMX';
 import ManagerAdminComponent from './src/components/administrationProfiles/ManagerAdminComponent';
+import AdminRegister from './src/layouts/register/AdminRegister';
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -32,6 +33,8 @@ import QRScanner from './src/layouts/QRScanner';
 
 //Import utils
 import enviromentVariables from './utils/enviromentVariables';
+
+
 
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 
@@ -78,7 +81,7 @@ export default function App() {
     const providerCart = useMemo(() => ({cart, setCart}), [cart, setCart]);
     const providerItems = useMemo(() => ({items, setItems}), [items, setItems]);
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
-
+    
     return (
         <RegisterCCProvider>
 

@@ -8,10 +8,9 @@ import {
 import { Icon } from "@rneui/base";
 import Map from "../../components/MainMenu/Map.js";
 import { UserInformation } from "../../contexts/userInformation.js";
-
+import * as Location from 'expo-location'
 
 const HomePageDonor = ({navigation}) => {
-
   const {userInformation, setUserInformation} = useContext(UserInformation);
   
   // console.log("En homepage: ", userInformation)
@@ -37,7 +36,7 @@ const HomePageDonor = ({navigation}) => {
       <View style={styles.positionTitle}>
         <Text style={styles.title}>Centros de acopio disponibles</Text>
       </View>
-      <Map style={styles.map} />
+      {/* <Map style={styles.map} /> */}
       <View>
         <View style={styles.positionTitle}>
           <Text style={styles.title}>Opciones de donaciones</Text>

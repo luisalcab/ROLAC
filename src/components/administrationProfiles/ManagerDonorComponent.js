@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
-  Button,
   TextInput,
   View,
   ScrollView,
@@ -8,7 +7,7 @@ import {
   Text,
   ActivityIndicator,
 } from "react-native";
-import { Dialog } from "@rneui/themed";
+import { Input, Icon, Dialog, Button } from "@rneui/themed";
 import { Formik } from "formik";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import {
@@ -183,48 +182,83 @@ const ManagerDonorComponent = ({ navigation }) => {
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <ScrollView>
               <View style={styles.container}>
-                <Text>Nombre(s) actuales</Text>
-                <View style={styles.inputGroup}>
-                  <TextInput
-                    placeholder="Name"
-                    onChangeText={handleChange("name")}
-                    onBlur={handleBlur("name")}
-                    value={values.name}
-                  />
-                </View>
-                <Text>Apellidos actuales</Text>
-                <View style={styles.inputGroup}>
-                  <TextInput
-                    placeholder="Last name"
-                    onChangeText={handleChange("lastName")}
-                    onBlur={handleBlur("lastName")}
-                    value={values.lastName}
-                  />
-                </View>
-                <Text>Email actual</Text>
-                <View style={styles.inputGroup}>
-                  <TextInput
-                    placeholder="Email"
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    value={values.email}
-                  />
-                </View>
+                <Text style={styles.label}>Nombre(s) actuales</Text>
+                <Input
+                  placeholder="Name"
+                  leftIcon={<Icon type="material" name="person"/>}
+                  onChangeText={handleChange("name")}
+                  onBlur={handleBlur("name")}
+                  value={values.name}
+                />
+                <Text style={styles.label}>Apellidos actuales</Text>
+                <Input
+                  placeholder="Last name"
+                  leftIcon={<Icon type="material" name="people"/>}
+                  onChangeText={handleChange("lastName")}
+                  onBlur={handleBlur("lastName")}
+                  value={values.lastName}
+                />
+                <Text style={styles.label}>Email actual</Text>
+                <Input
+                  placeholder="Email"
+                  leftIcon={<Icon type="material" name="mail"/>}
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  value={values.email}
+                />
+
                 <View style={styles.buttonContainer}>
                   <Button
-                    color="#0E4DA4"
+                    buttonStyle = {{
+                      borderRadius: 5,
+                      backgroundColor: "#0E4DA4",
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 12,
+                      },
+                      shadowOpacity: 0.58,
+                      shadowRadius: 16.00,
+                      
+                      elevation: 24,
+                    }}
                     onPress={handleSubmit}
                     title="Actualizar"
                   />
                   <Button
-                    color="#E74C3C"
+                    buttonStyle = {{
+                      borderRadius: 5,
+                      backgroundColor: "#E74C3C",
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 12,
+                      },
+                      shadowOpacity: 0.58,
+                      shadowRadius: 16.00,
+                      
+                      elevation: 24,
+                    }}
                     onPress={() => displayDialog()}
                     title="Eliminar cuenta"
                   />
                 </View>
                 <View>
                   <Button
-                    color="#0E4DA4"
+                    buttonStyle = {{
+                      borderRadius: 5,
+                      backgroundColor: "#0E4DA4",
+                      marginHorizontal: "5%",
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 12,
+                      },
+                      shadowOpacity: 0.58,
+                      shadowRadius: 16.00,
+                      
+                      elevation: 24,
+                    }}
                     onPress={() => sendEmailRecoverPassword()}
                     title="Actualizar contraseña"
                   />
@@ -245,7 +279,11 @@ const ManagerDonorComponent = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 35,
+    marginTop: 10,
+  },
+  label: {
+    fontSize: 20,
+    marginLeft: 5
   },
   loader: {
     height: "100%",

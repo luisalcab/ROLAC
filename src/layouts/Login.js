@@ -2,7 +2,6 @@ import React from 'react'
 import {StyleSheet, View} from 'react-native';
 import {Image} from '@rneui/themed';
 import LogInForm from '../components/LogInForm';
-
 import { initializeApp } from "firebase/app";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 import { useEffect } from 'react';
@@ -23,8 +22,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
-
 const Login = ({navigation}) => {
+  
   return (
     <View style={styles.screen}>
         <Image source={require("../img/5e8827daba0aa_logo.png")} style={styles.pic}/>
