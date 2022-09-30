@@ -1,11 +1,13 @@
+import {useContext} from "react"
 import {View, StyleSheet, Dimensions} from 'react-native';
 import {Indicator} from "nachos-ui";
 import {Button} from "@rneui/themed"
-
+import {BAMXContext} from "../../contexts/BAMXContext";
 
 const screen = Dimensions.get("screen");
 
 const BtnCCRequest = () => {
+    const {docsNum} = useContext(BAMXContext);
 
     const handleClick = () => {
         console.log("ola");
@@ -15,7 +17,7 @@ const BtnCCRequest = () => {
         <View>
             <Indicator
                 position='right top'
-                value="5"
+                value={docsNum}
                 type="normal"
                 style={styles.indicator}
             >
@@ -25,14 +27,6 @@ const BtnCCRequest = () => {
                     buttonStyle={styles.button}
                     titleStyle={styles.title}
                 />
-                {/* <Button
-                    onPress={handleClick}
-                    iconPosition="right"
-                    iconName="ios-arrow-forward"
-                    style={styles.button}
-                    textStyle={styles.title}
-                    >Centros de Acopio Pendientes
-                </Button> */}
             </Indicator>
         </View>
     )
