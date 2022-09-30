@@ -21,9 +21,7 @@ const Map = () => {
 
   async function getColletionCenterPositions() {
     const collCenter = [];
-    const querySnapshot = await getDocs(
-      collection(firebaseConection.db, "collection_center")
-    );
+    const querySnapshot = await getDocs(collection(firebaseConection.db, "collection_center"));
 
     querySnapshot.forEach((docs) => {
       const { address, collection_center_name, email, latitude, longitude } =

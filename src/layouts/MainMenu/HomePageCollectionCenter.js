@@ -18,7 +18,7 @@ const HomePageCollectionCenter = (props) => {
   // console.log("Desde homepage: ", props.route.params.userAuth.currentUser.email)
   return (
     <View>
-        <Text>Vista adminstrador BMAX</Text>
+        <Text>Vista adminstrador BAMX</Text>
     </View>
   );
 };

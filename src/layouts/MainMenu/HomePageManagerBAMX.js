@@ -15,6 +15,7 @@ import { Icon, Overlay } from "@rneui/base";
 
 const HomePageManagerBAMX = ({navigation}) => {
   // console.log("Desde homepage: ", props.route.params.userAuth.currentUser.email)
+  console.log("Navigation homepage: ", navigation)
   return (
     <View>
         <Text>Vista adminstrador BAMX</Text>
@@ -24,7 +25,7 @@ const HomePageManagerBAMX = ({navigation}) => {
           <Icon name="user" type="font-awesome" size={50} />
         </TouchableOpacity>
         <TouchableOpacity
-        onPress={() => navigation.navigate('ManagerAdminComponent', {navigation: navigation})}
+        onPress={() => navigation.navigate('AdminRegister', {navigation: navigation})}
         >
           <Icon name="user-plus" type="font-awesome" size={50} />
         </TouchableOpacity>

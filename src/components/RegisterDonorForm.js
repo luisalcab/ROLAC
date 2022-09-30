@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {Input, Icon, Button, } from "@rneui/themed";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import {getDoc, deleteDoc, updateDoc, collection, doc, setDoc} from "firebase/firestore";
+import {doc, setDoc} from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import firebaseConection from '../contexts/FBConnection';
 
