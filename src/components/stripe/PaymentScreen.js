@@ -1,13 +1,13 @@
 import { useContext, useState } from 'react';
 import { CardField, useStripe, useConfirmPayment } from '@stripe/stripe-react-native';
-import { View, Button  } from 'react-native';
+import { View, Button, Alert  } from 'react-native';
 import axios from 'axios';
 import { UserInformation } from '../../contexts/userInformation';
 import * as Location from 'expo-location';
 import { addDoc, collection } from 'firebase/firestore';
 import firebaseConection from '../../contexts/FBConnection';
 
-function PaymentScreen({grandTotal}) {
+function PaymentScreen({grandTotal, navigation}) {
     const {confirmPayment, loading} = useConfirmPayment();
     
     const grandTotalFormat = ((Math.round(grandTotal * 100)/ 100).toFixed(2)) * 100; // Become to stripe 
@@ -41,7 +41,11 @@ function PaymentScreen({grandTotal}) {
           const {paymentIntent} = JSON.parse(JSON.stringify(response.data))
           return paymentIntent;
        })
-       .catch((err) => console.log("Error: ", err));
+       .catch((err) => {
+          // console.log("Error: ", err)
+          alert("0Hubo un error durante la operación, intente nuevamente");
+          navigation.navigate("HomePageDonor", { navigation: navigation });
+        });
       };
     
       const handlePayPress = async () => {
@@ -62,11 +66,10 @@ function PaymentScreen({grandTotal}) {
                   billingDetails,
                 },
               });
-          
-
-
               if (error) {
-                console.log('Payment confirmation error', error);
+                // console.log('Payment confirmation error', error);
+                alert("1Hubo un error durante la operación, intente nuevamente");
+                navigation.navigate("HomePageDonor", { navigation: navigation });
               } else if (paymentIntent) {
                 addDoc(collection(firebaseConection.db,"monetary_donation"), {
                   last4: payment.last4,
@@ -79,15 +82,22 @@ function PaymentScreen({grandTotal}) {
                   longitude: position.coords.longitude
                 })
                 .then(() => {
-                  console.log('Success from promise', paymentIntent);
+                  // console.log('Success from promise', paymentIntent);
+                  alert("El pago se registro exitosamente");
+                  navigation.navigate("HomePageDonor", { navigation: navigation });
                 })
                 .catch(() => {
-                  console.log('Payment error');
+                  alert("2Hubo un error durante la operación, intente nuevamente");
+                  navigation.navigate("HomePageDonor", { navigation: navigation });
                 });
 
               }
             },
-            error => Alert.alert(error.message),
+            error => {
+              // Alert.alert(error.message)
+              alert("3Hubo un error durante la operación, intente nuevamente");
+              navigation.navigate("HomePageDonor", { navigation: navigation });
+            },
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
           );
       };

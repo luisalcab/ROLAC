@@ -1,8 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { YellowBox } from 'react-native-web';
-
 
 import Login from './src/layouts/Login';
 import RegisterDonor from './src/layouts/Register';
@@ -14,18 +12,12 @@ import ManagerDonorComponent from './src/components/administrationProfiles/Manag
 import HomePageManagerBAMX from './src/layouts/MainMenu/HomePageManagerBAMX';
 import ManagerAdminComponent from './src/components/administrationProfiles/ManagerAdminComponent';
 import AdminRegister from './src/layouts/register/AdminRegister';
-
+import { LogBox } from 'react-native';
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
 import {ItemsContext} from './src/contexts/ItemsContext';
 import { UserInformation } from './src/contexts/userInformation';
 
-
-// They are warnings that are ignored, they have no effect on the correct execution of the program
-YellowBox.ignoreWarnings([
-    'Non-serializable values were found in the navigation state',
-    'AsyncStorage has been extracted from react-native core and will be removed in a future release'
-])
 import AdminSettings from './src/layouts/AdminSettings';
 import FBConnection from './src/contexts/FBConnection';
 import QRGenerator from './src/layouts/QRGenerator';
@@ -34,7 +26,12 @@ import QRScanner from './src/layouts/QRScanner';
 //Import utils
 import enviromentVariables from './utils/enviromentVariables';
 
-
+//Ignore warnings
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+    'AsyncStorage has been extracted from react-native core and will be removed in a future release.',
+    '`new NativeEventEmitter()`'
+])
 
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 

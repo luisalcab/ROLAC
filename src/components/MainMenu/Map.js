@@ -41,6 +41,7 @@ const Map = () => {
     
     setCollectionCenter(collCenter);
   }
+  
   showPosition = (position) => { 
     setInitialPosition({
       latitude: position.coords.latitude, 
@@ -55,9 +56,13 @@ const Map = () => {
     navigator.geolocation.getCurrentPosition(showPosition);
   };
 
-  useEffect(async () => {
+  useEffect(() => {
+    function originCoordinates() {
+      findCoordinates()  
+    }
+
     getColletionCenterPositions();
-    findCoordinates()
+    originCoordinates()
   }, []);
 
   const displayDialog = (data) => {

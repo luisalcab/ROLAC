@@ -8,12 +8,13 @@ import {
 import { Icon } from "@rneui/base";
 import Map from "../../components/MainMenu/Map.js";
 import { UserInformation } from "../../contexts/userInformation.js";
+import { getAuth, signOut } from "firebase/auth";
 import * as Location from 'expo-location'
 
 const HomePageDonor = ({navigation}) => {
   const {userInformation, setUserInformation} = useContext(UserInformation);
   
-  // console.log("En homepage: ", userInformation)
+  console.log("En homepage: ", userInformation)
 
   return (
     <View>
@@ -25,6 +26,22 @@ const HomePageDonor = ({navigation}) => {
         <Text style={styles.title}>Hola {userInformation.name}</Text>
 
         <TouchableOpacity
+        onPress={() => {
+          const auth = getAuth();
+          signOut(auth).then(() => {
+            // Sign-out successful.
+            navigation.navigate('Login', {navigation: navigation})
+          }).catch((error) => {
+            // An error happened.
+            navigation.navigate('Login', {navigation: navigation})
+          });
+
+        }}
+        >
+          <Icon name="door-open" type="material-community" size={50} />
+        </TouchableOpacity>
+        <TouchableOpacity
+
         onPress={() => navigation.navigate('ManagerDonorComponent', {navigation: navigation})}
         >
           <Icon name="user" type="font-awesome" size={50} />

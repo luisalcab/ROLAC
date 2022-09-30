@@ -8,7 +8,6 @@ import PaymentScreen from "../components/stripe/PaymentScreen";
 
 const Cart = ({navigation}) => {
     const {cart} = useContext(CartContext);
-    console.log(publishableKey);
     const nav2QR = () => {
         navigation.navigate("QRGenerator");
     }
@@ -25,7 +24,6 @@ const Cart = ({navigation}) => {
     const grandTotal = () => {
         let sum = 0;
         cart.map(item => {sum += item.count * item.cost});
-        console.log("Esto es suma: ", sum)
         return sum;
     }
 
@@ -51,7 +49,7 @@ const Cart = ({navigation}) => {
                 </View>
                 <StripeProvider
                     publishableKey="pk_test_51LkUu8L3fb2NBnm32ovLcCuet2FDgfprjfA1lAaL0cqZ8SdJHzS1v7erGYck9PWWpY43cfquaZAJUudpNihX0bqu00WVCmQvro">
-                    <PaymentScreen grandTotal = { grandTotal() }/>
+                    <PaymentScreen grandTotal = { grandTotal() } navigation = { navigation }/>
                 </StripeProvider>
             </View>
             {/* <View style={styles.footer}>

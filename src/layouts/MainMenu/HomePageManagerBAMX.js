@@ -12,6 +12,7 @@ import {
   Image,
 } from "react-native";
 import { Icon, Overlay } from "@rneui/base";
+import { getAuth, signOut } from "firebase/auth";
 
 const HomePageManagerBAMX = ({navigation}) => {
   // console.log("Desde homepage: ", props.route.params.userAuth.currentUser.email)
@@ -28,6 +29,21 @@ const HomePageManagerBAMX = ({navigation}) => {
         onPress={() => navigation.navigate('AdminRegister', {navigation: navigation})}
         >
           <Icon name="user-plus" type="font-awesome" size={50} />
+        </TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => {
+          const auth = getAuth();
+          signOut(auth).then(() => {
+            // Sign-out successful.
+            navigation.navigate('Login', {navigation: navigation})
+          }).catch((error) => {
+            // An error happened.
+            navigation.navigate('Login', {navigation: navigation})
+          });
+
+        }}
+        >
+          <Icon name="door-open" type="material-community" size={50} />
         </TouchableOpacity>
     </View>
   );
