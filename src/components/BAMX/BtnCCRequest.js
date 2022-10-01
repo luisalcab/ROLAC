@@ -17,12 +17,15 @@ const BtnCCRequest = ({navigation}) => {
                 position='right top'
                 value={docsNum}
                 type="normal"
+                style={{marginLeft: 20, marginTop: 20}}
             >
                 <Button
                     title="Centros de Acopio Pendientes"
                     onPress={handleClick}
                     buttonStyle={styles.button}
                     titleStyle={styles.title}
+                    loading={(docsNum === null) ? true : false}
+                    loadingStyle={styles.loading}
                 />
             </Indicator>
         </View>
@@ -43,6 +46,9 @@ const styles = StyleSheet.create({
     title:{
         color:"black",
         fontSize:screen.fontScale * 15
+    },
+    loading:{
+        backgroundColor: "black"
     }
 })
 

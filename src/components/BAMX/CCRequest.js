@@ -1,9 +1,10 @@
+import CCItem from "./CCItem";
 import {View, StyleSheet, ScrollView} from "react-native";
 
 const CCRequest = () => {
     return(
         <ScrollView style={styles.screen}>
-            
+            <CCItem params={{name: "Erectus", address: "asssssasssasaazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"}}/>
         </ScrollView>
     )
 }
