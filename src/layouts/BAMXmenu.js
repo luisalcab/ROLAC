@@ -1,10 +1,10 @@
 import {View, StyleSheet} from 'react-native'
 import BtnCCRequest from '../components/BAMX/BtnCCRequest';
 
-const BAMXmenu = () => {
+const BAMXmenu = ({navigation}) => {
     return (
         <View style={styles.screen}>
-            <BtnCCRequest/>
+            <BtnCCRequest navigation={navigation}/>
         </View>
     )
 }

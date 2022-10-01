@@ -15,6 +15,7 @@ import HomePageManagerBAMX from './src/layouts/MainMenu/HomePageManagerBAMX';
 import ManagerAdminComponent from './src/components/administrationProfiles/ManagerAdminComponent';
 import AdminRegister from './src/layouts/register/AdminRegister';
 import BAMXmenu from './src/layouts/BAMXmenu';
+import CCRequest from './src/components/BAMX/CCRequest';
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -92,7 +93,8 @@ export default function App() {
                 <CartContext.Provider value={providerCart}>
                     <NavigationContainer initialRouteName="BAMXmenu">
                         <Stack.Navigator>  
-                            <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title:  "Menú Principal"}}/>
+                            <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal"}}/>
+                            <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
                         </Stack.Navigator>
                     </NavigationContainer>
                 </CartContext.Provider>
