@@ -6,10 +6,13 @@ import { UserInformation } from '../../contexts/userInformation';
 import * as Location from 'expo-location';
 import { addDoc, collection } from 'firebase/firestore';
 import firebaseConection from '../../contexts/FBConnection';
+import { CartContext } from '../../contexts/CartContext';
 
 function PaymentScreen({grandTotal, navigation}) {
     const {confirmPayment, loading} = useConfirmPayment();
     
+    const {cart, setCart} = useContext(CartContext);
+    console.log("Cart: ", cart)
     const grandTotalFormat = ((Math.round(grandTotal * 100)/ 100).toFixed(2)) * 100; // Become to stripe 
 
     const API_URL = 'https://us-central1-rolac-f16b1.cloudfunctions.net';
@@ -27,25 +30,25 @@ function PaymentScreen({grandTotal, navigation}) {
       id: userInformation.uid
     });
 
+    handleError = () => {
+      alert("Hubo un error durante la operación, intente nuevamente");
+      navigation.navigate("HomePageDonor", { navigation: navigation });
+      setCart(null);
+    }
+
     const fetchPaymentIntentClientSecret = async () => {
         /*|
           Formato para donar:
           2000 = 20.00
           1099 = 10.99
         */
-       
-
        return axios.post(`${API_URL}/create_payment_intent`, 
        { "amount": grandTotalFormat, "currency": "mxn" })
        .then((response) => {
           const {paymentIntent} = JSON.parse(JSON.stringify(response.data))
           return paymentIntent;
        })
-       .catch((err) => {
-          // console.log("Error: ", err)
-          alert("0Hubo un error durante la operación, intente nuevamente");
-          navigation.navigate("HomePageDonor", { navigation: navigation });
-        });
+       .catch((err) => { handleError() });
       };
     
       const handlePayPress = async () => {
@@ -66,11 +69,13 @@ function PaymentScreen({grandTotal, navigation}) {
                   billingDetails,
                 },
               });
+
               if (error) {
                 // console.log('Payment confirmation error', error);
-                alert("1Hubo un error durante la operación, intente nuevamente");
-                navigation.navigate("HomePageDonor", { navigation: navigation });
+                handleError()
               } else if (paymentIntent) {
+                let today = new Date();
+                let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+' '+today.getHours()+':'+today.getMinutes()+':'+today.getSeconds();
                 addDoc(collection(firebaseConection.db,"monetary_donation"), {
                   last4: payment.last4,
                   postalCode: payment.postalCode,
@@ -79,25 +84,19 @@ function PaymentScreen({grandTotal, navigation}) {
                   idUser: payment.id,
                   idStripe: paymentIntent.id,
                   latitude: position.coords.latitude,
-                  longitude: position.coords.longitude
+                  longitude: position.coords.longitude,
+                  date: date
                 })
                 .then(() => {
-                  // console.log('Success from promise', paymentIntent);
+                  console.log('Success from promise', paymentIntent);
                   alert("El pago se registro exitosamente");
                   navigation.navigate("HomePageDonor", { navigation: navigation });
+                  setCart(null)
                 })
-                .catch(() => {
-                  alert("2Hubo un error durante la operación, intente nuevamente");
-                  navigation.navigate("HomePageDonor", { navigation: navigation });
-                });
-
+                .catch(() => { handleError() }); 
               }
             },
-            error => {
-              // Alert.alert(error.message)
-              alert("3Hubo un error durante la operación, intente nuevamente");
-              navigation.navigate("HomePageDonor", { navigation: navigation });
-            },
+            error => { handleError() },
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
           );
       };
@@ -129,7 +128,7 @@ function PaymentScreen({grandTotal, navigation}) {
         //   console.log('focusField', focusedField);
         // }}
       />
-       <Button onPress={handlePayPress} title="Pay" disabled={loading} />
+       <Button onPress={handlePayPress} title="Donar" disabled={loading} />
     </View>
   );
 }

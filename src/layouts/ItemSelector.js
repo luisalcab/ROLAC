@@ -4,6 +4,7 @@ import Item from "../components/Item"
 import { ItemsContext } from "../contexts/ItemsContext";
 
 const ItemSelector = ({navigation}) => {
+    
     const {items, setItems} = useContext(ItemsContext);
 
     const nav2Cart = () => {
@@ -21,24 +22,25 @@ const ItemSelector = ({navigation}) => {
     );
 
     return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.title}>Donación en especie</Text>
-                {/* <Icon name="sort" color="rgb(97, 88, 88)" type="font-awesome-5" style={styles.sortIcon}/> */}
-            </View>
-            <View style={styles.listContainer}>
-                <FlatList
-                    data={items}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id}
-                /> 
+        <>
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.title}>Donación en especie</Text>
+                </View>
+                <View style={styles.listContainer}>
+                    <FlatList
+                        data={items}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                    /> 
+                </View>
             </View>
             <View style={styles.footer}>
                 <TouchableOpacity style={styles.button} onPress={nav2Cart}>
                     <Text style={styles.buttonLabel}>Carrito</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </>
     );
 }
 

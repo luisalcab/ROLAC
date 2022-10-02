@@ -140,6 +140,9 @@ const ManagerDonorComponent = ({ navigation }) => {
       });
   };
 
+  const pastDonation = () => {
+    navigation.navigate('CardsDonationUser', {navigation: navigation})
+  }
   //Hooks
   useEffect(() => {
     getManagerById(userInformation.uid);
@@ -262,7 +265,26 @@ const ManagerDonorComponent = ({ navigation }) => {
                     onPress={() => sendEmailRecoverPassword()}
                     title="Actualizar contraseña"
                   />
+                  <Button
+                    buttonStyle = {{
+                      borderRadius: 5,
+                      backgroundColor: "#0E4DA4",
+                      marginHorizontal: "5%",
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 12,
+                      },
+                      shadowOpacity: 0.58,
+                      shadowRadius: 16.00,
+                      elevation: 24,
+                      marginTop: 10
+                    }}
+                    onPress={() => pastDonation()}
+                    title="Ver donaciones pasadas"
+                  />
                 </View>
+
               </View>
             </ScrollView>
           )}

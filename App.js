@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { LogBox } from 'react-native';
 
 import Login from './src/layouts/Login';
 import RegisterDonor from './src/layouts/Register';
@@ -12,7 +13,8 @@ import ManagerDonorComponent from './src/components/administrationProfiles/Manag
 import HomePageManagerBAMX from './src/layouts/MainMenu/HomePageManagerBAMX';
 import ManagerAdminComponent from './src/components/administrationProfiles/ManagerAdminComponent';
 import AdminRegister from './src/layouts/register/AdminRegister';
-import { LogBox } from 'react-native';
+import CardsDonationUser from './src/layouts/donations/CardsDonationUser';
+import CardsDonationAllUsers from './src/layouts/donations/CardsDonationAllUsers';
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
 import {ItemsContext} from './src/contexts/ItemsContext';
@@ -86,6 +88,8 @@ export default function App() {
                     <NavigationContainer initialRouteName="Login">
                         <Stack.Navigator>
                             <Stack.Screen name="Login" component={Login} />
+                            <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>
+                            <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
                             <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
                             <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
                             <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal'}}/>

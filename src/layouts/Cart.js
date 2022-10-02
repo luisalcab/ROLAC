@@ -5,9 +5,11 @@ import CartItem from "../components/CartItem"
 import { StripeProvider } from '@stripe/stripe-react-native';
 import {publishableKey} from '../../utils/enviromentVariables';
 import PaymentScreen from "../components/stripe/PaymentScreen";
-
+import { ItemsContext } from "../contexts/ItemsContext";
 const Cart = ({navigation}) => {
+
     const {cart} = useContext(CartContext);
+
     const nav2QR = () => {
         navigation.navigate("QRGenerator");
     }
@@ -52,11 +54,6 @@ const Cart = ({navigation}) => {
                     <PaymentScreen grandTotal = { grandTotal() } navigation = { navigation }/>
                 </StripeProvider>
             </View>
-            {/* <View style={styles.footer}>
-                <TouchableOpacity style={styles.button} onPress={() => nav2QR()}>
-                    <Text style={styles.buttonLabel}>Pagar</Text>
-                </TouchableOpacity>
-            </View> */}
         </View>
 
 
