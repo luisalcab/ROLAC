@@ -74,7 +74,7 @@ const DATA = [
 // All the screens should be inside of NavigationContainer
 export default function App() {
     const [cart, setCart] = useState([]);
-    const [items, setItems] = useState(DATA);
+    const [items, setItems] = useState([]);
     const [userInformation, setUserInformation] = useState([]);
 
     const providerCart = useMemo(() => ({cart, setCart}), [cart, setCart]);

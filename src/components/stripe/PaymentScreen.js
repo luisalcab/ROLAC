@@ -12,7 +12,7 @@ function PaymentScreen({grandTotal, navigation}) {
     const {confirmPayment, loading} = useConfirmPayment();
     
     const {cart, setCart} = useContext(CartContext);
-    console.log("Cart: ", cart)
+    console.log("Cart en payment screen: ", cart)
     const grandTotalFormat = ((Math.round(grandTotal * 100)/ 100).toFixed(2)) * 100; // Become to stripe 
 
     const API_URL = 'https://us-central1-rolac-f16b1.cloudfunctions.net';
@@ -31,9 +31,10 @@ function PaymentScreen({grandTotal, navigation}) {
     });
 
     handleError = () => {
+      setCart([]);
       alert("Hubo un error durante la operación, intente nuevamente");
       navigation.navigate("HomePageDonor", { navigation: navigation });
-      setCart(null);
+      
     }
 
     const fetchPaymentIntentClientSecret = async () => {
@@ -88,12 +89,13 @@ function PaymentScreen({grandTotal, navigation}) {
                   date: date
                 })
                 .then(() => {
-                  console.log('Success from promise', paymentIntent);
+                  // console.log('Success from promise', paymentIntent);
+                  setCart([]);
                   alert("El pago se registro exitosamente");
                   navigation.navigate("HomePageDonor", { navigation: navigation });
-                  setCart(null)
+                  
                 })
-                .catch(() => { handleError() }); 
+                .catch(() => { setCart([]); handleError(); }); 
               }
             },
             error => { handleError() },

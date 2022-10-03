@@ -30,7 +30,7 @@ const Item = ({id, name, source, unit, cost}) => {
 
     return(
         <View style={styles.container}>
-            <Image source={source} style={styles.img}></Image>
+            <Image source={{uri: source}} style={styles.img}></Image>
             <View style={styles.details}>
                 <View style={styles.titleBox}>
                     <Text style={styles.title}>{name}</Text>

@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import {
   StyleSheet,
   View,
@@ -9,12 +9,40 @@ import { Icon } from "@rneui/base";
 import Map from "../../components/MainMenu/Map.js";
 import { UserInformation } from "../../contexts/userInformation.js";
 import { getAuth, signOut } from "firebase/auth";
-import * as Location from 'expo-location'
+import FBConnection from "../../contexts/FBConnection.js"; 
+import { getDocs, collection } from "firebase/firestore";
+import { ItemsContext } from "../../contexts/ItemsContext.js";
+import { CartContext } from "../../contexts/CartContext.js";
 
 const HomePageDonor = ({navigation}) => {
+  const {cart, setCart} = useContext(CartContext);
+  console.log("Cart en payment screen: ", cart)
   const {userInformation, setUserInformation} = useContext(UserInformation);
-  
-  console.log("En homepage: ", userInformation)
+  const {items, setItems} = useContext(ItemsContext);
+  const getItems = async () => {
+    const collectionItems = [];
+    const querySnapshot = await getDocs(collection(FBConnection.db, "products"));
+
+    querySnapshot.forEach(item => {
+      const {values, imageURL} = item.data();
+      collectionItems.push({
+        id: item.id,
+        name: values.name,
+        source: imageURL,
+        unit: values.unit,
+        urgent: values.urgent,
+        cost: values.cost
+      })
+    });
+    
+    setItems(collectionItems)
+  }
+
+  useEffect(() => {
+    getItems();
+  },[]);
+
+  console.log("En homepage: ", userInformation);
 
   return (
     <View>
