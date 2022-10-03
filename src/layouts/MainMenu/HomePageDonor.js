@@ -1,11 +1,12 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
 } from "react-native";
-import { Icon } from "@rneui/base";
+import { Icon, Dialog, Overlay } from "@rneui/base";
+import { Button } from "react-native";
 import Map from "../../components/MainMenu/Map.js";
 import { UserInformation } from "../../contexts/userInformation.js";
 import { getAuth, signOut } from "firebase/auth";
@@ -16,9 +17,12 @@ import { CartContext } from "../../contexts/CartContext.js";
 
 const HomePageDonor = ({navigation}) => {
   const {cart, setCart} = useContext(CartContext);
-  console.log("Cart en payment screen: ", cart)
   const {userInformation, setUserInformation} = useContext(UserInformation);
   const {items, setItems} = useContext(ItemsContext);
+
+
+  const [showDialog, setShowDialog] = useState({ state: false });
+
   const getItems = async () => {
     const collectionItems = [];
     const querySnapshot = await getDocs(collection(FBConnection.db, "products"));
@@ -47,7 +51,7 @@ const HomePageDonor = ({navigation}) => {
   return (
     <View>
       <View style={styles.containerNav}>
-        <TouchableOpacity onPress={() => alert("Vista para generar QR")}>
+        <TouchableOpacity onPress={() => { navigation.navigate('QRGenerator', {navigation: navigation}) }}>
           <Icon name="qrcode" type="font-awesome" size={50} />
         </TouchableOpacity>
         {/* {props.route.params.userAuth.currentUser.email} */}
@@ -134,6 +138,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  overlay: {
+    backgroundColor: "#fff"
+  }
 });
 
 export default HomePageDonor;

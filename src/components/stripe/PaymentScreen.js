@@ -1,18 +1,19 @@
 import { useContext, useState } from 'react';
 import { CardField, useStripe, useConfirmPayment } from '@stripe/stripe-react-native';
-import { View, Button, Alert  } from 'react-native';
+import { View, Button, Alert, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { UserInformation } from '../../contexts/userInformation';
 import * as Location from 'expo-location';
 import { addDoc, collection } from 'firebase/firestore';
 import firebaseConection from '../../contexts/FBConnection';
 import { CartContext } from '../../contexts/CartContext';
+import { styled } from 'tailwindcss-react-native';
 
 function PaymentScreen({grandTotal, navigation}) {
     const {confirmPayment, loading} = useConfirmPayment();
     
     const {cart, setCart} = useContext(CartContext);
-    console.log("Cart en payment screen: ", cart)
+    
     const grandTotalFormat = ((Math.round(grandTotal * 100)/ 100).toFixed(2)) * 100; // Become to stripe 
 
     const API_URL = 'https://us-central1-rolac-f16b1.cloudfunctions.net';
@@ -103,6 +104,12 @@ function PaymentScreen({grandTotal, navigation}) {
           );
       };
 
+      const handleCancelPayPress = async() => {
+        setCart([]);
+        alert("Se ha cancelado la donación");
+        navigation.navigate("HomePageDonor", { navigation: navigation }); 
+      }
+
   return (
     <View>
       <CardField
@@ -130,9 +137,27 @@ function PaymentScreen({grandTotal, navigation}) {
         //   console.log('focusField', focusedField);
         // }}
       />
-       <Button onPress={handlePayPress} title="Donar" disabled={loading} />
+
+      <Button 
+        onPress={handlePayPress} 
+        title="Donar" 
+        disabled={loading} />
+
+      <View style={styles.cancelButtonStyle}>
+        <Button 
+          color="#E74C3C" 
+          onPress={handleCancelPayPress} 
+          title="Cancelar" 
+          disabled={loading} />
+      </View>
+
     </View>
   );
 }
 
+styles = StyleSheet.create({
+  cancelButtonStyle: {
+    marginTop: "5%",
+  }
+})
 export default PaymentScreen;

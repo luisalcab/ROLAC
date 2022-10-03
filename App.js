@@ -88,6 +88,7 @@ export default function App() {
                     <NavigationContainer initialRouteName="Login">
                         <Stack.Navigator>
                             <Stack.Screen name="Login" component={Login} />
+                        <Stack.Screen name="QRGenerator" component={QRGenerator} />
                             <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>
                             <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
                             <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
@@ -98,7 +99,7 @@ export default function App() {
                             <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
                             options={{title: 'Administrar cuenta'}}/>
                             <Stack.Screen name="QRScanner" component={QRScanner} />
-                            <Stack.Screen name="QRGenerator" component={QRGenerator} />
+                            
                             <Stack.Screen name="AdminSettings" component={AdminSettings} /> 
                             <Stack.Screen name="Cart" component={Cart} /> 
                             <Stack.Screen name="ItemSelector" component={ItemSelector} 
