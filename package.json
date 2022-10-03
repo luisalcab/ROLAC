@@ -29,6 +29,7 @@
     "fontisto": "^3.0.4",
     "formik": "^2.2.9",
     "ionicons": "^6.0.3",
+    "lottie-react-native": "^5.1.4",
     "luxon": "^3.0.3",
     "moment": "^2.29.4",
     "nachos-ui": "^0.1.2",

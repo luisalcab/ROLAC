@@ -8,7 +8,7 @@ const CCItem = ({params}) => {
         <View style={styles.card}>
             <View style={styles.info}>
                 <Text style={styles.name}>{name}</Text>
-                <Text>{address}</Text>
+                <Text style={styles.address}>{address}</Text>
             </View>
             <View style={styles.buttonContainer}>
                 <View style={styles.buttonFlex}>
@@ -47,7 +47,11 @@ const styles = StyleSheet.create({
     },
     name:{
         fontSize: screen.fontScale * 30,
-        fontWeight: "500"
+        fontWeight: "500",
+        marginLeft: 5
+    },
+    address:{
+        marginLeft: 5
     },
     buttonContainer:{
         width: "40%",

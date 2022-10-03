@@ -3,6 +3,7 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 import {Indicator} from "nachos-ui";
 import {Button} from "@rneui/themed"
 import {BAMXContext} from "../../contexts/BAMXContext";
+import LottieView from 'lottie-react-native';
 
 const BtnCCRequest = ({navigation}) => {
     const {docsNum} = useContext(BAMXContext);
@@ -13,21 +14,26 @@ const BtnCCRequest = ({navigation}) => {
 
     return(
         <View>
-            <Indicator
-                position='right top'
-                value={docsNum}
-                type="normal"
-                style={{marginLeft: 20, marginTop: 20}}
-            >
-                <Button
-                    title="Centros de Acopio Pendientes"
-                    onPress={handleClick}
-                    buttonStyle={styles.button}
-                    titleStyle={styles.title}
-                    loading={(docsNum === null) ? true : false}
-                    loadingStyle={styles.loading}
+            {(docsNum !== null) ? (
+                <Indicator
+                    position='right top'
+                    value={docsNum}
+                    type="normal"
+                    style={{marginLeft: 20, marginTop: 20}}
+                >
+                    <Button
+                        title="Centros de Acopio Pendientes"
+                        onPress={handleClick}
+                        buttonStyle={styles.button}
+                        titleStyle={styles.title}
+                    />
+                </Indicator>
+            ) : (
+                <LottieView
+                    source={require("../../animations/97203-loader.json")}
+                    autoPlay
                 />
-            </Indicator>
+            )}
         </View>
     )
 }
@@ -46,9 +52,6 @@ const styles = StyleSheet.create({
     title:{
         color:"black",
         fontSize:screen.fontScale * 15
-    },
-    loading:{
-        backgroundColor: "black"
     }
 })
 
