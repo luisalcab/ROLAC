@@ -24,13 +24,20 @@ const db = getFirestore(app);
 //BAMX provider
 export const BAMXProvider = ({children}) => {
     const [docsNum, setDocsNum] = useState(null);
+    const [docsData, setDocsData] = useState(null);
 
-    useEffect(() => onSnapshot(collection(db, "requests"), col => {
-        setDocsNum(col.docs.length);
-    } ),[])
+    //Number of notifications real time
+    useEffect(() => onSnapshot(collection(db, "requests"), collection => {
+        setDocsNum(collection.docs.length);
+    } ),[]);
+
+    //Gets all data from request
+    useEffect(() => onSnapshot(collection(db, "requests"), collection => {
+        setDocsData(collection.docs.map(doc => doc.data()));
+    } ),[]);
 
     return(
-        <BAMXContext.Provider value={{docsNum}}>
+        <BAMXContext.Provider value={{docsNum, docsData}}>
             {children}
         </BAMXContext.Provider>
     )

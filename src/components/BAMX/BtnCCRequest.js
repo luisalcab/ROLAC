@@ -19,7 +19,6 @@ const BtnCCRequest = ({navigation}) => {
                     position='right top'
                     value={docsNum}
                     type="normal"
-                    style={{marginLeft: 20, marginTop: 20}}
                 >
                     <Button
                         title="Centros de Acopio Pendientes"
