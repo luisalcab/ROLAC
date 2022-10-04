@@ -1,8 +1,12 @@
+import {useContext} from 'react';
+import {BAMXContext} from '../../contexts/BAMXContext';
 import {View, StyleSheet, Dimensions, Text} from 'react-native';
 import {Button} from "@rneui/themed"
 
 const CCItem = ({params}) => {
-    const {name, address} = params;
+    const {delD} = useContext(BAMXContext);
+
+    const {name, address, id} = params;
 
     return(
         <View style={styles.card}>
@@ -19,6 +23,7 @@ const CCItem = ({params}) => {
                     />
                     <Button
                         title="Rechazar"
+                        onPress={() => delD(id)}
                         buttonStyle={styles.btnR}
                         titleStyle={styles.btnT}
                     />

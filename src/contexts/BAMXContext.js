@@ -1,6 +1,6 @@
 import {useState, useEffect ,createContext} from 'react';
 import {initializeApp} from 'firebase/app';
-import {getFirestore, onSnapshot, collection} from "firebase/firestore";
+import {getFirestore, onSnapshot, collection, doc, deleteDoc} from "firebase/firestore";
 
 //Create Context
 export const BAMXContext = createContext();
@@ -33,11 +33,14 @@ export const BAMXProvider = ({children}) => {
 
     //Gets all data from request
     useEffect(() => onSnapshot(collection(db, "requests"), collection => {
-        setDocsData(collection.docs.map(doc => doc.data()));
+        setDocsData(collection.docs.map(doc => {return {data: doc.data(), id: doc.id, ref: doc.ref}}));
     } ),[]);
 
+    //Deletes a document by id
+    const delD = async id => await deleteDoc(doc(db, "requests", id));
+
     return(
-        <BAMXContext.Provider value={{docsNum, docsData}}>
+        <BAMXContext.Provider value={{docsNum, docsData, delD}}>
             {children}
         </BAMXContext.Provider>
     )
