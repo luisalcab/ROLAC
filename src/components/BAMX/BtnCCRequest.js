@@ -1,28 +1,20 @@
-import {useContext} from "react"
 import {View, StyleSheet, Dimensions} from 'react-native';
 import {Indicator} from "nachos-ui";
 import {Button} from "@rneui/themed"
-import {BAMXContext} from "../../contexts/BAMXContext";
 import LottieView from 'lottie-react-native';
 
-const BtnCCRequest = ({navigation}) => {
-    const {docsNum} = useContext(BAMXContext);
-
-    const handleClick = () => {
-        navigation.navigate("CCRequest");
-    }
-
+const BtnCCRequest = ({navigation, text, docEnum}) => {
     return(
         <View>
-            {(docsNum !== null) ? (
+            {(docEnum !== null) ? (
                 <Indicator
                     position='right top'
-                    value={docsNum}
+                    value={docEnum}
                     type="normal"
                 >
                     <Button
-                        title="Centros de Acopio Pendientes"
-                        onPress={handleClick}
+                        title={text}
+                        onPress={() => navigation.navigate("CCRequest")}
                         buttonStyle={styles.button}
                         titleStyle={styles.title}
                     />

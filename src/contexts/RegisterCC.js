@@ -41,7 +41,7 @@ export const RegisterCCProvider = ({children}) => {
 
         //The request to the database
         try{
-            const docRef = await addDoc(collection(db, "requests"), { data });
+            await addDoc(collection(db, "requests"), { data });
         }catch(error){
             console.log(error);
         }
