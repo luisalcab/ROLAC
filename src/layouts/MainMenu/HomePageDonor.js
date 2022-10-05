@@ -58,13 +58,13 @@ const HomePageDonor = ({navigation}) => {
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("ItemSelector")}
+            onPress={() => navigation.navigate("ItemSelector", {kind: false})}
           >
             <Icon name="fast-food-outline" type="ionicon" size={50} />
             <Text>Donación monetaria</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => alert("Vista donacion especie")}
+            onPress={() => navigation.navigate("ItemSelector", {kind: true})}
           >
             <Icon name="basket-outline" type="ionicon" size={50} />
             <Text>Donación en especie</Text>

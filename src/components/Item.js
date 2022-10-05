@@ -3,7 +3,7 @@ import {useContext, useEffect, useState} from "react";
 import NumberInput from "./NumberInput";
 import {CartContext} from "../contexts/CartContext";
 
-const Item = ({id, name, source, unit, cost}) => {
+const Item = ({id, name, source, unit, cost, urgent, kind}) => {
     const [count, setCount] = useState(0);
     const [active, setActive] = useState(false);
 
@@ -38,7 +38,10 @@ const Item = ({id, name, source, unit, cost}) => {
                 <View style={styles.descriptionBox}>
                     <View style={styles.textBox}>
                         <Text style={styles.units}>{unit}</Text>
-                        <Text style={styles.cost}>{"$" + cost}</Text>
+                        {!kind ?
+                            <Text style={styles.cost}>{"$" + cost}</Text> :
+                            <>{urgent && <Text style={[styles.cost, {color: "rgb(224, 31, 81)"}]}>Urgent</Text>}</>
+                        }
                     </View>
                     <View style={styles.cartBox}>
                         <NumberInput

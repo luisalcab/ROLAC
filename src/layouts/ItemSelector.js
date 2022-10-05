@@ -4,7 +4,7 @@ import Item from "../components/Item"
 import { ProductContext } from "../contexts/ProductContext";
 import { CartContext } from "../contexts/CartContext";
 
-const ItemSelector = ({navigation}) => {
+const ItemSelector = ({navigation, route}) => {
     
     const docsData = useContext(ProductContext);
     
@@ -23,6 +23,14 @@ const ItemSelector = ({navigation}) => {
             }
         }
     }
+
+    const nav2Qr = () => {
+        if(cart[0]==undefined){
+            alert("Necesitas agregar al menos un producto para poder continuar")
+        } else {
+            navigation.navigate("QRGenerator");
+        }
+    }
     
     const renderItem = ({item}) => (
         <Item
@@ -31,6 +39,8 @@ const ItemSelector = ({navigation}) => {
             source={item.data.imageURL}
             unit={item.data.values.unit}
             cost={item.data.values.cost}
+            urgent={item.data.values.urgent}
+            kind={route.params.kind}
         />
     );
 
@@ -38,7 +48,7 @@ const ItemSelector = ({navigation}) => {
         <>
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Text style={styles.title}>Donación en especie</Text>
+                    <Text style={styles.title}>{"Donación " + (route.params.kind ? "en especie" : "monetaria")}</Text>
                 </View>
                 <View style={styles.listContainer}>
                     <FlatList
@@ -48,16 +58,9 @@ const ItemSelector = ({navigation}) => {
                     /> 
                 </View>
             </View>
-            <View style={{
-                        height: "10%",
-                        width: "100%",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        paddingBottom: 10,
-                        backgroundColor: "rgb(251, 249, 250)"
-            }}>
-                <TouchableOpacity style={styles.button} onPress={nav2Cart}>
-                    <Text style={styles.buttonLabel}>Carrito</Text>
+            <View style={styles.footer}>
+                <TouchableOpacity style={styles.button} onPress={(route.params.kind ? nav2Qr : nav2Cart)}>
+                    <Text style={styles.buttonLabel}>{route.params.kind ? "Entregar" : "Carrito"}</Text>
                 </TouchableOpacity>
             </View>
         </>
