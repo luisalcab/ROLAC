@@ -15,46 +15,17 @@ import { getDocs, collection } from "firebase/firestore";
 import { ItemsContext } from "../../contexts/ItemsContext.js";
 import { CartContext } from "../../contexts/CartContext.js";
 
+
 const HomePageDonor = ({navigation}) => {
-  const {cart, setCart} = useContext(CartContext);
   const {userInformation, setUserInformation} = useContext(UserInformation);
-  const {items, setItems} = useContext(ItemsContext);
-
-
-  const [showDialog, setShowDialog] = useState({ state: false });
-
-  const getItems = async () => {
-    const collectionItems = [];
-    const querySnapshot = await getDocs(collection(FBConnection.db, "products"));
-
-    querySnapshot.forEach(item => {
-      const {values, imageURL} = item.data();
-      collectionItems.push({
-        id: item.id,
-        name: values.name,
-        source: imageURL,
-        unit: values.unit,
-        urgent: values.urgent,
-        cost: values.cost
-      })
-    });
-    
-    setItems(collectionItems)
-  }
-
-  useEffect(() => {
-    getItems();
-  },[]);
-
-  console.log("En homepage: ", userInformation);
-
+  
   return (
     <View>
       <View style={styles.containerNav}>
         <TouchableOpacity onPress={() => { navigation.navigate('QRGenerator', {navigation: navigation}) }}>
           <Icon name="qrcode" type="font-awesome" size={50} />
         </TouchableOpacity>
-        {/* {props.route.params.userAuth.currentUser.email} */}
+
         <Text style={styles.title}>Hola {userInformation.name}</Text>
 
         <TouchableOpacity

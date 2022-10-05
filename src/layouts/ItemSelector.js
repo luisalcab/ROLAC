@@ -1,12 +1,14 @@
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 import React, {useContext} from "react"
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
 import Item from "../components/Item"
 import { ItemsContext } from "../contexts/ItemsContext";
+import { ProductContext } from "../contexts/ProductContext";
 
 const ItemSelector = ({navigation}) => {
     
-    const {items, setItems} = useContext(ItemsContext);
-
+    const docsData = useContext(ProductContext);
+    
     const nav2Cart = () => {
         navigation.navigate("Cart");
     }
@@ -14,10 +16,10 @@ const ItemSelector = ({navigation}) => {
     const renderItem = ({item}) => (
         <Item
             id={item.id}
-            name={item.name}
-            source={item.source}
-            unit={item.unit}
-            cost={item.cost}
+            name={item.data.values.name}
+            source={item.data.imageURL}
+            unit={item.data.values.unit}
+            cost={item.data.values.cost}
         />
     );
 
@@ -29,7 +31,7 @@ const ItemSelector = ({navigation}) => {
                 </View>
                 <View style={styles.listContainer}>
                     <FlatList
-                        data={items}
+                        data={docsData}
                         renderItem={renderItem}
                         keyExtractor={item => item.id}
                     /> 
