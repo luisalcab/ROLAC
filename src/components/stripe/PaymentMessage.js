@@ -6,12 +6,8 @@ import { Icon, Button } from "@rneui/base";
 
 const PaymentMessage = (props) => {
     const {idCase, navigation} = props.route.params.props;
-    console.log("En props: ", props.route.params.props)
-    console.log("BRUH: ", props.route.params)
 
     const returnHome = () => { navigation.navigate('HomePageDonor', {navigation: navigation}) }
-    
-    console.log("Esto es idCase: ", idCase)
 
     return (
         <View style={styles.container}>

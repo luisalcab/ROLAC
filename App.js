@@ -57,10 +57,10 @@ export default function App() {
                     <CartContext.Provider value={providerCart}>
                         <NavigationContainer initialRouteName="Login">
                             <Stack.Navigator>
+                                <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>
                                 <Stack.Screen name="Login" component={Login} />
                                 <Stack.Screen name="QRGenerator" component={QRGenerator} />
                                 <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
-                                <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>
                                 <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
                                 <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
                                 <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>

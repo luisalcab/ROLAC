@@ -7,7 +7,7 @@ import { CartContext } from "../contexts/CartContext";
 const ItemSelector = ({navigation, route}) => {
     
     const docsData = useContext(ProductContext);
-    
+
     const {cart} = useContext(CartContext);
 
     const nav2Cart = () => {
