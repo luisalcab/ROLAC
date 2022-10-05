@@ -1,16 +1,27 @@
-import { ConsoleSqlOutlined } from "@ant-design/icons";
 import React, {useContext} from "react"
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
 import Item from "../components/Item"
-import { ItemsContext } from "../contexts/ItemsContext";
 import { ProductContext } from "../contexts/ProductContext";
+import { CartContext } from "../contexts/CartContext";
 
 const ItemSelector = ({navigation}) => {
     
     const docsData = useContext(ProductContext);
     
+    const {cart} = useContext(CartContext);
+
     const nav2Cart = () => {
-        navigation.navigate("Cart");
+        if(cart[0]==undefined){
+            alert("Necesitas agregar al menos un producto para poder continuar")
+        } else {
+            let sum = 0;
+            cart.map(item => {sum += item.count * item.cost});
+            if(sum >= 10){
+                navigation.navigate("Cart");
+            } else {
+                alert("El monto minimo a donar es: $10.00")
+            }
+        }
     }
     
     const renderItem = ({item}) => (
