@@ -4,9 +4,9 @@ import {View, StyleSheet, Dimensions, Text} from 'react-native';
 import {Button} from "@rneui/themed"
 
 const CCItem = ({params}) => {
-    const {delD} = useContext(BAMXContext);
+    const {delD, addUser} = useContext(BAMXContext);
 
-    const {name, address, id} = params;
+    const {name, address, id, email, data} = params;
 
     return(
         <View style={styles.card}>
@@ -16,7 +16,8 @@ const CCItem = ({params}) => {
             </View>
             <View style={styles.buttonContainer}>
                 <View style={styles.buttonFlex}>
-                    <Button 
+                    <Button
+                        onPress={() => addUser(email, data, id)}
                         title="Aceptar"
                         buttonStyle={styles.btnA}
                         titleStyle={styles.btnT}

@@ -8,7 +8,7 @@ const CCRequest = () => {
 
     return(
         <ScrollView style={styles.screen} contentContainerStyle={styles.list}>
-            {docsData.map(doc => (<CCItem key={doc.id} params={{name: doc.data.data.name, address: doc.data.data.address, id: doc.id, ref: doc.ref}}/>))}
+            {docsData.map(doc => (<CCItem key={doc.id} params={{name: doc.data.data.name, address: doc.data.data.address, email: doc.data.data.email, id: doc.id, data: doc.data.data }}/>))}
         </ScrollView>
     )
 }

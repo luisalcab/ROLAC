@@ -1,6 +1,7 @@
 import {useState, useEffect ,createContext} from 'react';
 import {initializeApp} from 'firebase/app';
-import {getFirestore, onSnapshot, collection, doc, deleteDoc} from "firebase/firestore";
+import {getFirestore, onSnapshot, collection, doc, deleteDoc, setDoc} from "firebase/firestore";
+import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 
 //Create Context
 export const BAMXContext = createContext();
@@ -33,14 +34,30 @@ export const BAMXProvider = ({children}) => {
 
     //Gets all data from request
     useEffect(() => onSnapshot(collection(db, "requests"), collection => {
-        setDocsData(collection.docs.map(doc => {return {data: doc.data(), id: doc.id, ref: doc.ref}}));
+        setDocsData(collection.docs.map(doc => {return {data: doc.data(), id: doc.id}}));
     } ),[]);
 
-    //Deletes a document by id
+    //Deletes a CCRequest document by id
     const delD = async id => await deleteDoc(doc(db, "requests", id));
 
+    const addUser = async (email, data, id) => {
+        const auth = getAuth(app);
+
+        //generates a random password
+        const password = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+        
+        //Create the user
+        const CC = await createUserWithEmailAndPassword(auth, email, password);
+
+        //Add the doc to the collection center collection
+        await setDoc(doc(db, "collection_center", CC.user.uid), data);
+
+        //Delete de doc from the request collection
+        await deleteDoc(doc(db, "requests", id));
+    }
+
     return(
-        <BAMXContext.Provider value={{docsNum, docsData, delD}}>
+        <BAMXContext.Provider value={{docsNum, docsData, delD, addUser}}>
             {children}
         </BAMXContext.Provider>
     )
