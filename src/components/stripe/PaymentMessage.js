@@ -5,27 +5,45 @@ import { Icon, Button } from "@rneui/base";
 
 
 const PaymentMessage = (props) => {
-    // var {idCase, navigation} = props.route.params.props;
-    // console.log("En props: ", props.route.params.props)
+    const {idCase, navigation} = props.route.params.props;
+    console.log("En props: ", props.route.params.props)
+    console.log("BRUH: ", props.route.params)
+
+    const returnHome = () => { navigation.navigate('HomePageDonor', {navigation: navigation}) }
+    
     console.log("Esto es idCase: ", idCase)
-    // const returnHome = () => { navigation.navigate('HomePageDonor', {navigation: navigation}) }
-    const idCase = 0;
 
     return (
         <View style={styles.container}>
             {
                 idCase === 0 ? 
                 (
-                    <View style={styles.conatinerSucces}>
-                        <View style={styles.iconPosition}>
+                    <View style={{
+                        width: screen.width,
+                        height: screen.height,
+                        backgroundColor: "green"
+                    }}>
+                        <View style={{ marginTop: "20%" }}>
                             <Icon color={"#fff"} size={100} name="done" type="material"/>                    
                         </View>
-                        <View style={styles.textPosition}>
-                            <Text style={styles.message}>
+                        <View style={{
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginTop: "25%",
+                            marginHorizontal: "10%"
+                        }}>
+                            <Text style={{
+                                fontSize: 30,
+                                color: "#fff",
+                                textAlign: "center"
+                            }}>
                                 Se ha completado la donación exitosamente
                             </Text> 
                         </View>
-                        <View style={styles.containerBottom}>
+                        <View style={{
+                            marginTop: "30%",
+                            marginHorizontal: "25%",
+                        }}>
                             <Button
                                 onPress={() => {returnHome()}}
                                 style={styles.bottom}
@@ -35,26 +53,46 @@ const PaymentMessage = (props) => {
                     </View>
                 ) :
                 (
-                    <View style={styles.conatinerFail}>
-                        <View style={styles.iconPosition}>
+                    <View style={{
+                        backgroundColor: "#E74C3C",
+                        width: screen.width,
+                        height: screen.height,
+                    }}>
+                        <View style={{ marginTop: "20%" }}>
                             <Icon color={"#fff"} size={100} name="close" type="material"/>                    
                         </View>
-                        <View style={styles.textPosition}>
+                        <View style={{
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginTop: "25%",
+                            marginHorizontal: "10%"
+                        }}>
                             {
                                 idCase === 1 ?
                                 (
-                                    <Text style={styles.message}>
+                                    <Text style={{
+                                        fontSize: 30,
+                                        color: "#fff",
+                                        textAlign: "center"
+                                    }}>
                                         Hubo un error durante la donación, intente nuevamente
                                     </Text> 
                                 ) : 
                                 (
-                                    <Text style={styles.message}>
+                                    <Text style={{
+                                        fontSize: 30,
+                                        color: "#fff",
+                                        textAlign: "center"
+                                    }}>
                                         Se ha cancelado la donación
                                     </Text> 
                                 )
                             }
                         </View>
-                        <View style={styles.containerBottom}>
+                        <View style={{
+                            marginTop: "30%",
+                            marginHorizontal: "25%",
+                        }}>
                             <Button
                                 onPress={() => returnHome()}
                                 style={styles.bottom}
@@ -73,20 +111,19 @@ const PaymentMessage = (props) => {
 const screen = Dimensions.get("screen");
 
 styles = StyleSheet.create({
-    container: {
-        width: screen.width,
-        height: screen.height,
-        backgroundColor: "black",
-    },
-    conatinerSucces: {
-        width: screen.width,
-        height: screen.height,
-        backgroundColor: "green",
-    },
+    // container: {
+    //     width: screen.width,
+    //     height: screen.height,
+    // },
+    // conatinerSucces: {
+    //     width: screen.width,
+    //     height: screen.height,
+    //     backgroundColor: "green",
+    // },
     // conatinerFail: {
     //     backgroundColor: "#E74C3C",
-    //     height: "100%",
-    //     width: "100%",
+    //     width: screen.width,
+    //     height: screen.height,
     // },
     // iconPosition: {
     //     marginTop: "20%"
@@ -98,13 +135,13 @@ styles = StyleSheet.create({
     //     marginHorizontal: "10%"
     // },
     // message: {
-    //     fontSize: 30,
-    //     color: "#fff",
-    //     textAlign: "center"
+        // fontSize: 30,
+        // color: "#fff",
+        // textAlign: "center"
     // },
     // containerBottom: {
-    //     marginTop: "30%",
-    //     marginHorizontal: "25%",
+        // marginTop: "30%",
+        // marginHorizontal: "25%",
     // },
 })
 export default PaymentMessage;

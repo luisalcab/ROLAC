@@ -27,7 +27,7 @@ const Item = ({id, name, source, unit, cost}) => {
             setCount(0);
         }
     }
-
+    
     return(
         <View style={styles.container}>
             <Image source={{uri: source}} style={styles.img}></Image>

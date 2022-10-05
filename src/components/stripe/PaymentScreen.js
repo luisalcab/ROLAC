@@ -9,20 +9,24 @@ import firebaseConection from '../../contexts/FBConnection';
 import { CartContext } from '../../contexts/CartContext';
 import { styled } from 'tailwindcss-react-native';
 
-function PaymentScreen({grandTotal, navigation}) {
-    const {confirmPayment, loading} = useConfirmPayment();
-    
-    const {cart, setCart} = useContext(CartContext);
-    
-    const grandTotalFormat = ((Math.round(grandTotal * 100)/ 100).toFixed(2)) * 100; // Become to stripe 
-
-    const API_URL = 'https://us-central1-rolac-f16b1.cloudfunctions.net';
-    
+function PaymentScreen({grandTotal, navigation}) {    
     //Contexts
     const { userInformation, setUserInformation } = useContext(UserInformation);    
+    const {cart, setCart} = useContext(CartContext);
 
+    // Initialization confirm payment
+    const {confirmPayment, loading} = useConfirmPayment();
+
+    //Variables
     const { email } = userInformation.auth.currentUser;
+    const grandTotalFormat = ((Math.round(grandTotal * 100)/ 100).toFixed(2)) * 100; // Become to stripe 
+    const API_URL = 'https://us-central1-rolac-f16b1.cloudfunctions.net';
+    const props = {
+      navigation: navigation,
+      idCase: 1
+    }
 
+    // Use state
     const [payment, setPayment] = useState({
       last4: '',
       postalCode: '',
@@ -31,10 +35,11 @@ function PaymentScreen({grandTotal, navigation}) {
       id: userInformation.uid
     });
 
+
     handleError = () => {
       setCart([]);
-      alert("Hubo un error durante la operación, intente nuevamente");
-      navigation.navigate("HomePageDonor", { navigation: navigation });
+      props.idCase = 1;
+      navigation.navigate("PaymentMessage", { props: props });
       
     }
 
@@ -92,8 +97,8 @@ function PaymentScreen({grandTotal, navigation}) {
                 .then(() => {
                   // console.log('Success from promise', paymentIntent);
                   setCart([]);
-                  alert("El pago se registro exitosamente");
-                  navigation.navigate("HomePageDonor", { navigation: navigation });
+                  props.idCase = 0;
+                  navigation.navigate("PaymentMessage", { props: props });
                   
                 })
                 .catch(() => { setCart([]); handleError(); }); 
@@ -106,8 +111,8 @@ function PaymentScreen({grandTotal, navigation}) {
 
       const handleCancelPayPress = async() => {
         setCart([]);
-        alert("Se ha cancelado la donación");
-        navigation.navigate("HomePageDonor", { navigation: navigation }); 
+        props.idCase = 2;
+        navigation.navigate("PaymentMessage", { props: props });
       }
 
   return (

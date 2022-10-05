@@ -1,19 +1,14 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext } from "react";
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
 } from "react-native";
-import { Icon, Dialog, Overlay } from "@rneui/base";
-import { Button } from "react-native";
+import { Icon } from "@rneui/base";
 import Map from "../../components/MainMenu/Map.js";
 import { UserInformation } from "../../contexts/userInformation.js";
 import { getAuth, signOut } from "firebase/auth";
-import FBConnection from "../../contexts/FBConnection.js"; 
-import { getDocs, collection } from "firebase/firestore";
-import { ItemsContext } from "../../contexts/ItemsContext.js";
-import { CartContext } from "../../contexts/CartContext.js";
 
 
 const HomePageDonor = ({navigation}) => {
