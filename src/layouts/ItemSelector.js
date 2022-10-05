@@ -48,7 +48,14 @@ const ItemSelector = ({navigation}) => {
                     /> 
                 </View>
             </View>
-            <View style={styles.footer}>
+            <View style={{
+                        height: "10%",
+                        width: "100%",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingBottom: 10,
+                        backgroundColor: "rgb(251, 249, 250)"
+            }}>
                 <TouchableOpacity style={styles.button} onPress={nav2Cart}>
                     <Text style={styles.buttonLabel}>Carrito</Text>
                 </TouchableOpacity>
