@@ -40,6 +40,7 @@ export const BAMXProvider = ({children}) => {
     //Deletes a CCRequest document by id
     const delD = async id => await deleteDoc(doc(db, "requests", id));
 
+    //Accepts a new CC user and saves its data 
     const addUser = async (email, data, id) => {
         const auth = getAuth(app);
 

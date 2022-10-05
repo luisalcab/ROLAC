@@ -2,6 +2,7 @@ import {useContext} from 'react';
 import {BAMXContext} from '../../contexts/BAMXContext';
 import {View, StyleSheet, Dimensions, Text} from 'react-native';
 import {Button} from "@rneui/themed"
+import Toast from 'react-native-root-toast';
 
 const CCItem = ({params}) => {
     const {delD, addUser} = useContext(BAMXContext);
@@ -17,14 +18,14 @@ const CCItem = ({params}) => {
             <View style={styles.buttonContainer}>
                 <View style={styles.buttonFlex}>
                     <Button
-                        onPress={() => addUser(email, data, id)}
+                        onPress={() => {addUser(email, data, id);Toast.show("Centro de Acopio Aceptado")}}
                         title="Aceptar"
                         buttonStyle={styles.btnA}
                         titleStyle={styles.btnT}
                     />
                     <Button
                         title="Rechazar"
-                        onPress={() => delD(id)}
+                        onPress={() => {delD(id);Toast.show("Centro de Acopio Borrado")}}
                         buttonStyle={styles.btnR}
                         titleStyle={styles.btnT}
                     />
