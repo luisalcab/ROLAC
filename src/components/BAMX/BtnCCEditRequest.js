@@ -1,21 +1,23 @@
+import {useContext} from "react"
 import {View, StyleSheet, Dimensions} from 'react-native';
 import {Indicator} from "nachos-ui";
 import {Button} from "@rneui/themed"
+import {BAMXContext} from "../../contexts/BAMXContext";
 import LottieView from 'lottie-react-native';
 
-const BtnCCRequest = ({navigation}) => {
-    const {docsNum} = useContext(BAMXContext);
+const BtnCCEditRequest  = ({navigation}) => {
+    const {editRequestsNum} = useContext(BAMXContext);
 
     return(
         <View>
-            {(docEnum !== null) ? (
+            {(editRequestsNum !== null) ? (
                 <Indicator
                     position='right top'
-                    value={docEnum}
+                    value={editRequestsNum}
                     type="normal"
                 >
                     <Button
-                        title="Centros de Acopio Pendientes"
+                        title="Modificaciones a Centros de Acopio"
                         onPress={() => navigation.navigate("CCRequest")}
                         buttonStyle={styles.button}
                         titleStyle={styles.title}
@@ -48,4 +50,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default BtnCCRequest;
+export default BtnCCEditRequest ;
