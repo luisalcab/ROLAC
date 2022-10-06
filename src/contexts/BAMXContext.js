@@ -13,6 +13,9 @@ export const BAMXProvider = ({children}) => {
     const [docsNum, setDocsNum] = useState(null);
     const [docsData, setDocsData] = useState(null);
     const [editRequests, setEditRequests] = useState(null);
+    const [editRequestsNum, setEditRequestsNum] = useState(null);
+
+    //Effects for requests
 
     //Number of notifications real time
     useEffect(() => onSnapshot(collection(db, "requests"), collection => {
@@ -23,8 +26,16 @@ export const BAMXProvider = ({children}) => {
     useEffect(() => onSnapshot(collection(db, "requests"), collection => {
         setDocsData(collection.docs.map(doc => {return {data: doc.data(), id: doc.id}}));
     } ),[]);
+
+    //-------------------------------------------------------------------------------------
+    //Effects for edit_requests
+
+    //Number of notifications real time
+    useEffect(() => onSnapshot(collection(db, "edit_requests"), collection => {
+        setEditRequestsNum(collection.docs.length);
+    } ),[]);
     
-    //Gets all data from request
+    //Gets all data from edit_request
     useEffect(() => onSnapshot(collection(db, "edit_requests"), collection => {
         setEditRequests(collection.docs.map(doc => {return {data: doc.data(), id: doc.id}}));
     } ),[]);
@@ -50,7 +61,7 @@ export const BAMXProvider = ({children}) => {
     }
 
     return(
-        <BAMXContext.Provider value={{docsNum, docsData, editRequests, delD, addUser}}>
+        <BAMXContext.Provider value={{docsNum, docsData, editRequestsNum, editRequests, delD, addUser}}>
             {children}
         </BAMXContext.Provider>
     )
