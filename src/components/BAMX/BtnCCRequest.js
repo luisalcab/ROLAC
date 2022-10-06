@@ -8,10 +8,6 @@ import LottieView from 'lottie-react-native';
 const BtnCCRequest = ({navigation}) => {
     const {docsNum} = useContext(BAMXContext);
 
-    const handleClick = () => {
-        navigation.navigate("CCRequest");
-    }
-
     return(
         <View>
             {(docsNum !== null) ? (
@@ -22,7 +18,7 @@ const BtnCCRequest = ({navigation}) => {
                 >
                     <Button
                         title="Centros de Acopio Pendientes"
-                        onPress={handleClick}
+                        onPress={() => navigation.navigate("CCRequest")}
                         buttonStyle={styles.button}
                         titleStyle={styles.title}
                     />
