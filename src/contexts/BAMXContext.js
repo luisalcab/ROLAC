@@ -1,4 +1,5 @@
 import {useState, useEffect ,createContext} from 'react';
+import {Linking } from "react-native";
 import {onSnapshot, collection, doc, deleteDoc, setDoc} from "firebase/firestore";
 import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 import {enviromentVariables} from "../../utils/enviromentVariables"
@@ -48,7 +49,7 @@ export const BAMXProvider = ({children}) => {
         const auth = getAuth(app);
 
         //generates a random password
-        const password = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+        const password = "12345678"//Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
         
         //Create the user
         const CC = await createUserWithEmailAndPassword(auth, email, password);
@@ -58,6 +59,9 @@ export const BAMXProvider = ({children}) => {
 
         //Delete de doc from the request collection
         await deleteDoc(doc(db, "requests", id));
+
+        //Send an email with the password
+        //await sendEmail("a01639784@tec.mx", "Contraseña de BAMX", `${password}\nEsta es la contraseña con la que podras acceder a tu cuenta. Podrás cambiarla más adelante`);
     }
 
     return(

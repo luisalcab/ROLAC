@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     },
     card:{
         width: screen.width * .9,
-        height: screen.height,
+        height: screen.height *.9,
         marginBottom: 10,
         borderRadius: 10,
         borderWidth: 1,

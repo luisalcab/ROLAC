@@ -7,8 +7,10 @@ import {getDoc, doc} from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import firebaseConection from "../contexts/FBConnection"
 import { UserInformation } from '../contexts/userInformation';
+import {enviromentVariables} from '../../utils/enviromentVariables';
 
 const LogInForm = ({navigation}) => {
+    const {db, app} = enviromentVariables;
 
     const {userInformation, setUserInformation} = useContext(UserInformation);
 
@@ -29,10 +31,13 @@ const LogInForm = ({navigation}) => {
     })
 
     const handleSubmit = async(data) => {
-        const {email, password} = data;
-        await signInWithEmailAndPassword(auth, email, password)
-        .then(async () => {
-            const querySnapshotDonor = await getDoc(doc(firebaseConection.db, "donor", auth.currentUser.uid))
+        try{
+            const {email, password} = data;
+
+            await signInWithEmailAndPassword(auth, email, password);
+            
+            const querySnapshotDonor = await getDoc(doc(db, "donor", auth.currentUser.uid));
+            
             if(querySnapshotDonor.exists()){
                 const { lastName, name } = querySnapshotDonor.data();
                 setUserInformation({
@@ -40,15 +45,18 @@ const LogInForm = ({navigation}) => {
                     uid: auth.currentUser.uid,
                     name: name,
                     lastName: lastName
-                });
-
+                })
+                    
                 navigation.navigate("HomePageDonor", {navigation: navigation});
-            } else {
-                const querySnapshotCollectionCenter = await getDoc(doc(firebaseConection.db, "collection_center", auth.currentUser.uid))
+            }else{
+                const querySnapshotCollectionCenter = await getDoc(doc(db, "collection_center", auth.currentUser.uid));
+
                 if(querySnapshotCollectionCenter.exists()){
-                    alert("Es centro de acopio")
-                } else {
-                    const querySnapshotManger = await getDoc(doc(firebaseConection.db, "BAMXmanager", auth.currentUser.uid))
+                    alert("Es centro de acopio");
+                    navigation.navigate("CCmenu");
+                }else{
+                    const querySnapshotManger = await getDoc(doc(db, "BAMXmanager", auth.currentUser.uid));
+
                     if(querySnapshotManger.exists()){
                         const { lastName, name } = querySnapshotManger.data();
                         setUserInformation({
@@ -61,15 +69,14 @@ const LogInForm = ({navigation}) => {
                         navigation.navigate("HomePageManagerBAMX", {navigation: navigation});
                     } else {
                         alert("Usuario o contraseña incorrectas");
-
                     }
                 }
             }
-        })
-        .catch((e) => {
+        }catch(e){
             alert("Usuario o contraseña incorrectas");
-        });
+        }        
     }
+
   return (
     <>
         <Formik
@@ -145,4 +152,4 @@ const LogInForm = ({navigation}) => {
     )
 }
 
-export default LogInForm
+export default LogInForm;

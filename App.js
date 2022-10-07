@@ -18,6 +18,7 @@ import BAMXmenu from './src/layouts/BAMXmenu';
 import CCRequest from './src/components/BAMX/CCRequest';
 import CCEditRequest from './src/components/BAMX/CCEditRequest';
 import CompareEdit from "./src/components/BAMX/CompareEdit"
+import CCmenu from './src/layouts/CCmenu';
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -93,13 +94,14 @@ export default function App() {
         <UserInformation.Provider value={providerUserInformation}>
             <ItemsContext.Provider value={providerItems}>
                 <CartContext.Provider value={providerCart}>
-                    <NavigationContainer initialRouteName="BAMXmenu">
+                    <NavigationContainer initialRouteName="Login">
                         <Stack.Navigator>  
-                            <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal"}}/>
-                            <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
-                            <Stack.Screen name="CompareEdit" component={CompareEdit} />
                             <Stack.Screen name="Login" component={Login} />
+                            <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
+                            <Stack.Screen name="CCmenu" component={CCmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
+                            <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
                             <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
+                            <Stack.Screen name="CompareEdit" component={CompareEdit} />
                             <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
                             <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
                             <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal'}}/>
