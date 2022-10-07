@@ -1,3 +1,5 @@
+import {useContext} from "react";
+import {BAMXContext} from "../../contexts/BAMXContext";
 import {View, StyleSheet, Dimensions} from 'react-native';
 import {Indicator} from "nachos-ui";
 import {Button} from "@rneui/themed"
@@ -8,10 +10,10 @@ const BtnCCRequest = ({navigation}) => {
 
     return(
         <View>
-            {(docEnum !== null) ? (
+            {(docsNum !== null) ? (
                 <Indicator
                     position='right top'
-                    value={docEnum}
+                    value={docsNum}
                     type="normal"
                 >
                     <Button

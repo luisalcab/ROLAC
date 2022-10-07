@@ -18,7 +18,7 @@ const BtnCCEditRequest  = ({navigation}) => {
                 >
                     <Button
                         title="Modificaciones a Centros de Acopio"
-                        onPress={() => navigation.navigate("CCRequest")}
+                        onPress={() => navigation.navigate("CCEditRequest")}
                         buttonStyle={styles.button}
                         titleStyle={styles.title}
                     />

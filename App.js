@@ -16,6 +16,8 @@ import ManagerAdminComponent from './src/components/administrationProfiles/Manag
 import AdminRegister from './src/layouts/register/AdminRegister';
 import BAMXmenu from './src/layouts/BAMXmenu';
 import CCRequest from './src/components/BAMX/CCRequest';
+import CCEditRequest from './src/components/BAMX/CCEditRequest';
+import CompareEdit from "./src/components/BAMX/CompareEdit"
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -94,6 +96,8 @@ export default function App() {
                     <NavigationContainer initialRouteName="BAMXmenu">
                         <Stack.Navigator>  
                             <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal"}}/>
+                            <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
+                            <Stack.Screen name="CompareEdit" component={CompareEdit} />
                             <Stack.Screen name="Login" component={Login} />
                             <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
                             <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
