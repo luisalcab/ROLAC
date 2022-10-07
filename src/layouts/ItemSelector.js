@@ -1,14 +1,24 @@
-import React, {useContext} from "react"
-import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
-import Item from "../components/Item"
-import { ProductContext } from "../contexts/ProductContext";
-import { CartContext } from "../contexts/CartContext";
+import React, {useContext} from "react";
+import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+import Item from "../components/Item";
+import {ProductContext} from "../contexts/ProductContext";
+import {CartContext} from "../contexts/CartContext";
+import firebaseConnection from "../contexts/FBConnection";
+import {doc, updateDoc} from "firebase/firestore";
+import {UserInformation} from "../contexts/userInformation";
 
 const ItemSelector = ({navigation, route}) => {
     
     const docsData = useContext(ProductContext);
+    const {userInformation} = useContext(UserInformation);
     
     const {cart} = useContext(CartContext);
+
+    const saveCartFB = () => {
+        const query = doc(firebaseConnection.db, "donor", userInformation.uid);
+        updateDoc(query, {cart})
+        .then(() => alert("Tus cambios han sido guardados")).then(() => nav2Qr())
+    }
 
     const nav2Cart = () => {
         if(cart[0]==undefined){
@@ -59,7 +69,7 @@ const ItemSelector = ({navigation, route}) => {
                 </View>
             </View>
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.button} onPress={(route.params.kind ? nav2Qr : nav2Cart)}>
+                <TouchableOpacity style={styles.button} onPress={(route.params.kind ? saveCartFB : nav2Cart)}>
                     <Text style={styles.buttonLabel}>{route.params.kind ? "Entregar" : "Carrito"}</Text>
                 </TouchableOpacity>
             </View>

@@ -17,7 +17,7 @@ const HomePageDonor = ({navigation}) => {
   return (
     <View>
       <View style={styles.containerNav}>
-        <TouchableOpacity onPress={() => { navigation.navigate('QRGenerator', {navigation: navigation}) }}>
+        <TouchableOpacity onPress={() => { navigation.navigate('QRScanner', {navigation: navigation}) }}>
           <Icon name="qrcode" type="font-awesome" size={50} />
         </TouchableOpacity>
 

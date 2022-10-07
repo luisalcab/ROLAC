@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from "react";
-import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Alert, Modal} from 'react-native';
 import {BarCodeScanner} from 'expo-barcode-scanner';
+import ScannerCart from '../components/ScannerCart';
 
 const QRScanner = () => {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
-    const [text, setText] = useState("Not yet scanned");
+    const [transferData, setTransferData] = useState("");
 
     const askForCameraPermission = async () => {
         const {status} = await BarCodeScanner.requestPermissionsAsync();
@@ -16,16 +17,10 @@ const QRScanner = () => {
         askForCameraPermission();
     }, []);
 
-    let message = [];
-
-    const renderCart = (e) => {
-        alert(e.data);
-    };
-
-    const handleScan = ({type, data}) => {
+    const handleScan = ({_, data}) => {
+        setTransferData(data);
         setScanned(true);
-        alert(data);
-        console.log("Type: " + type + "\nData: " + data);
+        console.log("uid: " + data);
     }
 
     if (hasPermission === false) {
@@ -49,20 +44,30 @@ const QRScanner = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.title}>Carrito</Text>
+            <View style={styles.mainView}>
+                <View style={styles.header}>
+                    <Text style={styles.title}>Carrito</Text>
+                </View>
+                <View style={styles.qrContainer}>
+                    <BarCodeScanner 
+                        onBarCodeScanned={(scanned ? undefined: handleScan)}
+                        style={{width:"100%", height:"100%"}}   
+                        barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+                    />
+                </View>
+                <View style={styles.footer}>
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.buttonLabel}>Volver al carrito</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View style={styles.qrContainer}>
-                <BarCodeScanner 
-                    onBarCodeScanned={scanned ? undefined: handleScan}
-                    style={{width:"100%", height:"100%"}}
-                    barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-                />
-            </View>
-            <View style={styles.footer}>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonLabel}>Volver al carrito</Text>
-                </TouchableOpacity>
+            <View style={styles.modalView}>
+                <Modal
+                    animationType="slide"
+                    visible={scanned}
+                >
+                    <ScannerCart id={transferData}/>
+                </Modal>
             </View>
         </View>
     );
@@ -72,6 +77,12 @@ const QRScanner = () => {
 styles = StyleSheet.create({
     container: { // Whole layout
         flex: 1
+    },
+    mainView:{
+
+    },
+    modalView: {
+        
     },
     header: { // Header section with back button, title and filter
         height: "6%",

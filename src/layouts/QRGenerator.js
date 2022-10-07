@@ -1,11 +1,11 @@
-import React, {useContext} from "react"
+import React, {useContext, useEffect} from "react"
 import {View, Text, TouchableOpacity, StyleSheet, Button} from 'react-native'
 import {CartContext} from "../contexts/CartContext"
 import QRCode from "react-native-qrcode-svg"
 import { UserInformation } from "../contexts/userInformation"
 
 const QRGenerator = ({navigation}) => {
-    const userInformation = useContext(UserInformation);
+    const {userInformation} = useContext(UserInformation);
 
     const returnToMenu = () => {
         navigation.navigate('HomePageDonor', {navigation: navigation})
@@ -17,7 +17,7 @@ const QRGenerator = ({navigation}) => {
                 <Text style={styles.title}>Código de Pedido</Text>
             </View>
             <View style={styles.qrContainer}>
-                <QRCode value={JSON.stringify(userInformation.uid)} size={200}/>
+                <QRCode value={userInformation.uid} size={200}/>
             </View>
             <View style={styles.button}>
                 <Button
