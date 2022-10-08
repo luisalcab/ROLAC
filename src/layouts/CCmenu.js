@@ -1,4 +1,5 @@
 import {View, StyleSheet} from 'react-native'
+import {BtnEditCC} from "../components/CC/BtnEditCC"
 
 const CCmenu = () => {
     return(

@@ -5,14 +5,15 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {getDoc, doc} from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
-import firebaseConection from "../contexts/FBConnection"
 import { UserInformation } from '../contexts/userInformation';
 import {enviromentVariables} from '../../utils/enviromentVariables';
+import {CCContext} from '../contexts/CCContext';
 
 const LogInForm = ({navigation}) => {
-    const {db, app} = enviromentVariables;
+    const {db} = enviromentVariables;
 
-    const {userInformation, setUserInformation} = useContext(UserInformation);
+    const {setUserInformation} = useContext(UserInformation);
+    const {setCurrentCCUid} = useContext(CCContext);
 
     const auth = getAuth();
 
@@ -52,6 +53,7 @@ const LogInForm = ({navigation}) => {
                 const querySnapshotCollectionCenter = await getDoc(doc(db, "collection_center", auth.currentUser.uid));
 
                 if(querySnapshotCollectionCenter.exists()){
+                    await setCurrentCCUid(auth.currentUser.uid);
                     alert("Es centro de acopio");
                     navigation.navigate("CCmenu");
                 }else{

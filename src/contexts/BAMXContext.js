@@ -1,5 +1,4 @@
 import {useState, useEffect ,createContext} from 'react';
-import {Linking } from "react-native";
 import {onSnapshot, collection, doc, deleteDoc, setDoc} from "firebase/firestore";
 import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 import {enviromentVariables} from "../../utils/enviromentVariables"

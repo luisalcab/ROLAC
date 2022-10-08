@@ -17,8 +17,9 @@ import AdminRegister from './src/layouts/register/AdminRegister';
 import BAMXmenu from './src/layouts/BAMXmenu';
 import CCRequest from './src/components/BAMX/CCRequest';
 import CCEditRequest from './src/components/BAMX/CCEditRequest';
-import CompareEdit from "./src/components/BAMX/CompareEdit"
+import CompareEdit from "./src/components/BAMX/CompareEdit";
 import CCmenu from './src/layouts/CCmenu';
+import CCEdit from "./src/components/CC/CCEdit";
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -26,6 +27,7 @@ import {ItemsContext} from './src/contexts/ItemsContext';
 import { UserInformation } from './src/contexts/userInformation';
 import {RegisterCCProvider} from "./src/contexts/RegisterCC"
 import {BAMXProvider} from "./src/contexts/BAMXContext"
+import {CCProvider} from './src/contexts/CCContext';
 
 // They are warnings that are ignored, they have no effect on the correct execution of the program
 YellowBox.ignoreWarnings([
@@ -89,6 +91,7 @@ export default function App() {
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
     
     return (
+        <CCProvider>
         <RegisterCCProvider>
         <BAMXProvider>
         <UserInformation.Provider value={providerUserInformation}>
@@ -97,6 +100,7 @@ export default function App() {
                     <NavigationContainer initialRouteName="Login">
                         <Stack.Navigator>  
                             <Stack.Screen name="Login" component={Login} />
+                            <Stack.Screen name="CCEdit" component={CCEdit} />
                             <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
                             <Stack.Screen name="CCmenu" component={CCmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
                             <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
@@ -122,6 +126,7 @@ export default function App() {
         </UserInformation.Provider>
         </BAMXProvider>
         </RegisterCCProvider>
+        </CCProvider>
         
         
     );
