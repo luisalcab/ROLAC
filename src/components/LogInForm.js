@@ -1,24 +1,24 @@
 import {useContext} from 'react';
+import {CCContext} from '../contexts/CCContext';
 import {View} from 'react-native';
 import {Input, Icon, Button} from "@rneui/themed";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {getDoc, doc} from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
-import firebaseConection from "../contexts/FBConnection"
+import firebaseConection from "../contexts/FBConnection"//Deleting this causes a weird bug
 import { UserInformation } from '../contexts/userInformation';
-import {enviromentVariables} from '../../utils/enviromentVariables';
+//import {enviromentVariables} from '../../utils/enviromentVariables';
 
 const LogInForm = ({navigation}) => {
-    const {db, app} = enviromentVariables;
+    const {setUserInformation} = useContext(UserInformation);
+    const {setCCUser} = useContext(CCContext);
 
-    const {userInformation, setUserInformation} = useContext(UserInformation);
+    const auth = getAuth(firebaseConection.app);
 
-    const auth = getAuth();
+    const nav2Registration = () => navigation.navigate("RegisterDonor");
 
-    const nav2Registration = () => {
-        navigation.navigate("RegisterDonor");
-    }
+    const nav2CCmenu = () => navigation.navigate("CCmenu");
 
     const logInSchema = Yup.object().shape({
         email:Yup.
@@ -36,7 +36,7 @@ const LogInForm = ({navigation}) => {
 
             await signInWithEmailAndPassword(auth, email, password);
             
-            const querySnapshotDonor = await getDoc(doc(db, "donor", auth.currentUser.uid));
+            const querySnapshotDonor = await getDoc(doc(firebaseConection.db, "donor", auth.currentUser.uid));
             
             if(querySnapshotDonor.exists()){
                 const { lastName, name } = querySnapshotDonor.data();
@@ -49,13 +49,14 @@ const LogInForm = ({navigation}) => {
                     
                 navigation.navigate("HomePageDonor", {navigation: navigation});
             }else{
-                const querySnapshotCollectionCenter = await getDoc(doc(db, "collection_center", auth.currentUser.uid));
+                const querySnapshotCollectionCenter = await getDoc(doc(firebaseConection.db, "collection_center", auth.currentUser.uid));
 
                 if(querySnapshotCollectionCenter.exists()){
                     alert("Es centro de acopio");
-                    navigation.navigate("CCmenu");
+                    await setCCUser(auth.currentUser.uid); 
+                    nav2CCmenu();
                 }else{
-                    const querySnapshotManger = await getDoc(doc(db, "BAMXmanager", auth.currentUser.uid));
+                    const querySnapshotManger = await getDoc(doc(firebaseConection.db, "BAMXmanager", auth.currentUser.uid));
 
                     if(querySnapshotManger.exists()){
                         const { lastName, name } = querySnapshotManger.data();

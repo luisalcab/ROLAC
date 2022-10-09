@@ -26,6 +26,7 @@ import {ItemsContext} from './src/contexts/ItemsContext';
 import { UserInformation } from './src/contexts/userInformation';
 import {RegisterCCProvider} from "./src/contexts/RegisterCC"
 import {BAMXProvider} from "./src/contexts/BAMXContext"
+import {CCProvider} from './src/contexts/CCContext';
 
 // They are warnings that are ignored, they have no effect on the correct execution of the program
 YellowBox.ignoreWarnings([
@@ -89,6 +90,7 @@ export default function App() {
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
     
     return (
+        <CCProvider>
         <RegisterCCProvider>
         <BAMXProvider>
         <UserInformation.Provider value={providerUserInformation}>
@@ -122,7 +124,6 @@ export default function App() {
         </UserInformation.Provider>
         </BAMXProvider>
         </RegisterCCProvider>
-        
-        
+        </CCProvider>
     );
 }
