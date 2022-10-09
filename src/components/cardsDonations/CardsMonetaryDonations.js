@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 // import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
-import { View, ScrollView, StyleSheet, Image, ViewPagerAndroidBase } from 'react-native';
-import { Text, Card, Button, Icon } from '@rneui/themed';
+import { View, StyleSheet } from 'react-native';
+import { Text, Card } from '@rneui/themed';
 
 const CardsMonetaryDonations = ({idDonation, date, name, last4, postalCode, amount }) => {
 

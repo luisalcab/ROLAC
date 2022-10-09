@@ -10,8 +10,12 @@ import {UserInformation} from "../contexts/userInformation";
 const ItemSelector = ({navigation, route}) => {
     
     const docsData = useContext(ProductContext);
+<<<<<<< HEAD
     const {userInformation} = useContext(UserInformation);
     
+=======
+
+>>>>>>> a3d1a6304260d3ef5d9373cb10edc5f075fb48aa
     const {cart} = useContext(CartContext);
 
     const saveCartFB = () => {

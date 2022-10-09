@@ -4,10 +4,10 @@ import CardsMonetaryDonations from "../../components/cardsDonations/CardsMonetar
 import { collection, query, where, getDocs } from "firebase/firestore";
 import FBConnection from "../../contexts/FBConnection";
 import { UserInformation } from "../../contexts/userInformation";
-
+import moment from "moment";
 const CardsDonationUser = ({navigation}) => {
     const [donationsInfo, setDonationsInfo] = useState(null)
-
+    
     //Contexts
     const { userInformation, setUserInformation } = useContext(UserInformation);
 
@@ -32,14 +32,17 @@ const CardsDonationUser = ({navigation}) => {
             const { date, name, last4, postalCode, amount } = doc.data()
             donationInformation.push({
                 idDonation: doc.id, 
-                date, 
+                date: moment(date).format("DD-MM-YY hh:mm:ss"), 
                 name, 
                 last4, 
                 postalCode, 
-                amount 
+                amount,
+                dateTime: moment(date).valueOf()
             })
         });
-        setDonationsInfo(donationInformation);
+        
+        const donationInformationSorted = [...donationInformation].sort((a, b) => b.dateTime - a.dateTime);
+        setDonationsInfo(donationInformationSorted);
     }
     //Hooks
     useEffect(() => {
