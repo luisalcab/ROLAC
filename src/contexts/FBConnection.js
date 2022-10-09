@@ -1,5 +1,5 @@
 import {initializeApp} from 'firebase/app';
-import {initializeFirestore} from "firebase/firestore";
+import {getFirestore} from "firebase/firestore";
 
 //FireBase Cofiguration
 const firebaseConfig = {
@@ -15,9 +15,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const db = initializeFirestore(app, {
-    experimentalForceLongPolling: true
-});
+const db = getFirestore(app);
 
 export default {
     db,app

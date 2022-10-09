@@ -1,4 +1,4 @@
-import {useState, useContext} from 'react'
+import {useState, useContext, useEffect} from 'react'
 import {View, ScrollView, Text, StyleSheet, Dimensions} from 'react-native';
 import {Input, Icon, Button} from "@rneui/themed";
 import { Formik } from 'formik';
@@ -8,14 +8,8 @@ import DatePicker from '../../components/DatePicker';
 import BackButton from '../BackButton';
 
 const CCEdit = ({navigation}) => {
-    const {CCUser, setCCEditViewS} = useContext(CCContext);
+    const {getCCData, setCCEditViewS} = useContext(CCContext);
    
-    navigation.setOptions({
-        title: "Editar Datos",
-        headerBackVisible: false,
-        headerLeft: () => (<BackButton onPress={() => setCCEditViewS(false)}/>)
-    });
-    
     //Set the schedule data
     const [schedule, setSchedule] = useState(
         {
@@ -27,6 +21,23 @@ const CCEdit = ({navigation}) => {
             Sabado:{open:"", close:""},
             Domingo:{open:"", close:""}
         });
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        const setUp = async() => {
+            const d = await getCCData();
+            setData(d);
+            setSchedule(d.dates);
+        }
+        
+        setUp();
+    }, [])
+
+    navigation.setOptions({
+        title: "Editar Datos",
+        headerBackVisible: false,
+        headerLeft: () => (<BackButton onPress={() => setCCEditViewS(false)}/>)
+    });
 
     const nav2Registration = () => navigation.navigate("RegisterDonor");
 
@@ -53,13 +64,14 @@ const CCEdit = ({navigation}) => {
 
   return (
     <>
+    {(data !== null) ? (
         <Formik
             initialValues={{
-                name:"",
-                email:"",
-                address:"",
-                longitude:0,
-                latitude:0
+                name: data.name,
+                email: data.email,
+                address: data.address,
+                longitude: data.longitude,
+                latitude: data.latitude
             }}
             onSubmit={async(values, {resetForm}) => {
                 try{
@@ -138,7 +150,10 @@ const CCEdit = ({navigation}) => {
                     </ScrollView>
                 )
             }}
-        </Formik>
+        </Formik>) : (
+            <Text>XDDDD</Text>
+        )}
+        
     </>
   )
 }
