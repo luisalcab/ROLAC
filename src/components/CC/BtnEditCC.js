@@ -3,8 +3,14 @@ import {CCContext} from '../../contexts/CCContext';
 import {View, StyleSheet, Dimensions} from 'react-native';
 import {Button} from "@rneui/themed"
 
-const BtnEditCC = () => {
+const BtnEditCC = ({navigation}) => {
     const {setCCEditViewS} = useContext(CCContext);
+
+    navigation.setOptions({
+        title: "Menú Principal",
+        headerBackVisible: false,
+        headerLeft: null
+    });
 
     return(
         <View>

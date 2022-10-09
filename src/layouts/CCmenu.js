@@ -4,15 +4,15 @@ import {View, StyleSheet} from 'react-native';
 import BtnEditCC from "../components/CC/BtnEditCC";
 import CCEdit from "../components/CC/CCEdit";
 
-const CCmenu = () => {
+const CCmenu = ({navigation}) => {
     const {CCEditViewS} = useContext(CCContext);
 
     return(
         <View style={styles.screen}>
             {!CCEditViewS ? (
-                <BtnEditCC/>
+                <BtnEditCC navigation={navigation}/>
                ) : (
-                   <CCEdit/>
+                   <CCEdit navigation={navigation}/>
                 )}            
         </View>
     )

@@ -3,11 +3,18 @@ import {View, ScrollView, Text, StyleSheet, Dimensions} from 'react-native';
 import {Input, Icon, Button} from "@rneui/themed";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import {CCContext} from "../../contexts/CCContext";
 import DatePicker from '../../components/DatePicker';
-import {CCContext} from "../../contexts/CCContext"
+import BackButton from '../BackButton';
 
 const CCEdit = ({navigation}) => {
-    const {CCUser} = useContext(CCContext);
+    const {CCUser, setCCEditViewS} = useContext(CCContext);
+   
+    navigation.setOptions({
+        title: "Editar Datos",
+        headerBackVisible: false,
+        headerLeft: () => (<BackButton onPress={() => setCCEditViewS(false)}/>)
+    });
     
     //Set the schedule data
     const [schedule, setSchedule] = useState(
