@@ -37,6 +37,8 @@
     "react-native-camera": "^4.2.1",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~2.5.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-loading-spinner-overlay": "^3.0.1",
     "react-native-maps": "^0.31.1",
     "react-native-modal-datetime-picker": "^13.1.2",
     "react-native-permissions": "^3.6.1",

@@ -1,4 +1,4 @@
-import React, {useContext } from "react";
+import React, {useContext} from "react";
 import {
   StyleSheet,
   View,
@@ -21,7 +21,7 @@ const HomePageDonor = ({navigation}) => {
           <Icon name="qrcode" type="font-awesome" size={50} />
         </TouchableOpacity>
 
-        <Text style={styles.title}>Hola {userInformation.name}</Text>
+        <Text style={styles.title1}>Hola {userInformation.name}</Text>
 
         <TouchableOpacity
         onPress={() => {
@@ -39,35 +39,30 @@ const HomePageDonor = ({navigation}) => {
           <Icon name="door-open" type="material-community" size={50} />
         </TouchableOpacity>
         <TouchableOpacity
-
         onPress={() => navigation.navigate('ManagerDonorComponent', {navigation: navigation})}
         >
           <Icon name="user" type="font-awesome" size={50} />
         </TouchableOpacity>
-        {/* <Button 
-                title="Foto para ir a administrar usuario"
-                onPress={() => alert("Catalogo donacion")} />               */}
-      </View>
-      <View style={styles.positionTitle}>
-        <Text style={styles.title}>Centros de acopio disponibles</Text>
-      </View>
-      <Map style={styles.map} />
-      <View>
-        <View style={styles.positionTitle}>
-          <Text style={styles.title}>Opciones de donaciones</Text>
         </View>
+          <View style={styles.positionTitle}>
+            <Text style={styles.title2}>Centros de Donación disponibles</Text>
+          </View>
+          <Map style={styles.map} />
+        <View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => navigation.navigate("ItemSelector", {kind: false})}
+            style={styles.button}
           >
-            <Icon name="fast-food-outline" type="ionicon" size={50} />
-            <Text>Donación monetaria</Text>
+            <Icon name="fast-food-outline" type="ionicon" size={70} />
+            <Text style={styles.textBt}>Donación monetaria</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate("ItemSelector", {kind: true})}
+            style={styles.button}
           >
-            <Icon name="basket-outline" type="ionicon" size={50} />
-            <Text>Donación en especie</Text>
+            <Icon name="basket-outline" type="ionicon" size={70} />
+            <Text style={styles.textBt}>Donación en especie</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -83,7 +78,8 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: "75%",
+    height: "60%",
+    position: "relative",
   },
   containerNav: {
     flexDirection: "row",
@@ -91,12 +87,25 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginHorizontal: 10,
   },
-  title: {
+  title1: {
     fontSize: 25,
     paddingTop: 5,
+    fontWeight: "bold",
+  },
+  title2: {
+    fontSize: 25,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   positionTitle: {
+    marginTop: 10,
     alignItems: "center",
+    position: "relative",
+    backgroundColor: "#fff",
+    width: "90%",
+    alignSelf: "center",
+    borderRadius: 10,
+    padding: 5,
   },
   buttonContainer: {
     margin: 20,
@@ -106,7 +115,19 @@ const styles = StyleSheet.create({
   },
   overlay: {
     backgroundColor: "#fff"
-  }
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    borderRadius: 20,
+    width: 150,
+    height: 150,
+    padding: 10,
+  },
+  textBt: {
+    fontSize: 20,
+    textAlign: "center",
+  },
 });
 
 export default HomePageDonor;

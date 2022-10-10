@@ -4,7 +4,7 @@ import {Image} from '@rneui/themed';
 import LogInForm from '../components/LogInForm';
 import { initializeApp } from "firebase/app";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
-import { useEffect } from 'react';
+import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
  
 //FireBase Cofiguration
@@ -26,8 +26,12 @@ const Login = ({navigation}) => {
   
   return (
     <View style={styles.screen}>
-        <Image source={require("../img/5e8827daba0aa_logo.png")} style={styles.pic}/>
-        <LogInForm navigation={navigation}/>
+        <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        enableAutomaticScroll = {true}>
+            <Image source={require("../img/5e8827daba0aa_logo.png")} style={styles.pic}/>
+            <LogInForm navigation={navigation}/>
+        </KeyboardAwareScrollView>
     </View>
   )
 }
@@ -40,10 +44,12 @@ const styles = StyleSheet.create({
         height: "100%"
     },
     pic:{
-      width: "80%",
-      height: "40%",
-      marginHorizontal:"10%",
-      marginTop:"10%"
+        width: "90%",
+        height: 250,
+        marginBottom: 20,
+        marginTop: 50,
+        marginHorizontal: 20,
+        borderRadius: 40  
     }
 })
 

@@ -117,7 +117,6 @@ const Map = () => {
             {`
           Dirección: 
 ${dialogInformation.address}
-
           Horario:
 ${activeDays}
           `}
@@ -173,7 +172,8 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: "60%",
+    height: "55%",
+    borderRadius: 10
   },
 });
 
