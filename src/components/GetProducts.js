@@ -1,7 +1,9 @@
 import {db} from './FBConnection';
 import {collection, getDocs} from "firebase/firestore";
+import { useEffect } from 'react';
 
 const GetProducts = async () => {
+    
     const querySnapshot = await getDocs(collection(db, 'products'));
     const products = [];
     querySnapshot.forEach((doc) => {
