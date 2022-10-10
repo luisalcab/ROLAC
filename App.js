@@ -57,8 +57,8 @@ export default function App() {
                     <CartContext.Provider value={providerCart}>
                         <NavigationContainer initialRouteName="Login">
                             <Stack.Navigator>
-                                <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>
                                 <Stack.Screen name="Login" component={Login} />
+                                <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>
                                 <Stack.Screen name="QRGenerator" component={QRGenerator} />
                                 <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
                                 <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>

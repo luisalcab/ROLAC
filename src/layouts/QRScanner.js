@@ -20,7 +20,6 @@ const QRScanner = () => {
     const handleScan = ({_, data}) => {
         setTransferData(data);
         setScanned(true);
-        console.log("uid: " + data);
     }
 
     if (hasPermission === false) {
@@ -61,28 +60,41 @@ const QRScanner = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={styles.modalView}>
+            {scanned && 
                 <Modal
                     animationType="slide"
                     visible={scanned}
+                    transparent={true}
                 >
-                    <ScannerCart id={transferData}/>
+                    <View style={styles.modalView}>
+                        <ScannerCart id={transferData}/>
+                    </View>
                 </Modal>
-            </View>
+            }
         </View>
     );
 }
 
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: { // Whole layout
         flex: 1
     },
     mainView:{
-
+        flex: 1
     },
     modalView: {
-        
+        width: "100%",
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.2)"
+    },
+    modal: {
+        height: "80%",
+        width: "80%",
+        alignContent: "center",
+        justifyContent: "center",
     },
     header: { // Header section with back button, title and filter
         height: "6%",
