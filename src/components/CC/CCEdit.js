@@ -6,40 +6,34 @@ import * as Yup from 'yup';
 import {CCContext} from "../../contexts/CCContext";
 import DatePicker from '../../components/DatePicker';
 import BackButton from '../BackButton';
+import Toast from 'react-native-root-toast';
+import LottieView from 'lottie-react-native';
 
 const CCEdit = ({navigation}) => {
-    const {getCCData, setCCEditViewS} = useContext(CCContext);
+    const {setCCEditViewS, addEdit, CCUser, getCCData} = useContext(CCContext);
    
     //Set the schedule data
-    const [schedule, setSchedule] = useState(
-        {
-            Lunes:{open:"", close:""},
-            Martes:{open:"", close:""},
-            Miércoles:{open:"", close:""},
-            Jueves:{open:"", close:""},
-            Viernes:{open:"", close:""},
-            Sabado:{open:"", close:""},
-            Domingo:{open:"", close:""}
-        });
+    const [schedule, setSchedule] = useState(null);
     const [data, setData] = useState(null);
+
+    console.log("RENDER", data)
 
     useEffect(() => {
         const setUp = async() => {
             const d = await getCCData();
             setData(d);
-            setSchedule(d.dates);
         }
         
         setUp();
     }, [])
-
+        
     navigation.setOptions({
         title: "Editar Datos",
         headerBackVisible: false,
         headerLeft: () => (<BackButton onPress={() => setCCEditViewS(false)}/>)
     });
 
-    const nav2Registration = () => navigation.navigate("RegisterDonor");
+    const nav2CCmenu = () => navigation.navigate("CCmenu");
 
     const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sabado", "Domingo"];
 
@@ -63,8 +57,8 @@ const CCEdit = ({navigation}) => {
     })
 
   return (
-    <>
-    {(data !== null) ? (
+    <View style={styles.screen}>
+    {data ? (
         <Formik
             initialValues={{
                 name: data.name,
@@ -78,16 +72,20 @@ const CCEdit = ({navigation}) => {
                     //WrapUp all the values
                     const allData = {
                         ...values,
-                        dates: schedule
+                        dates: schedule,
+                        CCUser
                     }
                     
                     //Call the context and reset form
-                    await setData(allData);
+                    await addEdit(allData);
+                    Toast.show("Solicitud Enviada");
                     resetForm();
 
-                    nav2Registration();
+                    await setCCEditViewS(false);
+
+                    nav2CCmenu();
                 }catch(error){
-                    console.log(error);
+                    console.log(error, "EDIT");
                 }
             }}
             validationSchema={registerSchema}
@@ -117,10 +115,10 @@ const CCEdit = ({navigation}) => {
                             value={values.address}
                         />
 
-                        <View style={styles.days}>
+                        {/* <View style={styles.days}>
                             <Text style={styles.text}>Horario de Atención</Text>
-                            {days.map(day => <DatePicker day={day} setSchedule={setSchedule} schedule={schedule}/>)}
-                        </View>
+                            {days.map((day, index) => <DatePicker key={index} day={day} setSchedule={setSchedule} schedule={schedule}/>)}
+                        </View> */}
 
                         <Text style={styles.text}>Dirección</Text>
                         <Input
@@ -139,8 +137,8 @@ const CCEdit = ({navigation}) => {
                         />
                         <View style={styles.btnContainer}>
                             <Button
-                                onPress={handleSubmit}
-                                title="Registrarse"
+                                onPress={() => console.log(schedule, "||||||||||||", data)}
+                                title="Mandar solicitud"
                                 buttonStyle={styles.btn}
                                 titleStyle={styles.title}
                                 icon={<Icon name="arrow-forward-ios" type="material"/>}
@@ -151,10 +149,15 @@ const CCEdit = ({navigation}) => {
                 )
             }}
         </Formik>) : (
-            <Text>XDDDD</Text>
+            <View style={styles.screen}>
+                <LottieView
+                    source={require("../../animations/122764-circle-loading.json")}
+                    autoPlay
+                />
+            </View>
         )}
         
-    </>
+    </View>
   )
 }
 

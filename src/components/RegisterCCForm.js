@@ -10,7 +10,6 @@ const RegisterCCForm = ({navigation}) => {
     const {setData} = useContext(RegisterContext);
 
     const screen = Dimensions.get("screen");
-    
 
     const nav2Registration = () => {
         navigation.navigate("RegisterDonor");
@@ -19,13 +18,13 @@ const RegisterCCForm = ({navigation}) => {
     //Set the schedule data
     const [schedule, setSchedule] = useState(
         {
-            Lunes:{open:"", close:""},
-            Martes:{open:"", close:""},
-            Miércoles:{open:"", close:""},
-            Jueves:{open:"", close:""},
-            Viernes:{open:"", close:""},
-            Sabado:{open:"", close:""},
-            Domingo:{open:"", close:""}
+            Lunes:{open:"00:00", close:"00:00"},
+            Martes:{open:"00:00", close:"00:00"},
+            Miércoles:{open:"00:00", close:"00:00"},
+            Jueves:{open:"00:00", close:"00:00"},
+            Viernes:{open:"00:00", close:"00:00"},
+            Sabado:{open:"00:00", close:"00:00"},
+            Domingo:{open:"00:00", close:"00:00"}
         });
 
     const registerSchema = Yup.object().shape({
@@ -58,7 +57,7 @@ const RegisterCCForm = ({navigation}) => {
                 longitude:0,
                 latitude:0
             }}
-            onSubmit={async(values, {resetForm}) => {
+            onSubmit={(values, {resetForm}) => {
                 try{
                     //WrapUp all the values
                     const allData = {
@@ -67,7 +66,7 @@ const RegisterCCForm = ({navigation}) => {
                     }
                     
                     //Call the context and reset form
-                    await setData(allData);
+                    setData(allData);
                     resetForm();
 
                     nav2Registration();

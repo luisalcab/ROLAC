@@ -53,7 +53,6 @@ const LogInForm = ({navigation}) => {
                 const querySnapshotCollectionCenter = await getDoc(doc(db, "collection_center", auth.currentUser.uid));
 
                 if(querySnapshotCollectionCenter.exists()){
-                    alert("Es centro de acopio");
                     await setCCUser(auth.currentUser.uid); 
                     nav2CCmenu();
                 }else{
