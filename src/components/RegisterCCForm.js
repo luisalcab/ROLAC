@@ -40,9 +40,11 @@ const RegisterCCForm = ({navigation}) => {
             required("Dirección Requerida"),
         longitude:Yup.
             number().
+            cast().
             required("Coordenadas Requeridas"),
         latitude:Yup.
             number().
+            cast().
             required("Coordenadas Requeridas")
     })
 
