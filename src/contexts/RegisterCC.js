@@ -6,14 +6,14 @@ export const RegisterContext = createContext();
 
 //Create the provider
 export const RegisterCCProvider = ({children}) => {
-    const {db, app} = enviromentVariables;
+    const {db} = enviromentVariables;
 
     const [data, setData] = useState(null);
 
     useEffect(() =>{
         const uploadData = async() => {
             try{
-                await addDoc(collection(db, "requests"), data );
+                await addDoc(collection(db, "requests"), data);
             }catch(error){
                 console.log(error);
             }

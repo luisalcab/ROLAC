@@ -6,7 +6,6 @@ import CCItem from "./CCItem";
 const CCRequest = () => {
     const {docsData} = useContext(BAMXContext);
 
-    console.log(docsData);
     return(
         <ScrollView style={styles.screen} contentContainerStyle={styles.list}>
             {docsData.map(doc => (<CCItem key={doc.id} params={{name: doc.data.name, address: doc.data.address, email: doc.data.email, id: doc.id, data: doc.data }}/>))}

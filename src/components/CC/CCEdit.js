@@ -115,10 +115,10 @@ const CCEdit = ({navigation}) => {
                             value={values.address}
                         />
 
-                        {/* <View style={styles.days}>
+                        <View style={styles.days}>
                             <Text style={styles.text}>Horario de Atención</Text>
                             {days.map((day, index) => <DatePicker key={index} day={day} setSchedule={setSchedule} schedule={schedule}/>)}
-                        </View> */}
+                        </View>
 
                         <Text style={styles.text}>Dirección</Text>
                         <Input
