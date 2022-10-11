@@ -1,17 +1,19 @@
-import {View, ScrollView, StyleSheet, Dimensions, Text , Button} from "react-native";
+import {View, ScrollView, StyleSheet, Dimensions, Text} from "react-native";
 import {useState, useEffect, useContext} from "react";
+import {Button} from "@rneui/themed"
 import {BAMXContext} from "../../contexts/BAMXContext";
 import LottieView from 'lottie-react-native';
     
 const CompareEdit = ({route}) => {
-    const {getCurrentCC} = useContext(BAMXContext);
+    const {getCurrentCC, setUpdatedCCData} = useContext(BAMXContext);
 
     const [currentCC, setCurrentCC] = useState(null);
     
-    const {fullData} = route.params;
+    const {fullData, id} = route.params;
     const {name, email, address, dates, latitude, longitude, CCUser} = fullData;
     console.log("FULLDATA",fullData)
     console.log("CURRENTCC", currentCC)
+    console.log("IDDD", id)
 
     useEffect(() => {
         const getData = async() => {
@@ -66,6 +68,12 @@ const CompareEdit = ({route}) => {
                         <Text style={styles.generalData}>Sábado: {dates.Sabado.open}--{dates.Sabado.close}</Text>
                         <Text style={styles.generalData}>Domingo: {dates.Domingo.open}--{dates.Domingo.close}</Text>
                     </View>
+                    <Button
+                        title="Aceptar cambio"
+                        onPress={() => setUpdatedCCData(CCUser, id, fullData)}
+                        buttonStyle={styles.button}
+                        titleStyle={styles.title}
+                    />
                 </ScrollView>
                 ) : (
                     <View style={[styles.screen, styles.list]}>
@@ -75,7 +83,6 @@ const CompareEdit = ({route}) => {
                         />
                     </View>
             )}
-            <Button title="prueba" onPress={console.log(currentCC)}/>
         </View>
     )
 }
@@ -121,6 +128,18 @@ const styles = StyleSheet.create({
         fontSize: screen.fontScale * 20,
         marginBottom: 10,
         marginLeft: 5,
+    },
+    button:{
+        width: screen.width * .8,
+        height: screen.height * .08,
+        backgroundColor:"white",
+        borderRadius: 10,
+        elevation: 10,
+        shadowColor: "#000"
+    },
+    title:{
+        color:"black",
+        fontSize:screen.fontScale * 15
     }
 
 })

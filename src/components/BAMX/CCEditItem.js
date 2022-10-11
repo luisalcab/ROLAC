@@ -2,7 +2,7 @@ import {View, StyleSheet, Dimensions, Text} from 'react-native';
 import {Button} from "@rneui/themed"
 
 const CCItem = ({params, navigation}) => {
-    const {name, address, fullData} = params;
+    const {name, address, fullData, id} = params;
 
     return(
         <View style={styles.card}>
@@ -13,7 +13,7 @@ const CCItem = ({params, navigation}) => {
             <View style={styles.buttonContainer}>
                 <View style={styles.buttonFlex}>
                     <Button
-                        onPress={() => navigation.navigate("CompareEdit", {fullData})}
+                        onPress={() => navigation.navigate("CompareEdit", {fullData, id})}
                         title="Ver Cambios"
                         buttonStyle={styles.btnA}
                         titleStyle={styles.btnT}

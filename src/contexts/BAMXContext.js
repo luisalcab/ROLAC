@@ -67,10 +67,23 @@ export const BAMXProvider = ({children}) => {
         }
     }
 
-    const getCurrentCC = async uid => await (await getDoc(doc(db, "collection_center", uid))).data();
+    const getCurrentCC = async uid => (await getDoc(doc(db, "collection_center", uid))).data();
+
+    const setUpdatedCCData = async (uid, id, data) => {
+        const d = {
+            name: data.name,
+            email: data.email,
+            address: data.address,
+            dates: data.dates,
+            latitude: data.latitude,
+            longitude: data.longitude
+        } 
+        await setDoc(doc(db, "collection_center", uid), d);
+        await deleteDoc(doc(db, "edit_requests", id));
+    }
 
     return(
-        <BAMXContext.Provider value={{docsNum, docsData, editRequestsNum, editRequests, delD, addUser, getCurrentCC}}>
+        <BAMXContext.Provider value={{docsNum, docsData, editRequestsNum, editRequests, delD, addUser, getCurrentCC, setUpdatedCCData}}>
             {children}
         </BAMXContext.Provider>
     )

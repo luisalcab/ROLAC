@@ -8,7 +8,7 @@ const CCEditRequest = ({navigation}) => {
 
     return(
         <ScrollView style={styles.screen} contentContainerStyle={styles.list}>
-            {editRequests.map(doc => (<CCEditItem key={doc.id} params={{name: doc.data.name, address: doc.data.address, fullData:doc.data}} navigation={navigation}/>))}
+            {editRequests.map(doc => (<CCEditItem key={doc.id} params={{name: doc.data.name, address: doc.data.address, id: doc.id ,fullData:doc.data}} navigation={navigation}/>))}
         </ScrollView>
     )
 }
