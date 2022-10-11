@@ -52,7 +52,6 @@ const ManagerDonorComponent = ({ navigation }) => {
     await getDoc(doc(firebaseConection.db, "donor", id))
     .then((querySnapshot) => {
       const { lastName, name } = querySnapshot.data();
-  
       setDonor({
         uid: querySnapshot.id,
         email: userInformation.auth.currentUser.email,

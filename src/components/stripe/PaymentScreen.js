@@ -82,10 +82,8 @@ function PaymentScreen({grandTotal, navigation}) {
                 // console.log('Payment confirmation error', error);
                 handleError()
               } else if (paymentIntent) {
-                // let today = new Date();
-                // let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+' '+today.getHours()+':'+today.getMinutes()+':'+today.getSeconds();
                 let date = moment().format()
-                console.log("Esto es date: ", date)
+                
                 addDoc(collection(firebaseConection.db,"monetary_donation"), {
                   last4: payment.last4,
                   postalCode: payment.postalCode,

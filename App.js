@@ -16,11 +16,15 @@ import AdminRegister from './src/layouts/register/AdminRegister';
 import CardsDonationUser from './src/layouts/donations/CardsDonationUser';
 import CardsDonationAllUsers from './src/layouts/donations/CardsDonationAllUsers';
 import PaymentMessage from './src/components/stripe/PaymentMessage';
+
+import PdfGenerator from './src/components/PdfGenerator/PdfGenerator';
+
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
 import {ItemsContext} from './src/contexts/ItemsContext';
 import { UserInformation } from './src/contexts/userInformation';
 import {ProductContextProvider} from './src/contexts/ProductContext';
+import { PdfDocDefinitionContext } from './src/contexts/PdfDocDefinitionContext';
 
 import AdminSettings from './src/layouts/AdminSettings';
 import FBConnection from './src/contexts/FBConnection';
@@ -45,9 +49,11 @@ export default function App() {
     const [cart, setCart] = useState([]);
     const [items, setItems] = useState([]);
     const [userInformation, setUserInformation] = useState([]);
-
+    const [pdfDocDefinition, setPdfDocDefinition] = useState([]);
+    
     const providerCart = useMemo(() => ({cart, setCart}), [cart, setCart]);
     const providerItems = useMemo(() => ({items, setItems}), [items, setItems]);
+    const ProviderPdfDocDefinition = useMemo(() => ({pdfDocDefinition, setPdfDocDefinition}), [pdfDocDefinition, setPdfDocDefinition]);
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
 
     return (
@@ -55,28 +61,32 @@ export default function App() {
             <UserInformation.Provider value={providerUserInformation}>
                 <ItemsContext.Provider value={providerItems}>
                     <CartContext.Provider value={providerCart}>
-                        <NavigationContainer initialRouteName="Login">
-                            <Stack.Navigator>
-                                <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>
-                                <Stack.Screen name="Login" component={Login} />
-                                <Stack.Screen name="QRGenerator" component={QRGenerator} />
-                                <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
-                                <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
-                                <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
-                                <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
-                                <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal'}}/>
-                                <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
-                                <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal'}}/>
-                                <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
-                                options={{title: 'Administrar cuenta'}}/>
-                                <Stack.Screen name="QRScanner" component={QRScanner} />
-                                
-                                <Stack.Screen name="AdminSettings" component={AdminSettings} /> 
-                                <Stack.Screen name="Cart" component={Cart} /> 
-                                <Stack.Screen name="ItemSelector" component={ItemSelector} 
-                                options={{title:"Banco de alimentos"}}/>   
-                            </Stack.Navigator>
-                        </NavigationContainer>
+                        <PdfDocDefinitionContext.Provider value={ProviderPdfDocDefinition}>
+                            <NavigationContainer initialRouteName="Login">
+                                <Stack.Navigator>
+                                    <Stack.Screen name="Login" component={Login} />
+                                    <Stack.Screen name="PdfGenerator" component={PdfGenerator}/>
+                                    <Stack.Screen name="QRGenerator" component={QRGenerator} />
+                                    <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
+                                    <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>
+                                    <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
+                                    <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
+                                    <Stack.Screen name="AdminRegister" component={AdminRegister} />
+                                    <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
+                                    <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal'}}/>
+                                    <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
+                                    <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal'}}/>
+                                    <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
+                                    options={{title: 'Administrar cuenta'}}/>
+                                    <Stack.Screen name="QRScanner" component={QRScanner} />
+                                    
+                                    <Stack.Screen name="AdminSettings" component={AdminSettings} /> 
+                                    <Stack.Screen name="Cart" component={Cart} /> 
+                                    <Stack.Screen name="ItemSelector" component={ItemSelector} 
+                                    options={{title:"Banco de alimentos"}}/>   
+                                </Stack.Navigator>
+                            </NavigationContainer>
+                        </PdfDocDefinitionContext.Provider>
                     </CartContext.Provider>
                 </ItemsContext.Provider>
             </UserInformation.Provider>
