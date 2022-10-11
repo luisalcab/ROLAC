@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import DatePicker from './DatePicker';
 import {RegisterContext} from "../contexts/RegisterCC"
+import Toast from 'react-native-root-toast';
 
 const RegisterCCForm = ({navigation}) => {
     const {setData} = useContext(RegisterContext);
@@ -15,12 +16,14 @@ const RegisterCCForm = ({navigation}) => {
         navigation.navigate("RegisterDonor");
     }
 
+    const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sabado", "Domingo"];
+
     //Set the schedule data
     const [schedule, setSchedule] = useState(
         {
             Lunes:{open:"00:00", close:"00:00"},
             Martes:{open:"00:00", close:"00:00"},
-            Miércoles:{open:"00:00", close:"00:00"},
+            Miercoles:{open:"00:00", close:"00:00"},
             Jueves:{open:"00:00", close:"00:00"},
             Viernes:{open:"00:00", close:"00:00"},
             Sabado:{open:"00:00", close:"00:00"},
@@ -40,14 +43,11 @@ const RegisterCCForm = ({navigation}) => {
             required("Dirección Requerida"),
         longitude:Yup.
             number().
-            cast().
             required("Coordenadas Requeridas"),
         latitude:Yup.
             number().
-            cast().
             required("Coordenadas Requeridas")
     })
-
 
   return (
     <>
@@ -64,11 +64,14 @@ const RegisterCCForm = ({navigation}) => {
                     //WrapUp all the values
                     const allData = {
                         ...values,
-                        dates: schedule
+                        dates: schedule,
+                        longitude: parseFloat(values.longitude),
+                        latitude: parseFloat(values.latitude)
                     }
                     
                     //Call the context and reset form
                     setData(allData);
+                    Toast.show("Solicitud enviada correctamente");
                     resetForm();
 
                     nav2Registration();
@@ -105,13 +108,7 @@ const RegisterCCForm = ({navigation}) => {
 
                         <View style={{width:"100%", height:"40%", marginBottom:"15%"}}>
                             <Text style={styles.text}>Horario de Atención</Text>
-                            <DatePicker day="Lunes" setSchedule={setSchedule} schedule={schedule}/>
-                            <DatePicker day="Martes" setSchedule={setSchedule} schedule={schedule}/>
-                            <DatePicker day="Miércoles" setSchedule={setSchedule} schedule={schedule}/>
-                            <DatePicker day="Jueves" setSchedule={setSchedule} schedule={schedule}/>
-                            <DatePicker day="Viernes" setSchedule={setSchedule} schedule={schedule}/>
-                            <DatePicker day="Sabado" setSchedule={setSchedule} schedule={schedule}/>
-                            <DatePicker day="Domingo" setSchedule={setSchedule} schedule={schedule}/>
+                                {days.map((day, index) => <DatePicker key={index} day={day} setSchedule={setSchedule} schedule={schedule}/>)}
                         </View>
 
                         <Text style={styles.text}>Dirección</Text>

@@ -1,5 +1,5 @@
 import {useState, useEffect ,createContext} from 'react';
-import {onSnapshot, collection, doc, deleteDoc, setDoc} from "firebase/firestore";
+import {onSnapshot, collection, doc, deleteDoc, setDoc, getDoc} from "firebase/firestore";
 import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 import {enviromentVariables} from "../../utils/enviromentVariables"
 
@@ -45,26 +45,32 @@ export const BAMXProvider = ({children}) => {
 
     //Accepts a new CC user and saves its data 
     const addUser = async (email, data, id) => {
-        const auth = getAuth(app);
+        try{
+            const auth = getAuth(app);
 
-        //generates a random password
-        const password = "12345678"//Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
-        
-        //Create the user
-        const CC = await createUserWithEmailAndPassword(auth, email, password);
+            //generates a random password
+            const password = "12345678"//Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+            
+            //Create the user
+            const CC = await createUserWithEmailAndPassword(auth, email, password);
 
-        //Add the doc to the collection center collection
-        await setDoc(doc(db, "collection_center", CC.user.uid), data);
+            //Add the doc to the collection center collection
+            await setDoc(doc(db, "collection_center", CC.user.uid), data);
 
-        //Delete de doc from the request collection
-        await deleteDoc(doc(db, "requests", id));
+            //Delete de doc from the request collection
+            await deleteDoc(doc(db, "requests", id));
 
-        //Send an email with the password
-        //await sendEmail("a01639784@tec.mx", "Contraseña de BAMX", `${password}\nEsta es la contraseña con la que podras acceder a tu cuenta. Podrás cambiarla más adelante`);
+            //Send an email with the password
+            //await sendEmail("a01639784@tec.mx", "Contraseña de BAMX", `${password}\nEsta es la contraseña con la que podras acceder a tu cuenta. Podrás cambiarla más adelante`);
+        }catch(error){
+            alert("No se pudo agregar el centro en este momento intente mas tarde");
+        }
     }
 
+    const getCurrentCC = async uid => await (await getDoc(doc(db, "collection_center", uid))).data();
+
     return(
-        <BAMXContext.Provider value={{docsNum, docsData, editRequestsNum, editRequests, delD, addUser}}>
+        <BAMXContext.Provider value={{docsNum, docsData, editRequestsNum, editRequests, delD, addUser, getCurrentCC}}>
             {children}
         </BAMXContext.Provider>
     )

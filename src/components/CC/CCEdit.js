@@ -13,7 +13,15 @@ const CCEdit = ({navigation}) => {
     const {setCCEditViewS, addEdit, CCUser, getCCData} = useContext(CCContext);
    
     //Set the schedule data
-    const [schedule, setSchedule] = useState(null);
+    const [schedule, setSchedule] = useState({
+        Lunes:{open:"00:00", close:"00:00"},
+        Martes:{open:"00:00", close:"00:00"},
+        Miércoles:{open:"00:00", close:"00:00"},
+        Jueves:{open:"00:00", close:"00:00"},
+        Viernes:{open:"00:00", close:"00:00"},
+        Sabado:{open:"00:00", close:"00:00"},
+        Domingo:{open:"00:00", close:"00:00"}
+    });
     const [data, setData] = useState(null);
 
     console.log("RENDER", data)
@@ -64,8 +72,8 @@ const CCEdit = ({navigation}) => {
                 name: data.name,
                 email: data.email,
                 address: data.address,
-                longitude: data.longitude,
-                latitude: data.latitude
+                longitude: `${data.longitude}`,
+                latitude: `${data.latitude}`
             }}
             onSubmit={async(values, {resetForm}) => {
                 try{
@@ -73,8 +81,12 @@ const CCEdit = ({navigation}) => {
                     const allData = {
                         ...values,
                         dates: schedule,
+                        longitude: parseFloat(values.longitude),
+                        latitude: parseFloat(values.latitude),
                         CCUser
                     }
+
+                    console.log(allData)
                     
                     //Call the context and reset form
                     await addEdit(allData);
@@ -137,7 +149,7 @@ const CCEdit = ({navigation}) => {
                         />
                         <View style={styles.btnContainer}>
                             <Button
-                                onPress={() => console.log(schedule, "||||||||||||", data)}
+                                onPress={handleSubmit}
                                 title="Mandar solicitud"
                                 buttonStyle={styles.btn}
                                 titleStyle={styles.title}

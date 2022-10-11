@@ -28,7 +28,7 @@ export const CCProvider = ({children}) => {
 
     const addEdit = async(data) => {
         try{
-            await addDoc(collection(db, "edit_requests"), {data});
+            await addDoc(collection(db, "edit_requests"), data);
         }catch(error){
             console.log(error);
         }

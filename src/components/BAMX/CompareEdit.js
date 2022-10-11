@@ -1,38 +1,85 @@
-import {View, ScrollView, StyleSheet, Dimensions, Text} from "react-native";
-
+import {View, ScrollView, StyleSheet, Dimensions, Text , Button} from "react-native";
+import {useState, useEffect, useContext} from "react";
+import {BAMXContext} from "../../contexts/BAMXContext";
+import LottieView from 'lottie-react-native';
+    
 const CompareEdit = ({route}) => {
-    const {fullData} = route.params;
+    const {getCurrentCC} = useContext(BAMXContext);
 
-    const {name, email, address, dates, latitude, longitude} = fullData;
-    console.log(fullData)
+    const [currentCC, setCurrentCC] = useState(null);
+    
+    const {fullData} = route.params;
+    const {name, email, address, dates, latitude, longitude, CCUser} = fullData;
+    console.log("FULLDATA",fullData)
+    console.log("CURRENTCC", currentCC)
+
+    useEffect(() => {
+        const getData = async() => {
+            if(currentCC === null){
+                const CCC = await getCurrentCC(CCUser);
+                setCurrentCC(CCC);
+            }
+        }
+
+        getData();
+    }, [])
 
     return(
-        <ScrollView style={styles.screen} contentContainerStyle={styles.list}>
-            <View style={styles.card}>
-                <Text style={styles.name}>{name}</Text>
-                <Text style={styles.label}>Dirección</Text>
-                <Text style={styles.generalData}>{address}</Text>
-                <Text style={styles.label}>Email</Text>
-                <Text style={styles.generalData}>{email}</Text>
-                <Text style={styles.label}>Latitud</Text>
-                <Text style={styles.generalData}>{latitude}</Text>
-                <Text style={styles.label}>Longitud</Text>
-                <Text style={styles.generalData}>{longitude}</Text>
-                <Text style={styles.label}>Horarios</Text>
-                <Text style={styles.generalData}>Lunes: {dates.Lunes.open}--{dates.Lunes.close}</Text>
-                <Text style={styles.generalData}>Martes: {dates.Martes.open}--{dates.Martes.close}</Text>
-                <Text style={styles.generalData}>Miércoles: {dates.Miercoles.open}--{dates.Miercoles.close}</Text>
-                <Text style={styles.generalData}>Jueves: {dates.Jueves.open}--{dates.Jueves.close}</Text>
-                <Text style={styles.generalData}>Viernes: {dates.Viernes.open}--{dates.Viernes.close}</Text>
-                <Text style={styles.generalData}>Sábado: {dates.Sabado.open}--{dates.Sabado.close}</Text>
-                <Text style={styles.generalData}>Domingo: {dates.Domingo.open}--{dates.Domingo.close}</Text>
-            </View>
-            <View style={styles.card}>
-
-            </View>
-        </ScrollView>
+        <View>
+            {(currentCC !== null) ? (
+                <ScrollView styles={styles.screen} contentContainerStyle={styles.list}>
+                    <View style={styles.card}>
+                        <Text style={styles.name}>{currentCC.name}</Text>
+                        <Text style={styles.label}>Dirección</Text>
+                        <Text style={styles.generalData}>{currentCC.address}</Text>
+                        <Text style={styles.label}>Email</Text>
+                        <Text style={styles.generalData}>{currentCC.email}</Text>
+                        <Text style={styles.label}>Latitud</Text>
+                        <Text style={styles.generalData}>{currentCC.latitude}</Text>
+                        <Text style={styles.label}>Longitud</Text>
+                        <Text style={styles.generalData}>{currentCC.longitude}</Text>
+                        <Text style={styles.label}>Horarios</Text>
+                        <Text style={styles.generalData}>Lunes: {currentCC.dates.Lunes.open}--{currentCC.dates.Lunes.close}</Text>
+                        <Text style={styles.generalData}>Martes: {currentCC.dates.Martes.open}--{currentCC.dates.Martes.close}</Text>
+                        <Text style={styles.generalData}>Miércoles: {currentCC.dates.Miercoles.open}--{currentCC.dates.Miercoles.close}</Text>
+                        <Text style={styles.generalData}>Jueves: {currentCC.dates.Jueves.open}--{currentCC.dates.Jueves.close}</Text>
+                        <Text style={styles.generalData}>Viernes: {currentCC.dates.Viernes.open}--{currentCC.dates.Viernes.close}</Text>
+                        <Text style={styles.generalData}>Sábado: {currentCC.dates.Sabado.open}--{currentCC.dates.Sabado.close}</Text>
+                        <Text style={styles.generalData}>Domingo: {currentCC.dates.Domingo.open}--{currentCC.dates.Domingo.close}</Text>
+                    </View>
+                    <View style={styles.card}>
+                        <Text style={styles.name}>{name}</Text>
+                        <Text style={styles.label}>Dirección</Text>
+                        <Text style={styles.generalData}>{address}</Text>
+                        <Text style={styles.label}>Email</Text>
+                        <Text style={styles.generalData}>{email}</Text>
+                        <Text style={styles.label}>Latitud</Text>
+                        <Text style={styles.generalData}>{latitude}</Text>
+                        <Text style={styles.label}>Longitud</Text>
+                        <Text style={styles.generalData}>{longitude}</Text>
+                        <Text style={styles.label}>Horarios</Text>
+                        <Text style={styles.generalData}>Lunes: {dates.Lunes.open}--{dates.Lunes.close}</Text>
+                        <Text style={styles.generalData}>Martes: {dates.Martes.open}--{dates.Martes.close}</Text>
+                        <Text style={styles.generalData}>Miércoles: {dates.Miercoles.open}--{dates.Miercoles.close}</Text>
+                        <Text style={styles.generalData}>Jueves: {dates.Jueves.open}--{dates.Jueves.close}</Text>
+                        <Text style={styles.generalData}>Viernes: {dates.Viernes.open}--{dates.Viernes.close}</Text>
+                        <Text style={styles.generalData}>Sábado: {dates.Sabado.open}--{dates.Sabado.close}</Text>
+                        <Text style={styles.generalData}>Domingo: {dates.Domingo.open}--{dates.Domingo.close}</Text>
+                    </View>
+                </ScrollView>
+                ) : (
+                    <View style={[styles.screen, styles.list]}>
+                        <LottieView
+                            source={require("../../animations/122764-circle-loading.json")}
+                            autoPlay
+                        />
+                    </View>
+            )}
+            <Button title="prueba" onPress={console.log(currentCC)}/>
+        </View>
     )
 }
+
 
 const screen = Dimensions.get("screen");
 
@@ -77,7 +124,5 @@ const styles = StyleSheet.create({
     }
 
 })
-    
-
 
 export default CompareEdit;
