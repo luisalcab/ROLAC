@@ -50,6 +50,7 @@
     "react-native-svg": "12.3.0",
     "react-native-ui-lib": "^6.20.1",
     "react-native-web": "~0.18.7",
+    "react-native-webview": "^11.23.0",
     "tailwindcss-react-native": "^1.7.10",
     "yup": "^0.32.11"
   },

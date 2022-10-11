@@ -1,6 +1,6 @@
-import React from 'react'
-import {View} from 'react-native';
-import {Input, Icon, Button, } from "@rneui/themed";
+import React, {useState} from 'react'
+import {View, Text} from 'react-native';
+import {Input, Icon, Button, CheckBox } from "@rneui/themed";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {doc, setDoc} from "firebase/firestore";
@@ -10,6 +10,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 const RegisterDonorForm = ({navigation}) => {
     const [loading, isLoading] = useState(false);
+    const [accept, setAccept] = useState(false);
 
     const auth = getAuth();
     const donorSchema = Yup.object().shape({
@@ -79,6 +80,7 @@ const RegisterDonorForm = ({navigation}) => {
                             textStyle={{color: '#FFF'}}
                         />
                             <View style={{width:"100%", height:"100%" ,flex:1 ,alignItems:"center"}}>
+                                <View style={{width:"80%", height:"100%" ,flex:1 ,alignItems:"center", justifyContent:"center"}}>
                                 <Input
                                     placeholder="Nombre(s)"
                                     leftIcon={<Icon type="material" name="person"/>}
@@ -112,33 +114,30 @@ const RegisterDonorForm = ({navigation}) => {
                                     value={values.password}
                                     style={{fontSize: 20}}
                                 />
-                                <View style={{flex:1,justifyContent:"flex-start",width:"100%",height:"auto"}}>
-                                    <Button
-                                        onPress={() => navigation.navigate("RegisterCCForm")}
-                                        title="¿Eres un Negocio?"
-                                        buttonStyle={{
-                                            backgroundColor:"transparent",
-                                            width:"100%",
-                                        }}
-                                        titleStyle={{
-                                            color:"black",
-                                            fontWeight: 'bold',
-                                            textDecorationLine: 'underline',
-                                            fontSize: 20
-                                        }}
-                                    >
-                                    </Button>
+                                <View style = {{width: "100%", alignItems: "center"}}>
+                                    <CheckBox
+                                        title={
+                                            <Text> He leído y acepto los
+                                                <Text style={{color: "#0000EE"}} onPress={() => navigation.navigate("TerminosyCondiciones")}> Términos y Condiciones</Text>
+                                            </Text>
+                                        }
+                                        checkedIcon="check-square"
+                                        uncheckedIcon="square-o"
+                                        checked={accept}
+                                        onPress={() => setAccept(!accept)}
+                                    />
                                 </View>
+                            </View>
                                 <Button
                                     onPress={handleSubmit}
                                     title="Registrarse"
                                     buttonStyle={{
                                         width:"90%",
-                                        height:80,
+                                        height:60,
                                         alignSelf:"center",
                                         marginTop:20,
                                         borderRadius: 10,
-                                        backgroundColor:"white",
+                                        backgroundColor:"orange",
                                         shadowColor: "#000",
                                         shadowOffset: {
                                             width: 0,
@@ -150,14 +149,32 @@ const RegisterDonorForm = ({navigation}) => {
                                         marginBottom: 20
                                     }}
                                     titleStyle={{
-                                        color:"black",
+                                        color:"white",
                                         width:"80%",
                                         fontSize:25,
                                         fontWeight: 'bold'
                                     }}
-                                    icon={<Icon name="arrow-forward-ios" type="material"/>}
+                                    icon={<Icon name="arrow-forward-ios" type="material" color={"white"}/>}
                                     iconRight={true}
+                                    disabled={!accept}
                                 />
+                                <View style={{flex:1, justifyContent:"flex-start", width:"100%", height:"auto", marginTop: 50}}>
+                                    <Button
+                                        onPress={() => navigation.navigate("RegisterCCForm")}
+                                        title="¿Eres un negocio?"
+                                        buttonStyle={{
+                                            backgroundColor:"transparent",
+                                            width:"100%",
+                                        }}
+                                        titleStyle={{
+                                            color:"black",
+                                            fontWeight: 'bold',
+                                            textDecorationLine: 'underline',
+                                            fontSize: 16
+                                        }}
+                                    >
+                                    </Button>
+                                </View>
                             </View>
                         </>
                     )

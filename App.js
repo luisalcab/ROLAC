@@ -16,6 +16,7 @@ import AdminRegister from './src/layouts/register/AdminRegister';
 import CardsDonationUser from './src/layouts/donations/CardsDonationUser';
 import CardsDonationAllUsers from './src/layouts/donations/CardsDonationAllUsers';
 import PaymentMessage from './src/components/stripe/PaymentMessage';
+import TerminosyCondiciones from './src/components/TyC';
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
 import {ItemsContext} from './src/contexts/ItemsContext';
@@ -61,7 +62,8 @@ export default function App() {
                                 <Stack.Screen name="QRGenerator" component={QRGenerator} />
                                 <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
                                 <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
-                                <Stack.Screen name="RegisterDonor" component={RegisterDonor} options={{title:"Registro Donadores", headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="TerminosyCondiciones" component={TerminosyCondiciones} options={{title: "Términos y Condiciones", headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="RegisterDonor" component={RegisterDonor} options={{title:"Registro Donador", headerBackTitle: "ATRÁS"}}/>
                                 <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros", headerBackTitle: "ATRÁS"}}/>
                                 <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal', headerBackVisible: false}}/>
                                 <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>

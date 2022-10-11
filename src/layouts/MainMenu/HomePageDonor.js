@@ -43,12 +43,12 @@ const HomePageDonor = ({navigation}) => {
         >
           <Icon name="user" type="font-awesome" size={50} />
         </TouchableOpacity>
-        </View>
-          <View style={styles.positionTitle}>
-            <Text style={styles.title2}>Centros de Donación disponibles</Text>
-          </View>
-          <Map style={styles.map} />
-        <View>
+      </View>
+      <View style={styles.positionTitle}>
+        <Text style={styles.title2}>Centros de Donación disponibles</Text>
+      </View>
+      <Map style={styles.map} />
+      <View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => navigation.navigate("ItemSelector", {kind: false})}
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   map: {
     width: "100%",
@@ -98,7 +98,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   positionTitle: {
-    marginTop: 10,
     alignItems: "center",
     position: "relative",
     backgroundColor: "#fff",
@@ -106,6 +105,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 10,
     padding: 5,
+    zIndex: 1,
+    top: 20,
   },
   buttonContainer: {
     margin: 20,
@@ -118,16 +119,22 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
+    backgroundColor: "#fff",
     borderRadius: 20,
     width: 150,
     height: 150,
     padding: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 10,
+      height: 10,
+    },
+    shadowOpacity: 0.05,
   },
   textBt: {
     fontSize: 20,
     textAlign: "center",
-  },
+  }
 });
 
 export default HomePageDonor;

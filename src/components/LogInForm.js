@@ -97,23 +97,25 @@ const LogInForm = ({navigation}) => {
                     {({errors, touched, handleChange, handleSubmit, values}) => {
                         return(
                             <>
-                                <Input
-                                    placeholder="Correo"
-                                    leftIcon={<Icon type="material" name="mail"/>}
-                                    onChangeText={handleChange("email")}
-                                    errorMessage={errors.email && touched.email ? errors.email : ""}
-                                    style={{width:"100%", height:20, fontSize: 20}}
-                                    value={values.email}
-                                />
-                                <Input
-                                    placeholder="Contraseña"
-                                    secureTextEntry={true}
-                                    leftIcon={<Icon type="material" name="lock"/>}
-                                    onChangeText={handleChange("password")}
-                                    errorMessage={errors.password && touched.password ? errors.password : ""}
-                                    style={{width:"100%", height:20, fontSize: 20}}
-                                    value={values.password}
-                                />
+                                <View style={{padding: 34}}>
+                                    <Input
+                                        placeholder="Correo"
+                                        leftIcon={<Icon type="material" name="mail"/>}
+                                        onChangeText={handleChange("email")}
+                                        errorMessage={errors.email && touched.email ? errors.email : ""}
+                                        style={{height:20, fontSize: 20}}
+                                        value={values.email}
+                                    />
+                                    <Input
+                                        placeholder="Contraseña"
+                                        secureTextEntry={true}
+                                        leftIcon={<Icon type="material" name="lock"/>}
+                                        onChangeText={handleChange("password")}
+                                        errorMessage={errors.password && touched.password ? errors.password : ""}
+                                        style={{height:20, fontSize: 20}}
+                                        value={values.password}
+                                    />
+                                </View>
                                 <View style={{justifyContent:"space-around", flexDirection:"column"}}>    
                                     <Button 
                                         onPress={handleSubmit} 
@@ -122,9 +124,8 @@ const LogInForm = ({navigation}) => {
                                             width: "80%",
                                             height:50,
                                             borderRadius: 10,
-                                            backgroundColor:"black",
+                                            backgroundColor:"red",
                                             alignSelf:"center",
-                                            marginTop: 10
                                         }}
                                         titleStyle={{
                                             width: "90%",
@@ -141,7 +142,7 @@ const LogInForm = ({navigation}) => {
                                             width: "80%",
                                             height:50,
                                             borderRadius: 10,
-                                            backgroundColor:"gray",
+                                            backgroundColor:"orange",
                                             alignSelf:"center",
                                             marginTop: 10
                                         }}

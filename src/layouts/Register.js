@@ -8,7 +8,9 @@ const Register = ({navigation}) => {
         <View style={styles.screen}>
             <KeyboardAwareScrollView
             enableOnAndroid={true}
-            enableAutomaticScroll = {true}>
+            enableAutomaticScroll = {true}
+            extraHeight = {10}
+            extraScrollHeight = {10}>
                 <Image source={require("../img/5e8827daba0aa_logo.png")} style={styles.pic}/>
                 <RegisterDonorForm navigation={navigation}/>
             </KeyboardAwareScrollView>
@@ -21,7 +23,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "flex-start",
         width: "100%",
-        height: "100%"
+        height: "100%",
+        backgroundColor: "#fff",
     },
     pic:{
         width: "50%",
