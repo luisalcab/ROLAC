@@ -16,7 +16,7 @@ const CCEdit = ({navigation}) => {
     const [schedule, setSchedule] = useState({
         Lunes:{open:"00:00", close:"00:00"},
         Martes:{open:"00:00", close:"00:00"},
-        Miércoles:{open:"00:00", close:"00:00"},
+        Miercoles:{open:"00:00", close:"00:00"},
         Jueves:{open:"00:00", close:"00:00"},
         Viernes:{open:"00:00", close:"00:00"},
         Sabado:{open:"00:00", close:"00:00"},

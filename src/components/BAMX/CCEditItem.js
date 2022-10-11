@@ -13,7 +13,7 @@ const CCItem = ({params, navigation}) => {
             <View style={styles.buttonContainer}>
                 <View style={styles.buttonFlex}>
                     <Button
-                        onPress={() => navigation.navigate("CompareEdit", {fullData, id})}
+                        onPress={() => navigation.navigate("CompareEdit", {fullData, id, navigation})}
                         title="Ver Cambios"
                         buttonStyle={styles.btnA}
                         titleStyle={styles.btnT}

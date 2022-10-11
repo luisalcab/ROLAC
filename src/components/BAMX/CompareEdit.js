@@ -3,13 +3,15 @@ import {useState, useEffect, useContext} from "react";
 import {Button} from "@rneui/themed"
 import {BAMXContext} from "../../contexts/BAMXContext";
 import LottieView from 'lottie-react-native';
-    
+import Toast from 'react-native-root-toast';
+
 const CompareEdit = ({route}) => {
     const {getCurrentCC, setUpdatedCCData} = useContext(BAMXContext);
 
     const [currentCC, setCurrentCC] = useState(null);
+    const [isloading, setIsloading] = useState(false);
     
-    const {fullData, id} = route.params;
+    const {fullData, id, navigation} = route.params;
     const {name, email, address, dates, latitude, longitude, CCUser} = fullData;
     console.log("FULLDATA",fullData)
     console.log("CURRENTCC", currentCC)
@@ -26,9 +28,16 @@ const CompareEdit = ({route}) => {
         getData();
     }, [])
 
+    const handleSubmit = async(CCUser, id, fullData) => {
+        setIsloading(true);
+        await setUpdatedCCData(CCUser, id, fullData);
+        navigation.navigate("CCEditRequest");
+        Toast.show("Información actualizada");
+    }
+
     return(
-        <View>
-            {(currentCC !== null) ? (
+        <View style={styles.container}>
+            {(currentCC !== null && !isloading) ? (
                 <ScrollView styles={styles.screen} contentContainerStyle={styles.list}>
                     <View style={styles.card}>
                         <Text style={styles.name}>{currentCC.name}</Text>
@@ -70,13 +79,13 @@ const CompareEdit = ({route}) => {
                     </View>
                     <Button
                         title="Aceptar cambio"
-                        onPress={() => setUpdatedCCData(CCUser, id, fullData)}
+                        onPress={() => handleSubmit(CCUser, id, fullData)}
                         buttonStyle={styles.button}
                         titleStyle={styles.title}
                     />
                 </ScrollView>
                 ) : (
-                    <View style={[styles.screen, styles.list]}>
+                    <View style={styles.container}>
                         <LottieView
                             source={require("../../animations/122764-circle-loading.json")}
                             autoPlay
@@ -91,30 +100,34 @@ const CompareEdit = ({route}) => {
 const screen = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
-    screen:{
+    container:{
         width: "100%",
-        height: "100%",
+        height: "100%"
+    },
+    screen:{
         flex:1
     },
     list:{
         alignItems: "center"
     },
     card:{
-        width: screen.width * .9,
-        height: screen.height *.9,
+        maxWidth: screen.width *.9,
+        minWidth: screen.width *.9,
         marginBottom: 10,
         borderRadius: 10,
         borderWidth: 1,
         backgroundColor: "white",
         flex:1,
         flexWrap: "wrap",
-        alignContent: "space-between"
+        alignContent: "stretch",
+        flexGrow:1
     },
     label:{
+        flex:2,
         fontSize: screen.fontScale * 20,
-        fontWeight: "300",
+        fontWeight: "500",
         marginLeft: 5,
-        marginBottom: 5
+        marginBottom:5
     },
     name:{
         textDecorationLine: "underline",
@@ -124,10 +137,10 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     generalData:{
+        flex:1,
         fontStyle: "italic",
         fontSize: screen.fontScale * 20,
-        marginBottom: 10,
-        marginLeft: 5,
+        marginLeft: 5
     },
     button:{
         width: screen.width * .8,
