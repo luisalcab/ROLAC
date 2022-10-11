@@ -2,10 +2,12 @@ import React, {useState, useEffect} from "react";
 import {View, Text, TouchableOpacity, StyleSheet, Alert, Modal} from 'react-native';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import ScannerCart from '../components/ScannerCart';
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const QRScanner = () => {
     const [hasPermission, setHasPermission] = useState(null);
-    const [scanned, setScanned] = useState(false);
+    const [scanned, setScanned] = useState(true);
+    const [modalVisible, setModalVisible] = useState(false);
     const [transferData, setTransferData] = useState("");
 
     const askForCameraPermission = async () => {
@@ -20,6 +22,7 @@ const QRScanner = () => {
     const handleScan = ({_, data}) => {
         setTransferData(data);
         setScanned(true);
+        setModalVisible(true);
     }
 
     if (hasPermission === false) {
@@ -55,20 +58,21 @@ const QRScanner = () => {
                     />
                 </View>
                 <View style={styles.footer}>
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonLabel}>Volver al carrito</Text>
+                    <TouchableOpacity style={styles.button} onPress={() => setScanned(false)}>
+                        <Text style={styles.buttonLabel}>Escanear</Text>
                     </TouchableOpacity>
                 </View>
             </View>
             {scanned && 
                 <Modal
                     animationType="slide"
-                    visible={scanned}
+                    visible={modalVisible}
                     transparent={true}
+                    onRequestClose={() => setModalVisible(false)}
                 >
-                    <View style={styles.modalView}>
-                        <ScannerCart id={transferData}/>
-                    </View>
+                        <View style={styles.modalView}>
+                                <ScannerCart id={transferData} setModalVisible={setModalVisible}/>
+                        </View>
                 </Modal>
             }
         </View>

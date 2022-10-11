@@ -56,25 +56,23 @@ const ItemSelector = ({navigation, route}) => {
     );
 
     return (
-        <>
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.title}>{"Donación " + (route.params.kind ? "en especie" : "monetaria")}</Text>
-                </View>
-                <View style={styles.listContainer}>
-                    <FlatList
-                        data={docsData}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.id}
-                    /> 
-                </View>
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <Text style={styles.title}>{"Donación " + (route.params.kind ? "en especie" : "monetaria")}</Text>
+            </View>
+            <View style={styles.listContainer}>
+                <FlatList
+                    data={docsData}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                /> 
             </View>
             <View style={styles.footer}>
                 <TouchableOpacity style={styles.button} onPress={(route.params.kind ? saveCartFB : nav2Cart)}>
                     <Text style={styles.buttonLabel}>{route.params.kind ? "Entregar" : "Carrito"}</Text>
                 </TouchableOpacity>
             </View>
-        </>
+        </View>
     );
 }
 

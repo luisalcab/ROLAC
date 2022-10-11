@@ -1,11 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import {ItemsContext} from "../contexts/ItemsContext";
 import firebaseConnection from "../contexts/FBConnection";
-import {addDoc, getDoc, doc} from "firebase/firestore";
+import {updateDoc, addDoc, getDoc, doc, collection} from "firebase/firestore";
+import moment from "moment";
+import {UserInformation} from "../contexts/userInformation";
 
-const ScannerCart = ({id}) => {
+const ScannerCart = ({id, setModalVisible}) => {
     const [cart, setCart] = useState([]);
+    const {userInformation} = useContext(UserInformation);
 
     const consultCart = () => {
         const query = doc(firebaseConnection.db, "donor", id);
@@ -20,9 +23,15 @@ const ScannerCart = ({id}) => {
     }, []);
 
     const handleAproval = () => {
-        let items = cart.map(item => {item.count, item.id, item.name})
+        const items = cart.map(item => ({count: item.count, id: item.id, name: item.name}))
         const coll = collection(firebaseConnection.db, "donations_in_kind");
-        addDoc(coll, items)
+        const donation = {items, dateTime: moment().format(), donor: id, donationCenter: userInformation.uid}
+        console.log(donation);
+        addDoc(coll, donation);
+
+        const query = doc(firebaseConnection.db, "donor", id);
+        updateDoc(query, {cart: []});
+        setModalVisible(false);
     }
 
     const renderItem = ({item}) => (
@@ -34,28 +43,35 @@ const ScannerCart = ({id}) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.title}>Pedido</Text>
-            </View>
-            <View style={styles.tableHeaders}>
-                <Text style={[styles.columnTitle, {marginRight: 20}]}>CANT</Text>
-                <Text style={[styles.columnTitle, {flex: 1}]}>NOMBRE</Text>
-            </View>
-            <View style={styles.listContainer}>
-                <FlatList
-                    data={cart}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id}
-                />
-            </View>
-            <View style={styles.footer}>
-                <TouchableOpacity style={[styles.button, {backgroundColor: "rgb(255, 93, 93)"}]}>
-                    <Text style={styles.buttonLabel}>Cancelar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, {backgroundColor: "rgb(96, 218, 104)"}]} onPress={handleAproval}>
-                    <Text style={styles.buttonLabel}>Aceptar</Text>
-                </TouchableOpacity>
-            </View>
+        {cart.length != 0 &&
+            <>
+                <View style={styles.header}>
+                    <Text style={styles.title}>Pedido</Text>
+                </View>
+                <View style={styles.tableHeaders}>
+                    <Text style={[styles.columnTitle, { marginRight: 20 }]}>CANT</Text>
+                    <Text style={[styles.columnTitle, { flex: 1 }]}>NOMBRE</Text>
+                </View>
+                <View style={styles.listContainer}>
+                    <FlatList
+                        data={cart}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id} />
+                </View>
+                <View style={styles.footer}>
+                    <TouchableOpacity style={[styles.button, { backgroundColor: "rgb(255, 93, 93)" }]} onPress={() => setModalVisible(false)}>
+                        <Text style={styles.buttonLabel}>Cancelar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.button, { backgroundColor: "rgb(96, 218, 104)" }]} onPress={() => handleAproval()}>
+                        <Text style={styles.buttonLabel}>Aceptar</Text>
+                    </TouchableOpacity>
+                </View>
+            </> || <>
+            <Text style={styles.buttonLabel}>El carrito esta vacio</Text>
+            <TouchableOpacity style={[styles.button, { backgroundColor: "rgb(255, 93, 93)" }]} onPress={() => setModalVisible(false)}>
+                <Text style={styles.buttonLabel}>Volver</Text>
+            </TouchableOpacity></>
+        }
         </View>
 
 
