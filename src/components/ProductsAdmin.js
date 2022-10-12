@@ -77,6 +77,7 @@ const ProductsAdmin = ({navigation}) => {
                     value={search}
                     lightTheme = {true}
                     round = {true}
+                    containerStyle = {styles.searchBar}
                 />
                 <ScrollView>
                     {products.map((product) => {
@@ -137,14 +138,15 @@ const styles = StyleSheet.create({
         marginHorizontal: "5%",
         marginVertical: "2%",
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
     },
     button:{
         width: "50%",
         height: 40,
         justifyContent: "center",
-        backgroundColor: "black",
-        borderRadius: 10
+        backgroundColor: "orange",
+        borderRadius: 10,
+        marginBottom: 10
     },
     products:{
         flex: 1,
@@ -161,12 +163,15 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center",
-        height: 50
+        height: 70,
+        backgroundColor: "#E8E8E8"
     },
     cardContent:{
         flexDirection: "row",
-        justifyContent: "space-evenly",
-        alignItems: "center"
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+        padding: 15
     },
     cardImage:{
         width: "25%",
@@ -182,15 +187,15 @@ const styles = StyleSheet.create({
     cardTitle:{
         fontSize: 20,
         fontWeight: "bold",
-        textAlign: "right",
-        alignItems: "flex-start"
+        textAlign: "left",
+        width: "100%",
     },
     cardButton:{
         width: "10%",
         height: 40,
         justifyContent: "center",
-        //alignItems: "right",
         flexDirection: "row",
+        marginHorizontal: 10
     },
     button2:{
         width: "110%",
@@ -200,11 +205,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     cardText:{
-        width: "40%",
-        height: 40,
-        justifyContent: "center",
+        flexDirection: "row",
         flexWrap: "wrap",
+        width: "40%",
     },
+    searchBar:{
+        width: "100%",
+        height: 70,
+        backgroundColor: "#E8E8E8",
+        borderBottomColor: "transparent",
+        borderTopColor: "transparent",
+        backfaceVisibility: "hidden"
+    }
 });
 
 export default ProductsAdmin;

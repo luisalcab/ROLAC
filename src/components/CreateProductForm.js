@@ -8,6 +8,8 @@ import openGallery from './OpenGallery';
 import uploadImage from './UploadImage';
 import uploadData from './UploadData';
 import { RefresherContext } from '../Contexts/RefresherContext';
+import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const CreateProductForm = ({navigation}) => {
 
@@ -16,6 +18,7 @@ const CreateProductForm = ({navigation}) => {
     const [values, setValues] = useState(null);
     const [switchOnActive, setSwitchOnActive] = useState(false);
     const [switchOnUrgent, setSwitchOnUrgent] = useState(false);
+    const [loading, isLoading] = useState(false);
     const {refresh, setRefresh} = useContext(RefresherContext);
 
     LogBox.ignoreLogs([
@@ -28,6 +31,7 @@ const CreateProductForm = ({navigation}) => {
             setImageURL(null);
             setValues(null);
             setRefresh(true);
+            isLoading(false);
             navigation.navigate("Administración de productos", {navigation: navigation})
         }
     }, [imageURL && values]);
@@ -63,6 +67,7 @@ const CreateProductForm = ({navigation}) => {
                 unit: "",
             }}
             onSubmit={async (values, {resetForm}) => {
+                isLoading(true);
                 if(image == null){
                     setImageURL("https://www.freeiconspng.com/uploads/no-image-icon-15.png");
                     setValues(values);
@@ -81,6 +86,15 @@ const CreateProductForm = ({navigation}) => {
             {({errors, touched, handleChange, handleSubmit, values}) => {
                 return(
                     <>
+                    <Spinner
+                        visible={loading === true}
+                        textContent={'Cargando...'}
+                        textStyle={{color: '#FFF'}}
+                    />
+                    <KeyboardAwareScrollView
+                    enableOnAndroid={true}
+                    enableAutomaticScroll = {true}
+                    >
                         <View style = {styles.box1}>
                             <TouchableOpacity onPress={()=>openGallery(setImage)} style = {styles.picTouch}>
                                 <ImageBackground source={{ uri: image }} style={styles.pic}>
@@ -124,6 +138,7 @@ const CreateProductForm = ({navigation}) => {
                                 <Text style = {styles.textB}>Cancelar</Text>
                             </TouchableOpacity>
                         </View>
+                    </KeyboardAwareScrollView>
                     </>
                 )
             }}
