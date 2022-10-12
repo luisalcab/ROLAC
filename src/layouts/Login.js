@@ -45,12 +45,13 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         backgroundColor: "#fff",
+        marginTop: 0
     },
     pic:{
         width: "90%",
         height: 250,
         marginBottom: 20,
-        marginTop: 50,
+        marginTop: 100,
         marginHorizontal: 20,
         borderRadius: 40  
     }

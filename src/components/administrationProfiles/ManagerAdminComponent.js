@@ -150,17 +150,23 @@ const ManagerAdminComponent = ({ navigation }) => {
   return (
     <>
       <Dialog isVisible={showDialog.state}>
-        <Dialog.Title title="Autenticacion de usuario" />
+        <Dialog.Title title="Verificación de usuario" />
         <View>
           <TextInput
             placeholder="Email actual"
+            placeholderTextColor={"#000"}
             onChangeText={(value) => handleChangeText("email", value)}
+            style={styles.input}
+            keyboardType="email-address"
           />
         </View>
         <View>
           <TextInput
             placeholder="Contraseña actual"
+            placeholderTextColor={"#000"}
             onChangeText={(value) => handleChangeText("password", value)}
+            style={styles.input}
+            secureTextEntry={true}
           />
         </View>
         <View style={styles.buttonContainer}>
@@ -168,11 +174,15 @@ const ManagerAdminComponent = ({ navigation }) => {
             title="Confirmar"
             onPress={() => removeManager()}
             color="#0E4DA4"
+            style={styles.button}
+            titleStyle={{ color: "#fff", fontWeight: "bold" }}
           />
           <Button
             title="Cancelar"
             onPress={() => hideDialog()}
             color="#E74C3C"
+            style={styles.button}
+            titleStyle={{ color: "#fff", fontWeight: "bold" }}
           />
         </View>
       </Dialog>
@@ -184,6 +194,7 @@ const ManagerAdminComponent = ({ navigation }) => {
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <ScrollView>
               <View style={styles.container}>
+                <View style={styles.inputContainer}>
                   <Text style={styles.label}>Nombre(s) actuales</Text>                
                   <Input
                     placeholder="Name"
@@ -207,39 +218,54 @@ const ManagerAdminComponent = ({ navigation }) => {
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
                     value={values.email}
-                  />
+                  /> 
+                </View>
                   <View style={styles.buttonContainer}>
                     <Button
                       color="#0E4DA4"
                       onPress={handleSubmit}
                       title="Actualizar"
+                      titleStyle={{
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                      buttonStyle = {{
+                        borderRadius: 10,
+                        backgroundColor: "#0E4DA4",
+                        width: 200,
+                        elevation: 24,
+                      }}
                     />
                     <Button
                       color="#E74C3C"
                       onPress={() => displayDialog()}
                       title="Eliminar cuenta"
+                      buttonStyle = {{
+                        borderRadius: 10,
+                        backgroundColor: "#E74C3C",
+                        shadowColor: "#000"
+                      }}
+                      titleStyle={{
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
                     />
                   </View>
                   <View>
                     <Button
                       color="#0E4DA4"
-                      buttonStyle = {{
-                        borderRadius: 5,
-                        backgroundColor: "#0E4DA4",
-                        marginHorizontal: "5%",
-                        shadowColor: "#000",
-                        shadowOffset: {
-                          width: 0,
-                          height: 12,
-                        },
-                        shadowOpacity: 0.58,
-                        shadowRadius: 16.00,
-                        
-                        elevation: 24,
-                      }}
-
                       onPress={() => sendEmailRecoverPassword()}
                       title="Actualizar contraseña"
+                      titleStyle={{
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                      buttonStyle = {{
+                        borderRadius: 10,
+                        backgroundColor: "#0E4DA4",
+                        marginHorizontal: "5%",
+                        shadowColor: "#000"
+                      }}
                     />
                   </View>
               </View>
@@ -289,6 +315,23 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 25,
+    paddingHorizontal: 5,
+    paddingTop: 3,
+    marginTop: 5,
+  },
+  button: {
+    borderRadius: 25,
+    marginHorizontal: 10,
+  },
+  inputContainer: {
+    marginHorizontal: "5%",
+    marginTop: 10,
   },
 });
 

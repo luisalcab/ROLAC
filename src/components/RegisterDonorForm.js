@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, Text} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 import {Input, Icon, Button, CheckBox } from "@rneui/themed";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -39,7 +39,6 @@ const RegisterDonorForm = ({navigation}) => {
                 }}
                 onSubmit={(values, {resetForm}) => {
                     isLoading(true);
-                    console.log(values)
 
                     createUserWithEmailAndPassword(auth, values.email, values.password)
                     .then(userCredential => {
@@ -49,21 +48,39 @@ const RegisterDonorForm = ({navigation}) => {
                             name: values.name
                         })
                         .then(() => {
-                            alert("Se ha creado el perfil");
-                            isLoading(false);
-                            navigation.navigate("Login");
+                            Alert.alert("Registro exitoso", "Se ha registrado exitosamente", [
+                                {
+                                    text: "OK",
+                                    onPress: () => {
+                                        navigation.navigate("Login");
+                                        isLoading(false);
+                                    }
+                                }
+                            ])
                         })
                         .catch(() => {
-                            alert("Ha habido un error a la hora de crear el perfil");
-                            isLoading(false);
-                            navigation.navigate("Login");
+                            Alert.alert("Error", "No se pudo registrar", [
+                                {
+                                    text: "OK",
+                                    onPress: () => {
+                                        navigation.navigate("Login");
+                                        isLoading(false);
+                                    }
+                                }
+                            ])
                         })
                     })
                     .catch((error) => {
                         console.log(error)
                         if(error.code == 'auth/email-already-in-use'){
-                            isLoading(false);
-                            alert("Ya hay una cuenta que utiliza ese correo");
+                            Alert.alert("Error", "El email ya está en uso", [
+                                {
+                                    text: "OK",
+                                    onPress: () => {
+                                        isLoading(false);
+                                    }
+                                }
+                            ])
                         }
                     })
 

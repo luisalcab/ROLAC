@@ -113,7 +113,6 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     fontWeight: "bold",
     alignSelf: "center",
-    marginLeft: 60,
   },
   title2: {
     fontSize: 25,
@@ -183,7 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     marginLeft: 2,
-  },
+  }
 });
 
 export default HomePageDonor;

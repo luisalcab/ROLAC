@@ -19,6 +19,8 @@ import {
 } from "firebase/auth";
 import firebaseConection from "../../contexts/FBConnection";
 import { UserInformation } from "../../contexts/userInformation";
+import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Alert } from "react-native";
 
 const ManagerDonorComponent = ({ navigation }) => {
   //Initialize auth instance
@@ -61,8 +63,16 @@ const ManagerDonorComponent = ({ navigation }) => {
       });
     })
     .catch(() => {
-      alert("Ha habido un error, intente de nuevo mas tarde");
-      navigation.navigate("HomePageDonor", { navigation: navigation });
+      Alert.alert(
+        "Error", 
+        "Ha habido un error, intente de nuevo mas tarde",
+        [
+          {
+            text: "OK",
+            onPress: () => navigation.navigate("HomePageDonor", { navigation: navigation })
+          }
+        ]
+      );
     });
   };
 
@@ -71,8 +81,16 @@ const ManagerDonorComponent = ({ navigation }) => {
 
     if(email != donor.email){
       updateEmail(userInformation.auth.currentUser, email).catch(() => {
-        alert("Ha habido un error a la hora de actualizar el usuario");
-        navigation.navigate("HomePageDonor", { navigation: navigation });
+        Alert.alert(
+          "Error",
+          "Ha habido un error, intente de nuevo mas tarde",
+          [
+            {
+              text: "OK",
+              onPress: () => navigation.navigate("HomePageDonor", { navigation: navigation })
+            }
+          ]
+        );
       });
     }
 
@@ -88,14 +106,30 @@ const ManagerDonorComponent = ({ navigation }) => {
             lastName: lastName,
           });
         })
-        .catch(() => {
-          alert("Ha habido un error a la hora de actualizar el usuario");
-          navigation.navigate("HomePageDonor", { navigation: navigation });
+        .catch((error) => {
+          Alert.alert(
+            "Error",
+            "Ha habido un error al actualizar los datos, intente de nuevo mas tarde",
+            [
+              {
+                text: "OK",
+                onPress: () => navigation.navigate("HomePageDonor", { navigation: navigation })
+              }
+            ]
+          );
         });
     } 
     
-    alert("Se ha actualizado la información");
-    navigation.navigate("HomePageDonor", { navigation: navigation });
+    Alert.alert(
+      "Información actualizada",
+      "Se ha actualizado la información",
+      [
+        {
+          text: "ACEPTAR",
+          onPress: () => navigation.navigate("HomePageDonor", { navigation: navigation })
+        }
+      ]
+    );
   };
 
   const removeManager = async () => {
@@ -110,14 +144,28 @@ const ManagerDonorComponent = ({ navigation }) => {
           deleteDoc(
             doc(firebaseConection.db, "donor", userInformation.uid)
           ).then(() => {
-            alert("Usuario borrado exitosamente");
-            navigation.navigate("Login");
+            Alert.alert(
+              "Usuario borrado exitosamente",
+              "Se ha borrado el usuario",
+              [
+                {
+                  text: "OK",
+                  onPress: () => navigation.navigate("Login")
+                }
+              ]
+            );
           });
         });
       })
       .catch((error) => {
-        alert(
-          "Ha ocurrido un error durante el proceso de eliminación del usuario"
+        Alert.alert(
+          "Error",
+          "Ha ocurrido un error durante el proceso de eliminación del usuario",
+          [
+            {
+              text: "OK",
+            }
+          ]
         );
       });
   };
@@ -129,14 +177,28 @@ const ManagerDonorComponent = ({ navigation }) => {
       userInformation.auth.currentUser.email
     )
       .then(() => {
-        alert(
-          `Se ha enviado un correo a ${userInformation.auth.currentUser.email} para actualizar tu contraseña, revisa tu bandeja de spam`
+        Alert.alert(
+          "Correo enviado",
+          `Se ha enviado un correo a ${userInformation.auth.currentUser.email} para actualizar tu contraseña, revisa tu bandeja de spam`,
+          [
+            {
+              text: "OK",
+              onPress: () => navigation.navigate("HomePageDonor", { navigation: navigation })
+            }
+          ]
         );
-        navigation.navigate("HomePageDonor", { navigation: navigation });
       })
       .catch(() => {
-        alert("Ha ocurrido un error, intente de nuevo mas tarde")
-        navigation.navigate("HomePageDonor", { navigation: navigation });
+        Alert.alert(
+          "Error",
+          "Ha ocurrido un error durante el proceso de actualización de contraseña",
+          [
+            {
+              text: "OK",
+              onPress: () => navigation.navigate("HomePageDonor", { navigation: navigation })
+            }
+          ]
+        );
       });
   };
 
@@ -151,29 +213,39 @@ const ManagerDonorComponent = ({ navigation }) => {
   return (
     <>
       <Dialog isVisible={showDialog.state}>
-        <Dialog.Title title="Autenticacion de usuario" />
+        <Dialog.Title title="Verificación de usuario" />
         <View>
           <TextInput
             placeholder="Email actual"
+            placeholderTextColor={"#000"}
             onChangeText={(value) => handleChangeText("email", value)}
+            style={styles.input}
+            keyboardType="email-address"
           />
         </View>
         <View>
           <TextInput
             placeholder="Contraseña actual"
+            placeholderTextColor={"#000"}
             onChangeText={(value) => handleChangeText("password", value)}
+            style={styles.input}
+            secureTextEntry={true}
           />
         </View>
         <View style={styles.buttonContainer}>
           <Button
-            title="Confirmar"
+            title="Borrar"
             onPress={() => removeManager()}
-            color="#0E4DA4"
+            color="#E74C3C"
+            style={styles.button}
+            titleStyle={{ color: "#fff", fontWeight: "bold" }}
           />
           <Button
             title="Cancelar"
             onPress={() => hideDialog()}
-            color="#E74C3C"
+            color="#0E4DA4"
+            style={styles.button}
+            titleStyle={{ color: "#fff", fontWeight: "bold" }}
           />
         </View>
       </Dialog>
@@ -183,110 +255,101 @@ const ManagerDonorComponent = ({ navigation }) => {
           onSubmit={(values) => updateDonor(values)}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <ScrollView>
+            <KeyboardAwareScrollView
+            enableOnAndroid={true}
+            enableAutomaticScroll = {true}
+            extraHeight = {10}
+            extraScrollHeight = {10}>
               <View style={styles.container}>
-                <Text style={styles.label}>Nombre(s) actuales</Text>
-                <Input
-                  placeholder="Name"
-                  leftIcon={<Icon type="material" name="person"/>}
-                  onChangeText={handleChange("name")}
-                  onBlur={handleBlur("name")}
-                  value={values.name}
-                />
-                <Text style={styles.label}>Apellidos actuales</Text>
-                <Input
-                  placeholder="Last name"
-                  leftIcon={<Icon type="material" name="people"/>}
-                  onChangeText={handleChange("lastName")}
-                  onBlur={handleBlur("lastName")}
-                  value={values.lastName}
-                />
-                <Text style={styles.label}>Email actual</Text>
-                <Input
-                  placeholder="Email"
-                  leftIcon={<Icon type="material" name="mail"/>}
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
-                  value={values.email}
-                />
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Nombre(s) actual(es)</Text>
+                  <Input
+                    placeholder="Name"
+                    leftIcon={<Icon type="material" name="person"/>}
+                    onChangeText={handleChange("name")}
+                    onBlur={handleBlur("name")}
+                    value={values.name}
+                  />
+                  <Text style={styles.label}>Apellido(s) actual(es)</Text>
+                  <Input
+                    placeholder="Last name"
+                    leftIcon={<Icon type="material" name="people"/>}
+                    onChangeText={handleChange("lastName")}
+                    onBlur={handleBlur("lastName")}
+                    value={values.lastName}
+                  />
+                  <Text style={styles.label}>Email actual</Text>
+                  <Input
+                    placeholder="Email"
+                    leftIcon={<Icon type="material" name="mail"/>}
+                    onChangeText={handleChange("email")}
+                    onBlur={handleBlur("email")}
+                    value={values.email}
+                  />
+                </View>
 
                 <View style={styles.buttonContainer}>
                   <Button
                     buttonStyle = {{
-                      borderRadius: 5,
+                      borderRadius: 10,
                       backgroundColor: "#0E4DA4",
-                      shadowColor: "#000",
-                      shadowOffset: {
-                        width: 0,
-                        height: 12,
-                      },
-                      shadowOpacity: 0.58,
-                      shadowRadius: 16.00,
-                      
+                      width: 200,
                       elevation: 24,
                     }}
                     onPress={handleSubmit}
                     title="Actualizar"
+                    titleStyle={{
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
                   />
                   <Button
                     buttonStyle = {{
-                      borderRadius: 5,
+                      borderRadius: 10,
                       backgroundColor: "#E74C3C",
-                      shadowColor: "#000",
-                      shadowOffset: {
-                        width: 0,
-                        height: 12,
-                      },
-                      shadowOpacity: 0.58,
-                      shadowRadius: 16.00,
-                      
-                      elevation: 24,
+                      shadowColor: "#000"
                     }}
                     onPress={() => displayDialog()}
                     title="Eliminar cuenta"
+                    titleStyle={{
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
                   />
                 </View>
                 <View>
                   <Button
                     buttonStyle = {{
-                      borderRadius: 5,
+                      borderRadius: 10,
                       backgroundColor: "#0E4DA4",
                       marginHorizontal: "5%",
-                      shadowColor: "#000",
-                      shadowOffset: {
-                        width: 0,
-                        height: 12,
-                      },
-                      shadowOpacity: 0.58,
-                      shadowRadius: 16.00,
-                      
-                      elevation: 24,
+                      shadowColor: "#000"
                     }}
                     onPress={() => sendEmailRecoverPassword()}
                     title="Actualizar contraseña"
+                    titleStyle={{
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
                   />
                   <Button
                     buttonStyle = {{
-                      borderRadius: 5,
+                      borderRadius: 10,
                       backgroundColor: "#0E4DA4",
                       marginHorizontal: "5%",
                       shadowColor: "#000",
-                      shadowOffset: {
-                        width: 0,
-                        height: 12,
-                      },
-                      shadowOpacity: 0.58,
-                      shadowRadius: 16.00,
-                      elevation: 24,
                       marginTop: 10
                     }}
                     onPress={() => pastDonation()}
                     title="Ver donaciones pasadas"
+                    titleStyle={{
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
                   />
                 </View>
-
               </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
           )}
         </Formik>
       ) : (
@@ -305,7 +368,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 20,
-    marginLeft: 5
+    marginLeft: 5,
+    fontWeight: "bold",
   },
   loader: {
     height: "100%",
@@ -332,6 +396,23 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  inputContainer: {
+    marginHorizontal: "5%",
+    marginTop: 10,
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 25,
+    paddingHorizontal: 5,
+    paddingTop: 3,
+    marginTop: 5,
+  },
+  button: {
+    borderRadius: 25,
+    marginHorizontal: 10,
   },
 });
 

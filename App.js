@@ -58,7 +58,7 @@ export default function App() {
                     <CartContext.Provider value={providerCart}>
                         <NavigationContainer initialRouteName="Login">
                             <Stack.Navigator>
-                                <Stack.Screen name="Login" component={Login} />
+                                <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
                                 <Stack.Screen name="QRGenerator" component={QRGenerator} />
                                 <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
                                 <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
@@ -66,8 +66,8 @@ export default function App() {
                                 <Stack.Screen name="RegisterDonor" component={RegisterDonor} options={{title:"Registro Donador", headerBackTitle: "ATRÁS"}}/>
                                 <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros", headerBackTitle: "ATRÁS"}}/>
                                 <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal', headerBackVisible: false}}/>
-                                <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
-                                <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal'}}/>
+                                <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta', headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal', headerBackVisible: false}}/>
                                 <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
                                 options={{title: 'Administrar cuenta'}}/>
                                 <Stack.Screen name="QRScanner" component={QRScanner} />
@@ -77,6 +77,7 @@ export default function App() {
                                 <Stack.Screen name="ItemSelector" component={ItemSelector} 
                                 options={{title:"Banco de alimentos"}}/> 
                                 <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>  
+                                <Stack.Screen name="AdminRegister" component={AdminRegister} options={{title:"Registro Administrador", headerBackTitle: "ATRÁS"}}/>
                             </Stack.Navigator>
                         </NavigationContainer>
                     </CartContext.Provider>

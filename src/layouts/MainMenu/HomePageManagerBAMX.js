@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useContext} from "react";
 import {
   StyleSheet,
   View,
@@ -13,37 +13,65 @@ import {
 } from "react-native";
 import { Icon, Overlay } from "@rneui/base";
 import { getAuth, signOut } from "firebase/auth";
+import { Dropdown } from "react-native-element-dropdown";
+import { UserInformation } from "../../contexts/userInformation.js";
 
 const HomePageManagerBAMX = ({navigation}) => {
-  // console.log("Desde homepage: ", props.route.params.userAuth.currentUser.email)
-  console.log("Navigation homepage: ", navigation)
+  const [refresh, setRefresh] = useState(false);
+  const {userInformation, setUserInformation} = useContext(UserInformation);
+
   return (
     <View>
-        <Text>Vista adminstrador BAMX</Text>
-        <TouchableOpacity
-        onPress={() => navigation.navigate('ManagerAdminComponent', {navigation: navigation})}
-        >
-          <Icon name="user" type="font-awesome" size={50} />
-        </TouchableOpacity>
+        <View style={styles.containerNav}>
+          <Text style={styles.title1}>Hola {userInformation.name}</Text>
+          <Dropdown
+            data={[
+              {
+                label: "Perfil",
+                onPress: () => {
+                  setRefresh(!refresh);
+                  navigation.navigate('ManagerAdminComponent', {navigation: navigation})
+                }
+              },
+              {
+                label: "Cerrar sesión",
+                onPress: () => {
+                  setRefresh(!refresh);
+                  const auth = getAuth();
+                  signOut(auth).then(() => {
+                    // Sign-out successful.
+                    navigation.navigate('Login', {navigation: navigation})
+                  }).catch((error) => {
+                    // An error happened.
+                    navigation.navigate('Login', {navigation: navigation})
+                  });
+                }
+              }
+            ]}
+            style={styles.dropdown}
+            labelField="label"
+            value="label"
+            onChange={(item) => item.onPress()}
+            placeholder={
+              <View style={styles.placeholderContainer}>
+                <Icon name="user" type="font-awesome" />
+                <Text style={styles.textDrop}>Cuenta</Text>
+              </View>
+            }
+            valueField={
+              <View style={styles.valueContainer}>
+                <Icon name="user" type="font-awesome" />
+                <Text style={styles.textDrop}>Cuenta</Text>
+              </View>
+            }
+          />
+        </View>
         <TouchableOpacity
         onPress={() => navigation.navigate('AdminRegister', {navigation: navigation})}
+        style={styles.button}
         >
-          <Icon name="user-plus" type="font-awesome" size={50} />
-        </TouchableOpacity>
-        <TouchableOpacity
-        onPress={() => {
-          const auth = getAuth();
-          signOut(auth).then(() => {
-            // Sign-out successful.
-            navigation.navigate('Login', {navigation: navigation})
-          }).catch((error) => {
-            // An error happened.
-            navigation.navigate('Login', {navigation: navigation})
-          });
-
-        }}
-        >
-          <Icon name="door-open" type="material-community" size={50} />
+          <Icon name="user-plus" type="font-awesome" size={55}/>
+          <Text style={styles.textButton}>Registrar administrador</Text>
         </TouchableOpacity>
     </View>
   );
@@ -55,19 +83,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  map: {
-    width: "100%",
-    height: "75%",
-  },
   containerNav: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 5,
     marginHorizontal: 10,
+    marginBottom: 10,
   },
-  title: {
+  title1: {
     fontSize: 25,
     paddingTop: 5,
+    fontWeight: "bold",
+    alignSelf: "center",
   },
   positionTitle: {
     alignItems: "center",
@@ -77,6 +104,48 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  dropdown: {
+    width: 100,
+    height: 50,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 10,
+      height: 10,
+    },
+    shadowOpacity: 0.05,
+  },
+  placeholderContainer: {
+    height: "100%",
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingTop: 5,
+  },
+  textDrop: {
+    fontSize: 15,
+    fontWeight: "bold",
+    marginLeft: 2,
+  },
+  button : {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    flexDirection: "row",
+    width: "50%",
+    height: 100,
+    alignItems: "center",
+  },
+  textButton: {
+    fontSize: 16,
+    fontWeight: "bold",
+    alignSelf: "center",
+    marginHorizontal: 10,
   },
 });
 

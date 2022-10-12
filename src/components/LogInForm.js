@@ -1,5 +1,5 @@
 import {useContext, useState} from 'react';
-import {View} from 'react-native';
+import {View, Modal, Alert} from 'react-native';
 import {Input, Icon, Button, Text} from "@rneui/themed";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -50,7 +50,8 @@ const LogInForm = ({navigation}) => {
             } else {
                 const querySnapshotCollectionCenter = await getDoc(doc(firebaseConection.db, "collection_center", auth.currentUser.uid))
                 if(querySnapshotCollectionCenter.exists()){
-                    alert("Es Centro de Donación");
+                    setModalText("Es Centro de Donación");
+                    setModalVisible(true);
                 } else {
                     const querySnapshotManger = await getDoc(doc(firebaseConection.db, "BAMXmanager", auth.currentUser.uid))
                     if(querySnapshotManger.exists()){
@@ -66,14 +67,29 @@ const LogInForm = ({navigation}) => {
                         navigation.navigate("HomePageManagerBAMX", {navigation: navigation});
                     } else {
                         isLoading(false);
-                        alert("Usuario o contraseña incorrectas");
+                        Alert.alert(
+                            "Error", 
+                            "Usuario o contraseña incorrectos",
+                            [	
+                                {
+                                    text: "ACEPTAR", 
+                                    onPress: () => console.log("OK Pressed")
+                                }
+                            ]
+                        );
                     }
                 }
             }
         })
         .catch((e) => {
             isLoading(false);
-            alert("Usuario o contraseña incorrectas");
+            Alert.alert(
+                "Error", 
+                "Usuario o contraseña incorrectas",
+                [	
+                    {text: "ACEPTAR", onPress: () => console.log("OK Pressed")}
+                ]
+            );
         });
     }
     return (
@@ -105,6 +121,7 @@ const LogInForm = ({navigation}) => {
                                         errorMessage={errors.email && touched.email ? errors.email : ""}
                                         style={{height:20, fontSize: 20}}
                                         value={values.email}
+                                        keyboardType="email-address"
                                     />
                                     <Input
                                         placeholder="Contraseña"
