@@ -15,6 +15,7 @@ import { Icon, Overlay } from "@rneui/base";
 import { getAuth, signOut } from "firebase/auth";
 import { Dropdown } from "react-native-element-dropdown";
 import { UserInformation } from "../../contexts/userInformation.js";
+import { Alert, ScrollView } from "react-native";
 
 const HomePageManagerBAMX = ({navigation}) => {
   const [refresh, setRefresh] = useState(false);
@@ -22,6 +23,7 @@ const HomePageManagerBAMX = ({navigation}) => {
 
   return (
     <View>
+      <ScrollView>
         <View style={styles.containerNav}>
           <Text style={styles.title1}>Hola {userInformation.name}</Text>
           <Dropdown
@@ -66,13 +68,86 @@ const HomePageManagerBAMX = ({navigation}) => {
             }
           />
         </View>
-        <TouchableOpacity
-        onPress={() => navigation.navigate('AdminRegister', {navigation: navigation})}
-        style={styles.button}
-        >
-          <Icon name="user-plus" type="font-awesome" size={55}/>
-          <Text style={styles.textButton}>Registrar administrador</Text>
-        </TouchableOpacity>
+        <View>
+          <View style={styles.containerBox}>
+            <TouchableOpacity
+            onPress={() => navigation.navigate('AdminRegister', {navigation: navigation})}
+            style={styles.button}
+            >
+              <Icon name="user-plus" type="font-awesome" size={55}/>
+              <Text style={styles.textButton}>Registrar administrador</Text>
+            </TouchableOpacity>
+          </View>  
+          <View style={styles.containerBox}>
+            <Text style={styles.title2}>Centros de Donación</Text>
+            <View style={styles.containerBtt}>
+              <TouchableOpacity
+              onPress={() => Alert.alert('En construcción')}
+              style={styles.button}
+              >
+                <Icon name="bookmark" type="font-awesome" size={55}/>
+                <Text style={styles.textButton}>Solicitudes de registro</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+              onPress={() => Alert.alert('En construcción')}
+              style={styles.button}
+              >
+                <Icon name="update" type="material-community-icons" size={55}/>
+                <Text style={styles.textButton}>Solicitudes de actualización</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.containerBtt}>
+              <TouchableOpacity
+              onPress={() => Alert.alert('En construcción')}
+              style={styles.button}
+              >
+                <Icon name="building" type="font-awesome-5" size={55}/>
+                <Text style={styles.textButton}>Centros de Donación</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.containerBox}>
+            <Text style={styles.title2}>Donaciones</Text>
+            <View style={styles.containerBtt}>
+              <TouchableOpacity
+              onPress={() => Alert.alert('En construcción')}
+              style={styles.button}
+              >
+                <Icon name="money" type="font-awesome" size={55}/>
+                <Text style={styles.textButton}>Donaciones monetarias</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+              onPress={() => Alert.alert('En construcción')}
+              style={styles.button}
+              >
+                <Icon name="text-document" type="entypo" size={55}/>
+                <Text style={styles.textButton}>Reportes donaciones pendientes</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.containerBtt}>
+                <TouchableOpacity
+                onPress={() => Alert.alert('En construcción')}
+                style={styles.button}
+                >
+                  <Icon name="text-document" type="entypo" size={55}/>
+                  <Text style={styles.textButton}>Reportes por Centro</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.containerBox}>
+            <Text style={styles.title2}>Productos</Text>
+            <View style={styles.containerBtt}>
+              <TouchableOpacity
+              onPress={() => Alert.alert('En construcción')}
+              style={styles.button}
+              >
+                <Icon name="shopping-basket" type="font-awesome" size={50}/>
+                <Text style={styles.textButton}>Aministración de productos</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -137,15 +212,32 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
     flexDirection: "row",
-    width: "50%",
+    width: "49%",
     height: 100,
     alignItems: "center",
+    marginTop: 10,
   },
   textButton: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
     alignSelf: "center",
     marginHorizontal: 10,
+    width: "60%",
+  },
+  title2: {
+    fontSize: 25,
+    paddingTop: 5,
+    fontWeight: "bold",
+    alignSelf: "center",
+    marginBottom: 20,
+  },
+  containerBtt: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 10,
+  },
+  containerBox: {
+    marginBottom: 20,
   },
 });
 

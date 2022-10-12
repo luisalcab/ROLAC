@@ -17,6 +17,7 @@ import CardsDonationUser from './src/layouts/donations/CardsDonationUser';
 import CardsDonationAllUsers from './src/layouts/donations/CardsDonationAllUsers';
 import PaymentMessage from './src/components/stripe/PaymentMessage';
 import TerminosyCondiciones from './src/components/TyC';
+import ForgotPassword from './src/components/ForgotPassword';
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
 import {ItemsContext} from './src/contexts/ItemsContext';
@@ -78,6 +79,7 @@ export default function App() {
                                 options={{title:"Banco de alimentos"}}/> 
                                 <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>  
                                 <Stack.Screen name="AdminRegister" component={AdminRegister} options={{title:"Registro Administrador", headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{title:"Recuperar contraseña", headerBackTitle: "ATRÁS"}}/>
                             </Stack.Navigator>
                         </NavigationContainer>
                     </CartContext.Provider>

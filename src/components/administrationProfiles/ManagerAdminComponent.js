@@ -171,16 +171,16 @@ const ManagerAdminComponent = ({ navigation }) => {
         </View>
         <View style={styles.buttonContainer}>
           <Button
-            title="Confirmar"
+            title="Borrar"
             onPress={() => removeManager()}
-            color="#0E4DA4"
+            color="#E74C3C"
             style={styles.button}
             titleStyle={{ color: "#fff", fontWeight: "bold" }}
           />
           <Button
             title="Cancelar"
             onPress={() => hideDialog()}
-            color="#E74C3C"
+            color="#0E4DA4"
             style={styles.button}
             titleStyle={{ color: "#fff", fontWeight: "bold" }}
           />

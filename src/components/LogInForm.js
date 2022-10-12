@@ -1,5 +1,5 @@
 import {useContext, useState} from 'react';
-import {View, Modal, Alert} from 'react-native';
+import {View, Alert, TouchableOpacity} from 'react-native';
 import {Input, Icon, Button, Text} from "@rneui/themed";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -171,6 +171,24 @@ const LogInForm = ({navigation}) => {
                                         icon={<Icon name="arrow-forward-ios" type="material" color = {"white"}/>}
                                         iconRight={true}
                                     />
+                                    <TouchableOpacity
+                                        onPress={() => navigation.navigate("ForgotPassword")}
+                                    >
+                                        <Text style={
+                                            {
+                                                color:"black", 
+                                                alignSelf:"center", 
+                                                marginTop: 30, 
+                                                fontSize: 16,
+                                                textDecorationLine: "underline",
+                                                textDecorationColor: "black",
+                                                textDecorationStyle: "solid",
+                                                fontStyle: "italic"
+                                            }
+                                        }>
+                                            ¿Olvidaste tu contraseña?
+                                        </Text>
+                                    </TouchableOpacity>
                                 </View>
                             </>
                         )
