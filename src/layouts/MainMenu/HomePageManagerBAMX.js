@@ -138,7 +138,10 @@ const HomePageManagerBAMX = ({navigation}) => {
             <Text style={styles.title2}>Productos</Text>
             <View style={styles.containerBtt}>
               <TouchableOpacity
-              onPress={() => Alert.alert('En construcción')}
+              onPress={() => {
+                navigation.navigate('Administración de productos', {navigation: navigation})
+                setRefresh(!refresh)
+              }}
               style={styles.button}
               >
                 <Icon name="shopping-basket" type="font-awesome" size={50}/>

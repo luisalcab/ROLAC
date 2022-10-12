@@ -18,14 +18,18 @@ import CardsDonationAllUsers from './src/layouts/donations/CardsDonationAllUsers
 import PaymentMessage from './src/components/stripe/PaymentMessage';
 import TerminosyCondiciones from './src/components/TyC';
 import ForgotPassword from './src/components/ForgotPassword';
+import ProductsAdmin from './src/components/ProductsAdmin';
+import CreateProduct from './src/layouts/CreateProduct';
+import EditProduct from './src/layouts/EditProduct';
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
 import {ItemsContext} from './src/contexts/ItemsContext';
 import { UserInformation } from './src/contexts/userInformation';
 import {ProductContextProvider} from './src/contexts/ProductContext';
+import {RefresherProvider} from './src/contexts/RefresherContext';
+import {ProductInfoProvider} from './src/contexts/ProductInfoContext';
 
 import AdminSettings from './src/layouts/AdminSettings';
-import FBConnection from './src/contexts/FBConnection';
 import QRGenerator from './src/layouts/QRGenerator';
 import QRScanner from './src/layouts/QRScanner';
 
@@ -54,6 +58,8 @@ export default function App() {
 
     return (
         <ProductContextProvider>
+            <ProductInfoProvider>
+            <RefresherProvider>
             <UserInformation.Provider value={providerUserInformation}>
                 <ItemsContext.Provider value={providerItems}>
                     <CartContext.Provider value={providerCart}>
@@ -72,19 +78,22 @@ export default function App() {
                                 <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
                                 options={{title: 'Administrar cuenta'}}/>
                                 <Stack.Screen name="QRScanner" component={QRScanner} />
-                                
                                 <Stack.Screen name="AdminSettings" component={AdminSettings} /> 
                                 <Stack.Screen name="Cart" component={Cart} /> 
-                                <Stack.Screen name="ItemSelector" component={ItemSelector} 
-                                options={{title:"Banco de alimentos"}}/> 
+                                <Stack.Screen name="ItemSelector" component={ItemSelector} options={{title:"Banco de alimentos"}}/> 
                                 <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>  
                                 <Stack.Screen name="AdminRegister" component={AdminRegister} options={{title:"Registro Administrador", headerBackTitle: "ATRÁS"}}/>
                                 <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{title:"Recuperar contraseña", headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="Administración de productos" component={ProductsAdmin}  options = {{headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="Crear producto" component={CreateProduct} options = {{headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="Editar producto" component={EditProduct} options = {{headerBackTitle: "ATRÁS"}}/>
                             </Stack.Navigator>
                         </NavigationContainer>
                     </CartContext.Provider>
                 </ItemsContext.Provider>
             </UserInformation.Provider>
+            </RefresherProvider>
+            </ProductInfoProvider>
         </ProductContextProvider>
-    )
+    );
 }
