@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: "55%",
+    height: "50%",
     borderRadius: 10
   },
 });

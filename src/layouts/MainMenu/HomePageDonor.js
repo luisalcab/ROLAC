@@ -3,7 +3,8 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { Icon } from "@rneui/base";
 import Map from "../../components/MainMenu/Map.js";
@@ -18,75 +19,75 @@ const HomePageDonor = ({navigation}) => {
   
   return (
     <View>
-      <View style={styles.containerNav}>
-        <TouchableOpacity onPress={() => { navigation.navigate('QRScanner', {navigation: navigation}) }}>
-          <Icon name="qrcode" type="font-awesome" size={50}/>
-        </TouchableOpacity>
-        <Text style={styles.title1}>Hola {userInformation.name}</Text>
-        <Dropdown
-          data={[
-            {
-              label: "Perfil",
-              onPress: () => {
-                setRefresh(!refresh);
-                navigation.navigate('ManagerDonorComponent', {navigation: navigation})
+        <View style={styles.containerNav}>
+          <TouchableOpacity onPress={() => { navigation.navigate('QRScanner', {navigation: navigation}) }}>
+            <Icon name="qrcode" type="font-awesome" size={50}/>
+          </TouchableOpacity>
+          <Text style={styles.title1}>Hola {userInformation.name}</Text>
+          <Dropdown
+            data={[
+              {
+                label: "Perfil",
+                onPress: () => {
+                  setRefresh(!refresh);
+                  navigation.navigate('ManagerDonorComponent', {navigation: navigation})
+                }
+              },
+              {
+                label: "Cerrar sesión",
+                onPress: () => {
+                  setRefresh(!refresh);
+                  const auth = getAuth();
+                  signOut(auth).then(() => {
+                    // Sign-out successful.
+                    navigation.navigate('Login', {navigation: navigation})
+                  }).catch((error) => {
+                    // An error happened.
+                    navigation.navigate('Login', {navigation: navigation})
+                  });
+                }
               }
-            },
-            {
-              label: "Cerrar sesión",
-              onPress: () => {
-                setRefresh(!refresh);
-                const auth = getAuth();
-                signOut(auth).then(() => {
-                  // Sign-out successful.
-                  navigation.navigate('Login', {navigation: navigation})
-                }).catch((error) => {
-                  // An error happened.
-                  navigation.navigate('Login', {navigation: navigation})
-                });
-              }
+            ]}
+            style={styles.dropdown}
+            labelField="label"
+            value="label"
+            onChange={(item) => item.onPress()}
+            placeholder={
+              <View style={styles.placeholderContainer}>
+                <Icon name="user" type="font-awesome" />
+                <Text style={styles.textDrop}>Cuenta</Text>
+              </View>
             }
-          ]}
-          style={styles.dropdown}
-          labelField="label"
-          value="label"
-          onChange={(item) => item.onPress()}
-          placeholder={
-            <View style={styles.placeholderContainer}>
-              <Icon name="user" type="font-awesome" />
-              <Text style={styles.textDrop}>Cuenta</Text>
-            </View>
-          }
-          valueField={
-            <View style={styles.valueContainer}>
-              <Icon name="user" type="font-awesome" />
-              <Text style={styles.textDrop}>Cuenta</Text>
-            </View>
-          }
-        />
-      </View>
-      <View style={styles.positionTitle}>
-        <Text style={styles.title2}>Centros de Donación disponibles</Text>
-      </View>
-      <Map style={styles.map} />
-      <View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("ItemSelector", {kind: false})}
-            style={styles.button}
-          >
-            <Icon name="fast-food-outline" type="ionicon" size={70} />
-            <Text style={styles.textBt}>Donación monetaria</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("ItemSelector", {kind: true})}
-            style={styles.button}
-          >
-            <Icon name="basket-outline" type="ionicon" size={70} />
-            <Text style={styles.textBt}>Donación en especie</Text>
-          </TouchableOpacity>
+            valueField={
+              <View style={styles.valueContainer}>
+                <Icon name="user" type="font-awesome" />
+                <Text style={styles.textDrop}>Cuenta</Text>
+              </View>
+            }
+          />
         </View>
-      </View>
+        <View style={styles.positionTitle}>
+          <Text style={styles.title2}>Centros de Donación disponibles</Text>
+        </View>
+        <Map style={styles.map} />
+        <View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ItemSelector", {kind: false})}
+              style={styles.button}
+            >
+              <Icon name="fast-food-outline" type="ionicon" size={70} />
+              <Text style={styles.textBt}>Donación monetaria</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ItemSelector", {kind: true})}
+              style={styles.button}
+            >
+              <Icon name="basket-outline" type="ionicon" size={70} />
+              <Text style={styles.textBt}>Donación en especie</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
     </View>
   );
 };
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: "60%",
+    height: "50%",
     position: "relative",
   },
   containerNav: {
