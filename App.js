@@ -20,6 +20,7 @@ import CCEditRequest from './src/components/BAMX/CCEditRequest';
 import CompareEdit from "./src/components/BAMX/CompareEdit";
 import CCmenu from './src/layouts/CCmenu';
 import CCEdit from "./src/components/CC/CCEdit";
+import CCDeleteList from './src/components/BAMX/CCDeleteList';
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -102,6 +103,7 @@ export default function App() {
                             <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
                             <Stack.Screen name="Login" component={Login} />
                             <Stack.Screen name="CCEdit" component={CCEdit} />
+                            <Stack.Screen name="CCDeleteList" component={CCDeleteList} />
                             <Stack.Screen name="CCmenu" component={CCmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
                             <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
                             <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>

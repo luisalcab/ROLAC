@@ -1,7 +1,7 @@
 import {useState, useEffect ,createContext} from 'react';
 import {onSnapshot, collection, doc, deleteDoc, setDoc, getDoc} from "firebase/firestore";
-import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
-import {enviromentVariables} from "../../utils/enviromentVariables"
+import {createUserWithEmailAndPassword, deleteUser, getAuth} from "firebase/auth";
+import {enviromentVariables} from "../../utils/enviromentVariables";
 
 //Create Context
 export const BAMXContext = createContext();
@@ -10,6 +10,7 @@ export const BAMXContext = createContext();
 export const BAMXProvider = ({children}) => {
     const {db, app} = enviromentVariables;
 
+    const [CCData, setCCData] = useState(null);
     const [docsNum, setDocsNum] = useState(null);
     const [docsData, setDocsData] = useState(null);
     const [editRequests, setEditRequests] = useState(null);
@@ -82,8 +83,24 @@ export const BAMXProvider = ({children}) => {
         await deleteDoc(doc(db, "edit_requests", id));
     }
 
+    //-------------------------------------------------------------------------------------
+    //Effects for Dlete CC
+
+    useEffect(() => onSnapshot(collection(db, "collection_center"), collection => {
+        setCCData(collection.docs.map(doc => {return {data: doc.data(), id: doc.id}}));
+    } ),[]);
+
+    // const delCC = async id => {
+    //     getAuth()
+
+    //     await deleteDoc(doc(db, "collection_center", id));
+    //     await deleteUser(user)
+
+
+    // }
+
     return(
-        <BAMXContext.Provider value={{docsNum, docsData, editRequestsNum, editRequests, delD, addUser, getCurrentCC, setUpdatedCCData}}>
+        <BAMXContext.Provider value={{docsNum, docsData, editRequestsNum, editRequests, CCData, delD, addUser, getCurrentCC, setUpdatedCCData}}>
             {children}
         </BAMXContext.Provider>
     )

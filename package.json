@@ -27,6 +27,7 @@
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
     "firebase": "^9.9.2",
+    "firebase-admin": "^11.1.0",
     "fontisto": "^3.0.4",
     "formik": "^2.2.9",
     "ionicons": "^6.0.3",

@@ -2,7 +2,7 @@ import {useContext} from "react";
 import {BAMXContext} from "../../contexts/BAMXContext";
 import {View, StyleSheet, Dimensions} from 'react-native';
 import {Indicator} from "nachos-ui";
-import {Button} from "@rneui/themed"
+import {Button, Icon} from "@rneui/themed"
 import LottieView from 'lottie-react-native';
 
 const BtnCCRequest = ({navigation}) => {
@@ -21,6 +21,7 @@ const BtnCCRequest = ({navigation}) => {
                         onPress={() => navigation.navigate("CCRequest")}
                         buttonStyle={styles.button}
                         titleStyle={styles.title}
+                        icon={<Icon name="user-check" type="feather"/>}
                     />
                 </Indicator>
             ) : (

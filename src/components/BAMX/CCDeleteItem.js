@@ -1,13 +1,8 @@
-import {useContext} from 'react';
-import {BAMXContext} from '../../contexts/BAMXContext';
 import {View, StyleSheet, Dimensions, Text} from 'react-native';
 import {Button} from "@rneui/themed"
-import Toast from 'react-native-root-toast';
 
-const CCItem = ({params}) => {
-    const {delD, addUser} = useContext(BAMXContext);
-
-    const {name, address, id, email, data} = params;
+const CCDeleteItem = ({params}) => {
+    const {name, address, id} = params;
 
     return(
         <View style={styles.card}>
@@ -18,15 +13,9 @@ const CCItem = ({params}) => {
             <View style={styles.buttonContainer}>
                 <View style={styles.buttonFlex}>
                     <Button
-                        onPress={() => {addUser(email, data, id);Toast.show("Centro de Acopio Aceptado")}}
-                        title="Aceptar"
+                        onPress={() => alert("Centro de Acopio Borrado.")}
+                        title="Eliminar"
                         buttonStyle={styles.btnA}
-                        titleStyle={styles.btnT}
-                    />
-                    <Button
-                        title="Rechazar"
-                        onPress={() => {delD(id);Toast.show("Centro de Acopio Borrado")}}
-                        buttonStyle={styles.btnR}
                         titleStyle={styles.btnT}
                     />
                 </View>
@@ -45,7 +34,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         backgroundColor: "white",
-        flex:1,
+        flex:0,
         flexWrap: "wrap",
         alignContent: "space-between"
     },
@@ -76,18 +65,13 @@ const styles = StyleSheet.create({
         width: "100%",
         minWidth: screen.width * .3,
         maxWidth: screen.width * .3,
-        borderRadius: 10
-    },
-    btnR:{
-        width: "100%",
-        minWidth: screen.width * .3,
-        maxWidth: screen.width * .3,
         borderRadius: 10,
-        backgroundColor: "red"
+        backgroundColor:"red",
+        elevation: 30
     },
     btnT:{
         fontSize: screen.fontScale * 15
     }
 })
 
-export default CCItem;
+export default CCDeleteItem;

@@ -1,7 +1,7 @@
 import {useContext} from "react"
 import {View, StyleSheet, Dimensions} from 'react-native';
 import {Indicator} from "nachos-ui";
-import {Button} from "@rneui/themed"
+import {Button, Icon} from "@rneui/themed"
 import {BAMXContext} from "../../contexts/BAMXContext";
 import LottieView from 'lottie-react-native';
 
@@ -21,6 +21,7 @@ const BtnCCEditRequest  = ({navigation}) => {
                         onPress={() => navigation.navigate("CCEditRequest")}
                         buttonStyle={styles.button}
                         titleStyle={styles.title}
+                        icon={<Icon name="edit" type="antdesing"/>}
                     />
                 </Indicator>
             ) : (
