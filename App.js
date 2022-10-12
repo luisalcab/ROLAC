@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { YellowBox } from 'react-native-web';
+import NetInfo from "@react-native-community/netinfo";
 
 //Components
 import Login from './src/layouts/Login';
@@ -21,6 +22,7 @@ import CompareEdit from "./src/components/BAMX/CompareEdit";
 import CCmenu from './src/layouts/CCmenu';
 import CCEdit from "./src/components/CC/CCEdit";
 import CCDeleteList from './src/components/BAMX/CCDeleteList';
+import ConnectionFail from './src/components/ConnectionFail';
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -42,8 +44,6 @@ import QRScanner from './src/layouts/QRScanner';
 
 //Import utils
 import enviromentVariables from './utils/enviromentVariables';
-
-
 
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 
@@ -86,48 +86,63 @@ export default function App() {
     const [cart, setCart] = useState([]);
     const [items, setItems] = useState(DATA);
     const [userInformation, setUserInformation] = useState([]);
+    const [isConnected, setIsConnected] = useState(null);
 
     const providerCart = useMemo(() => ({cart, setCart}), [cart, setCart]);
     const providerItems = useMemo(() => ({items, setItems}), [items, setItems]);
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
     
+    useEffect(() => {
+        setTimeout(() => {
+            NetInfo.fetch().then(netWorkStatus => setIsConnected(netWorkStatus.isConnected));
+            NetInfo.addEventListener(netWorkStatus => setIsConnected(netWorkStatus.isConnected));
+        }, 2000);
+    }, []);
+
     return (
-        <CCProvider>
-        <RegisterCCProvider>
-        <BAMXProvider>
-        <UserInformation.Provider value={providerUserInformation}>
-            <ItemsContext.Provider value={providerItems}>
-                <CartContext.Provider value={providerCart}>
-                    <NavigationContainer initialRouteName="BAMXmenu">
-                        <Stack.Navigator>
-                            <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
-                            <Stack.Screen name="Login" component={Login} />
-                            <Stack.Screen name="CCEdit" component={CCEdit} />
-                            <Stack.Screen name="CCDeleteList" component={CCDeleteList} />
-                            <Stack.Screen name="CCmenu" component={CCmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
-                            <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
-                            <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
-                            <Stack.Screen name="CompareEdit" component={CompareEdit} />
-                            <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
-                            <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
-                            <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal'}}/>
-                            <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
-                            <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal'}}/>
-                            <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
-                            options={{title: 'Administrar cuenta'}}/>
-                            <Stack.Screen name="QRScanner" component={QRScanner} />
-                            <Stack.Screen name="QRGenerator" component={QRGenerator} />
-                            <Stack.Screen name="AdminSettings" component={AdminSettings} /> 
-                            <Stack.Screen name="Cart" component={Cart} /> 
-                            <Stack.Screen name="ItemSelector" component={ItemSelector} 
-                            options={{title:"Banco de alimentos"}}/> 
-                        </Stack.Navigator>
-                    </NavigationContainer>
-                </CartContext.Provider>
-            </ItemsContext.Provider>
-        </UserInformation.Provider>
-        </BAMXProvider>
-        </RegisterCCProvider>
-        </CCProvider>
+        <>
+            {isConnected ? (
+                <CCProvider>
+                <RegisterCCProvider>
+                <BAMXProvider>
+                <UserInformation.Provider value={providerUserInformation}>
+                    <ItemsContext.Provider value={providerItems}>
+                        <CartContext.Provider value={providerCart}>
+                            <NavigationContainer initialRouteName="BAMXmenu">
+                                <Stack.Navigator>
+                                    <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
+                                    <Stack.Screen name="Login" component={Login} />
+                                    <Stack.Screen name="CCEdit" component={CCEdit} />
+                                    <Stack.Screen name="CCDeleteList" component={CCDeleteList} />
+                                    <Stack.Screen name="CCmenu" component={CCmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
+                                    <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
+                                    <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
+                                    <Stack.Screen name="CompareEdit" component={CompareEdit} />
+                                    <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
+                                    <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
+                                    <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal'}}/>
+                                    <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
+                                    <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal'}}/>
+                                    <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
+                                    options={{title: 'Administrar cuenta'}}/>
+                                    <Stack.Screen name="QRScanner" component={QRScanner} />
+                                    <Stack.Screen name="QRGenerator" component={QRGenerator} />
+                                    <Stack.Screen name="AdminSettings" component={AdminSettings} /> 
+                                    <Stack.Screen name="Cart" component={Cart} /> 
+                                    <Stack.Screen name="ItemSelector" component={ItemSelector} 
+                                    options={{title:"Banco de alimentos"}}/> 
+                                </Stack.Navigator>
+                            </NavigationContainer>
+                        </CartContext.Provider>
+                    </ItemsContext.Provider>
+                </UserInformation.Provider>
+                </BAMXProvider>
+                </RegisterCCProvider>
+                </CCProvider>
+            ) : (
+                <ConnectionFail isConnected={isConnected}/>   
+            )}
+        </>
+        
     );
 }
