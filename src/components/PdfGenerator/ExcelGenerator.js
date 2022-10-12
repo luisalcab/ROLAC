@@ -11,6 +11,7 @@ import * as Sharing from 'expo-sharing';
 
 import FBConnection from '../../contexts/FBConnection';
 import moment from 'moment';
+import { collectFinancialConnectionsAccounts } from '@stripe/stripe-react-native';
 
 const ExcelGenerator = () => {
     
@@ -85,19 +86,75 @@ const ExcelGenerator = () => {
         console.log(donationsInKind)
         console.log("MAP__________________________-")
         
-        var donationsCollectionCenter = new Map([["QQvES6YicRZw5NcNDqjr7ZwQgmi1", [1 ,2 ,3 ,4]],
-            ["TIqNoLVH9eS8hN7ZmJQA5IhS0Px2" , [1.1, 1.2, 1.3, 1.4]],
-            ["24s8YkXhbEY5TmTZHriX8E86jCh2", {"0IVndm3s95cmMm3QpI9q": "Accediste"}]]);
-        // console.log(donationsCollectionCenter)
-        // console.log("Specific Map3");
-        // console.log(map3.has("24s8YkXhbEY5TmTZHriX8E86jCh2"));
-        const key = "0IVndm3s95cmMm3QpI9q";
-        console.log(donationsCollectionCenter.get("24s8YkXhbEY5TmTZHriX8E86jCh2")[key]);
-        console.log(donationsCollectionCenter.get("24s8YkXhbEY5TmTZHriX8E86jCh2"));
+        var donationsCollectionCenter = new Map();
 
-        // console.log(map3.set("a",[-1, -4, -3, -5]));
-        // console.log("Todo el mapa")
-        // console.log(map3)
+        // donationsInKind.forEach(donation => {
+        //     //If collection center doesn't exist, then we add it to the map
+        //     if(!donationsCollectionCenter.has(donation.donationCenter)) {
+        //         donationsCollectionCenter.set(donation.donationCenter, {})
+        //     }
+            
+        //     //Iterates all the elements of this donation.
+        //     donation.items.forEach(item => {
+        //         const { id, count, name, unit } = item;
+                
+        //         //If the item doesn't exist in the collection center, then we add it
+        //         if(donationsCollectionCenter.get(donation.donationCenter)[item.id] == undefined){
+        //             console.log(item.id)
+        //             donationsCollectionCenter.get(donation.donationCenter)[`${item.id}`] = {
+        //                 count,
+        //                 id,
+        //                 name,
+        //                 unit
+        //             }
+        //         } else {
+        //             donationsCollectionCenter.get(donation.donationCenter)[item.id].count += count
+        //         }
+        //     });
+        // })
+        donationsInKind.forEach(donation => {
+            //If collection center doesn't exist, then we add it to the map
+            if(!donationsCollectionCenter.has(donation.donationCenter)) {
+                const { collectionCenterName, donationCenter } = donation;
+                donationsCollectionCenter.set(donation.donationCenter, 
+                    { 
+                        collectionCenterName, 
+                        donationCenter,
+                        items: {}
+                    }
+                );
+            }
+            
+            //Iterates all the elements of this donation.
+            donation.items.forEach(item => {
+                const { id, count, name, unit } = item;
+                //If the item doesn't exist in the collection center, then we add it
+                if(donationsCollectionCenter.get(donation.donationCenter)["items"][item.id] == undefined){
+                    donationsCollectionCenter.get(donation.donationCenter)["items"][`${item.id}`] = 
+                    {
+                        count,
+                        id,
+                        name,
+                        unit
+                    }
+                } else {
+                    donationsCollectionCenter.get(donation.donationCenter)["items"][item.id].count += count
+                }
+            });
+        })
+        console.log("Example of the items from one donation")
+        // console.log(donationsInKind[0])
+        // console.log(donationsInKind[0].items[0])
+        console.log(donationsCollectionCenter)
+        donationsCollectionCenter.forEach(center => {
+            console.log("------------------------------------------------")
+            console.log(center.collectionCenterName)
+            for(const key in center.items) {
+                console.log(center.items[key])                
+            }
+        })
+        
+        
         sheets.push({
             sheetData: [
                 ["", "", "", "", {v: "Reporte de donaciones pendientes por recolectar", t:"s", s:  stylesExcel.title }],
