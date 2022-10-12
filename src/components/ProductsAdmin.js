@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import GetProducts from './GetProducts';
-import { View, Text, TouchableOpacity, Image, StyleSheet, LogBox } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, LogBox, RefreshControl } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { Card, Icon } from '@rneui/themed';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -79,7 +79,17 @@ const ProductsAdmin = ({navigation}) => {
                     round = {true}
                     containerStyle = {styles.searchBar}
                 />
-                <ScrollView>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={() => {
+                                setRefreshing(true);
+                                setRefresh(true);
+                            }}
+                        />
+                    }
+                >
                     {products.map((product) => {
                         return (
                             <Card key = {product.id} style = {styles.card}>
