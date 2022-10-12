@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { StyleSheet, Button, View, Text, TouchableOpacity } from 'react-native';
-import pdfMake from "pdfmake/build/pdfmake";
 import { Icon } from "@rneui/base";
 import { collection, query, where, getDocs } from 'firebase/firestore';
 
@@ -11,6 +10,9 @@ import FBConnection from '../../contexts/FBConnection';
 import { PdfDocDefinitionContext } from "../../contexts/PdfDocDefinitionContext";
 import moment from 'moment';
 
+import pdfMake from "pdfmake/build/pdfmake";
+// import pdfFonts from "pdfmake/build/vfs_fonts";
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const docDefinition = {
     content: [

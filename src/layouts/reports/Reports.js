@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { View, StyleSheet } from 'react-native';
-import PdfGenerator from "../../components/PdfGenerator/PdfGenerator";
+import ExcelGenerator from "../../components/PdfGenerator/ExcelGenerator";
 
 const Reports = ({navigation}) => {
     return (
         <View style={styles.container}>
-            <PdfGenerator navigation={navigation}/>
+            <ExcelGenerator navigation={navigation}/>
         </View>
     )
 }

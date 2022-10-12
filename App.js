@@ -18,6 +18,7 @@ import CardsDonationAllUsers from './src/layouts/donations/CardsDonationAllUsers
 import PaymentMessage from './src/components/stripe/PaymentMessage';
 
 import PdfGenerator from './src/components/PdfGenerator/PdfGenerator';
+import ExcelGenerator from './src/components/PdfGenerator/ExcelGenerator';
 import Reports from './src/layouts/reports/Reports';
 import CardsKindDonationUser from './src/layouts/donations/CardsKindDonationUser';
 
@@ -68,7 +69,7 @@ export default function App() {
                                 <Stack.Navigator>
                                     <Stack.Screen name="Login" component={Login} />
                                     <Stack.Screen name="CardsKindDonationUser" component={CardsKindDonationUser}/>
-                                    <Stack.Screen name="PdfGenerator" component={PdfGenerator}/>
+                                    <Stack.Screen name="ExcelGenerator" component={ExcelGenerator}/>
                                     <Stack.Screen name="QRGenerator" component={QRGenerator} />
                                     <Stack.Screen name="Reports" component={Reports} />
                                     <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
