@@ -19,6 +19,7 @@ import PaymentMessage from './src/components/stripe/PaymentMessage';
 
 import PdfGenerator from './src/components/PdfGenerator/PdfGenerator';
 import Reports from './src/layouts/reports/Reports';
+import CardsKindDonationUser from './src/layouts/donations/CardsKindDonationUser';
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -66,7 +67,8 @@ export default function App() {
                             <NavigationContainer initialRouteName="Login">
                                 <Stack.Navigator>
                                     <Stack.Screen name="Login" component={Login} />
-                                    {/* <Stack.Screen name="PdfGenerator" component={PdfGenerator}/> */}
+                                    <Stack.Screen name="CardsKindDonationUser" component={CardsKindDonationUser}/>
+                                    <Stack.Screen name="PdfGenerator" component={PdfGenerator}/>
                                     <Stack.Screen name="QRGenerator" component={QRGenerator} />
                                     <Stack.Screen name="Reports" component={Reports} />
                                     <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>

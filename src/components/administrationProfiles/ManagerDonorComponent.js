@@ -142,6 +142,10 @@ const ManagerDonorComponent = ({ navigation }) => {
   const pastDonation = () => {
     navigation.navigate('CardsDonationUser', {navigation: navigation})
   }
+  const pastKindDonation = () => {
+    console.log("Hola mundo")
+    navigation.navigate('CardsKindDonationUser', {navigation: navigation})
+  }
   //Hooks
   useEffect(() => {
     getManagerById(userInformation.uid);
@@ -280,7 +284,25 @@ const ManagerDonorComponent = ({ navigation }) => {
                       marginTop: 10
                     }}
                     onPress={() => pastDonation()}
-                    title="Ver donaciones pasadas"
+                    title="Ver donaciones monetarias pasadas"
+                  />
+                  <Button
+                    buttonStyle = {{
+                      borderRadius: 5,
+                      backgroundColor: "#0E4DA4",
+                      marginHorizontal: "5%",
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 12,
+                      },
+                      shadowOpacity: 0.58,
+                      shadowRadius: 16.00,
+                      elevation: 24,
+                      marginTop: 10
+                    }}
+                    onPress={() => pastKindDonation()}
+                    title="Ver donaciones en especie pasadas"
                   />
                 </View>
 
