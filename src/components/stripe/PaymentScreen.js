@@ -45,7 +45,7 @@ function PaymentScreen({grandTotal, navigation}) {
     }
 
     const fetchPaymentIntentClientSecret = async () => {
-        /*|
+        /*
           Formato para donar:
           2000 = 20.00
           1099 = 10.99
@@ -68,46 +68,49 @@ function PaymentScreen({grandTotal, navigation}) {
               };
     
               // Fetch the intent client secret from the backend
-              const clientSecret = await fetchPaymentIntentClientSecret();
-          
-              // Confirm the payment with the card details
-              const {paymentIntent, error} = await confirmPayment(clientSecret, {
-                paymentMethodType: 'Card',
-                paymentMethodData: {
-                  billingDetails,
-                },
-              });
-
-              if (error) {
-                // console.log('Payment confirmation error', error);
+              if(grandTotalFormat < 1099){
                 handleError()
-              } else if (paymentIntent) {
-                let date = moment().format()
-                
-                addDoc(collection(firebaseConection.db,"monetary_donation"), {
-                  last4: payment.last4,
-                  postalCode: payment.postalCode,
-                  name: payment.name,
-                  amount: payment.amount,
-                  idUser: payment.id,
-                  idStripe: paymentIntent.id,
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude,
-                  date: date
-                })
-                .then(() => {
-                  // console.log('Success from promise', paymentIntent);
-                  setCart([]);
-                  props.idCase = 0;
-                  navigation.navigate("PaymentMessage", { props: props });
+              } else {
+                const  clientSecret = await fetchPaymentIntentClientSecret();
+                // Confirm the payment with the card details
+                const {paymentIntent, error} = await confirmPayment(clientSecret, {
+                  paymentMethodType: 'Card',
+                  paymentMethodData: {
+                    billingDetails,
+                  },
+                });
+
+                if (error) {
+                  // console.log('Payment confirmation error', error);
+                  handleError()
+                } else if (paymentIntent) {
+                  let date = moment().format()
                   
-                })
-                .catch(() => { setCart([]); handleError(); }); 
+                  addDoc(collection(firebaseConection.db,"monetary_donation"), {
+                    last4: payment.last4,
+                    postalCode: payment.postalCode,
+                    name: payment.name,
+                    amount: payment.amount,
+                    idUser: payment.id,
+                    idStripe: paymentIntent.id,
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    date: date
+                  })
+                  .then(() => {
+                    setCart([]);
+                    props.idCase = 0;
+                    navigation.navigate("PaymentMessage", { props: props });
+                    
+                  })
+                  .catch(() => { setCart([]); handleError(); }); 
+                }
               }
             },
             error => { handleError() },
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-          );
+              
+        );
       };
 
       const handleCancelPayPress = async() => {
