@@ -145,7 +145,7 @@ const HomePageManagerBAMX = ({navigation}) => {
               style={styles.button}
               >
                 <Icon name="shopping-basket" type="font-awesome" size={50}/>
-                <Text style={styles.textButton}>Aministración de productos</Text>
+                <Text style={styles.textButton}>Administración de productos</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   textButton: {
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: "bold",
     alignSelf: "center",
     marginHorizontal: 10,
