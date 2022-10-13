@@ -1,78 +1,124 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, ActivityIndicator } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { collection, getDocs } from "firebase/firestore";
 import { Dialog } from "@rneui/themed";
 
 import firebaseConection from "../../contexts/FBConnection";
 
+import * as Location from 'expo-location';
+import { ConsoleSqlOutlined } from "@ant-design/icons";
+
 const Map = () => {
   const [showDialog, setShowDialog] = useState({ state: false });
   const [dialogInformation, setDialogInformation] = useState({
     address: "",
-    collection_center_name: "",
-  });
-  const [origin, setOrigin] = useState({
-    latitude: 20.677505759857546,
-    longitude: -103.34068998874568,
+    name: "",
+    schedule: {}
   });
 
   const [collectionCenter, setCollectionCenter] = useState([]);
+
+  const [initialPosition, setInitialPosition] = useState(null); 
 
   async function getColletionCenterPositions() {
     const collCenter = [];
     const querySnapshot = await getDocs(collection(firebaseConection.db, "collection_center"));
 
     querySnapshot.forEach((docs) => {
-      const { address, collection_center_name, email, latitude, longitude } =
+      const { address, dates, name, email, latitude, longitude } =
         docs.data();
       collCenter.push({
         id: docs.id,
         address,
-        collection_center_name,
+        dates,
+        name,
         email,
         latitude,
         longitude,
       });
     });
-
+    
     setCollectionCenter(collCenter);
   }
+  
+  showPosition = (position) => { 
+    setInitialPosition({
+      latitude: position.coords.latitude, 
+      longitude: position.coords.longitude,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    })
+  };
+
+  findCoordinates = () => {
+    Location.installWebGeolocationPolyfill()
+    navigator.geolocation.getCurrentPosition(showPosition);
+  };
 
   useEffect(() => {
+    function originCoordinates() {
+      findCoordinates()  
+    }
+
     getColletionCenterPositions();
+    originCoordinates()
   }, []);
 
   const displayDialog = (data) => {
     setShowDialog({ state: true });
-    // console.log("Dentro de Dialog", data)
     setDialogInformation({
       address: data.address,
-      collection_center_name: data.collection_center_name,
+      name: data.name,
+      schedule: data.dates
     });
   };
+
   const hideDialog = () => {
     setShowDialog({ state: false });
     setDialogInformation({
       address: "",
-      collection_center_name: "",
+      name: "",
+      schedule: {}
     });
   };
+
   const dialog = () => {
+    
+    var activeDays = "" 
+    var daysInOrder = {
+      lunes: { close: "", open: "", name: "Lunes" },
+      martes: { close: "", open: "", name: "Martes" },
+      miercoles: { close: "", open: "", name: "Miercoles" },
+      jueves: { close: "", open: "", name: "Jueves" },
+      viernes: { close: "", open: "", name: "Viernes" },
+      sabado: { close: "", open: "", name: "Sabado" },
+      domingo: { close: "", open: "", name: "Domingo" }
+    }
+
+    for (const iterator in dialogInformation.schedule) {
+      if(dialogInformation.schedule[iterator].open != null){
+        daysInOrder[iterator].open = dialogInformation.schedule[iterator].open 
+        daysInOrder[iterator].close = dialogInformation.schedule[iterator].close 
+      }
+    }
+
+    for (const iterator in daysInOrder) {
+      if(daysInOrder[iterator].open != ""){
+        activeDays += `- ${daysInOrder[iterator].name}: ${daysInOrder[iterator].open} a ${daysInOrder[iterator].close} \n`
+      }
+    }
+
     return (
       <Dialog isVisible={showDialog.state}>
-        <Dialog.Title title={dialogInformation.collection_center_name} />
+        <Dialog.Title title={dialogInformation.name} />
         <View>
           <Text>
             {`
           Dirección: 
-          ${dialogInformation.address}
-
+${dialogInformation.address}
           Horario:
-          - Lunes: 8:00am a 3:00pm
-          - Martes: 8:00am a 3:00pm
-          - Viernes: 8:00am a 3:00pm
-          - Sabados: 10:00am a 12:00pm 
+${activeDays}
           `}
           </Text>
         </View>
@@ -88,34 +134,31 @@ const Map = () => {
   return (
     <>
       {dialog()}
-      <MapView
-        initialRegion={{
-          latitude: origin.latitude,
-          longitude: origin.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        style={styles.map}
-      >
-        {collectionCenter.map((marker) => {
-          const data = `
-            Dirección: ${marker.address}
-        `;
-          return (
-            <Marker
-              title={marker.collection_center_name}
-              key={marker.id}
-              coordinate={{
-                latitude: marker.latitude,
-                longitude: marker.longitude,
-              }}
-              onPress={() => {
-                displayDialog(marker);
-              }}
-            />
-          );
-        })}
-      </MapView>
+      {initialPosition ? (
+        <MapView
+          initialRegion={initialPosition}
+          style={styles.map}>
+          {collectionCenter.map((marker) => {
+            return (
+              <Marker
+                title={marker.name}
+                key={marker.id}
+                coordinate={{
+                  latitude: marker.latitude,
+                  longitude: marker.longitude,
+                }}
+                onPress={() => {
+                  displayDialog(marker);
+                }}
+              />
+            );
+          })}
+        </MapView>
+      ) : (
+        <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#9e9e9e"></ActivityIndicator>
+      </View>
+      )}
     </>
   );
 };
@@ -129,7 +172,8 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: "60%",
+    height: "50%",
+    borderRadius: 10
   },
 });
 

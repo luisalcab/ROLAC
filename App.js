@@ -1,8 +1,9 @@
 import React, { useMemo, useState, useEffect} from 'react';
+import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { YellowBox } from 'react-native-web';
 import NetInfo from "@react-native-community/netinfo";
+
 
 //Components
 import Login from './src/layouts/Login';
@@ -23,6 +24,14 @@ import CCmenu from './src/layouts/CCmenu';
 import CCEdit from "./src/components/CC/CCEdit";
 import CCDeleteList from './src/components/BAMX/CCDeleteList';
 import ConnectionFail from './src/components/ConnectionFail';
+import CardsDonationUser from './src/layouts/donations/CardsDonationUser';
+import CardsDonationAllUsers from './src/layouts/donations/CardsDonationAllUsers';
+import PaymentMessage from './src/components/stripe/PaymentMessage';
+import TerminosyCondiciones from './src/components/TyC';
+import ForgotPassword from './src/components/ForgotPassword';
+import ProductsAdmin from './src/components/ProductsAdmin';
+import CreateProduct from './src/layouts/CreateProduct';
+import EditProduct from './src/layouts/EditProduct';
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -31,60 +40,28 @@ import { UserInformation } from './src/contexts/userInformation';
 import {RegisterCCProvider} from "./src/contexts/RegisterCC"
 import {BAMXProvider} from "./src/contexts/BAMXContext"
 import {CCProvider} from './src/contexts/CCContext';
+import {ProductContextProvider} from './src/contexts/ProductContext';
+import {RefresherProvider} from './src/contexts/RefresherContext';
+import {ProductInfoProvider} from './src/contexts/ProductInfoContext';
 
-// They are warnings that are ignored, they have no effect on the correct execution of the program
-YellowBox.ignoreWarnings([
-    'Non-serializable values were found in the navigation state',
-    'AsyncStorage has been extracted from react-native core and will be removed in a future release'
-])
 import AdminSettings from './src/layouts/AdminSettings';
-import FBConnection from './src/contexts/FBConnection';
 import QRGenerator from './src/layouts/QRGenerator';
 import QRScanner from './src/layouts/QRScanner';
 
-//Import utils
-import enviromentVariables from './utils/enviromentVariables';
+//Ignore warnings
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+    'AsyncStorage has been extracted from react-native core and will be removed in a future release.',
+    '`new NativeEventEmitter()`'
+])
 
 //Component incharge of crating the screens
 const Stack = createNativeStackNavigator(); 
 
-const DATA = [
-    {id: 1, name: 'Pan', source: require("./src/img/item_apple.jpg"), unit: 'pza', urgent: true, cost: 30.00},
-    {id: 2, name: 'Leche', source: require("./src/img/item_milk.jpg"), unit: 'lt', urgent: false, cost: 20.50},
-    {id: 3, name: 'Huevo', source: require("./src/img/item_eggs.jpg"), unit: 'docena', urgent: true, cost: 28.99},
-    {id: 4, name: 'Jamón', source: require("./src/img/item_apple.jpg"), unit: 'empaque', urgent: true, cost: 76.80},
-    {id: 5, name: 'Atún', source: require("./src/img/item_milk.jpg"), unit: 'lata', urgent: false, cost: 19.60},
-    {id: 6, name: 'Frijol', source: require("./src/img/item_eggs.jpg"), unit: 'kg', urgent: false, cost: 24.00},
-    {id: 7, name: 'Arroz', source: require("./src/img/item_milk.jpg"), unit: 'kg', urgent: true, cost: 26.20},
-    {id: 8, name: 'Manzana', source: require("./src/img/item_apple.jpg"), unit: 'pza', urgent: false, cost: 8.10},
-    {id: 9, name: 'Aguacate', source: require("./src/img/item_milk.jpg"), unit: 'pza', urgent: true, cost: 27.90},
-    {id: 10, name: 'Cebolla', source: require("./src/img/item_eggs.jpg"), unit: 'pza', urgent: false, cost: 12.30},
-    {id: 11, name: 'Pan', source: require("./src/img/item_apple.jpg"), unit: 'pza', urgent: true, cost: 30.00},
-    {id: 12, name: 'Leche', source: require("./src/img/item_milk.jpg"), unit: 'lt', urgent: false, cost: 20.50},
-    {id: 13, name: 'Huevo', source: require("./src/img/item_eggs.jpg"), unit: 'docena', urgent: true, cost: 28.99},
-    {id: 14, name: 'Jamón', source: require("./src/img/item_apple.jpg"), unit: 'empaque', urgent: true, cost: 76.80},
-    {id: 15, name: 'Atún', source: require("./src/img/item_milk.jpg"), unit: 'lata', urgent: false, cost: 19.60},
-    {id: 16, name: 'Frijol', source: require("./src/img/item_eggs.jpg"), unit: 'kg', urgent: false, cost: 24.00},
-    {id: 17, name: 'Arroz', source: require("./src/img/item_milk.jpg"), unit: 'kg', urgent: true, cost: 26.20},
-    {id: 18, name: 'Manzana', source: require("./src/img/item_apple.jpg"), unit: 'pza', urgent: false, cost: 8.10},
-    {id: 19, name: 'Aguacate', source: require("./src/img/item_milk.jpg"), unit: 'pza', urgent: true, cost: 27.90},
-    {id: 20, name: 'Cebolla', source: require("./src/img/item_eggs.jpg"), unit: 'pza', urgent: false, cost: 12.30},
-    {id: 21, name: 'Pan', source: require("./src/img/item_apple.jpg"), unit: 'pza', urgent: true, cost: 30.00},
-    {id: 22, name: 'Leche', source: require("./src/img/item_milk.jpg"), unit: 'lt', urgent: false, cost: 20.50},
-    {id: 23, name: 'Huevo', source: require("./src/img/item_eggs.jpg"), unit: 'docena', urgent: true, cost: 28.99},
-    {id: 24, name: 'Jamón', source: require("./src/img/item_apple.jpg"), unit: 'empaque', urgent: true, cost: 76.80},
-    {id: 25, name: 'Atún', source: require("./src/img/item_milk.jpg"), unit: 'lata', urgent: false, cost: 19.60},
-    {id: 26, name: 'Frijol', source: require("./src/img/item_eggs.jpg"), unit: 'kg', urgent: false, cost: 24.00},
-    {id: 27, name: 'Arroz', source: require("./src/img/item_milk.jpg"), unit: 'kg', urgent: true, cost: 26.20},
-    {id: 28, name: 'Manzana', source: require("./src/img/item_apple.jpg"), unit: 'pza', urgent: false, cost: 8.10},
-    {id: 29, name: 'Aguacate', source: require("./src/img/item_milk.jpg"), unit: 'pza', urgent: true, cost: 27.90},
-    {id: 30, name: 'Cebolla', source: require("./src/img/item_eggs.jpg"), unit: 'pza', urgent: false, cost: 12.30},
-];
-
 // All the screens should be inside of NavigationContainer
 export default function App() {
     const [cart, setCart] = useState([]);
-    const [items, setItems] = useState(DATA);
+    const [items, setItems] = useState([]);
     const [userInformation, setUserInformation] = useState([]);
     const [isConnected, setIsConnected] = useState(null);
 
@@ -103,46 +80,61 @@ export default function App() {
         <>
             {isConnected ? (
                 <CCProvider>
-                <RegisterCCProvider>
                 <BAMXProvider>
+                <RefresherProvider>
+                <RegisterCCProvider>
+                <ProductInfoProvider>
+                <ProductContextProvider>
                 <UserInformation.Provider value={providerUserInformation}>
-                    <ItemsContext.Provider value={providerItems}>
-                        <CartContext.Provider value={providerCart}>
-                            <NavigationContainer initialRouteName="Login">
-                                <Stack.Navigator>
-                                    <Stack.Screen name="Login" component={Login} />
-                                    <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
-                                    <Stack.Screen name="CCEdit" component={CCEdit} />
-                                    <Stack.Screen name="CCDeleteList" component={CCDeleteList} />
-                                    <Stack.Screen name="CCmenu" component={CCmenu} options={navigation => ({title: "Menú Principal", headerBackVisible: false})}/>
-                                    <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
-                                    <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
-                                    <Stack.Screen name="CompareEdit" component={CompareEdit} />
-                                    <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
-                                    <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros"}}/>
-                                    <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal'}}/>
-                                    <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
-                                    <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal'}}/>
-                                    <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
-                                    options={{title: 'Administrar cuenta'}}/>
-                                    <Stack.Screen name="QRScanner" component={QRScanner} />
-                                    <Stack.Screen name="QRGenerator" component={QRGenerator} />
-                                    <Stack.Screen name="AdminSettings" component={AdminSettings} /> 
-                                    <Stack.Screen name="Cart" component={Cart} /> 
-                                    <Stack.Screen name="ItemSelector" component={ItemSelector} 
-                                    options={{title:"Banco de alimentos"}}/> 
-                                </Stack.Navigator>
-                            </NavigationContainer>
-                        </CartContext.Provider>
-                    </ItemsContext.Provider>
+                <ItemsContext.Provider value={providerItems}>
+                    <CartContext.Provider value={providerCart}>
+                        <NavigationContainer initialRouteName="Login">
+                            <Stack.Navigator>
+                                <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+                                <Stack.Screen name="QRGenerator" component={QRGenerator} />
+                                <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
+                                <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
+                                <Stack.Screen name="TerminosyCondiciones" component={TerminosyCondiciones} options={{title: "Términos y Condiciones", headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="RegisterDonor" component={RegisterDonor} options={{title:"Registro Donador", headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>{/*r */}
+                                <Stack.Screen name="CCEdit" component={CCEdit} />
+                                <Stack.Screen name="CCDeleteList" component={CCDeleteList} />
+                                <Stack.Screen name="CCmenu" component={CCmenu} options={navigation => ({title: "Menú Principal", headerBackVisible: false})}/>
+                                <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
+                                <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
+                                <Stack.Screen name="CompareEdit" component={CompareEdit} />
+                                <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
+                                <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros", headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal', headerBackVisible: false}}/>
+                                <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta', headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal', headerBackVisible: false}}/>
+                                <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
+                                options={{title: 'Administrar cuenta'}}/>
+                                <Stack.Screen name="QRScanner" component={QRScanner} />
+                                <Stack.Screen name="QRGenerator" component={QRGenerator} />
+                                <Stack.Screen name="AdminSettings" component={AdminSettings} /> 
+                                <Stack.Screen name="Cart" component={Cart} /> 
+                                <Stack.Screen name="ItemSelector" component={ItemSelector} options={{title:"Banco de alimentos"}}/> 
+                                <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>  
+                                <Stack.Screen name="AdminRegister" component={AdminRegister} options={{title:"Registro Administrador", headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{title:"Recuperar contraseña", headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="Administración de productos" component={ProductsAdmin}  options = {{headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="Crear producto" component={CreateProduct} options = {{headerBackTitle: "ATRÁS"}}/>
+                                <Stack.Screen name="Editar producto" component={EditProduct} options = {{headerBackTitle: "ATRÁS"}}/>
+                            </Stack.Navigator>
+                        </NavigationContainer>
+                    </CartContext.Provider>
+                </ItemsContext.Provider>
                 </UserInformation.Provider>
-                </BAMXProvider>
+                </ProductContextProvider>
+                </ProductInfoProvider>
                 </RegisterCCProvider>
+                </RefresherProvider>
+                </BAMXProvider>
                 </CCProvider>
             ) : (
                 <ConnectionFail isConnected={isConnected}/>   
             )}
         </>
-        
     );
 }

@@ -1,16 +1,15 @@
-import React, {useContext} from "react"
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
+import React, {useContext, useEffect} from "react"
+import {View, Text, TouchableOpacity, StyleSheet, Button} from 'react-native'
 import {CartContext} from "../contexts/CartContext"
 import QRCode from "react-native-qrcode-svg"
+import { UserInformation } from "../contexts/userInformation"
 
-const QRGenerator = () => {
-    const {cart} = useContext(CartContext);
+const QRGenerator = ({navigation}) => {
+    const {userInformation} = useContext(UserInformation);
 
-    let message = [];
-
-    cart.forEach(item => {
-        message.push({name: item.name, count: item.count});
-    });
+    const returnToMenu = () => {
+        navigation.navigate('HomePageDonor', {navigation: navigation})
+    }
 
     return (
         <View style={styles.container}>
@@ -18,12 +17,13 @@ const QRGenerator = () => {
                 <Text style={styles.title}>Código de Pedido</Text>
             </View>
             <View style={styles.qrContainer}>
-                <QRCode value={JSON.stringify(message)} size={200}/>
+                <QRCode value={userInformation.uid} size={200}/>
             </View>
-            <View style={styles.footer}>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonLabel}>Volver al carrito</Text>
-                </TouchableOpacity>
+            <View style={styles.button}>
+                <Button
+                    onPress={returnToMenu} 
+                    color="#E74C3C" 
+                    title="Regrsar"/>
             </View>
         </View>
     );

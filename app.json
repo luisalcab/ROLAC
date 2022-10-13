@@ -6,6 +6,12 @@
     "userInterfaceStyle": "automatic",
     "assetBundlePatterns": [
       "**/*"
+    ],
+    "plugins": [
+      [
+      "expo-image-picker",
+        {"photoPermissions": "CAMERA_ROLL"}
+      ]
     ]
   }
 }

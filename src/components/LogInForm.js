@@ -1,24 +1,26 @@
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
+import {View, Alert, TouchableOpacity} from 'react-native';
 import {CCContext} from '../contexts/CCContext';
-import {View} from 'react-native';
-import {Input, Icon, Button} from "@rneui/themed";
+import {UserInformation} from '../contexts/userInformation';
+import {Input, Icon, Button, Text} from "@rneui/themed";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {getDoc, doc} from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
-import { UserInformation } from '../contexts/userInformation';
 import {enviromentVariables} from '../../utils/enviromentVariables';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const LogInForm = ({navigation}) => {
-    const {setUserInformation} = useContext(UserInformation);
+    const {setUserInformation, userInformation} = useContext(UserInformation);
     const {setCCUser} = useContext(CCContext);
+
+    const [loading, isLoading] = useState(false);
 
     const {db, app} = enviromentVariables;
 
     const auth = getAuth(app);
 
     const nav2Registration = () => navigation.navigate("RegisterDonor");
-
     const nav2CCmenu = () => navigation.navigate("CCmenu");
 
     const logInSchema = Yup.object().shape({
@@ -33,6 +35,8 @@ const LogInForm = ({navigation}) => {
 
     const handleSubmit = async(data) => {
         try{
+            isLoading(true);
+
             const {email, password} = data;
 
             await signInWithEmailAndPassword(auth, email, password);
@@ -46,14 +50,16 @@ const LogInForm = ({navigation}) => {
                     uid: auth.currentUser.uid,
                     name: name,
                     lastName: lastName
-                })
-                    
+                });
+                
+                isLoading(false);
                 navigation.navigate("HomePageDonor", {navigation: navigation});
             }else{
                 const querySnapshotCollectionCenter = await getDoc(doc(db, "collection_center", auth.currentUser.uid));
 
                 if(querySnapshotCollectionCenter.exists()){
-                    await setCCUser(auth.currentUser.uid); 
+                    await setCCUser(auth.currentUser.uid);
+                    await setModalVisible(true);
                     nav2CCmenu();
                 }else{
                     const querySnapshotManger = await getDoc(doc(db, "BAMXmanager", auth.currentUser.uid));
@@ -66,20 +72,43 @@ const LogInForm = ({navigation}) => {
                             name: name,
                             lastName: lastName
                         });
-        
-                        navigation.navigate("BAMXmenu", {navigation: navigation});
-                    } else {
-                        alert("Usuario o contraseña incorrectas");
+                        
+                        isLoading(false);
+                        navigation.navigate("HomePageManagerBAMX", {navigation: navigation});
+                    }else{
+                        isLoading(false);
+                        Alert.alert(
+                            "Error", 
+                            "Usuario o contraseña incorrectos",
+                            [	
+                                {
+                                    text: "ACEPTAR", 
+                                    onPress: () => console.log("OK Pressed")
+                                }
+                            ]
+                        );
                     }
                 }
             }
         }catch(e){
-            alert("Usuario o contraseña incorrectas");
+            isLoading(false);
+            Alert.alert(
+                "Error", 
+                "Usuario o contraseña incorrectas",
+                [	
+                    {text: "ACEPTAR", onPress: () => console.log("OK Pressed")}
+                ]
+            );
         }        
     }
 
   return (
     <>
+        <Spinner
+            visible={loading === true}
+            textContent={'Cargando...'}
+            textStyle={{color: '#FFF'}}
+        />
         <Formik
             initialValues={{
                 email:"",
@@ -94,38 +123,43 @@ const LogInForm = ({navigation}) => {
                 {({errors, touched, handleChange, handleSubmit, values}) => {
                     return(
                         <>
-                            <Input
-                                placeholder="Correo"
-                                leftIcon={<Icon type="material" name="mail"/>}
-                                onChangeText={handleChange("email")}
-                                errorMessage={errors.email && touched.email ? errors.email : ""}
-                                style={{width:"100%",height:20}}
-                                value={values.email}
-                            />
-                            <Input
-                                placeholder="Contraseña"
-                                secureTextEntry={true}
-                                leftIcon={<Icon type="material" name="lock"/>}
-                                onChangeText={handleChange("password")}
-                                errorMessage={errors.password && touched.password ? errors.password : ""}
-                                style={{width:"100%",height:20}}
-                                value={values.password}
-                            />
-                            <View style={{flex:1, justifyContent:"space-around", alignItems:"center", flexDirection:"column"}}>    
+                            <View style={{padding: 34}}>
+                                <Input
+                                    placeholder="Correo"
+                                    leftIcon={<Icon type="material" name="mail"/>}
+                                    onChangeText={handleChange("email")}
+                                    errorMessage={errors.email && touched.email ? errors.email : ""}
+                                    style={{height:20, fontSize: 20}}
+                                    value={values.email}
+                                    keyboardType="email-address"
+                                />
+                                <Input
+                                    placeholder="Contraseña"
+                                    secureTextEntry={true}
+                                    leftIcon={<Icon type="material" name="lock"/>}
+                                    onChangeText={handleChange("password")}
+                                    errorMessage={errors.password && touched.password ? errors.password : ""}
+                                    style={{height:20, fontSize: 20}}
+                                    value={values.password}
+                                />
+                            </View>
+                            <View style={{justifyContent:"space-around", flexDirection:"column"}}>    
                                 <Button 
                                     onPress={handleSubmit} 
-                                    title="Submit"
+                                    title="Entrar"
                                     buttonStyle={{
                                         width: "80%",
                                         height:50,
-                                        borderBottomEndRadius:10,
-                                        borderBottomLeftRadius:10,
-                                        backgroundColor:"gray"
+                                        borderRadius: 10,
+                                        backgroundColor:"red",
+                                        alignSelf:"center"
                                     }}
                                     titleStyle={{
-                                        width: "100%"
+                                        width: "90%",
+                                        color:"white",
+                                        fontSize: 25
                                     }}
-                                    icon={<Icon name="arrow-forward-ios" type="material"/>}
+                                    icon={<Icon name="arrow-forward-ios" type="material" color ="white"/>}
                                     iconRight={true}
                                 />
                                 <Button 
@@ -134,23 +168,41 @@ const LogInForm = ({navigation}) => {
                                     buttonStyle={{
                                         width: "80%",
                                         height:50,
-                                        borderBottomEndRadius:10,
-                                        borderBottomLeftRadius:10,
-                                        backgroundColor:"gray"
+                                        borderRadius: 10,
+                                        backgroundColor:"orange",
+                                        alignSelf:"center",
+                                        marginTop: 10
                                     }}
                                     titleStyle={{
-                                        width: "100%"
+                                        width: "90%",
+                                        color:"white",
+                                        fontSize: 25
                                     }}
-                                    icon={<Icon name="arrow-forward-ios" type="material"/>}
+                                    icon={<Icon name="arrow-forward-ios" type="material" color ="white"/>}
                                     iconRight={true}
                                 />
+                                <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+                                    <Text style={{
+                                            color:"black", 
+                                            alignSelf:"center", 
+                                            marginTop: 30, 
+                                            fontSize: 16,
+                                            textDecorationLine: "underline",
+                                            textDecorationColor: "black",
+                                            textDecorationStyle: "solid",
+                                            fontStyle: "italic"
+                                        }}
+                                    >¿Olvidaste tu contraseña?
+                                    </Text>
+                                </TouchableOpacity>
                             </View>
                         </>
                     )
-                }}
-            </Formik>    
-        </>
-    )
-}
+                }
+            }
+        </Formik>
+    </>
+)}
 
 export default LogInForm;
+

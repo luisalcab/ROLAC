@@ -1,26 +1,30 @@
-import React from 'react'
-import {View} from 'react-native';
-import {Input, Icon, Button, } from "@rneui/themed";
+import React, {useState} from 'react'
+import {View, Text, Alert} from 'react-native';
+import {Input, Icon, Button, CheckBox } from "@rneui/themed";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {doc, setDoc} from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import firebaseConection from '../contexts/FBConnection';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const RegisterDonorForm = ({navigation}) => {
+    const [loading, isLoading] = useState(false);
+    const [accept, setAccept] = useState(false);
+
     const auth = getAuth();
     const donorSchema = Yup.object().shape({
         name:Yup.
             string().
-            required("Nombre es Obligatorio."),
+            required("Nombre es obligatorio"),
         email:Yup.
             string().
-            required("Email es Obligatorio.").
+            required("Email es obligatorio").
             email("Email no válido"),
         password:Yup.
             string().
-            required("Contraseña es Obligatoria.").
-            min(8, "La contraseña debe de tener por lo menos 8 caracteres.")
+            required("Contraseña es obligatoria").
+            min(8, "La contraseña debe de tener por lo menos 8 caracteres")
     })
 
     return (
@@ -34,7 +38,7 @@ const RegisterDonorForm = ({navigation}) => {
                     password:""
                 }}
                 onSubmit={(values, {resetForm}) => {
-                    console.log(values)
+                    isLoading(true);
 
                     createUserWithEmailAndPassword(auth, values.email, values.password)
                     .then(userCredential => {
@@ -44,18 +48,39 @@ const RegisterDonorForm = ({navigation}) => {
                             name: values.name
                         })
                         .then(() => {
-                            alert("Se a creado el perfil");
-                            navigation.navigate("Login");
+                            Alert.alert("Registro exitoso", "Se ha registrado exitosamente", [
+                                {
+                                    text: "OK",
+                                    onPress: () => {
+                                        navigation.navigate("Login");
+                                        isLoading(false);
+                                    }
+                                }
+                            ])
                         })
                         .catch(() => {
-                            alert("Ha habido un error a la hora de crear el perfil");
-                            navigation.navigate("Login");
+                            Alert.alert("Error", "No se pudo registrar", [
+                                {
+                                    text: "OK",
+                                    onPress: () => {
+                                        navigation.navigate("Login");
+                                        isLoading(false);
+                                    }
+                                }
+                            ])
                         })
                     })
                     .catch((error) => {
                         console.log(error)
                         if(error.code == 'auth/email-already-in-use'){
-                            alert("Ya hay una cuenta que utiliza ese correo");
+                            Alert.alert("Error", "El email ya está en uso", [
+                                {
+                                    text: "OK",
+                                    onPress: () => {
+                                        isLoading(false);
+                                    }
+                                }
+                            ])
                         }
                     })
 
@@ -66,20 +91,28 @@ const RegisterDonorForm = ({navigation}) => {
                 {({errors, touched, handleChange, handleSubmit, values}) => {
                     return(
                         <>
+                        <Spinner
+                            visible={loading == true}
+                            textContent={'Cargando...'}
+                            textStyle={{color: '#FFF'}}
+                        />
                             <View style={{width:"100%", height:"100%" ,flex:1 ,alignItems:"center"}}>
+                                <View style={{width:"80%", height:"100%" ,flex:1 ,alignItems:"center", justifyContent:"center"}}>
                                 <Input
-                                    placeholder="Nombre"
+                                    placeholder="Nombre(s)"
                                     leftIcon={<Icon type="material" name="person"/>}
                                     onChangeText={handleChange("name")}
                                     errorMessage={errors.name && touched.name ? errors.name : ""}
                                     value={values.name}
+                                    style={{fontSize: 20}}
                                 />
                                 <Input
-                                    placeholder="Apellidos"
+                                    placeholder="Apellido(s)"
                                     leftIcon={<Icon type="material" name="people"/>}
                                     onChangeText={handleChange("lastName")}
                                     errorMessage={errors.name && touched.name ? errors.name : ""}
                                     value={values.lastName}
+                                    style={{fontSize: 20}}
                                 />
                                 <Input
                                     placeholder="Email"
@@ -87,6 +120,7 @@ const RegisterDonorForm = ({navigation}) => {
                                     onChangeText={handleChange("email")}
                                     errorMessage={errors.email && touched.email ? errors.email : ""}
                                     value={values.email}
+                                    style={{fontSize: 20}}
                                 />
                                 <Input
                                     placeholder="Contraseña"
@@ -95,32 +129,32 @@ const RegisterDonorForm = ({navigation}) => {
                                     onChangeText={handleChange("password")}
                                     errorMessage={errors.password && touched.password ? errors.password : ""}
                                     value={values.password}
+                                    style={{fontSize: 20}}
                                 />
-                                <View style={{flex:1,justifyContent:"flex-start",width:"100%",height:"auto"}}>
-                                    <Button
-                                        onPress={() => navigation.navigate("RegisterCCForm")}
-                                        title="¿Eres un Negocio?"
-                                        buttonStyle={{
-                                            backgroundColor:"transparent",
-                                            width:160
-                                        }}
-                                        titleStyle={{
-                                            color:"black",
-                                            fontWeight: 'bold',
-                                            textDecorationLine: 'underline'
-                                        }}
-                                    >
-                                    </Button>
+                                <View style = {{width: "100%", alignItems: "center"}}>
+                                    <CheckBox
+                                        title={
+                                            <Text> He leído y acepto los
+                                                <Text style={{color: "#0000EE"}} onPress={() => navigation.navigate("TerminosyCondiciones")}> Términos y Condiciones</Text>
+                                            </Text>
+                                        }
+                                        checkedIcon="check-square"
+                                        uncheckedIcon="square-o"
+                                        checked={accept}
+                                        onPress={() => setAccept(!accept)}
+                                    />
                                 </View>
+                            </View>
                                 <Button
                                     onPress={handleSubmit}
                                     title="Registrarse"
                                     buttonStyle={{
-                                        width:"80%",
-                                        height:80,
-                                        borderRadius: 5,
-                                        backgroundColor:"white",
-                                        marginBottom: "5%",
+                                        width:"90%",
+                                        height:60,
+                                        alignSelf:"center",
+                                        marginTop:20,
+                                        borderRadius: 10,
+                                        backgroundColor:"orange",
                                         shadowColor: "#000",
                                         shadowOffset: {
                                             width: 0,
@@ -128,16 +162,36 @@ const RegisterDonorForm = ({navigation}) => {
                                         },
                                         shadowOpacity: 0.27,
                                         shadowRadius: 4.65,
-                                        elevation: 6
+                                        elevation: 6,
+                                        marginBottom: 20
                                     }}
                                     titleStyle={{
-                                        color:"black",
+                                        color:"white",
                                         width:"80%",
-                                        fontSize:30
+                                        fontSize:25,
+                                        fontWeight: 'bold'
                                     }}
-                                    icon={<Icon name="arrow-forward-ios" type="material"/>}
+                                    icon={<Icon name="arrow-forward-ios" type="material" color={"white"}/>}
                                     iconRight={true}
+                                    disabled={!accept}
                                 />
+                                <View style={{flex:1, justifyContent:"flex-start", width:"100%", height:"auto", marginTop: 50}}>
+                                    <Button
+                                        onPress={() => navigation.navigate("RegisterCCForm")}
+                                        title="¿Eres un negocio?"
+                                        buttonStyle={{
+                                            backgroundColor:"transparent",
+                                            width:"100%",
+                                        }}
+                                        titleStyle={{
+                                            color:"black",
+                                            fontWeight: 'bold',
+                                            textDecorationLine: 'underline',
+                                            fontSize: 16
+                                        }}
+                                    >
+                                    </Button>
+                                </View>
                             </View>
                         </>
                     )
