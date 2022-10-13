@@ -13,7 +13,7 @@ const CCmenu = ({navigation}) => {
 
     useEffect(() => {
         navigation.setOptions({
-            headerRight: () => (<BtnCCuserConfig func={() => console.log("PRESS")}/>)
+            headerRight: () => (<BtnCCuserConfig/>)
         })
         setTimeout(() => {
             setAnimation(false);

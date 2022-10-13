@@ -41,6 +41,7 @@
     "react-dom": "18.0.0",
     "react-native": "0.69.5",
     "react-native-camera": "^4.2.1",
+    "react-native-element-dropdown": "^2.3.0",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~2.5.0",
     "react-native-ionicons": "^4.6.5",
