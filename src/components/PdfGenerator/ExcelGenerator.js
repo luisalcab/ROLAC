@@ -88,9 +88,6 @@ const ExcelGenerator = () => {
                 dateTime: moment(dateTime).valueOf() 
              });
         });
-
-        //Create a map which will help to get the total of amount of each item by collection
-        var donationsCollectionCenter = new Map();
         
         // Sorting DB result by name organization
         var donationsInKindSortedOrganization = donationsInKind.sort((a, b) => {
@@ -109,6 +106,10 @@ const ExcelGenerator = () => {
 
         // Sorting DB result by date
         var donationsInKindSortedDate = donationsInKind.sort((a, b) =>  b.dateTime - a.dateTime ) 
+
+        //Begin process to create the report of donations pending to collect
+        //Create a map which will help to get the total of amount of each item by collection
+        var donationsCollectionCenter = new Map();
 
         //Get the total amount for each item by collection
         donationsInKindSortedOrganization.forEach(donation => {
@@ -141,7 +142,7 @@ const ExcelGenerator = () => {
             });
         })
         
-        //First we push the topic
+        //Store the header
         sheetsColletionPending.push
         (
             ["", "", "", "", {v: "Reporte de donaciones pendientes por recolectar", t:"s", s:  stylesExcel.title }],
@@ -156,7 +157,12 @@ const ExcelGenerator = () => {
                 [{v: `${center.collectionCenterName}`, t:"s", s: stylesExcel.titleCollectionCenter }],
                 [{v: "ID de centro: ", t:"s", s:  stylesExcel.subtitleCollectionCenter }, `${center.donationCenter}`],
                 [""],
-                [{v: "ID producto", t:"s", s: stylesExcel.titleTable}, {v: "Nombre producto", t:"s", s: stylesExcel.titleTable}, {v: "Cantidad", t:"s", s: stylesExcel.titleTable}],
+                [
+                    {v: "ID producto", t:"s", s: stylesExcel.titleTable}, 
+                    {v: "Nombre producto", t:"s", s: stylesExcel.titleTable}, 
+                    {v: "Cantidad", t:"s", s: stylesExcel.titleTable},
+                    {v: "Unidad", t:"s", s: stylesExcel.titleTable}
+                ],
             )
             const itemsFormat = []
             //Put item data in correct format
@@ -180,7 +186,7 @@ const ExcelGenerator = () => {
 
             //Store all the data in "sheetsColletionPending"
             itemsFormatInOrder.forEach(item => {
-                sheetsColletionPending.push([item.id, item.name, item.count]);
+                sheetsColletionPending.push([item.id, item.name, item.count, item.unit]);
             })
             sheetsColletionPending.push([""])
         })
@@ -206,7 +212,7 @@ const ExcelGenerator = () => {
             )
         })
 
-
+        //Set data for generate the reports
         sheets.push
         (
             {

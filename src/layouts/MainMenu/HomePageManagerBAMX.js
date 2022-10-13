@@ -3,17 +3,10 @@ import {
   StyleSheet,
   View,
   Text,
-  Linking,
-  StyleProp,
-  TextStyle,
-  Button,
-  ViewStyle,
   TouchableOpacity,
-  Image,
 } from "react-native";
 import { Icon, Overlay } from "@rneui/base";
 import { getAuth, signOut } from "firebase/auth";
-import { PdfDocDefinitionContext } from "../../contexts/PdfDocDefinitionContext";
 
 
 const HomePageManagerBAMX = ({navigation}) => {
