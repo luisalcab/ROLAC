@@ -65,7 +65,7 @@ const CCEdit = ({navigation}) => {
     })
 
   return (
-    <View style={styles.screen}>
+    <>
     {data ? (
         <Formik
             initialValues={{
@@ -90,7 +90,7 @@ const CCEdit = ({navigation}) => {
                     
                     //Call the context and reset form
                     await addEdit(allData);
-                    Toast.show("Solicitud Enviada");
+                    Toast.show("Solicitud Enviada",{position: Toast.positions.BOTTOM});
                     resetForm();
 
                     await setCCEditViewS(false);
@@ -104,7 +104,7 @@ const CCEdit = ({navigation}) => {
         >
             {({errors, touched, handleChange, handleSubmit, values}) => {
                 return(
-                    <ScrollView style={{width:"100%",}}>
+                    <ScrollView style={{width:"100%", height: "100%"}} contentContainerStyle={{alignItems: "center"}}>
                         <Input
                             placeholder="Nombre"
                             leftIcon={<Icon type="feather" name="user"/>}
@@ -169,7 +169,7 @@ const CCEdit = ({navigation}) => {
             </View>
         )}
         
-    </View>
+    </>
   )
 }
 
@@ -209,15 +209,12 @@ const styles = StyleSheet.create({
     },
     btn:{
         width:screen.width * .8,
-        height:screen.width * 0.2,
+        height:screen.height * 0.1,
+        marginBottom: 300,
         borderRadius: 5,
         backgroundColor:"white",
         padding: "1%",
         shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3
-        },
         shadowOpacity: 0.27,
         shadowRadius: 4.65,
         elevation: 6
@@ -225,7 +222,7 @@ const styles = StyleSheet.create({
     days:{
         width:"100%", 
         height:"40%", 
-        marginBottom:"15%"
+        marginBottom: "10%"
     },
     btnContainer:{
         height:"100%", 

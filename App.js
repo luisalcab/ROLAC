@@ -108,13 +108,13 @@ export default function App() {
                 <UserInformation.Provider value={providerUserInformation}>
                     <ItemsContext.Provider value={providerItems}>
                         <CartContext.Provider value={providerCart}>
-                            <NavigationContainer initialRouteName="BAMXmenu">
+                            <NavigationContainer initialRouteName="Login">
                                 <Stack.Navigator>
-                                    <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
                                     <Stack.Screen name="Login" component={Login} />
+                                    <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
                                     <Stack.Screen name="CCEdit" component={CCEdit} />
                                     <Stack.Screen name="CCDeleteList" component={CCDeleteList} />
-                                    <Stack.Screen name="CCmenu" component={CCmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>
+                                    <Stack.Screen name="CCmenu" component={CCmenu} options={navigation => ({title: "Menú Principal", headerBackVisible: false})}/>
                                     <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
                                     <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
                                     <Stack.Screen name="CompareEdit" component={CompareEdit} />

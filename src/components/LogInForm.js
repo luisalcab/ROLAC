@@ -67,7 +67,7 @@ const LogInForm = ({navigation}) => {
                             lastName: lastName
                         });
         
-                        navigation.navigate("HomePageManagerBAMX", {navigation: navigation});
+                        navigation.navigate("BAMXmenu", {navigation: navigation});
                     } else {
                         alert("Usuario o contraseña incorrectas");
                     }
