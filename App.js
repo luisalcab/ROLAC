@@ -11,6 +11,7 @@ import Cart from './src/layouts/Cart';
 import HomePageDonor from './src/layouts/MainMenu/HomePageDonor';
 import ManagerDonorComponent from './src/components/administrationProfiles/ManagerDonorComponent'; 
 import HomePageManagerBAMX from './src/layouts/MainMenu/HomePageManagerBAMX';
+import HomePageCollectionCenter from './src/layouts/MainMenu/HomePageCollectionCenter';
 import ManagerAdminComponent from './src/components/administrationProfiles/ManagerAdminComponent';
 import AdminRegister from './src/layouts/register/AdminRegister';
 import CardsDonationUser from './src/layouts/donations/CardsDonationUser';
@@ -81,6 +82,7 @@ export default function App() {
                                     <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal'}}/>
                                     <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta'}}/>
                                     <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal'}}/>
+                                    <Stack.Screen name='HomePageCollectionCenter' component={HomePageCollectionCenter} options={{title: 'Menú principal'}}/>
                                     <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
                                     options={{title: 'Administrar cuenta'}}/>
                                     <Stack.Screen name="QRScanner" component={QRScanner} />

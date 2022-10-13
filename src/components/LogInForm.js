@@ -46,7 +46,7 @@ const LogInForm = ({navigation}) => {
             } else {
                 const querySnapshotCollectionCenter = await getDoc(doc(firebaseConection.db, "collection_center", auth.currentUser.uid))
                 if(querySnapshotCollectionCenter.exists()){
-                    alert("Es centro de acopio")
+                    navigation.navigate("HomePageCollectionCenter", {navigation: navigation});
                 } else {
                     const querySnapshotManger = await getDoc(doc(firebaseConection.db, "BAMXmanager", auth.currentUser.uid))
                     if(querySnapshotManger.exists()){

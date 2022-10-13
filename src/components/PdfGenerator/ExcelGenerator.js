@@ -66,7 +66,7 @@ const ExcelGenerator = () => {
         }
     }
 
-    const reportRecollectionsPending = async () => {
+    const reportCollectionsPending = async () => {
         const donationsInKind = [];
         const q = query(collection(FBConnection.db, "donations_in_kind"), where("collected", "!=", 1))
         const querySnapshot = await getDocs(q);
@@ -239,6 +239,47 @@ const ExcelGenerator = () => {
         generateExcel(sheets)
     }
 
+    const reportDonationsByCentroAcopio = async () => {
+        const donationsInKind = [];
+        const q = query(collection(FBConnection.db, ""), where("donationCenter", "!=", "QQvES6YicRZw5NcNDqjr7ZwQgmi1"))
+        const querySnapshot = await getDocs(q);
+
+        const beginDate = moment("2022-10-08T07:34:46-05:00").format("DD-MM-YY");
+        const endDate = moment("2022-10-11T07:34:46-05:00").format("DD-MM-YY");
+
+        const donationsData = []
+
+        querySnapshot.forEach(donation => {
+            const { 
+                collectionCenterName, 
+                collected, 
+                dateTime,
+                donationCenter,
+                items
+            } = donation.data();
+
+            donationsData.push(
+                {
+                    idDonation: donation.id,
+                    collectionCenterName, 
+                    collected, 
+                    dateTime: moment(dateTime).format("DD-MM-YY"),
+                    donationCenter,
+                    items,
+                    dateTime: moment(dateTime).valueOf(),
+                }
+            )
+        })
+
+        const donationSorted = [...donationsData].sort((a, b) => a.dateTime - b.dateTime);
+
+        
+
+        var sheets = [];
+        var sheetsColletionPending = []; 
+
+    }
+
     const generateExcel = (sheets) => {
         let wb = XLSX.utils.book_new();
     
@@ -262,7 +303,7 @@ const ExcelGenerator = () => {
     return (
     <View style={styles.container}>
         <TouchableOpacity
-            onPress={() => reportRecollectionsPending()}>
+            onPress={() => reportCollectionsPending()}>
                 <Icon name="receipt-long" type="material" size={50} />
                 <Text>Reporte de donaciones no recolectadas</Text>
         </TouchableOpacity>
