@@ -67,52 +67,51 @@ const ExcelGenerator = () => {
     }
 
     const reportRecollectionsPending = async () => {
-        var sheets = [];
-
         const donationsInKind = [];
-
         const q = query(collection(FBConnection.db, "donations_in_kind"), where("collected", "!=", 1))
-        
         const querySnapshot = await getDocs(q);
+
+        var sheets = [];
+        var sheetsColletionPending = [];
+        var sheetsColletionPendingDonation = [];
         
+        //Get data from firebase
         querySnapshot.forEach((doc) => {
             const {collectionCenterName, dateTime, donationCenter, donor, items} = doc.data();
-        
-            donationsInKind.push({ collectionCenterName, dateTime, donationCenter, donor, items });
+            donationsInKind.push({ 
+                idDonation: doc.id,
+                collectionCenterName, 
+                date: moment(dateTime).format(), 
+                donationCenter, 
+                donor, 
+                items,
+                dateTime: moment(dateTime).valueOf() 
+             });
         });
 
-
-        console.log("----------------------------- Nueva donación ------------------------------------")
-        console.log(donationsInKind)
-        console.log("MAP__________________________-")
-        
+        //Create a map which will help to get the total of amount of each item by collection
         var donationsCollectionCenter = new Map();
+        
+        // Sorting DB result by name organization
+        var donationsInKindSortedOrganization = donationsInKind.sort((a, b) => {
+            const nameA = a.collectionCenterName.toUpperCase(); 
+            const nameB = b.collectionCenterName.toUpperCase();
+            if (nameA < nameB) {
+              return -1;
+            }
+            if (nameA > nameB) {
+              return 1;
+            }
+          
+            // names must be equal
+            return 0;
+        }) 
 
-        // donationsInKind.forEach(donation => {
-        //     //If collection center doesn't exist, then we add it to the map
-        //     if(!donationsCollectionCenter.has(donation.donationCenter)) {
-        //         donationsCollectionCenter.set(donation.donationCenter, {})
-        //     }
-            
-        //     //Iterates all the elements of this donation.
-        //     donation.items.forEach(item => {
-        //         const { id, count, name, unit } = item;
-                
-        //         //If the item doesn't exist in the collection center, then we add it
-        //         if(donationsCollectionCenter.get(donation.donationCenter)[item.id] == undefined){
-        //             console.log(item.id)
-        //             donationsCollectionCenter.get(donation.donationCenter)[`${item.id}`] = {
-        //                 count,
-        //                 id,
-        //                 name,
-        //                 unit
-        //             }
-        //         } else {
-        //             donationsCollectionCenter.get(donation.donationCenter)[item.id].count += count
-        //         }
-        //     });
-        // })
-        donationsInKind.forEach(donation => {
+        // Sorting DB result by date
+        var donationsInKindSortedDate = donationsInKind.sort((a, b) =>  b.dateTime - a.dateTime ) 
+
+        //Get the total amount for each item by collection
+        donationsInKindSortedOrganization.forEach(donation => {
             //If collection center doesn't exist, then we add it to the map
             if(!donationsCollectionCenter.has(donation.donationCenter)) {
                 const { collectionCenterName, donationCenter } = donation;
@@ -123,8 +122,7 @@ const ExcelGenerator = () => {
                         items: {}
                     }
                 );
-            }
-            
+            }            
             //Iterates all the elements of this donation.
             donation.items.forEach(item => {
                 const { id, count, name, unit } = item;
@@ -142,48 +140,84 @@ const ExcelGenerator = () => {
                 }
             });
         })
-        console.log("Example of the items from one donation")
-        // console.log(donationsInKind[0])
-        // console.log(donationsInKind[0].items[0])
-        console.log(donationsCollectionCenter)
+        
+        //First we push the topic
+        sheetsColletionPending.push
+        (
+            ["", "", "", "", {v: "Reporte de donaciones pendientes por recolectar", t:"s", s:  stylesExcel.title }],
+            ["", "", "", "", {v: `Fecha: ${moment().format("DD-MM-YY")}`, t:"s", s: stylesExcel.date }],
+            [""],
+        )
+
+        //We set in correct order 
         donationsCollectionCenter.forEach(center => {
-            console.log("------------------------------------------------")
-            console.log(center.collectionCenterName)
-            for(const key in center.items) {
-                console.log(center.items[key])                
-            }
-        })
-        
-        
-        sheets.push({
-            sheetData: [
-                ["", "", "", "", {v: "Reporte de donaciones pendientes por recolectar", t:"s", s:  stylesExcel.title }],
-                ["", "", "", "", {v: "Fecha: 12-10-22", t:"s", s: stylesExcel.date }],
-                [""],
-                [{v: "Restaurante", t:"s", s: stylesExcel.titleCollectionCenter }],
-                [{v: "ID de centro: ", t:"s", s:  stylesExcel.subtitleCollectionCenter }, "b7udBAstoa4Y8qUdnOe2"],
+            sheetsColletionPending.push
+            (
+                [{v: `${center.collectionCenterName}`, t:"s", s: stylesExcel.titleCollectionCenter }],
+                [{v: "ID de centro: ", t:"s", s:  stylesExcel.subtitleCollectionCenter }, `${center.donationCenter}`],
                 [""],
                 [{v: "ID producto", t:"s", s: stylesExcel.titleTable}, {v: "Nombre producto", t:"s", s: stylesExcel.titleTable}, {v: "Cantidad", t:"s", s: stylesExcel.titleTable}],
-                ["0IVndm3s95cmMm3QpI9q", "Uvas", "2"],
-                ["5XGC9v8eBeVQverEFWWw", "Limón", "2"],
-                ["0IVndm3s95cmMm3QpI9q ", "Papas", "2"],
-            ],
-            nameSheet: "recoleccion_pendiente"
+            )
+            const itemsFormat = []
+            //Put item data in correct format
+            for(const key in center.items) {
+                itemsFormat.push(center.items[key])
+            }
+
+            const itemsFormatInOrder = [...itemsFormat].sort((a, b) => {
+                const nameA = a.name.toUpperCase(); 
+                const nameB = b.name.toUpperCase();
+                if (nameA < nameB) {
+                  return -1;
+                }
+                if (nameA > nameB) {
+                  return 1;
+                }
+              
+                // names must be equal
+                return 0;
+              });
+
+            //Store all the data in "sheetsColletionPending"
+            itemsFormatInOrder.forEach(item => {
+                sheetsColletionPending.push([item.id, item.name, item.count]);
+            })
+            sheetsColletionPending.push([""])
+        })
+        
+        //Begin the process for insert the donations that are considered
+        //Set the header of the sheet
+        sheetsColletionPendingDonation.push(
+            ["", "", "", "", {v: "Donaciones consideradas para el reporte", t:"s", s:  stylesExcel.title }],
+            ["", "", "", "", {v: `Fecha: ${moment().format("DD-MM-YY")}`, t:"s", s: stylesExcel.date }],
+            [""],
+            [{v: "Entregada en", t:"s", s: stylesExcel.titleTable}, {v: "ID donación", t:"s", s: stylesExcel.titleTable}, {v: "Realizado", t:"s", s: stylesExcel.titleTable}],
+            [""],
+        )
+
+        //Set data of the sheet
+        donationsInKindSortedDate.forEach(donation => {
+            sheetsColletionPendingDonation.push(
+                [
+                    donation.collectionCenterName,
+                    donation.idDonation,
+                    donation.date
+                ]
+            )
         })
 
-        sheets.push({
-            sheetData: 
-                [
-                    ["", "", "", "", {v: "Reporte de donaciones pendientes por recolectar", t:"s", s:  stylesExcel.title }],
-                    ["", "", "", "", {v: "Fecha: 12-10-22", t:"s", s: stylesExcel.date }],
-                    [""],
-                    [{v: "Entregada", t:"s", s: stylesExcel.titleTable}, {v: "ID donación", t:"s", s: stylesExcel.titleTable}, {v: "Realizado", t:"s", s: stylesExcel.titleTable}],
-                    ["Restaurante 1", "0IVndm3s95cmMm3QpI9q", "1/10/2022 12:58:51"],
-                    ["Restaurante 2", "5XGC9v8eBeVQverEFWWw", "1/10/2022 12:58:51"],
-                    ["Restaurante 1", "0IVndm3s95cmMm3QpI9q", "1/10/2022 12:58:51"],
-                ],
-            nameSheet: "donaciones tomadas en cuenta"
-        })
+
+        sheets.push
+        (
+            {
+                sheetData: sheetsColletionPending,
+                nameSheet: "recoleccion_pendiente"
+            },
+            {
+                sheetData: sheetsColletionPendingDonation,
+                nameSheet: "donaciones_tomadas_en_cuenta"
+            }
+        )
 
         generateExcel(sheets)
     }
