@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { StyleSheet, Button, View, Text, TouchableOpacity } from 'react-native';
 import pdfMake from "pdfmake/build/pdfmake";
 import { Icon } from "@rneui/base";
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
 
 // import * as XLSX from 'xlsx';
 import * as XLSX from 'xlsx-js-style';
@@ -224,6 +224,17 @@ const ExcelGenerator = () => {
                 nameSheet: "donaciones_tomadas_en_cuenta"
             }
         )
+        
+        donationsInKind.forEach(async (donation) => {
+            await updateDoc(
+                doc(FBConnection.db, "donations_in_kind", donation.idDonation),
+                {
+                    collected: 1
+                }
+              )
+              .then(() => { })
+              .catch(() => { });
+        })
 
         generateExcel(sheets)
     }
@@ -264,6 +275,8 @@ const ExcelGenerator = () => {
     </View>
     )
 }
+
+
 
 const styles = StyleSheet.create({
     container: {
