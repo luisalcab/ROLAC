@@ -11,7 +11,7 @@ import {enviromentVariables} from '../../utils/enviromentVariables';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const LogInForm = ({navigation}) => {
-    const {setUserInformation, userInformation} = useContext(UserInformation);
+    const {setUserInformation} = useContext(UserInformation);
     const {setCCUser} = useContext(CCContext);
 
     const [loading, isLoading] = useState(false);
@@ -59,7 +59,7 @@ const LogInForm = ({navigation}) => {
 
                 if(querySnapshotCollectionCenter.exists()){
                     await setCCUser(auth.currentUser.uid);
-                    await setModalVisible(true);
+                    //setModalVisible(true);
                     nav2CCmenu();
                 }else{
                     const querySnapshotManger = await getDoc(doc(db, "BAMXmanager", auth.currentUser.uid));
@@ -96,7 +96,7 @@ const LogInForm = ({navigation}) => {
                 "Error", 
                 "Usuario o contraseña incorrectas",
                 [	
-                    {text: "ACEPTAR", onPress: () => console.log("OK Pressed")}
+                    {text: "ACEPTAR", onPress: () => console.log(e)}
                 ]
             );
         }        

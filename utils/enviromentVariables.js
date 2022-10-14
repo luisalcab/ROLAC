@@ -1,5 +1,6 @@
 import {initializeApp} from 'firebase/app';
 import {getFirestore} from "firebase/firestore";
+import {getStorage} from "firebase/storage";
 
 //FireBase Cofiguration//Create Context
 const firebaseConfig = {
@@ -17,9 +18,11 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
+const storage = getStorage(app);
 
 export const enviromentVariables = {
     publishableKey: "pk_test_51LkUu8L3fb2NBnm32ovLcCuet2FDgfprjfA1lAaL0cqZ8SdJHzS1v7erGYck9PWWpY43cfquaZAJUudpNihX0bqu00WVCmQvro",
     app,
-    db
+    db,
+    storage
 }

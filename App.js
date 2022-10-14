@@ -91,7 +91,6 @@ export default function App() {
                         <NavigationContainer initialRouteName="Login">
                             <Stack.Navigator>
                                 <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
-                                <Stack.Screen name="QRGenerator" component={QRGenerator} />
                                 <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
                                 <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
                                 <Stack.Screen name="TerminosyCondiciones" component={TerminosyCondiciones} options={{title: "Términos y Condiciones", headerBackTitle: "ATRÁS"}}/>
@@ -103,7 +102,6 @@ export default function App() {
                                 <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
                                 <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
                                 <Stack.Screen name="CompareEdit" component={CompareEdit} />
-                                <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
                                 <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros", headerBackTitle: "ATRÁS"}}/>
                                 <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal', headerBackVisible: false}}/>
                                 <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta', headerBackTitle: "ATRÁS"}}/>
