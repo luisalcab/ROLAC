@@ -63,7 +63,40 @@ const ExcelGenerator = () => {
             alignment: {
                 horizontal: "center"
             }
+        },
+        intervalDate: {
+            alignment: {
+                horizontal: "center"
+            }
+        },
+        intervalDateLabels: {
+            alignment: {
+                horizontal: "right"
+            }
+        },
+        titleOfList: {
+            font: {
+                name: "Calibri", 
+                sz: 14, 
+                bold: true,
+            },  
+        },
+        simpleTitle: {
+            font: {
+                name: "Calibri", 
+                bold: true,
+            },
+        },
+        simpleTitleCenter: {
+            font: {
+                name: "Calibri", 
+                bold: true,
+            },
+            alignment: {
+                horizontal: "center"
+            }
         }
+
     }
 
     const reportCollectionsPending = async () => {
@@ -240,8 +273,9 @@ const ExcelGenerator = () => {
     }
 
     const reportDonationsByCentroAcopio = async () => {
-        const donationsInKind = [];
-        const q = query(collection(FBConnection.db, ""), where("donationCenter", "!=", "QQvES6YicRZw5NcNDqjr7ZwQgmi1"))
+        var sheets = [];
+        var sheetsDataForTheReport = []; 
+        const q = query(collection(FBConnection.db, "donations_in_kind"), where("donationCenter", "==", "QQvES6YicRZw5NcNDqjr7ZwQgmi1"))
         const querySnapshot = await getDocs(q);
 
         const beginDate = moment("2022-10-08T07:34:46-05:00").format("DD-MM-YY");
@@ -263,7 +297,7 @@ const ExcelGenerator = () => {
                     idDonation: donation.id,
                     collectionCenterName, 
                     collected, 
-                    dateTime: moment(dateTime).format("DD-MM-YY"),
+                    date: moment(dateTime).format("DD-MM-YY"),
                     donationCenter,
                     items,
                     dateTime: moment(dateTime).valueOf(),
@@ -273,11 +307,81 @@ const ExcelGenerator = () => {
 
         const donationSorted = [...donationsData].sort((a, b) => a.dateTime - b.dateTime);
 
+        //Set header to the document
+        sheetsDataForTheReport.push
+        (            
+            ["", "", "", "", {v: "Donaciones consideradas para el reporte", t:"s", s:  stylesExcel.title }],
+            ["", "", "", "", {v: `Fecha: ${moment().format("DD-MM-YY")}`, t:"s", s: stylesExcel.date }],
+            [""],
+            [
+                {v: `Centro de acopio: `, t:"s", s: stylesExcel.titleCollectionCenter }, 
+                {v: `${donationsData[0].collectionCenterName}`, t:"s", s: stylesExcel.titleCollectionCenter }],
+            [
+                {v: "ID de centro: ", t:"s", s:  stylesExcel.subtitleCollectionCenter }, 
+                `${donationsData[0].donationCenter}`
+            ],
+            [""],
+            [{v: `Intervalo de busqueda`, t:"s", s: stylesExcel.titleCollectionCenter }],
+            [
+                {v: "Desde:", t:"s", s: stylesExcel.intervalDateLabels}, 
+                {v: beginDate, t:"s", s: stylesExcel.intervalDate}, 
+                {v: "Hasta:", t:"s", s: stylesExcel.intervalDateLabels}, 
+                {v: endDate, t:"s", s: stylesExcel.intervalDate}
+            ],
+            [""],
+            [""],
+            [{v: "Donaciones encontradas", t:"s", s: stylesExcel.titleOfList}],
+            [""]
+        )
+        donationSorted.forEach(donation => {
+            console.log("------------------------------")
+            console.log(donation.date > beginDate)
+            console.log(donation.date < endDate)
+            console.log(donation.date)
+            console.log(beginDate)
+            console.log(endDate)
+            
+            if(donation.date >= beginDate && donation.date <= endDate){
+                sheetsDataForTheReport.push
+                (
+                    [
+                        {v: "ID donacion: ", t: "s", s: stylesExcel.simpleTitle}, 
+                        {v: `${donation.idDonation}`, t: "s", s: stylesExcel.simpleTitle}
+                    ],
+                    [
+                        {v: "Realizada: "}, 
+                        {v: `${donation.date}`, t: "s", s: {alignment: {horizontal: "center"}}}
+                    ],
+                    [
+                        {v: "ID producto", t: "s", s: stylesExcel.simpleTitleCenter},
+                        {v: "Nombre producto", t: "s", s: stylesExcel.simpleTitleCenter}, 
+                        {v: "Cantidad", t: "s", s: stylesExcel.simpleTitleCenter},
+                        {v: "Unidades", t: "s", s: stylesExcel.simpleTitleCenter}
+                    ],
+                )
+                donation.items.forEach(item => {
+                    sheetsDataForTheReport.push(
+                        [
+                            {v: `${item.id}`},
+                            {v: `${item.name}`},
+                            {v: `${item.count}`},
+                            {v: `${item.unit}`},
+                        ],  
+                    )
+                })
+                sheetsDataForTheReport.push([""])
+            }
+
+        })
         
 
-        var sheets = [];
-        var sheetsColletionPending = []; 
-
+        sheets.push(
+            {
+                sheetData: sheetsDataForTheReport,
+                nameSheet: "Historico de donaciones"
+            },
+        )
+        generateExcel(sheets);
     }
 
     const generateExcel = (sheets) => {
@@ -308,7 +412,7 @@ const ExcelGenerator = () => {
                 <Text>Reporte de donaciones no recolectadas</Text>
         </TouchableOpacity>
         <TouchableOpacity
-            onPress={() => generateExcel()}>
+            onPress={() => reportDonationsByCentroAcopio()}>
                 <Icon name="text-snippet" type="material" size={50} />
                 <Text>Consultar historico de donaciones por centro de acopio</Text>
         </TouchableOpacity>
