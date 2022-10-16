@@ -14,14 +14,11 @@ const LogInForm = ({navigation}) => {
     const {setUserInformation} = useContext(UserInformation);
     const {setCCUser} = useContext(CCContext);
 
-    const [loading, isLoading] = useState(false);
-
     const {db, app} = enviromentVariables;
 
-    const auth = getAuth(app);
+    const [loading, isLoading] = useState(false);
 
-    const nav2Registration = () => navigation.navigate("RegisterDonor");
-    const nav2CCmenu = () => navigation.navigate("CCmenu");
+    const auth = getAuth(app);
 
     const logInSchema = Yup.object().shape({
         email:Yup.
@@ -33,73 +30,47 @@ const LogInForm = ({navigation}) => {
             required("Contraseña requerida")
     })
 
-    const handleSubmit = async(data) => {
-        try{
-            isLoading(true);
+    const logIn = async uid => {
+        const users = [
+            getDoc(doc(db, "donor", uid)),
+            getDoc(doc(db, "BAMXmanager", uid)),
+            getDoc(doc(db, "collection_center", uid))
+        ];
 
-            const {email, password} = data;
-
-            await signInWithEmailAndPassword(auth, email, password);
-            
-            const querySnapshotDonor = await getDoc(doc(db, "donor", auth.currentUser.uid));
-            
-            if(querySnapshotDonor.exists()){
-                const { lastName, name } = querySnapshotDonor.data();
-                setUserInformation({
-                    auth: auth,
-                    uid: auth.currentUser.uid,
-                    name: name,
-                    lastName: lastName
-                });
-                
-                isLoading(false);
-                navigation.navigate("HomePageDonor", {navigation: navigation});
-            }else{
-                const querySnapshotCollectionCenter = await getDoc(doc(db, "collection_center", auth.currentUser.uid));
-
-                if(querySnapshotCollectionCenter.exists()){
-                    await setCCUser(auth.currentUser.uid);
-                    //setModalVisible(true);
-                    nav2CCmenu();
-                }else{
-                    const querySnapshotManger = await getDoc(doc(db, "BAMXmanager", auth.currentUser.uid));
-
-                    if(querySnapshotManger.exists()){
-                        const { lastName, name } = querySnapshotManger.data();
-                        setUserInformation({
-                            auth: auth,
-                            uid: auth.currentUser.uid,
-                            name: name,
-                            lastName: lastName
-                        });
-                        
+        return Promise.all(users).then(usersList => usersList.map((user, i) => {
+            if(user.exists()){
+                const {name, lastName} = user.data();
+                switch(i){
+                    case 0:
+                    case 1:
                         isLoading(false);
-                        navigation.navigate("HomePageManagerBAMX", {navigation: navigation});
-                    }else{
+                        setUserInformation({uid,auth,name,lastName});
+                        navigation.navigate((i === 0) ? "HomePageDonor" : "HomePageManagerBAMX", {navigation});
+                        break;
+                    case 2:
                         isLoading(false);
-                        Alert.alert(
-                            "Error", 
-                            "Usuario o contraseña incorrectos",
-                            [	
-                                {
-                                    text: "ACEPTAR", 
-                                    onPress: () => console.log("OK Pressed")
-                                }
-                            ]
-                        );
-                    }
+                        setCCUser(uid);
+                        navigation.navigate("CCmenu");
+                        break;
                 }
             }
-        }catch(e){
+        })).catch((e) => {
             isLoading(false);
-            Alert.alert(
-                "Error", 
-                "Usuario o contraseña incorrectas",
-                [	
-                    {text: "ACEPTAR", onPress: () => console.log(e)}
-                ]
-            );
-        }        
+            Alert.alert("Error", "Usuario o contraseña incorrectas",
+            [{text: "ACEPTAR", onPress: () => console.log(e)}]);
+        });
+    }
+
+    const handleSubmit = async(data) => {
+        //Getting the input user, starting login process and loading modal
+        const {email, password} = data;
+        isLoading(true);
+
+        //Singing
+        await signInWithEmailAndPassword(auth, email, password);
+
+        //Detects the user type and navigate to the corresponding view
+        await logIn(auth.currentUser.uid);
     }
 
   return (
@@ -163,7 +134,7 @@ const LogInForm = ({navigation}) => {
                                     iconRight={true}
                                 />
                                 <Button 
-                                    onPress={nav2Registration} 
+                                    onPress={() => navigation.navigate("RegisterDonor")} 
                                     title="Registrarse"
                                     buttonStyle={{
                                         width: "80%",
@@ -205,4 +176,3 @@ const LogInForm = ({navigation}) => {
 )}
 
 export default LogInForm;
-
