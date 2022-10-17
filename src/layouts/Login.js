@@ -38,7 +38,7 @@ const Login = ({navigation}) => {
               style={styles.pic}
               onPress={() => {
                 setEgg(prevState => ++prevState);
-                if(egg === 10){
+                if(egg === 13){
                   Linking.openURL('https://youtu.be/jsVBZsH5JXI')
                   setEgg(0);
                 }
