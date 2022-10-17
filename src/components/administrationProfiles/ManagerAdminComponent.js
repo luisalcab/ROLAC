@@ -10,7 +10,7 @@ import {
 import { Formik } from "formik";
 
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
-import firebaseConection from "../../contexts/FBConnection";
+import { enviromentVariables } from "../../../utils/enviromentVariables";
 import {
   getAuth,
   EmailAuthProvider,
@@ -24,6 +24,8 @@ import { UserInformation } from "../../contexts/userInformation";
 const ManagerAdminComponent = ({ navigation }) => {
   //Initialize auth instance
   const auth = getAuth();
+
+  const {db} = enviromentVariables;
 
   //Contexts
   const { userInformation, setUserInformation } = useContext(UserInformation);
@@ -51,7 +53,7 @@ const ManagerAdminComponent = ({ navigation }) => {
   };
 
   const getManagerById = async (id) => {
-    await getDoc(doc(firebaseConection.db, "BAMXmanager", id))
+    await getDoc(doc(db, "BAMXmanager", id))
       .then((querySnapshot) => {
         const { lastName, name } = querySnapshot.data();
 
@@ -80,7 +82,7 @@ const ManagerAdminComponent = ({ navigation }) => {
 
     if(lastName != manager.lastName || name != manager.name){
       await updateDoc(
-        doc(firebaseConection.db, "BAMXmanager", uid),
+        doc(db, "BAMXmanager", uid),
         {
           name: name,
           lastName: lastName,
@@ -112,7 +114,7 @@ const ManagerAdminComponent = ({ navigation }) => {
       .then((userCredential) => {
         userCredential.user.delete().then(() => {
           deleteDoc(
-            doc(firebaseConection.db, "BAMXmanager", userInformation.uid)
+            doc(db, "BAMXmanager", userInformation.uid)
           ).then(() => {
             alert("Usuario borrado exitosamente");
             navigation.navigate("Login");

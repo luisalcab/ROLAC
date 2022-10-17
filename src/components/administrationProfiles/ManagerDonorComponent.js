@@ -17,7 +17,7 @@ import {
   updateEmail,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import firebaseConection from "../../contexts/FBConnection";
+import { enviromentVariables } from "../../../utils/enviromentVariables";
 import { UserInformation } from "../../contexts/userInformation";
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Alert } from "react-native";
@@ -25,6 +25,8 @@ import { Alert } from "react-native";
 const ManagerDonorComponent = ({ navigation }) => {
   //Initialize auth instance
   const auth = getAuth();
+
+  const {db} = enviromentVariables;
 
   //Contexts
   const { userInformation, setUserInformation } = useContext(UserInformation);
@@ -51,7 +53,7 @@ const ManagerDonorComponent = ({ navigation }) => {
   };
 
   const getManagerById = async (id) => {
-    await getDoc(doc(firebaseConection.db, "donor", id))
+    await getDoc(doc(db, "donor", id))
     .then((querySnapshot) => {
       const { lastName, name } = querySnapshot.data();
   
@@ -95,7 +97,7 @@ const ManagerDonorComponent = ({ navigation }) => {
     }
 
     if(name != donor.name || lastName != donor.lastName){
-      await updateDoc(doc(firebaseConection.db, "donor", uid), {
+      await updateDoc(doc(db, "donor", uid), {
         name: name,
         lastName: lastName,
       })
@@ -142,7 +144,7 @@ const ManagerDonorComponent = ({ navigation }) => {
       .then((userCredential) => {
         userCredential.user.delete().then(() => {
           deleteDoc(
-            doc(firebaseConection.db, "donor", userInformation.uid)
+            doc(db, "donor", userInformation.uid)
           ).then(() => {
             Alert.alert(
               "Usuario borrado exitosamente",

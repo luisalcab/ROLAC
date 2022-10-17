@@ -44,11 +44,13 @@ const RegisterCCForm = ({navigation}) => {
             string().
             required("Dirección Requerida"),
         longitude:Yup.
-            number().
-            required("Coordenadas Requeridas"),
+            string().
+            required("Coordenadas requeridas").
+            matches(/^-?([0-9]{1-2}|1[0-7][0-9]|180)(\.[0-9]{14})$/, "Coordenadas no válidas"),
         latitude:Yup.
-            number().
-            required("Coordenadas Requeridas")
+            string().
+            required("Coordenadas Requeridas").
+            matches(/^-?([0-8]?[0-9]|90)(\.[0-9]{14})$/, "Coordenadas no válidas"),
     })
 
   return (
