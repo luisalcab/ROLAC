@@ -17,8 +17,6 @@ import AdminRegister from './src/layouts/register/AdminRegister';
 import CardsDonationUser from './src/layouts/donations/CardsDonationUser';
 import CardsDonationAllUsers from './src/layouts/donations/CardsDonationAllUsers';
 import PaymentMessage from './src/components/stripe/PaymentMessage';
-
-import PdfGenerator from './src/components/PdfGenerator/PdfGenerator';
 import ExcelGenerator from './src/components/PdfGenerator/ExcelGenerator';
 import Reports from './src/layouts/reports/Reports';
 import CardsKindDonationUser from './src/layouts/donations/CardsKindDonationUser';
@@ -29,11 +27,14 @@ import {ItemsContext} from './src/contexts/ItemsContext';
 import { UserInformation } from './src/contexts/userInformation';
 import {ProductContextProvider} from './src/contexts/ProductContext';
 import { PdfDocDefinitionContext } from './src/contexts/PdfDocDefinitionContext';
+import { RefresherProvider } from './src/contexts/RefresherContext';
 
 import AdminSettings from './src/layouts/AdminSettings';
 import FBConnection from './src/contexts/FBConnection';
 import QRGenerator from './src/layouts/QRGenerator';
 import QRScanner from './src/layouts/QRScanner';
+
+import SearcherCC from './src/components/PdfGenerator/SearcherCC';
 
 //Import utils
 import enviromentVariables from './utils/enviromentVariables';
@@ -61,13 +62,15 @@ export default function App() {
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
 
     return (
+        <RefresherProvider>
         <ProductContextProvider>
             <UserInformation.Provider value={providerUserInformation}>
                 <ItemsContext.Provider value={providerItems}>
                     <CartContext.Provider value={providerCart}>
                         <PdfDocDefinitionContext.Provider value={ProviderPdfDocDefinition}>
-                            <NavigationContainer initialRouteName="Login">
+                            <NavigationContainer initialRouteName="SearcherCC">
                                 <Stack.Navigator>
+                                    <Stack.Screen name="SearcherCC" component={SearcherCC} />
                                     <Stack.Screen name="Login" component={Login} />
                                     <Stack.Screen name="CardsKindDonationUser" component={CardsKindDonationUser}/>
                                     <Stack.Screen name="ExcelGenerator" component={ExcelGenerator}/>
@@ -98,5 +101,6 @@ export default function App() {
                 </ItemsContext.Provider>
             </UserInformation.Provider>
         </ProductContextProvider>
+        </RefresherProvider>
     )
 }
