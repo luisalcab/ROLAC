@@ -8,8 +8,6 @@ import {RegisterContext} from "../contexts/RegisterCC"
 import Toast from 'react-native-root-toast';
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const screen = Dimensions.get("screen");
-
 const RegisterCCForm = ({navigation}) => {
     const {setData} = useContext(RegisterContext);
     const [accept, setAccept] = useState(false);
@@ -35,20 +33,22 @@ const RegisterCCForm = ({navigation}) => {
     const registerSchema = Yup.object().shape({
         name:Yup.
             string().
-            required("Nombre Requerido"),
+            required("Nombre requerido"),
         email:Yup.
             string().
-            email("Email no valido").
+            email("Email no válido").
             required("Email requerido"),
         address:Yup.
             string().
-            required("Dirección Requerida"),
+            required("Dirección requerida"),
         longitude:Yup.
-            number().
-            required("Coordenadas Requeridas"),
-        latitude:Yup.
-            number().
-            required("Coordenadas Requeridas")
+            string().
+            required("Coordenadas requeridas").
+            matches(/^-?([0-9]{1-2}|1[0-7][0-9]|180)(\.[0-9]{14})$/, "Coordenadas no válidas"),
+            latitude:Yup.
+            string().
+            required("Coordenadas Requeridas").
+            matches(/^-?([0-8]?[0-9]|90)(\.[0-9]{14})$/, "Coordenadas no válidas"),
     })
 
   return (
@@ -186,6 +186,8 @@ const RegisterCCForm = ({navigation}) => {
     </>
   )
 }
+
+const screen = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
     screen:{

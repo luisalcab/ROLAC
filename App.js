@@ -32,6 +32,7 @@ import ForgotPassword from './src/components/ForgotPassword';
 import ProductsAdmin from './src/components/ProductsAdmin';
 import CreateProduct from './src/layouts/CreateProduct';
 import EditProduct from './src/layouts/EditProduct';
+import ViewCC from './src/components/BAMX/ViewCC';
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -92,6 +93,7 @@ export default function App() {
                         <StatusBar barStyle="dark-content" backgroundColor={"white"}/>
                             <Stack.Navigator>
                                 <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+                                <Stack.Screen name="ViewCC" component={ViewCC} options={{title: "Centros de Acopio"}}/>
                                 <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
                                 <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
                                 <Stack.Screen name="TerminosyCondiciones" component={TerminosyCondiciones} options={{title: "Términos y Condiciones", headerBackTitle: "ATRÁS"}}/>
