@@ -3,7 +3,7 @@ import {StyleSheet, View, Dimensions, Linking} from 'react-native';
 import {Image} from '@rneui/themed';
 import LogInForm from '../components/LogInForm';
 import { initializeApp } from "firebase/app";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
  
@@ -21,7 +21,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const screen = Dimensions.get("screen");
+const screen = Dimensions.get("window");
 
 const Login = ({navigation}) => {
   const [egg, setEgg] = useState(1);

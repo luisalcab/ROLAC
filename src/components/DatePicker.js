@@ -4,7 +4,7 @@ import {Button} from "@rneui/themed";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Moment from 'moment';
 
-const screen = Dimensions.get("screen");
+const screen = Dimensions.get("window");
 
 const DatePicker = ({day, setSchedule, schedule}) => {
 

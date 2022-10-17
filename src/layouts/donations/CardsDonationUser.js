@@ -2,11 +2,12 @@ import React, {useEffect, useState, useContext} from "react"
 import {View, Text, FlatList, StyleSheet, ActivityIndicator} from 'react-native'
 import CardsMonetaryDonations from "../../components/cardsDonations/CardsMonetaryDonations";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import FBConnection from "../../contexts/FBConnection";
+import { enviromentVariables } from "../../../utils/enviromentVariables";
 import { UserInformation } from "../../contexts/userInformation";
 import moment from "moment";
 const CardsDonationUser = ({navigation}) => {
     const [donationsInfo, setDonationsInfo] = useState(null)
+    const {db} = enviromentVariables;
     
     //Contexts
     const { userInformation, setUserInformation } = useContext(UserInformation);
@@ -25,7 +26,7 @@ const CardsDonationUser = ({navigation}) => {
     const getDonationsByID = async (idUser) => {
         const donationInformation = [];
 
-        const q = query(collection(FBConnection.db, "monetary_donation"), where("idUser", "==", idUser));
+        const q = query(collection(db, "monetary_donation"), where("idUser", "==", idUser));
 
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {

@@ -17,7 +17,7 @@ const LogInForm = ({navigation}) => {
     const [loading, isLoading] = useState(false);
     const {db, app} = enviromentVariables;
 
-    const screen = Dimensions.get("screen");
+    const screen = Dimensions.get("window");
 
     const auth = getAuth(app);
 

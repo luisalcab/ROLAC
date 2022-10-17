@@ -187,7 +187,7 @@ const RegisterCCForm = ({navigation}) => {
   )
 }
 
-const screen = Dimensions.get("screen");
+const screen = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     screen:{

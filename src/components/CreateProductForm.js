@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, TouchableOpacity, ImageBackground, Switch, StyleSheet, LogBox } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground, Switch, StyleSheet, LogBox, Dimensions } from 'react-native';
 import {Icon} from '@rneui/themed';
 import { Formik } from 'formik';
 import { Input } from 'react-native-elements';
@@ -146,6 +146,8 @@ const CreateProductForm = ({navigation}) => {
     )
 }
 
+const screen = Dimensions.get("window");
+
 const styles = StyleSheet.create({
     picTouch:{
         width: 150,
@@ -163,7 +165,7 @@ const styles = StyleSheet.create({
     },
     button1:{
         alignSelf: "center",
-        backgroundColor: "black",
+        backgroundColor: "red",
         width: "50%",
         height: 40,
         borderRadius: 10,
@@ -171,7 +173,7 @@ const styles = StyleSheet.create({
     },
     button2:{
         alignSelf: "center",
-        backgroundColor: "gray",
+        backgroundColor: "orange",
         width: "50%",
         height: 40,
         borderRadius: 10,

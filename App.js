@@ -16,7 +16,6 @@ import ManagerDonorComponent from './src/components/administrationProfiles/Manag
 import HomePageManagerBAMX from './src/layouts/MainMenu/HomePageManagerBAMX';
 import ManagerAdminComponent from './src/components/administrationProfiles/ManagerAdminComponent';
 import AdminRegister from './src/layouts/register/AdminRegister';
-import BAMXmenu from './src/layouts/BAMXmenu';
 import CCRequest from './src/components/BAMX/CCRequest';
 import CCEditRequest from './src/components/BAMX/CCEditRequest';
 import CompareEdit from "./src/components/BAMX/CompareEdit";
@@ -45,7 +44,6 @@ import {ProductContextProvider} from './src/contexts/ProductContext';
 import {RefresherProvider} from './src/contexts/RefresherContext';
 import {ProductInfoProvider} from './src/contexts/ProductInfoContext';
 
-import AdminSettings from './src/layouts/AdminSettings';
 import QRGenerator from './src/layouts/QRGenerator';
 import QRScanner from './src/layouts/QRScanner';
 
@@ -98,7 +96,6 @@ export default function App() {
                                 <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
                                 <Stack.Screen name="TerminosyCondiciones" component={TerminosyCondiciones} options={{title: "Términos y Condiciones", headerBackTitle: "ATRÁS"}}/>
                                 <Stack.Screen name="RegisterDonor" component={RegisterDonor} options={{title:"Registro Donador", headerBackTitle: "ATRÁS"}}/>
-                                <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>{/*r */}
                                 <Stack.Screen name="CCEdit" component={CCEdit} />
                                 <Stack.Screen name="CCDeleteList" component={CCDeleteList} />
                                 <Stack.Screen name="CCmenu" component={CCmenu} options={navigation => ({title: "Menú Principal", headerBackVisible: false})}/>
@@ -113,7 +110,6 @@ export default function App() {
                                 options={{title: 'Administrar cuenta'}}/>
                                 <Stack.Screen name="QRScanner" component={QRScanner} />
                                 <Stack.Screen name="QRGenerator" component={QRGenerator} />
-                                <Stack.Screen name="AdminSettings" component={AdminSettings} /> 
                                 <Stack.Screen name="Cart" component={Cart} /> 
                                 <Stack.Screen name="ItemSelector" component={ItemSelector} options={{title:"Banco de alimentos"}}/> 
                                 <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>  
