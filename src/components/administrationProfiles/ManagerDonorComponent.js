@@ -209,7 +209,7 @@ const ManagerDonorComponent = ({ navigation }) => {
   }
   //Hooks
   useEffect(() => {
-    getManagerById(userInformation.uid);
+    getManagerById(userInformation.id);
   }, []);
 
   return (

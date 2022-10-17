@@ -71,7 +71,7 @@ const ManagerAdminComponent = ({ navigation }) => {
   };
 
   const updateManager = async (value) => {
-    const { email, uid, lastName, name } = value;
+    const { email, id, lastName, name } = value;
 
     if (email != manager.email) {
       updateEmail(userInformation.auth.currentUser, email).catch(() => {
@@ -82,7 +82,7 @@ const ManagerAdminComponent = ({ navigation }) => {
 
     if(lastName != manager.lastName || name != manager.name){
       await updateDoc(
-        doc(db, "BAMXmanager", uid),
+        doc(db, "BAMXmanager", id),
         {
           name: name,
           lastName: lastName,
@@ -114,7 +114,7 @@ const ManagerAdminComponent = ({ navigation }) => {
       .then((userCredential) => {
         userCredential.user.delete().then(() => {
           deleteDoc(
-            doc(db, "BAMXmanager", userInformation.uid)
+            doc(db, "BAMXmanager", userInformation.id)
           ).then(() => {
             alert("Usuario borrado exitosamente");
             navigation.navigate("Login");
@@ -146,7 +146,7 @@ const ManagerAdminComponent = ({ navigation }) => {
 
   //Hooks
   useEffect(() => {
-    getManagerById(userInformation.uid);
+    getManagerById(userInformation.id);
   }, []);
 
   return (

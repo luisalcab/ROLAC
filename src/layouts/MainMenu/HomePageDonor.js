@@ -28,7 +28,7 @@ const HomePageDonor = ({navigation}) => {
             data={[
               {
                 label: "Perfil",
-                onPress: () => {
+                onPress: () => { 
                   setRefresh(!refresh);
                   navigation.navigate('ManagerDonorComponent', {navigation: navigation})
                 }
