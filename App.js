@@ -66,10 +66,10 @@ export default function App() {
                 <ItemsContext.Provider value={providerItems}>
                     <CartContext.Provider value={providerCart}>
                         <PdfDocDefinitionContext.Provider value={ProviderPdfDocDefinition}>
-                            <NavigationContainer initialRouteName="SearcherCC">
+                            <NavigationContainer initialRouteName="Login">
                                 <Stack.Navigator>
-                                    <Stack.Screen name="SearcherCC" component={SearcherCC} />
                                     <Stack.Screen name="Login" component={Login} />
+                                    <Stack.Screen name="SearcherCC" component={SearcherCC} />
                                     <Stack.Screen name="CardsKindDonationUser" component={CardsKindDonationUser}/>
                                     <Stack.Screen name="QRGenerator" component={QRGenerator} />
                                     <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>

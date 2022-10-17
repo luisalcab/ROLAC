@@ -7,7 +7,6 @@ import { Dialog } from "@rneui/themed";
 import firebaseConection from "../../contexts/FBConnection";
 
 import * as Location from 'expo-location';
-import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 const Map = () => {
   const [showDialog, setShowDialog] = useState({ state: false });
@@ -87,17 +86,19 @@ const Map = () => {
     
     var activeDays = "" 
     var daysInOrder = {
-      lunes: { close: "", open: "", name: "Lunes" },
-      martes: { close: "", open: "", name: "Martes" },
-      miercoles: { close: "", open: "", name: "Miercoles" },
-      jueves: { close: "", open: "", name: "Jueves" },
-      viernes: { close: "", open: "", name: "Viernes" },
-      sabado: { close: "", open: "", name: "Sabado" },
-      domingo: { close: "", open: "", name: "Domingo" }
+      Lunes: { close: "", open: "", name: "Lunes" },
+      Martes: { close: "", open: "", name: "Martes" },
+      Miercoles: { close: "", open: "", name: "Miercoles" },
+      Jueves: { close: "", open: "", name: "Jueves" },
+      Viernes: { close: "", open: "", name: "Viernes" },
+      Sabado: { close: "", open: "", name: "Sabado" },
+      Domingo: { close: "", open: "", name: "Domingo" }
     }
 
     for (const iterator in dialogInformation.schedule) {
-      if(dialogInformation.schedule[iterator].open != null){
+      if(dialogInformation.schedule[iterator].open != null && 
+        (dialogInformation.schedule[iterator].open != "00:00" &&
+        dialogInformation.schedule[iterator].close != "00:00")){
         daysInOrder[iterator].open = dialogInformation.schedule[iterator].open 
         daysInOrder[iterator].close = dialogInformation.schedule[iterator].close 
       }

@@ -23,7 +23,7 @@ import { UserInformation } from "../../contexts/userInformation";
 const ManagerDonorComponent = ({ navigation }) => {
   //Initialize auth instance
   const auth = getAuth();
-
+  console.log("Esto es auth en donor: ", auth)
   //Contexts
   const { userInformation, setUserInformation } = useContext(UserInformation);
 

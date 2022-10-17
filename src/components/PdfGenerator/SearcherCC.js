@@ -12,6 +12,14 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ReportDonationsByCollectionCenter from './ReportDonationsByCollectionCenter';
 import ReportCollectionsPending from './ReportCollectionsPending'  
 
+import {
+    getAuth,
+    EmailAuthProvider,
+    reauthenticateWithCredential,
+    updateEmail,
+    sendPasswordResetEmail,
+  } from "firebase/auth";
+
 const SearcherCC = () => {
     const [collectionCenter, setCollectionCenter] = useState([]);
     const {refresh, setRefresh} = useContext(RefresherContext);
@@ -26,6 +34,9 @@ const SearcherCC = () => {
         GetCC().then((collectionCenter) => {
             setCollectionCenter(collectionCenter);
         })
+
+        const auth = getAuth();
+        console.log("auth: " ,auth)
     },[]);
 
     useEffect(() => {
@@ -75,7 +86,10 @@ const SearcherCC = () => {
     }
     
     const generateReport = ()  => {
+        console.log("Validando")
+        
         if(moment(intervalTime.beginDate).isValid() && moment(intervalTime.endDate).isValid()) {
+            console.log("Entrando")
             ReportDonationsByCollectionCenter(
                 intervalTime.beginDate, 
                 intervalTime.endDate,
@@ -145,8 +159,11 @@ const SearcherCC = () => {
                 ) :
                 (
                     <>
-                        <Text>{collectionCenterSelected.id}</Text>
-                        
+                        <Text>Nombre centro de donación: {collectionCenterSelected.name}</Text>
+                        <Text>ID: {collectionCenterSelected.id}</Text>
+                        <Text>Dirección {collectionCenterSelected.address}</Text>
+                        <Text>Email  {collectionCenterSelected.email}</Text>
+
                         <Text>Desde: {intervalTime.beginDate}</Text>
                         <Text>Hasta: {intervalTime.endDate}</Text>
                         <DateTimePickerModal
