@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect} from 'react';
-import { LogBox } from 'react-native';
+import { LogBox, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import NetInfo from "@react-native-community/netinfo";
@@ -89,6 +89,7 @@ export default function App() {
                 <ItemsContext.Provider value={providerItems}>
                     <CartContext.Provider value={providerCart}>
                         <NavigationContainer initialRouteName="Login">
+                        <StatusBar barStyle="dark-content" backgroundColor={"white"}/>
                             <Stack.Navigator>
                                 <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
                                 <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>

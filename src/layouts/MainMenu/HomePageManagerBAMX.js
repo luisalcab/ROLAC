@@ -3,19 +3,16 @@ import {
   StyleSheet,
   View,
   Text,
-  Linking,
-  StyleProp,
-  TextStyle,
-  Button,
-  ViewStyle,
   TouchableOpacity,
-  Image,
+  Dimensions
 } from "react-native";
 import { Icon, Overlay } from "@rneui/base";
 import { getAuth, signOut } from "firebase/auth";
 import { Dropdown } from "react-native-element-dropdown";
 import { UserInformation } from "../../contexts/userInformation.js";
 import { Alert, ScrollView } from "react-native";
+
+const screen = Dimensions.get("screen");
 
 const HomePageManagerBAMX = ({navigation}) => {
   const [refresh, setRefresh] = useState(false);
@@ -70,13 +67,15 @@ const HomePageManagerBAMX = ({navigation}) => {
         </View>
         <View>
           <View style={styles.containerBox}>
-            <TouchableOpacity
-            onPress={() => navigation.navigate('AdminRegister', {navigation: navigation})}
-            style={styles.button}
-            >
-              <Icon name="user-plus" type="font-awesome" size={55}/>
-              <Text style={styles.textButton}>Registrar administrador</Text>
-            </TouchableOpacity>
+            <View style={styles.containerBtt}>
+              <TouchableOpacity
+              onPress={() => navigation.navigate('AdminRegister', {navigation: navigation})}
+              style={styles.button}
+              >
+                <Icon name="user-plus" type="font-awesome" size={55}/>
+                <Text style={styles.textButton}>Registrar administrador</Text>
+              </TouchableOpacity>
+            </View>
           </View>  
           <View style={styles.containerBox}>
             <Text style={styles.title2}>Centros de Donación</Text>
@@ -164,12 +163,12 @@ const styles = StyleSheet.create({
   containerNav: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 5,
-    marginHorizontal: 10,
-    marginBottom: 10,
+    marginTop: screen.height * 0.01,
+    marginHorizontal: screen.width * 0.03,
+    marginBottom: screen.height * 0.01,
   },
   title1: {
-    fontSize: 25,
+    fontSize: screen.fontScale * 25,
     paddingTop: 5,
     fontWeight: "bold",
     alignSelf: "center",
@@ -184,8 +183,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   dropdown: {
-    width: 100,
-    height: 50,
+    width: screen.width * 0.25,
+    height: screen.height * 0.05,
     backgroundColor: "#fff",
     borderRadius: 20,
     shadowColor: "#000",
@@ -205,7 +204,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   textDrop: {
-    fontSize: 15,
+    fontSize: screen.fontScale * 15,
     fontWeight: "bold",
     marginLeft: 2,
   },
@@ -215,32 +214,32 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
     flexDirection: "row",
-    width: "49%",
-    height: 100,
+    width: screen.width * 0.47,
+    height: screen.height * 0.10,
     alignItems: "center",
-    marginTop: 10,
+    marginTop: screen.height * 0.01,
   },
   textButton: {
-    fontSize: 13,
+    fontSize: screen.fontScale * 14,
     fontWeight: "bold",
     alignSelf: "center",
-    marginHorizontal: 10,
-    width: "60%",
+    marginHorizontal: screen.width * 0.02,
+    width: screen.width * 0.26,
   },
   title2: {
-    fontSize: 25,
+    fontSize: screen.fontScale * 20,
     paddingTop: 5,
     fontWeight: "bold",
     alignSelf: "center",
-    marginBottom: 20,
+    marginBottom: screen.height * 0.01,
   },
   containerBtt: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: 10,
+    marginHorizontal: screen.width * 0.02,
   },
   containerBox: {
-    marginBottom: 20,
+    marginBottom: screen.height * 0.02,
   },
 });
 

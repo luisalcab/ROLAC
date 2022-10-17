@@ -1,10 +1,13 @@
 import {useState, useEffect} from 'react'
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {Button} from "@rneui/themed";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Moment from 'moment';
 
+const screen = Dimensions.get("screen");
+
 const DatePicker = ({day, setSchedule, schedule}) => {
+
     const [setUp, setSetUp] = useState({
         date: false,
         openDate: "00:00",
@@ -25,7 +28,7 @@ const DatePicker = ({day, setSchedule, schedule}) => {
 
   return (
     <View style={styles.item}>
-        <Text>{day}</Text>
+        <Text style = {styles.day}>{day}</Text>
         <View style={styles.line}></View>
         <Button
             onPress={() => setSetUp({...setUp, date: true, open: true})}
@@ -54,7 +57,7 @@ const DatePicker = ({day, setSchedule, schedule}) => {
                 setSetUp({...setUp, openDate: "---", closeDate: "---"});
                 setSchedule({...schedule, [day]: {open: null, close: null}})
                 }}
-            title="Closed"
+            title="Cerrado"
             buttonStyle={{
                 backgroundColor:"transparent",
             }}
@@ -68,20 +71,27 @@ const DatePicker = ({day, setSchedule, schedule}) => {
 
 const styles = StyleSheet.create({
     item:{
-        width:"95%",
-        height:50,
+        width: screen.width*.8,
         borderColor:"black",
         borderWidth:1,
         borderRadius:5,
         flex:1,
         flexDirection:"row",
-        justifyContent:"space-around",
-        marginVertical:"1%",
-        marginHorizontal:10
+        justifyContent:"space-evenly",
+        alignItems:"center",
+        marginBottom: screen.height*.01,
+        alignSelf:"center"
     },
     line:{
         width:1,
-        borderWidth:2
+        height:screen.height*0.06,
+        backgroundColor:"black",
+        alignSelf:"center"
+    },
+    day:{
+        fontSize:screen.fontScale*16,
+        fontWeight:"bold",
+        width:screen.width*0.2
     }
 })
 

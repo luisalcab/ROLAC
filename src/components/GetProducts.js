@@ -1,7 +1,8 @@
-import {db} from './FBConnection';
 import {collection, getDocs} from "firebase/firestore";
+import { enviromentVariables } from '../../utils/enviromentVariables';
 
 const GetProducts = async () => {
+    const {db} = enviromentVariables;
     
     const querySnapshot = await getDocs(collection(db, 'products'));
     const products = [];

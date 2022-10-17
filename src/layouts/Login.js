@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Dimensions} from 'react-native';
 import {Image} from '@rneui/themed';
 import LogInForm from '../components/LogInForm';
 import { initializeApp } from "firebase/app";
@@ -20,8 +20,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
+const screen = Dimensions.get("screen");
+
 const Login = ({navigation}) => {
   
   return (
@@ -42,18 +43,16 @@ const styles = StyleSheet.create({
     screen:{
         flex: 1,
         justifyContent: "flex-start",
-        width: "100%",
-        height: "100%",
-        backgroundColor: "#fff",
-        marginTop: 0
+        width: screen.width*1,
+        height: screen.height*1,
+        backgroundColor: "#fff"
     },
     pic:{
-        width: "90%",
-        height: 250,
-        marginBottom: 20,
-        marginTop: 100,
-        marginHorizontal: 20,
-        borderRadius: 40  
+        width: screen.width*.8,
+        height: screen.height*.3,
+        marginTop: screen.height*.05,
+        marginHorizontal: screen.width*.1,
+        borderRadius: 40
     }
 })
 

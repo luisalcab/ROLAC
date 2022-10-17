@@ -1,5 +1,5 @@
 import {useContext, useState} from 'react';
-import {View, Alert, TouchableOpacity} from 'react-native';
+import {View, Alert, TouchableOpacity, Dimensions} from 'react-native';
 import {CCContext} from '../contexts/CCContext';
 import {UserInformation} from '../contexts/userInformation';
 import {Input, Icon, Button, Text} from "@rneui/themed";
@@ -9,12 +9,15 @@ import {getDoc, doc} from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import {enviromentVariables} from '../../utils/enviromentVariables';
 import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-root-toast';
 
 const LogInForm = ({navigation}) => {
     const {setUserInformation} = useContext(UserInformation);
     const {setCCUser} = useContext(CCContext);
 
     const [loading, isLoading] = useState(false);
+
+    const screen = Dimensions.get("screen");
 
     const {db, app} = enviromentVariables;
 
@@ -53,13 +56,28 @@ const LogInForm = ({navigation}) => {
                 });
                 
                 isLoading(false);
+                Toast.show("Bienvenid@", {
+                    duration: Toast.durations.SHORT,
+                    position: Toast.positions.BOTTOM,
+                    shadow: true,
+                    animation: true,
+                    hideOnPress: true,
+                    delay: 0
+                });
                 navigation.navigate("HomePageDonor", {navigation: navigation});
             }else{
                 const querySnapshotCollectionCenter = await getDoc(doc(db, "collection_center", auth.currentUser.uid));
 
                 if(querySnapshotCollectionCenter.exists()){
                     await setCCUser(auth.currentUser.uid);
-                    //setModalVisible(true);
+                    Toast.show("Bienvenid@", {
+                        duration: Toast.durations.SHORT,
+                        position: Toast.positions.BOTTOM,
+                        shadow: true,
+                        animation: true,
+                        hideOnPress: true,
+                        delay: 0
+                    });
                     nav2CCmenu();
                 }else{
                     const querySnapshotManger = await getDoc(doc(db, "BAMXmanager", auth.currentUser.uid));
@@ -74,6 +92,14 @@ const LogInForm = ({navigation}) => {
                         });
                         
                         isLoading(false);
+                        Toast.show("Bienvenid@", {
+                            duration: Toast.durations.SHORT,
+                            position: Toast.positions.BOTTOM,
+                            shadow: true,
+                            animation: true,
+                            hideOnPress: true,
+                            delay: 0
+                        });
                         navigation.navigate("HomePageManagerBAMX", {navigation: navigation});
                     }else{
                         isLoading(false);
@@ -123,13 +149,13 @@ const LogInForm = ({navigation}) => {
                 {({errors, touched, handleChange, handleSubmit, values}) => {
                     return(
                         <>
-                            <View style={{padding: 34}}>
+                            <View style={{padding: 35}}>
                                 <Input
                                     placeholder="Correo"
                                     leftIcon={<Icon type="material" name="mail"/>}
                                     onChangeText={handleChange("email")}
                                     errorMessage={errors.email && touched.email ? errors.email : ""}
-                                    style={{height:20, fontSize: 20}}
+                                    style={{height: screen.height*0.02, fontSize: screen.fontScale*20}}
                                     value={values.email}
                                     keyboardType="email-address"
                                 />
@@ -139,7 +165,7 @@ const LogInForm = ({navigation}) => {
                                     leftIcon={<Icon type="material" name="lock"/>}
                                     onChangeText={handleChange("password")}
                                     errorMessage={errors.password && touched.password ? errors.password : ""}
-                                    style={{height:20, fontSize: 20}}
+                                    style={{height: screen.height*0.02, fontSize: screen.fontScale*20}}
                                     value={values.password}
                                 />
                             </View>
@@ -148,16 +174,17 @@ const LogInForm = ({navigation}) => {
                                     onPress={handleSubmit} 
                                     title="Entrar"
                                     buttonStyle={{
-                                        width: "80%",
-                                        height:50,
+                                        width: screen.width*0.8,
+                                        height: screen.height*0.06,
                                         borderRadius: 10,
                                         backgroundColor:"red",
                                         alignSelf:"center"
                                     }}
                                     titleStyle={{
-                                        width: "90%",
+                                        width: screen.width*0.7,
                                         color:"white",
-                                        fontSize: 25
+                                        fontSize: screen.fontScale*25,
+                                        fontWeight:"bold"
                                     }}
                                     icon={<Icon name="arrow-forward-ios" type="material" color ="white"/>}
                                     iconRight={true}
@@ -166,17 +193,18 @@ const LogInForm = ({navigation}) => {
                                     onPress={nav2Registration} 
                                     title="Registrarse"
                                     buttonStyle={{
-                                        width: "80%",
-                                        height:50,
+                                        width: screen.width*0.8,
+                                        height: screen.height*0.06,
                                         borderRadius: 10,
                                         backgroundColor:"orange",
                                         alignSelf:"center",
-                                        marginTop: 10
+                                        marginTop: screen.height*0.01
                                     }}
                                     titleStyle={{
-                                        width: "90%",
+                                        width: screen.width*0.7,
                                         color:"white",
-                                        fontSize: 25
+                                        fontSize: screen.fontScale*25,
+                                        fontWeight:"bold"
                                     }}
                                     icon={<Icon name="arrow-forward-ios" type="material" color ="white"/>}
                                     iconRight={true}
@@ -185,8 +213,8 @@ const LogInForm = ({navigation}) => {
                                     <Text style={{
                                             color:"black", 
                                             alignSelf:"center", 
-                                            marginTop: 30, 
-                                            fontSize: 16,
+                                            marginTop: screen.height*0.04, 
+                                            fontSize: screen.fontScale*16,
                                             textDecorationLine: "underline",
                                             textDecorationColor: "black",
                                             textDecorationStyle: "solid",

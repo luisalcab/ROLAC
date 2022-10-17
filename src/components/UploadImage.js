@@ -1,7 +1,9 @@
-import {storage} from './FBConnection';
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage"
+import { enviromentVariables } from '../../utils/enviromentVariables';
 
 const uploadImage = async (uri, setImageURL, id) => {
+    const {storage} = enviromentVariables;
+
     const response = await fetch(uri);
     const blob = await response.blob();
     const filename = id + ".jpg";
