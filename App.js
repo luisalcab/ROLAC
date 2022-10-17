@@ -17,8 +17,6 @@ import AdminRegister from './src/layouts/register/AdminRegister';
 import CardsDonationUser from './src/layouts/donations/CardsDonationUser';
 import CardsDonationAllUsers from './src/layouts/donations/CardsDonationAllUsers';
 import PaymentMessage from './src/components/stripe/PaymentMessage';
-import ExcelGenerator from './src/components/PdfGenerator/ExcelGenerator';
-import Reports from './src/layouts/reports/Reports';
 import CardsKindDonationUser from './src/layouts/donations/CardsKindDonationUser';
 
 //Contexts
@@ -73,9 +71,7 @@ export default function App() {
                                     <Stack.Screen name="SearcherCC" component={SearcherCC} />
                                     <Stack.Screen name="Login" component={Login} />
                                     <Stack.Screen name="CardsKindDonationUser" component={CardsKindDonationUser}/>
-                                    <Stack.Screen name="ExcelGenerator" component={ExcelGenerator}/>
                                     <Stack.Screen name="QRGenerator" component={QRGenerator} />
-                                    <Stack.Screen name="Reports" component={Reports} />
                                     <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
                                     <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>
                                     <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>

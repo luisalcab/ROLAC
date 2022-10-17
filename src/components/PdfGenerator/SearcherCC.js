@@ -4,8 +4,8 @@ import { Input, SearchBar } from 'react-native-elements';
 import { Card, Icon } from '@rneui/themed';
 import { ScrollView } from 'react-native-gesture-handler';
 import { RefresherContext } from '../../contexts/RefresherContext';
-import { Calendar } from 'react-native-calendars';
 import GetCC from './GetCC';
+import ReportDonationsByCollectionCenter from './ReportDonationsByCollectionCenter';
 import { Button } from '@rneui/base';
 import moment from 'moment';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -19,15 +19,8 @@ const SearcherCC = () => {
     const [collectionCenterSelected, setCollectionCenterSelected] = useState(undefined);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [beginDate, setBeginDate] = useState(true);
-    const [intervalTime, setIntervalTime] = useState({
-        beginDate: "",
-        endDate: ""
-    })
-    // const [beginDate, setBeginDate] = useState({"beginDate": "", "timestamp": ""});
-    // const [endDate, setEndDate] = useState({"endDate": "", "timestamp": ""});
+    const [intervalTime, setIntervalTime] = useState({ beginDate: "", endDate: "" });
     
-    var calendarEvents = {};
-
     useEffect(() => {
         GetCC().then((collectionCenter) => {
             setCollectionCenter(collectionCenter);
@@ -68,25 +61,31 @@ const SearcherCC = () => {
             id: CC.id,
             name: CC.name
         });
-
-
-        console.log("Haz seleccionado: ", CC)
     }
 
 
-    const showDatePicker = () => {
-    console.log("OK")
-    setDatePickerVisibility(true);
-    };
+    const showDatePicker = () => { setDatePickerVisibility(true); };
 
-    const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-    };
+    const hideDatePicker = () => { setDatePickerVisibility(false); };
 
+    const resetInformationForReport = () => { 
+        setCollectionCenterSelected(undefined) 
+        setIntervalTime({beginDate: "", endDate: ""})
+    }
     
+    const generateReport = ()  => {
+        if(moment(intervalTime.beginDate).isValid() && moment(intervalTime.endDate).isValid()) {
+            ReportDonationsByCollectionCenter(
+                intervalTime.beginDate, 
+                intervalTime.endDate,
+                collectionCenterSelected.id);
+        } else {
+            alert("Aún no has seleccionado un intervalo de fechas valido");
+        }
+    }
+
+
   const handleConfirm = async (date) => {
-    console.log("Assignar")
-    console.log(beginDate)
     const dateFormat = moment(date).format("DD-MM-YY");
     if(beginDate) 
         setIntervalTime({...intervalTime, ["beginDate"]: dateFormat});
@@ -98,9 +97,11 @@ const SearcherCC = () => {
             setIntervalTime({...intervalTime, ["endDate"]: dateFormat});
         }
     }
-    console.log("Intervalo de fecha: ", intervalTime)
+
     hideDatePicker();
   };
+
+
     return (
         <View style = {styles.screen}>
             {collectionCenterSelected==undefined ? 
@@ -169,15 +170,17 @@ const SearcherCC = () => {
                             style = {styles.button}>
                                 <Text style = {styles.textButton}>Fecha final</Text>
                             </TouchableOpacity>
-                        </View>      
-                            <TouchableOpacity onPress={() => 
-                            {
-                                showDatePicker()
-                                setBeginDate(false)
-                            }}
+                        </View>  
+                        <View style = {styles.box1}>
+                            <TouchableOpacity onPress={() => { generateReport() }}
                             style = {styles.button}>
                                 <Text style = {styles.textButton}>Generar reporte</Text>
                             </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { resetInformationForReport() }}
+                            style = {styles.button}>
+                                <Text style = {styles.textButton}>Cancelar</Text>
+                            </TouchableOpacity>
+                        </View>    
                     </>
                 )
             }         
