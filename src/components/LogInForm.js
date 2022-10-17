@@ -65,7 +65,7 @@ const LogInForm = ({navigation}) => {
                     isLoading(false);
                     const {name, lastName} = user.userData;
                     setUserInformation({auth, id, name, lastName});
-                    navigation.navigate(i === 0 ? "RegisterDonor" : "BAMXmenu", {navigation});
+                    navigation.navigate(i === 0 ? "RegisterDonor" : "HomePageManagerBAMX", {navigation});
                     break;
                 case 2:
                     isLoading(false);

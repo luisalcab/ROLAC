@@ -82,14 +82,14 @@ const HomePageManagerBAMX = ({navigation}) => {
             <Text style={styles.title2}>Centros de Donación</Text>
             <View style={styles.containerBtt}>
               <TouchableOpacity
-              onPress={() => Alert.alert('En construcción')}
+              onPress={() => navigation.navigate("CCRequest")}
               style={styles.button}
               >
                 <Icon name="bookmark" type="font-awesome" size={55}/>
                 <Text style={styles.textButton}>Solicitudes de registro</Text>
               </TouchableOpacity>
               <TouchableOpacity
-              onPress={() => Alert.alert('En construcción')}
+              onPress={() => navigation.navigate("CCEditRequest")}
               style={styles.button}
               >
                 <Icon name="update" type="material-community-icons" size={55}/>
@@ -98,7 +98,7 @@ const HomePageManagerBAMX = ({navigation}) => {
             </View>
             <View style={styles.containerBtt}>
               <TouchableOpacity
-              onPress={() => Alert.alert('En construcción')}
+              onPress={() => navigation.navigate("ViewCC")}
               style={styles.button}
               >
                 <Icon name="building" type="font-awesome-5" size={55}/>
