@@ -30,47 +30,53 @@ const LogInForm = ({navigation}) => {
             required("Contraseña requerida")
     })
 
-    const logIn = async uid => {
-        const users = [
+    const getData = async uid => {
+        try{
+            const users = [
             getDoc(doc(db, "donor", uid)),
             getDoc(doc(db, "BAMXmanager", uid)),
             getDoc(doc(db, "collection_center", uid))
-        ];
+            ];
 
-        return Promise.all(users).then(usersList => usersList.map((user, i) => {
-            if(user.exists()){
-                const {name, lastName} = user.data();
-                switch(i){
-                    case 0:
-                    case 1:
-                        isLoading(false);
-                        setUserInformation({uid,auth,name,lastName});
-                        navigation.navigate((i === 0) ? "HomePageDonor" : "HomePageManagerBAMX", {navigation});
-                        break;
-                    case 2:
-                        isLoading(false);
-                        setCCUser(uid);
-                        navigation.navigate("CCmenu");
-                        break;
-                }
-            }
-        })).catch((e) => {
-            isLoading(false);
-            Alert.alert("Error", "Usuario o contraseña incorrectas",
-            [{text: "ACEPTAR", onPress: () => console.log(e)}]);
-        });
+            const userAuthList = await Promise.all(users);
+            const userType = userAuthList.map((user, i) => user.exists() ? {userData: user.data(),i,id: user.id} : null);
+            const user = userType.filter(user => user !== null);
+            if(user.length !== 0)return user[0];throw Error();
+        }catch(e){}
     }
 
     const handleSubmit = async(data) => {
-        //Getting the input user, starting login process and loading modal
-        const {email, password} = data;
-        isLoading(true);
+        try{
+            //Getting the input user, starting login process and loading modal
+            const {email, password} = data;
+            isLoading(true);
 
-        //Singing
-        await signInWithEmailAndPassword(auth, email, password);
+            //Singing
+            await signInWithEmailAndPassword(auth, email, password);
 
-        //Detects the user type and navigate to the corresponding view
-        await logIn(auth.currentUser.uid);
+            //Detects the user type and gets data
+            const user = await getData(auth.currentUser.uid);
+            const {i, id} = user;
+            
+            //logsin
+            switch(i){
+                case 0:
+                case 1:
+                    isLoading(false);
+                    const {name, lastName} = user.userData;
+                    setUserInformation({auth, id, name, lastName});
+                    navigation.navigate(i === 0 ? "RegisterDonor" : "BAMXmenu", {navigation});
+                    break;
+                case 2:
+                    isLoading(false);
+                    await setCCUser(id);
+                    navigation.navigate("CCmenu");
+                    break;
+            }
+        }catch(e){
+            isLoading(false);
+            Alert.alert("Error", "Usuario o contraseña incorrectas",[{text: "ACEPTAR", onPress: () => console.log(e)}]);
+        }
     }
 
   return (
