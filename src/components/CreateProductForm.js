@@ -110,10 +110,12 @@ const CreateProductForm = ({navigation}) => {
                             </View>
                         </View>
                         <View style = {styles.box2}>
-                            <Text style = {styles.textInfo}>Activo:</Text>
-                            <Switch onValueChange={(value) => {values.active = value; setSwitchOnActive(value)}} value={switchOnActive}/>
-                            <Text style = {styles.textInfo}>Prioridad:</Text>
-                            <Switch onValueChange={(value) => {values.urgent = value; setSwitchOnUrgent(value)}} value={switchOnUrgent}/>
+                            <Text style = {styles.textInfoSw}>Activo:</Text>
+                            <Switch onValueChange={(value) => {values.active = value; setSwitchOnActive(value)}} value={switchOnActive}
+                            ios_backgroundColor="gray"/>
+                            <Text style = {styles.textInfoSw}>Prioridad:</Text>
+                            <Switch onValueChange={(value) => {values.urgent = value; setSwitchOnUrgent(value)}} value={switchOnUrgent}
+                            ios_backgroundColor="gray" trackColor={{false: "gray", true: "red"}}/>
                         </View>
                         <View style = {styles.box3}>
                             <Text style = {styles.textInfo}>Unidades:</Text>
@@ -150,70 +152,80 @@ const screen = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     picTouch:{
-        width: 150,
-        height: 150,
+        width: screen.width * 0.3,
+        height: screen.width * 0.35,
         borderRadius: 10, 
-        marginTop: 10,
+        marginTop: screen.width * 0.04,
     },
     pic:{
-        width: 150,
-        height: 150,
-        marginHorizontal:"5%",
-        backgroundColor: "gray",
+        width: screen.width * 0.35,
+        height: screen.width * 0.35,
+        marginHorizontal: screen.width * 0.02,
+        backgroundColor: "#C7C7C7",
         borderRadius: 10, 
         absolute: "left"
     },
     button1:{
         alignSelf: "center",
         backgroundColor: "red",
-        width: "50%",
-        height: 40,
+        width: screen.width*0.6,
+        height: screen.height*0.05,
         borderRadius: 10,
-        justifyContent: "center"
+        justifyContent: "center",
+        marginBottom: screen.height * 0.01
     },
     button2:{
         alignSelf: "center",
         backgroundColor: "orange",
-        width: "50%",
-        height: 40,
+        width: screen.width*0.6,
+        height: screen.height*0.05,
         borderRadius: 10,
         justifyContent: "center"
     },
     textB:{
         color: "white",
         textAlign: "center",
-        fontSize: 20
+        fontSize: screen.fontScale * 20,
+        fontWeight: "bold"
     },
     nameIn:{
-        width: "50%",
-        height: 40,
-        marginHorizontal: "5%",
+        width: screen.width * 0.5,
+        height: screen.height * 0.05,
+        marginHorizontal: screen.width * 0.03,
         marginTop: "12%",
     },
     box1:{
         flexDirection: "row",
         justifyContent: "space-around",
+        marginTop: screen.height * 0.01
     },
     box2:{
         flexDirection: "row",
         justifyContent: "space-around",
-        marginTop: "8%"
+        marginTop: screen.height * 0.05,
+        paddingHorizontal: screen.width * 0.04
     },
     box3:{
         flexDirection: "column",
         justifyContent: "space-around",
-        marginTop: "8%"
+        marginTop: screen.height * 0.05,
+        paddingHorizontal: screen.width * 0.04
     },
     box4:{
         flexDirection: "column",
         justifyContent: "space-around",
-        marginTop: "8%"
+        marginTop: screen.height * 0.04
     },
     textInfo:{
         fontSize: 20,
         fontWeight: "bold",
         textAlign: "left",
-        marginHorizontal: "3%",
+        marginHorizontal: screen.width * 0.02,
+    },
+    textInfoSw:{
+        fontSize: 20,
+        fontWeight: "bold",
+        textAlign: "left",
     }
 });
 
