@@ -5,12 +5,13 @@ import { Card, Icon } from '@rneui/themed';
 import { ScrollView } from 'react-native-gesture-handler';
 import { RefresherContext } from '../../contexts/RefresherContext';
 import GetCC from './GetCC';
-import ReportDonationsByCollectionCenter from './ReportDonationsByCollectionCenter';
 import { Button } from '@rneui/base';
 import moment from 'moment';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-  
+import ReportDonationsByCollectionCenter from './ReportDonationsByCollectionCenter';
+import ReportCollectionsPending from './ReportCollectionsPending'  
+
 const SearcherCC = () => {
     const [collectionCenter, setCollectionCenter] = useState([]);
     const {refresh, setRefresh} = useContext(RefresherContext);
