@@ -50,7 +50,7 @@ const CardsDonationAllUsers = () => {
             donationsInfo ? (
                 <>
                     <View style={styles.titleBar}>
-                        <Text style={styles.title}>Donaciones</Text>
+                        <Text style={styles.title}>Donaciones monetarias</Text>
                     </View>
                     <FlatList
                         data={donationsInfo}
@@ -73,14 +73,16 @@ const CardsDonationAllUsers = () => {
 }
 
 const styles = StyleSheet.create({
-        titleBar: {
+    titleBar: {
         alignItems: "center",
-        marginTop: "5%",
-        backgroundColor: "#b0bdd0",
-        },
-        title: {
-        fontSize: 25,
-        }
+        justifyContent: "center",
+        height: 50,
+        backgroundColor: "white",
+    },
+    title: {
+        fontSize: 22,
+        fontWeight: "bold",
+    }
     });
 
 

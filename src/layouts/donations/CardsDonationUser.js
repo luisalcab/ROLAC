@@ -80,7 +80,9 @@ const CardsDonationUser = ({navigation}) => {
 const styles = StyleSheet.create({
         titleBar: {
             alignItems: "center",
-            marginTop: "5%"
+            justifyContent: "center",
+            height: 50,
+            backgroundColor: "white",
         },
         title: {
             fontSize: 22,

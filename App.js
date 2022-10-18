@@ -150,7 +150,7 @@ export default function App() {
                             <Stack.Screen name="CardsKindDonationUser" component={CardsKindDonationUser} options={{title: 'Donaciones pasadas', headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="Cart" component={Cart} options = {{title: "Carrito", headerBackTitle: "ATRÁS"}}/> 
                             <Stack.Screen name="ItemSelector" component={ItemSelector} options={{title:"Banco de alimentos", headerBackTitle: "ATRÁS"}}/> 
-                            <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers} />  
+                            <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers} options = {{title: "", headerBackTitle: "ATRÁS"}}/>  
                             <Stack.Screen name="AdminRegister" component={AdminRegister} options={{title:"Registro Administrador", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{title:"Recuperar contraseña", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="Administración de productos" component={ProductsAdmin}  options = {{headerBackTitle: "ATRÁS"}}/>
