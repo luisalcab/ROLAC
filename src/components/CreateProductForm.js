@@ -92,8 +92,8 @@ const CreateProductForm = ({navigation}) => {
                         textStyle={{color: '#FFF'}}
                     />
                     <KeyboardAwareScrollView
-                    enableOnAndroid={true}
-                    enableAutomaticScroll = {true}
+                        enableOnAndroid={true}
+                        enableAutomaticScroll = {true}
                     >
                         <View style = {styles.box1}>
                             <TouchableOpacity onPress={()=>openGallery(setImage)} style = {styles.picTouch}>

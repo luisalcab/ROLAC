@@ -1,19 +1,24 @@
 import { useContext } from "react";
 import {View, Text, StyleSheet, TouchableOpacity} from "react-native"
 import {CartContext} from "../contexts/CartContext";
+import {CartContextMonetary} from "../contexts/CartContextMonetary";
 
-const NumberInput = ({id, count, updateCount, active}) => {
+const NumberInput = ({id, count, updateCount, active, kind}) => {
     const {cart, setCart} = useContext(CartContext);
+    const {cartMonetary, setCartMonetary} = useContext(CartContextMonetary);
 
     const updateCart = (val) => {
-        let tempCart = cart.map(item => item.id === id ? {...item, count: count + val} : item)
-        setCart(tempCart);
-
+        if (kind) {
+            setCart(cart.map(item => item.id === id ? {...item, count: count + val} : item));
+        } else {
+            setCartMonetary(cartMonetary.map(item => item.id === id ? {...item, count: count + val} : item));
+        }
     }
 
     const decrease = () => {
         if (count > 0) {
             updateCount(count - 1);
+            console.log(count);
             if (active) {
                 updateCart(-1);
             }
@@ -23,6 +28,7 @@ const NumberInput = ({id, count, updateCount, active}) => {
     const increase = () => {
         if (count < 99){
             updateCount(count + 1);
+            console.log(count);
             if (active) {
                 updateCart(1);
             }

@@ -14,16 +14,17 @@ const QRGenerator = ({navigation}) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.title}>Código de Pedido</Text>
+                <Text style={styles.title}>Código QR</Text>
             </View>
             <View style={styles.qrContainer}>
-                <QRCode value={userInformation.uid} size={200}/>
+                <QRCode value={userInformation.id} size={300}/>
             </View>
             <View style={styles.button}>
                 <Button
                     onPress={returnToMenu} 
                     color="#E74C3C" 
-                    title="Regresar"/>
+                    title="Regresar"
+                />
             </View>
         </View>
     );
@@ -32,25 +33,29 @@ const QRGenerator = ({navigation}) => {
 
 styles = StyleSheet.create({
     container: { // Whole layout
-        flex: 1
+        flex: 1,
+        backgroundColor: "#fff",
+        width: "100%",
+        height: "100%",
     },
     header: { // Header section with back button, title and filter
-        height: "6%",
         justifyContent: "center",
         paddingBottom: 10,
-        backgroundColor: "rgb(251, 249, 250)"
+        height: "10%",
+        justifyContent: "center",
+        marginTop: 50,
     },
     title: { // Title text
         textAlign: "center",
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: "700",
-        color: "rgb(224, 31, 81)"
+        color: "rgb(224, 31, 81)",
     },
     qrContainer: { // Container of QR
-        flex: 1,
         width: "100%",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        height: "75%"
     },
     footer: { // Footer with button
         height: "10%",
@@ -74,7 +79,7 @@ styles = StyleSheet.create({
     buttonLabel: { // Button text label
         fontSize: 20,
         fontWeight: "bold",
-        color: "rgb(224, 174, 31)",
+        color: "orange",
     }
 });
 
