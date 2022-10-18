@@ -90,7 +90,7 @@ const stylesExcel = {
 
 }
 
-const ReportDonationsByCollectionCenter = async (beginDate, endDate, uid) => {
+const ReportDonationsByCollectionCenter = async (beginDate, endDate, uid, navigation) => {
 
     var sheets = [];
     var sheetsDataForTheReport = []; 
@@ -193,7 +193,7 @@ const ReportDonationsByCollectionCenter = async (beginDate, endDate, uid) => {
         console.log("Hola miund")
     } else { 
         alert("No se encontraron donaciones para ese centro de acopio, en ese intervalo de tiempo");
-        
+
     }
 }
 
