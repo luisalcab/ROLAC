@@ -260,6 +260,7 @@ const ReportCollectionsPending = async () => {
     })
 
     ExcelGenerator(sheets)
+    console.log("ok")
 }
 
 export default ReportCollectionsPending;

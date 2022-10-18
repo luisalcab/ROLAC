@@ -190,8 +190,11 @@ const ReportDonationsByCollectionCenter = async (beginDate, endDate, uid) => {
             },
         )
         ExcelGenerator(sheets);
-
-    } else { alert("No se encontraron donaciones para ese centro de acopio, en ese intervalo de tiempo") }
+        console.log("Hola miund")
+    } else { 
+        alert("No se encontraron donaciones para ese centro de acopio, en ese intervalo de tiempo");
+        
+    }
 }
 
 

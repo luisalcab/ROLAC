@@ -156,7 +156,7 @@ const HomePageManagerBAMX = ({navigation}) => {
             <Text style={styles.title2}>Donaciones</Text>
             <View style={styles.containerBtts}>
               <TouchableOpacity
-              onPress={() => Alert.alert('En construcción')}
+              onPress={() => navigation.navigate("CardsDonationAllUsers", {navigation: navigation})}
               style={styles.button}
               >
                 <Icon name="money" type="font-awesome" size={55}/>
@@ -172,7 +172,7 @@ const HomePageManagerBAMX = ({navigation}) => {
             </View>
             <View style={styles.containerBtts}>
                 <TouchableOpacity
-                onPress={() => Alert.alert('En construcción')}
+                onPress={() => navigation.navigate("SearcherCC", {navigation: navigation})}
                 style={styles.button}
                 >
                   <Icon name="text-document" type="entypo" size={55}/>

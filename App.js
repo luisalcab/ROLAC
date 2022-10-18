@@ -34,7 +34,9 @@ import CreateProduct from './src/layouts/CreateProduct';
 import EditProduct from './src/layouts/EditProduct';
 import ViewCC from './src/components/BAMX/ViewCC';
 import CardsKindDonationUser from './src/layouts/donations/CardsKindDonationUser';
-import ReportCollectionsPending from './src/components/PdfGenerator/ReportCollectionsPending';
+import SearcherCC from './src/components/PdfGenerator/SearcherCC';
+
+
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
 import {ItemsContext} from './src/contexts/ItemsContext';
@@ -48,9 +50,6 @@ import {ProductInfoProvider} from './src/contexts/ProductInfoContext';
 import { PdfDocDefinitionContext } from './src/contexts/PdfDocDefinitionContext';
 import QRGenerator from './src/layouts/QRGenerator';
 import QRScanner from './src/layouts/QRScanner';
-
-import SearcherCC from './src/components/PdfGenerator/SearcherCC';
-
 //Import utils
 import enviromentVariables from './utils/enviromentVariables';
 
@@ -154,7 +153,6 @@ export default function App() {
                             <Stack.Screen name="Administración de productos" component={ProductsAdmin}  options = {{headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="Crear producto" component={CreateProduct} options = {{headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="Editar producto" component={EditProduct} options = {{headerBackTitle: "ATRÁS"}}/>
-                            <Stack.Screen name="Reporte por centro de acopio" component={ReportCollectionsPending}/>
                         </Stack.Navigator>
                     </NavigationContainer>
                 </CartContext.Provider>

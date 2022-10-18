@@ -19,6 +19,8 @@ const ExcelGenerator = (sheets) => {
     .then(() => {
       Sharing.shareAsync(filename);
     })
+
+    return 0;
 }
 
 export default ExcelGenerator;
