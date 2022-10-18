@@ -1,19 +1,18 @@
 import { useContext, useState } from 'react';
-import { CardField, useStripe, useConfirmPayment } from '@stripe/stripe-react-native';
-import { View, Button, Alert, StyleSheet } from 'react-native';
+import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
+import { View, Button, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { UserInformation } from '../../contexts/userInformation';
 import * as Location from 'expo-location';
 import { addDoc, collection } from 'firebase/firestore';
 import firebaseConection from '../../contexts/FBConnection';
-import { CartContext } from '../../contexts/CartContext';
-import { styled } from 'tailwindcss-react-native';
+import { CartContextMonetary } from '../../contexts/CartContextMonetary';
 import moment from 'moment';
 
 function PaymentScreen({grandTotal, navigation}) {    
     //Contexts
     const { userInformation, setUserInformation } = useContext(UserInformation);    
-    const {cart, setCart} = useContext(CartContext);
+    const {cartMonetary, setCartMonetary} = useContext(CartContextMonetary);
 
     // Initialization confirm payment
     const {confirmPayment, loading} = useConfirmPayment();
@@ -38,7 +37,7 @@ function PaymentScreen({grandTotal, navigation}) {
 
 
     handleError = () => {
-      setCart([]);
+      setCartMonetary([]);
       props.idCase = 1;
       navigation.navigate("PaymentMessage", { props: props });
       
@@ -98,12 +97,12 @@ function PaymentScreen({grandTotal, navigation}) {
                     date: date
                   })
                   .then(() => {
-                    setCart([]);
+                    setCartMonetary([]);
                     props.idCase = 0;
                     navigation.navigate("PaymentMessage", { props: props });
                     
                   })
-                  .catch(() => { setCart([]); handleError(); }); 
+                  .catch(() => { setCartMonetary([]); handleError(); }); 
                 }
               }
             },
@@ -114,7 +113,7 @@ function PaymentScreen({grandTotal, navigation}) {
       };
 
       const handleCancelPayPress = async() => {
-        setCart([]);
+        setCartMonetary([]);
         props.idCase = 2;
         navigation.navigate("PaymentMessage", { props: props });
       }
@@ -147,26 +146,50 @@ function PaymentScreen({grandTotal, navigation}) {
         // }}
       />
 
-      <Button 
-        onPress={handlePayPress} 
-        title="Donar" 
-        disabled={loading} />
-
-      <View style={styles.cancelButtonStyle}>
-        <Button 
-          color="#E74C3C" 
-          onPress={handleCancelPayPress} 
-          title="Cancelar" 
-          disabled={loading} />
+      <View style = {styles.Button}>
+        <View style = {styles.ButtonDonation}>
+          <Button 
+            onPress={handlePayPress} 
+            title="Donar" 
+            disabled={loading}
+            color="#fff"
+          />
+        </View>
+        <View style = {styles.ButtonCancel}>
+          <Button 
+            color={"white"}
+            style = {{fontSize: 20}}
+            onPress={handleCancelPayPress} 
+            title="Cancelar" 
+            disabled={loading}
+          />
+        </View>
       </View>
-
     </View>
   );
 }
 
-styles = StyleSheet.create({
-  cancelButtonStyle: {
-    marginTop: "5%",
+const styles = StyleSheet.create({
+  Button: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10
+  },
+  ButtonDonation: {
+    width: 200,
+    height: 40,
+    backgroundColor: '#1d5dec',
+    borderRadius: 10,
+    justifyContent: 'center',
+    marginBottom: 10
+  },
+  ButtonCancel: {
+    width: 200,
+    height: 40,
+    backgroundColor: 'red',
+    borderRadius: 10,
+    justifyContent: 'center',
   }
 })
 export default PaymentScreen;

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {View, Text, FlatList, StyleSheet, ActivityIndicator} from 'react-native'
 import CardsMonetaryDonations from "../../components/cardsDonations/CardsMonetaryDonations";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { enviromentVariables } from "../../../utils/enviromentVariables";
 import moment from "moment";
 

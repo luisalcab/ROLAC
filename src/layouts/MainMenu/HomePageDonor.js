@@ -11,16 +11,26 @@ import Map from "../../components/MainMenu/Map.js";
 import { UserInformation } from "../../contexts/userInformation.js";
 import { getAuth, signOut } from "firebase/auth";
 import { Dropdown } from "react-native-element-dropdown";
-
+import { CartContext } from "../../contexts/CartContext.js";
 
 const HomePageDonor = ({navigation}) => {
   const {userInformation, setUserInformation} = useContext(UserInformation);
   const [refresh, setRefresh] = useState(false);
+  const {cart} = useContext(CartContext);
+
+  const nav2Qr = () => {
+    console.log(cart);
+    if(cart[0]==undefined){
+        alert("Necesitas agregar al menos un producto para poder continuar")
+    } else {
+        navigation.navigate("QRGenerator");
+    }
+  }
   
   return (
     <View>
         <View style={styles.containerNav}>
-          <TouchableOpacity onPress={() => { navigation.navigate('QRScanner', {navigation: navigation}) }}>
+          <TouchableOpacity onPress={() => nav2Qr()}>
             <Icon name="qrcode" type="font-awesome" size={50}/>
           </TouchableOpacity>
           <Text style={styles.title1}>Hola {userInformation.name}</Text>

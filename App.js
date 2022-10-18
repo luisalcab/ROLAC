@@ -37,6 +37,7 @@ import CardsKindDonationUser from './src/layouts/donations/CardsKindDonationUser
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
+import { CartContextMonetary } from './src/contexts/CartContextMonetary';
 import {ItemsContext} from './src/contexts/ItemsContext';
 import { UserInformation } from './src/contexts/userInformation';
 import {RegisterCCProvider} from "./src/contexts/RegisterCC"
@@ -68,12 +69,14 @@ const Stack = createNativeStackNavigator();
 // All the screens should be inside of NavigationContainer
 export default function App() {
     const [cart, setCart] = useState([]);
+    const [cartMonetary, setCartMonetary] = useState([]);
     const [items, setItems] = useState([]);
     const [userInformation, setUserInformation] = useState([]);
     const [isConnected, setIsConnected] = useState(null);
     const [pdfDocDefinition, setPdfDocDefinition] = useState([]);
     
     const providerCart = useMemo(() => ({cart, setCart}), [cart, setCart]);
+    const providerCartMonetary = useMemo(() => ({cartMonetary, setCartMonetary}), [cartMonetary, setCartMonetary]);
     const providerItems = useMemo(() => ({items, setItems}), [items, setItems]);
     const ProviderPdfDocDefinition = useMemo(() => ({pdfDocDefinition, setPdfDocDefinition}), [pdfDocDefinition, setPdfDocDefinition]);
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
@@ -98,13 +101,14 @@ export default function App() {
                 <PdfDocDefinitionContext.Provider value={ProviderPdfDocDefinition}>
                 <ItemsContext.Provider value={providerItems}>
                 <CartContext.Provider value={providerCart}>
+                <CartContextMonetary.Provider value={providerCartMonetary}>
                     <NavigationContainer initialRouteName="Login">
                     <StatusBar barStyle="dark-content" backgroundColor={"white"}/>
                         <Stack.Navigator>
                             <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
                             <Stack.Screen name="ViewCC" component={ViewCC} options={{title: "Centros de Acopio"}}/>
                             <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
-                            <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
+                            <Stack.Screen name='CardsDonationUser' component={CardsDonationUser} options={{title: 'Donaciones pasadas', headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="TerminosyCondiciones" component={TerminosyCondiciones} options={{title: "Términos y Condiciones", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="RegisterDonor" component={RegisterDonor} options={{title:"Registro Donador", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="CCEdit" component={CCEdit} />
@@ -119,14 +123,13 @@ export default function App() {
                             <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta', headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal', headerBackVisible: false}}/>
                             <Stack.Screen name='HomePageCollectionCenter' component={HomePageCollectionCenter} options={{title: 'Menú principal'}}/>
-                            <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
-                            options={{title: 'Administrar cuenta'}}/>
+                            <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent} options={{title: 'Administrar cuenta', headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="QRScanner" component={QRScanner} />
-                            <Stack.Screen name="QRGenerator" component={QRGenerator} />
-                            <Stack.Screen name="CardsKindDonationUser" component={CardsKindDonationUser}/>
-                            <Stack.Screen name="Cart" component={Cart} /> 
-                            <Stack.Screen name="ItemSelector" component={ItemSelector} options={{title:"Banco de alimentos"}}/> 
-                            <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>  
+                            <Stack.Screen name="QRGenerator" component={QRGenerator} options = {{headerShown: false}}/>
+                            <Stack.Screen name="CardsKindDonationUser" component={CardsKindDonationUser} options={{title: 'Donaciones pasadas', headerBackTitle: "ATRÁS"}}/>
+                            <Stack.Screen name="Cart" component={Cart} options = {{title: "Carrito", headerBackTitle: "ATRÁS"}}/> 
+                            <Stack.Screen name="ItemSelector" component={ItemSelector} options={{title:"Banco de alimentos", headerBackTitle: "ATRÁS"}}/> 
+                            <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers} />  
                             <Stack.Screen name="AdminRegister" component={AdminRegister} options={{title:"Registro Administrador", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{title:"Recuperar contraseña", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="Administración de productos" component={ProductsAdmin}  options = {{headerBackTitle: "ATRÁS"}}/>
@@ -134,6 +137,7 @@ export default function App() {
                             <Stack.Screen name="Editar producto" component={EditProduct} options = {{headerBackTitle: "ATRÁS"}}/>
                         </Stack.Navigator>
                     </NavigationContainer>
+                </CartContextMonetary.Provider>
                 </CartContext.Provider>
                 </ItemsContext.Provider>
                 </PdfDocDefinitionContext.Provider>

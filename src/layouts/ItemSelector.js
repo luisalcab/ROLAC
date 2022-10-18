@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import Item from "../components/Item";
 import {ProductContext} from "../contexts/ProductContext";
@@ -6,30 +6,33 @@ import {CartContext} from "../contexts/CartContext";
 import firebaseConnection from "../contexts/FBConnection";
 import {doc, updateDoc} from "firebase/firestore";
 import {UserInformation} from "../contexts/userInformation";
+import { CartContextMonetary } from "../contexts/CartContextMonetary";
 
 const ItemSelector = ({navigation, route}) => {
     
     const docsData = useContext(ProductContext);
     const {userInformation} = useContext(UserInformation);
 
-    const {cart} = useContext(CartContext);
+    const {cart, setCart} = useContext(CartContext);
+    const {cartMonetary, setCartMonetary} = useContext(CartContextMonetary);
 
     const saveCartFB = () => {
-        const query = doc(firebaseConnection.db, "donor", userInformation.uid);
+        const query = doc(firebaseConnection.db, "donor", userInformation.id);
         updateDoc(query, {cart})
         .then(() => alert("Tus cambios han sido guardados")).then(() => nav2Qr())
+        .catch((error) => alert("Error al guardar tus cambios: " + error));
     }
 
     const nav2Cart = () => {
-        if(cart[0]==undefined){
+        if(cartMonetary[0]==undefined){
             alert("Necesitas agregar al menos un producto para poder continuar")
         } else {
             let sum = 0;
-            cart.map(item => {sum += item.count * item.cost});
+            cartMonetary.map(item => {sum += item.count * item.cost});
             if(sum >= 10){
                 navigation.navigate("Cart");
             } else {
-                alert("El monto minimo a donar es: $10.00")
+                alert("El monto mínimo a donar es: $10.00")
             }
         }
     }
