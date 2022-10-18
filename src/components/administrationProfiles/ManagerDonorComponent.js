@@ -81,7 +81,6 @@ const ManagerDonorComponent = ({ navigation }) => {
     const { email, uid, lastName, name } = value;
     console.log("data")
     if(email != donor.email){
-      console.log(email, "---------------", userInformation.auth.currentUser)
       updateEmail(userInformation.auth.currentUser, email).catch(() => {
         Alert.alert(
           "Error",
