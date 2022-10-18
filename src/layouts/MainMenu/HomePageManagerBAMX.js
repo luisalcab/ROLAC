@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import {
   StyleSheet,
   View,
@@ -13,7 +13,7 @@ import { UserInformation } from "../../contexts/userInformation.js";
 import { Alert, ScrollView } from "react-native";
 import {BAMXContext} from "../../contexts/BAMXContext";
 import {Badge} from "react-native-elements";
-
+import ReportColltionsPending from '../../components/PdfGenerator/ReportCollectionsPending';
 const screen = Dimensions.get("window");
 
 
@@ -156,14 +156,14 @@ const HomePageManagerBAMX = ({navigation}) => {
             <Text style={styles.title2}>Donaciones</Text>
             <View style={styles.containerBtts}>
               <TouchableOpacity
-              onPress={() => Alert.alert('En construcción')}
+              onPress={() => navigation.navigate("CardsDonationAllUsers", {navigation: navigation})}
               style={styles.button}
               >
                 <Icon name="money" type="font-awesome" size={55}/>
                 <Text style={styles.textButton}>Donaciones monetarias</Text>
               </TouchableOpacity>
               <TouchableOpacity
-              onPress={() => Alert.alert('En construcción')}
+              onPress={() => ReportColltionsPending()}
               style={styles.button}
               >
                 <Icon name="text-document" type="entypo" size={55}/>
@@ -172,7 +172,7 @@ const HomePageManagerBAMX = ({navigation}) => {
             </View>
             <View style={styles.containerBtts}>
                 <TouchableOpacity
-                onPress={() => Alert.alert('En construcción')}
+                onPress={() => navigation.navigate("SearcherCC", {navigation: navigation})}
                 style={styles.button}
                 >
                   <Icon name="text-document" type="entypo" size={55}/>

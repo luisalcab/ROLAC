@@ -259,7 +259,8 @@ const ReportCollectionsPending = async () => {
           .catch(() => { });
     })
 
-    ExcelGenerator(sheets)
+    return ExcelGenerator(sheets);
+    
 }
 
 export default ReportCollectionsPending;

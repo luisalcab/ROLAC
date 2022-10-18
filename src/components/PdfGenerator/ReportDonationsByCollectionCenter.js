@@ -189,9 +189,11 @@ const ReportDonationsByCollectionCenter = async (beginDate, endDate, uid) => {
                 nameSheet: "Historico de donaciones"
             },
         )
-        ExcelGenerator(sheets);
+        return ExcelGenerator(sheets);
+    } else { 
+        alert("No se encontraron donaciones para ese centro de acopio, en ese intervalo de tiempo");
 
-    } else { alert("No se encontraron donaciones para ese centro de acopio, en ese intervalo de tiempo") }
+    }
 }
 
 

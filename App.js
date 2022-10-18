@@ -34,6 +34,8 @@ import CreateProduct from './src/layouts/CreateProduct';
 import EditProduct from './src/layouts/EditProduct';
 import ViewCC from './src/components/BAMX/ViewCC';
 import CardsKindDonationUser from './src/layouts/donations/CardsKindDonationUser';
+import SearcherCC from './src/components/PdfGenerator/SearcherCC';
+
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -47,12 +49,8 @@ import {ProductContextProvider} from './src/contexts/ProductContext';
 import {RefresherProvider} from './src/contexts/RefresherContext';
 import {ProductInfoProvider} from './src/contexts/ProductInfoContext';
 import { PdfDocDefinitionContext } from './src/contexts/PdfDocDefinitionContext';
-
 import QRGenerator from './src/layouts/QRGenerator';
 import QRScanner from './src/layouts/QRScanner';
-
-import SearcherCC from './src/components/PdfGenerator/SearcherCC';
-
 //Import utils
 import enviromentVariables from './utils/enviromentVariables';
 
@@ -72,9 +70,9 @@ export default function App() {
     const [cartMonetary, setCartMonetary] = useState([]);
     const [items, setItems] = useState([]);
     const [userInformation, setUserInformation] = useState([]);
-    const [isConnected, setIsConnected] = useState(null);
     const [pdfDocDefinition, setPdfDocDefinition] = useState([]);
-    
+    const [isConnected, setIsConnected] = useState(null);
+
     const providerCart = useMemo(() => ({cart, setCart}), [cart, setCart]);
     const providerCartMonetary = useMemo(() => ({cartMonetary, setCartMonetary}), [cartMonetary, setCartMonetary]);
     const providerItems = useMemo(() => ({items, setItems}), [items, setItems]);
@@ -88,6 +86,29 @@ export default function App() {
         }, 2000);
     }, []);
 
+    // const [initializing, setInitilizing] = useState(false);
+    // const auth = getAuth();
+
+    // onAuthStateChanged(auth, (user) => {
+    //     const now = Date.now();
+    //     console.log("Esto es USE: ", user)
+    //     if (user) {
+    //         if(now < user.stsTokenManager.expirationTime){
+    //             setInitilizing(true);
+    //         } else {
+    //             setInitilizing(false);
+    //             signOut(auth).then(() => {
+    //                 // Sign-out successful.
+    //                 console.log("Usuario deslogeado")
+    //                 }).catch((error) => {
+    //                 // An error happened.
+                    
+    //               });   
+    //         }
+            
+    //     }
+    //     else setInitilizing(false) 
+    // });
     return (
         <>
             {isConnected ? (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useMemo } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, LogBox, RefreshControl } from 'react-native';
-import { Input, SearchBar } from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
 import { Card, Icon } from '@rneui/themed';
 import { ScrollView } from 'react-native-gesture-handler';
 import { RefresherContext } from '../../contexts/RefresherContext';
@@ -10,17 +10,9 @@ import moment from 'moment';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import ReportDonationsByCollectionCenter from './ReportDonationsByCollectionCenter';
-import ReportCollectionsPending from './ReportCollectionsPending'  
+import { color } from 'react-native-reanimated';
 
-import {
-    getAuth,
-    EmailAuthProvider,
-    reauthenticateWithCredential,
-    updateEmail,
-    sendPasswordResetEmail,
-  } from "firebase/auth";
-
-const SearcherCC = () => {
+const SearcherCC = ({navigation}) => {
     const [collectionCenter, setCollectionCenter] = useState([]);
     const {refresh, setRefresh} = useContext(RefresherContext);
     const [refreshing, setRefreshing] = useState(refresh);
@@ -35,8 +27,6 @@ const SearcherCC = () => {
             setCollectionCenter(collectionCenter);
         })
 
-        const auth = getAuth();
-        console.log("auth: " ,auth)
     },[]);
 
     useEffect(() => {
@@ -86,14 +76,19 @@ const SearcherCC = () => {
     }
     
     const generateReport = ()  => {
-        console.log("Validando")
-        
         if(moment(intervalTime.beginDate).isValid() && moment(intervalTime.endDate).isValid()) {
-            console.log("Entrando")
             ReportDonationsByCollectionCenter(
                 intervalTime.beginDate, 
                 intervalTime.endDate,
-                collectionCenterSelected.id);
+                collectionCenterSelected.id)
+            .then(() => {
+                navigation.navigate('HomePageManagerBAMX',{navigation: navigation})
+            })
+            .catch(() => {
+                alert("Ha habido un error durante la generación del reporte")
+                navigation.navigate('HomePageManagerBAMX',{navigation: navigation})
+            });
+                
         } else {
             alert("Aún no has seleccionado un intervalo de fechas valido");
         }
@@ -145,12 +140,22 @@ const SearcherCC = () => {
                     {collectionCenter.map((colCenter) => {
                         return (
                             <Card key = {colCenter.id} style = {styles.card}>
-                                <View style = {styles.cardContent}>
-                                    <View style = {styles.cardText}>
+                                <View >
+                                    <View>
                                         <Text style = {styles.cardTitle}>{colCenter.name}</Text>
-                                        <Button onPress={() => {selectCC(colCenter)}}>Seleccionar</Button>
+                                        <Text style = {styles.cardSubtitle}>ID: {colCenter.id}</Text>
+                                    </View>
+                                    <View>
+                                        <Button  containerStyle={styles.button} onPress={() => {selectCC(colCenter)}}>Seleccionar</Button>
                                     </View>
                                 </View>
+                                {/* <View style = {styles.cardContent}>
+                                    <Text style = {styles.cardTitle}>{colCenter.name}</Text>
+                                    <Text style = {styles.cardSubtitle}>ID: {colCenter.id}</Text>
+                                    <View style = {styles.cardButton}>
+                                        <Button  containerStyle={styles.button} onPress={() => {selectCC(colCenter)}}>Seleccionar</Button>
+                                    </View>
+                                </View> */}
                             </Card>
                         )
                     })}
@@ -229,7 +234,8 @@ const styles = StyleSheet.create({
         marginHorizontal: "5%",
         marginVertical: "2%",
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "center",
+        borderRadius: "25"
     },
     button:{
         width: "50%",
@@ -261,20 +267,13 @@ const styles = StyleSheet.create({
     cardContent:{
         flexDirection: "row",
         justifyContent: "space-between",
+        flexWrap: "wrap",
         alignItems: "center",
         width: "100%",
         padding: 15
     },
-    cardImage:{
-        width: "25%",
-        height: 100,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    image:{
-        width: 100,
-        height: 100,
-        borderRadius: 10
+    cardBody: {
+        flexDirection: "row"
     },
     cardTitle:{
         fontSize: 20,
@@ -282,23 +281,20 @@ const styles = StyleSheet.create({
         textAlign: "left",
         width: "100%",
     },
+    cardSubtitle: {
+        fontSize: 10,
+    },
     cardButton:{
-        width: "10%",
+        // width: "10%",
+        color: "orange",
         height: 40,
         justifyContent: "center",
         flexDirection: "row",
         marginHorizontal: 10
     },
-    button2:{
-        width: "110%",
-        height: 40,
-        justifyContent: "center",
-        backgroundColor: "white",
-        borderRadius: 10,
-    },
     cardText:{
-        flexDirection: "row",
-        flexWrap: "wrap",
+        // flexDirection: "row",
+        // flexWrap: "wrap",
         width: "40%",
     },
     searchBar:{
