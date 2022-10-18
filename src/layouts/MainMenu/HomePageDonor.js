@@ -13,7 +13,9 @@ import { getAuth, signOut } from "firebase/auth";
 
 const HomePageDonor = ({navigation}) => {
   const {userInformation, setUserInformation} = useContext(UserInformation);
-  
+  const auth = getAuth();
+  // console.log(auth.currentUser.getIdToken)
+
   return (
     <View>
       <View style={styles.containerNav}>

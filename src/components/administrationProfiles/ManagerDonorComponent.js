@@ -24,6 +24,7 @@ const ManagerDonorComponent = ({ navigation }) => {
   //Initialize auth instance
   const auth = getAuth();
   console.log("Esto es auth en donor: ", auth)
+  
   //Contexts
   const { userInformation, setUserInformation } = useContext(UserInformation);
 
@@ -67,8 +68,9 @@ const ManagerDonorComponent = ({ navigation }) => {
 
   const updateDonor = async (value) => {
     const { email, uid, lastName, name } = value;
-
+    console.log("data")
     if(email != donor.email){
+      console.log(email, "---------------", userInformation.auth.currentUser)
       updateEmail(userInformation.auth.currentUser, email).catch(() => {
         alert("Ha habido un error a la hora de actualizar el usuario");
         navigation.navigate("HomePageDonor", { navigation: navigation });
@@ -183,7 +185,8 @@ const ManagerDonorComponent = ({ navigation }) => {
       {donor ? (
         <Formik
           initialValues={donor}
-          onSubmit={(values) => updateDonor(values)}
+          onSubmit={(values) => {
+            updateDonor(values)}}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <ScrollView>

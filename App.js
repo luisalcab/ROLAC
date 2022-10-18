@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LogBox } from 'react-native';
@@ -34,8 +34,11 @@ import QRScanner from './src/layouts/QRScanner';
 
 import SearcherCC from './src/components/PdfGenerator/SearcherCC';
 
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+
 //Import utils
 import enviromentVariables from './utils/enviromentVariables';
+import { combineTransition } from 'react-native-reanimated';
 
 //Ignore warnings
 LogBox.ignoreLogs([
@@ -59,6 +62,29 @@ export default function App() {
     const ProviderPdfDocDefinition = useMemo(() => ({pdfDocDefinition, setPdfDocDefinition}), [pdfDocDefinition, setPdfDocDefinition]);
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
 
+    // const [initializing, setInitilizing] = useState(false);
+    // const auth = getAuth();
+
+    // onAuthStateChanged(auth, (user) => {
+    //     const now = Date.now();
+    //     console.log("Esto es USE: ", user)
+    //     if (user) {
+    //         if(now < user.stsTokenManager.expirationTime){
+    //             setInitilizing(true);
+    //         } else {
+    //             setInitilizing(false);
+    //             signOut(auth).then(() => {
+    //                 // Sign-out successful.
+    //                 console.log("Usuario deslogeado")
+    //                 }).catch((error) => {
+    //                 // An error happened.
+                    
+    //               });   
+    //         }
+            
+    //     }
+    //     else setInitilizing(false) 
+    // });
     return (
         <RefresherProvider>
         <ProductContextProvider>
@@ -70,10 +96,10 @@ export default function App() {
                                 <Stack.Navigator>
                                     <Stack.Screen name="Login" component={Login} />
                                     <Stack.Screen name="SearcherCC" component={SearcherCC} />
+                                    <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>
                                     <Stack.Screen name="CardsKindDonationUser" component={CardsKindDonationUser}/>
                                     <Stack.Screen name="QRGenerator" component={QRGenerator} />
                                     <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
-                                    <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>
                                     <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
                                     <Stack.Screen name="RegisterDonor" component={RegisterDonor} />
                                     <Stack.Screen name="AdminRegister" component={AdminRegister} />
@@ -85,7 +111,6 @@ export default function App() {
                                     <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
                                     options={{title: 'Administrar cuenta'}}/>
                                     <Stack.Screen name="QRScanner" component={QRScanner} />
-                                    
                                     <Stack.Screen name="AdminSettings" component={AdminSettings} /> 
                                     <Stack.Screen name="Cart" component={Cart} /> 
                                     <Stack.Screen name="ItemSelector" component={ItemSelector} 
@@ -97,6 +122,6 @@ export default function App() {
                 </ItemsContext.Provider>
             </UserInformation.Provider>
         </ProductContextProvider>
-        </RefresherProvider>
+        </RefresherProvider>   
     )
 }

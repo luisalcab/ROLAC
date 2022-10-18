@@ -79,6 +79,7 @@ const ManagerAdminComponent = ({ navigation }) => {
     }
 
     if(lastName != manager.lastName || name != manager.name){
+      console.log("UID: ", uid)
       await updateDoc(
         doc(firebaseConection.db, "BAMXmanager", uid),
         {
@@ -176,7 +177,8 @@ const ManagerAdminComponent = ({ navigation }) => {
           />
         </View>
       </Dialog>
-      {manager ? (
+      {manager ? 
+      (
         <Formik
           initialValues={manager}
           onSubmit={(values) => updateManager(values)}
