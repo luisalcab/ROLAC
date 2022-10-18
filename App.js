@@ -132,7 +132,7 @@ export default function App() {
                             <Stack.Screen name='CardsDonationUser' component={CardsDonationUser} options={{title: 'Donaciones pasadas', headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="TerminosyCondiciones" component={TerminosyCondiciones} options={{title: "Términos y Condiciones", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="RegisterDonor" component={RegisterDonor} options={{title:"Registro Donador", headerBackTitle: "ATRÁS"}}/>
-                            <Stack.Screen name="CCEdit" component={CCEdit} />
+                            <Stack.Screen name="CCEdit" component={CCEdit} options = {{title: "Editar información", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="CCDeleteList" component={CCDeleteList} />
                             <Stack.Screen name="CCmenu" component={CCmenu} options={navigation => ({title: "Menú Principal", headerBackVisible: false})}/>
                             <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
@@ -143,9 +143,9 @@ export default function App() {
                             <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal', headerBackVisible: false}}/>
                             <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta', headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal', headerBackVisible: false}}/>
-                            <Stack.Screen name='HomePageCollectionCenter' component={HomePageCollectionCenter} options={{title: 'Menú principal'}}/>
+                            <Stack.Screen name='HomePageCollectionCenter' component={HomePageCollectionCenter} options={{title: 'Menú principal', headerBackVisible: false}}/>
                             <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent} options={{title: 'Administrar cuenta', headerBackTitle: "ATRÁS"}}/>
-                            <Stack.Screen name="QRScanner" component={QRScanner} />
+                            <Stack.Screen name="QRScanner" component={QRScanner} options = {{title: "Escaner QR", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="QRGenerator" component={QRGenerator} options = {{headerShown: false}}/>
                             <Stack.Screen name="CardsKindDonationUser" component={CardsKindDonationUser} options={{title: 'Donaciones pasadas', headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="Cart" component={Cart} options = {{title: "Carrito", headerBackTitle: "ATRÁS"}}/> 

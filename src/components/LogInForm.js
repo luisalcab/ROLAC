@@ -91,7 +91,7 @@ const LogInForm = ({navigation}) => {
                             delay: 0,
                             backgroundColor: "#000000",
                             textColor: "#ffffff"});
-                    navigation.navigate("CCmenu");
+                    navigation.navigate("HomePageCollectionCenter");
                     break;
             }
         }catch(e){

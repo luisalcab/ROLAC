@@ -12,11 +12,27 @@ import { UserInformation } from "../../contexts/userInformation.js";
 import { getAuth, signOut } from "firebase/auth";
 import { Dropdown } from "react-native-element-dropdown";
 import { CartContext } from "../../contexts/CartContext.js";
+import { enviromentVariables } from "../../../utils/enviromentVariables.js";
+import {collection, getDocs} from "firebase/firestore";
 
 const HomePageDonor = ({navigation}) => {
   const {userInformation, setUserInformation} = useContext(UserInformation);
   const [refresh, setRefresh] = useState(false);
-  const {cart} = useContext(CartContext);
+  const {cart, setCart} = useContext(CartContext);
+  const {db} = enviromentVariables;
+
+  // Getting the user information from the database
+  useEffect(() => {
+    const getUserInformation = async () => {
+      const querySnapshot = await getDocs(collection(db, "donor"));
+      querySnapshot.forEach((doc) => {
+        if (doc.id == userInformation.id) {
+          setCart(doc.data().cart);
+        }
+      });
+    };
+    getUserInformation();
+  }, []);
 
   const nav2Qr = () => {
     console.log(cart);

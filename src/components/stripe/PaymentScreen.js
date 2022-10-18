@@ -8,11 +8,13 @@ import { addDoc, collection } from 'firebase/firestore';
 import firebaseConection from '../../contexts/FBConnection';
 import { CartContextMonetary } from '../../contexts/CartContextMonetary';
 import moment from 'moment';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 function PaymentScreen({grandTotal, navigation}) {    
     //Contexts
     const { userInformation, setUserInformation } = useContext(UserInformation);    
     const {cartMonetary, setCartMonetary} = useContext(CartContextMonetary);
+    const [load, isLoad] = useState(false);
 
     // Initialization confirm payment
     const {confirmPayment, loading} = useConfirmPayment();
@@ -32,13 +34,14 @@ function PaymentScreen({grandTotal, navigation}) {
       postalCode: '',
       name: `${userInformation.name} ${userInformation.lastName}`,
       amount: grandTotal,
-      id: userInformation.uid
+      id: userInformation.id
     });
 
 
     handleError = () => {
       setCartMonetary([]);
       props.idCase = 1;
+      isLoad(false);
       navigation.navigate("PaymentMessage", { props: props });
       
     }
@@ -59,6 +62,7 @@ function PaymentScreen({grandTotal, navigation}) {
       };
     
       const handlePayPress = async () => {
+        isLoad(!load);
         Location.installWebGeolocationPolyfill()
         navigator.geolocation.getCurrentPosition(async (position) => {
               // Gather the customer's billing information (for example, email)
@@ -99,6 +103,7 @@ function PaymentScreen({grandTotal, navigation}) {
                   .then(() => {
                     setCartMonetary([]);
                     props.idCase = 0;
+                    isLoad(false);
                     navigation.navigate("PaymentMessage", { props: props });
                     
                   })
@@ -113,12 +118,19 @@ function PaymentScreen({grandTotal, navigation}) {
       };
 
       const handleCancelPayPress = async() => {
+        isLoad(!load);
         setCartMonetary([]);
         props.idCase = 2;
         navigation.navigate("PaymentMessage", { props: props });
       }
 
   return (
+    <>
+    <Spinner
+      visible={load}
+      textContent={'Cargando...'}
+      textStyle={styles.spinnerTextStyle}
+    />
     <View>
       <CardField
         postalCodeEnabled={true}
@@ -166,6 +178,7 @@ function PaymentScreen({grandTotal, navigation}) {
         </View>
       </View>
     </View>
+    </>
   );
 }
 
@@ -190,6 +203,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     borderRadius: 10,
     justifyContent: 'center',
-  }
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
+  },
 })
 export default PaymentScreen;
