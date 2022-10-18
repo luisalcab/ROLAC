@@ -137,7 +137,7 @@ export default function App() {
                             <Stack.Screen name="CCmenu" component={CCmenu} options={navigation => ({title: "Menú Principal", headerBackVisible: false})}/>
                             <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
                             <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
-                            <Stack.Screen name="SearcherCC" component={SearcherCC} />
+                            <Stack.Screen name="SearcherCC" component={SearcherCC} options = {{title: "Reportes por Centro", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="CompareEdit" component={CompareEdit} />
                             <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal', headerBackVisible: false}}/>
