@@ -14,6 +14,7 @@ import Cart from './src/layouts/Cart';
 import HomePageDonor from './src/layouts/MainMenu/HomePageDonor';
 import ManagerDonorComponent from './src/components/administrationProfiles/ManagerDonorComponent'; 
 import HomePageManagerBAMX from './src/layouts/MainMenu/HomePageManagerBAMX';
+import HomePageCollectionCenter from './src/layouts/MainMenu/HomePageCollectionCenter';
 import ManagerAdminComponent from './src/components/administrationProfiles/ManagerAdminComponent';
 import AdminRegister from './src/layouts/register/AdminRegister';
 import BAMXmenu from './src/layouts/BAMXmenu';
@@ -63,10 +64,12 @@ export default function App() {
     const [cart, setCart] = useState([]);
     const [items, setItems] = useState([]);
     const [userInformation, setUserInformation] = useState([]);
+    const [pdfDocDefinition, setPdfDocDefinition] = useState([]);
     const [isConnected, setIsConnected] = useState(null);
 
     const providerCart = useMemo(() => ({cart, setCart}), [cart, setCart]);
     const providerItems = useMemo(() => ({items, setItems}), [items, setItems]);
+    const ProviderPdfDocDefinition = useMemo(() => ({pdfDocDefinition, setPdfDocDefinition}), [pdfDocDefinition, setPdfDocDefinition]);
     const providerUserInformation = useMemo(() => ({userInformation, setUserInformation}));
     
     useEffect(() => {
@@ -76,6 +79,29 @@ export default function App() {
         }, 2000);
     }, []);
 
+    // const [initializing, setInitilizing] = useState(false);
+    // const auth = getAuth();
+
+    // onAuthStateChanged(auth, (user) => {
+    //     const now = Date.now();
+    //     console.log("Esto es USE: ", user)
+    //     if (user) {
+    //         if(now < user.stsTokenManager.expirationTime){
+    //             setInitilizing(true);
+    //         } else {
+    //             setInitilizing(false);
+    //             signOut(auth).then(() => {
+    //                 // Sign-out successful.
+    //                 console.log("Usuario deslogeado")
+    //                 }).catch((error) => {
+    //                 // An error happened.
+                    
+    //               });   
+    //         }
+            
+    //     }
+    //     else setInitilizing(false) 
+    // });
     return (
         <>
             {isConnected ? (

@@ -1,24 +1,33 @@
-import React from "react";
+import React, {useContext} from "react";
 import {
   StyleSheet,
   View,
   Text,
-  Linking,
-  StyleProp,
-  TextStyle,
-  Button,
-  ViewStyle,
   TouchableOpacity,
-  Image,
 } from "react-native";
 import { Icon, Overlay } from "@rneui/base";
-import Map from "../../components/MainMenu/Map.js";
+import { UserInformation } from "../../contexts/userInformation.js";
+import { getAuth, signOut } from "firebase/auth";
 
-const HomePageCollectionCenter = (props) => {
+const HomePageCollectionCenter = ({navigation}) => {
   // console.log("Desde homepage: ", props.route.params.userAuth.currentUser.email)
+  const {userInformation, setUserInformation} = useContext(UserInformation);
   return (
     <View>
-        <Text>Vista adminstrador BAMX</Text>
+        <TouchableOpacity
+          onPress={() => {
+            const auth = getAuth();
+            signOut(auth).then(() => {
+              // Sign-out successful.
+              navigation.navigate('Login', {navigation: navigation})
+            }).catch((error) => {
+              // An error happened.
+              navigation.navigate('Login', {navigation: navigation})
+            });
+          }}>
+        <Icon name="door-open" type="material-community" size={50} />
+        </TouchableOpacity>
+        <Text>Vista centro de acopio</Text>
     </View>
   );
 };

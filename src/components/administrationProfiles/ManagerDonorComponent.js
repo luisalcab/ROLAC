@@ -25,7 +25,8 @@ import { Alert } from "react-native";
 const ManagerDonorComponent = ({ navigation }) => {
   //Initialize auth instance
   const auth = getAuth();
-
+  console.log("Esto es auth en donor: ", auth)
+  
   //Contexts
   const { userInformation, setUserInformation } = useContext(UserInformation);
 
@@ -54,7 +55,6 @@ const ManagerDonorComponent = ({ navigation }) => {
     await getDoc(doc(firebaseConection.db, "donor", id))
     .then((querySnapshot) => {
       const { lastName, name } = querySnapshot.data();
-  
       setDonor({
         uid: querySnapshot.id,
         email: userInformation.auth.currentUser.email,
@@ -78,8 +78,9 @@ const ManagerDonorComponent = ({ navigation }) => {
 
   const updateDonor = async (value) => {
     const { email, uid, lastName, name } = value;
-
+    console.log("data")
     if(email != donor.email){
+      console.log(email, "---------------", userInformation.auth.currentUser)
       updateEmail(userInformation.auth.currentUser, email).catch(() => {
         Alert.alert(
           "Error",
@@ -205,6 +206,10 @@ const ManagerDonorComponent = ({ navigation }) => {
   const pastDonation = () => {
     navigation.navigate('CardsDonationUser', {navigation: navigation})
   }
+  const pastKindDonation = () => {
+    console.log("Hola mundo")
+    navigation.navigate('CardsKindDonationUser', {navigation: navigation})
+  }
   //Hooks
   useEffect(() => {
     getManagerById(userInformation.uid);
@@ -252,7 +257,8 @@ const ManagerDonorComponent = ({ navigation }) => {
       {donor ? (
         <Formik
           initialValues={donor}
-          onSubmit={(values) => updateDonor(values)}
+          onSubmit={(values) => {
+            updateDonor(values)}}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <KeyboardAwareScrollView

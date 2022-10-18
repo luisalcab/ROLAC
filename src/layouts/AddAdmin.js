@@ -51,7 +51,7 @@ const AddAdmin = ({navigation}) => {
     );
 }
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: { // Whole layout
         flex: 1
     },

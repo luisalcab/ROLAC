@@ -3,19 +3,14 @@ import {
   StyleSheet,
   View,
   Text,
-  Linking,
-  StyleProp,
-  TextStyle,
-  Button,
-  ViewStyle,
   TouchableOpacity,
-  Image,
 } from "react-native";
 import { Icon, Overlay } from "@rneui/base";
 import { getAuth, signOut } from "firebase/auth";
 import { Dropdown } from "react-native-element-dropdown";
 import { UserInformation } from "../../contexts/userInformation.js";
 import { Alert, ScrollView } from "react-native";
+
 
 const HomePageManagerBAMX = ({navigation}) => {
   const [refresh, setRefresh] = useState(false);

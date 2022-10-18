@@ -2,10 +2,12 @@ import React, {useState, useEffect} from "react";
 import {View, Text, TouchableOpacity, StyleSheet, Alert, Modal} from 'react-native';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import ScannerCart from '../components/ScannerCart';
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const QRScanner = () => {
     const [hasPermission, setHasPermission] = useState(null);
-    const [scanned, setScanned] = useState(false);
+    const [scanned, setScanned] = useState(true);
+    const [modalVisible, setModalVisible] = useState(false);
     const [transferData, setTransferData] = useState("");
 
     const askForCameraPermission = async () => {
@@ -20,7 +22,7 @@ const QRScanner = () => {
     const handleScan = ({_, data}) => {
         setTransferData(data);
         setScanned(true);
-        console.log("uid: " + data);
+        setModalVisible(true);
     }
 
     if (hasPermission === false) {
@@ -56,33 +58,47 @@ const QRScanner = () => {
                     />
                 </View>
                 <View style={styles.footer}>
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonLabel}>Volver al carrito</Text>
+                    <TouchableOpacity style={styles.button} onPress={() => setScanned(false)}>
+                        <Text style={styles.buttonLabel}>Escanear</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={styles.modalView}>
+            {scanned && 
                 <Modal
                     animationType="slide"
-                    visible={scanned}
+                    visible={modalVisible}
+                    transparent={true}
+                    onRequestClose={() => setModalVisible(false)}
                 >
-                    <ScannerCart id={transferData}/>
+                        <View style={styles.modalView}>
+                                <ScannerCart id={transferData} setModalVisible={setModalVisible}/>
+                        </View>
                 </Modal>
-            </View>
+            }
         </View>
     );
 }
 
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: { // Whole layout
         flex: 1
     },
     mainView:{
-
+        flex: 1
     },
     modalView: {
-        
+        width: "100%",
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.2)"
+    },
+    modal: {
+        height: "80%",
+        width: "80%",
+        alignContent: "center",
+        justifyContent: "center",
     },
     header: { // Header section with back button, title and filter
         height: "6%",
