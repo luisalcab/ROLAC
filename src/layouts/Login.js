@@ -1,9 +1,9 @@
-import React from 'react'
-import {StyleSheet, View, Dimensions} from 'react-native';
+import {useState} from 'react'
+import {StyleSheet, View, Dimensions, Linking} from 'react-native';
 import {Image} from '@rneui/themed';
 import LogInForm from '../components/LogInForm';
 import { initializeApp } from "firebase/app";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
  
@@ -21,9 +21,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const screen = Dimensions.get("screen");
+const screen = Dimensions.get("window");
 
 const Login = ({navigation}) => {
+  const [egg, setEgg] = useState(1);
   
   return (
     <View style={styles.screen}>
@@ -32,7 +33,17 @@ const Login = ({navigation}) => {
         enableAutomaticScroll = {true}
         extraHeight = {10}
         extraScrollHeight = {10}>
-            <Image source={require("../img/5e8827daba0aa_logo.png")} style={styles.pic}/>
+            <Image 
+              source={require("../img/5e8827daba0aa_logo.png")} 
+              style={styles.pic}
+              onPress={() => {
+                setEgg(prevState => ++prevState);
+                if(egg === 13){
+                  Linking.openURL('https://youtu.be/jsVBZsH5JXI')
+                  setEgg(0);
+                }
+              }}
+            />
             <LogInForm navigation={navigation}/>
         </KeyboardAwareScrollView>
     </View>

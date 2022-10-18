@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from "react"
 import {View, Text, FlatList, StyleSheet, ActivityIndicator} from 'react-native'
 import CardsMonetaryDonations from "../../components/cardsDonations/CardsMonetaryDonations";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import FBConnection from "../../contexts/FBConnection";
+import { collection, getDocs } from "firebase/firestore";
+import { enviromentVariables } from "../../../utils/enviromentVariables";
 import moment from "moment";
 
 const CardsDonationAllUsers = () => {
     const [donationsInfo, setDonationsInfo] = useState(null)
+    const {db} = enviromentVariables;
 
     const renderItem = ({item}) => (   
         <CardsMonetaryDonations
@@ -21,7 +22,7 @@ const CardsDonationAllUsers = () => {
     
     const getDonations = async () => {
         const donationInformation = [];
-        const querySnapshot = await getDocs(collection(FBConnection.db, "monetary_donation"));
+        const querySnapshot = await getDocs(collection(db, "monetary_donation"));
         querySnapshot.forEach((doc) => {
             const { date, name, last4, postalCode, amount } = doc.data()
             donationInformation.push({
@@ -49,7 +50,7 @@ const CardsDonationAllUsers = () => {
             donationsInfo ? (
                 <>
                     <View style={styles.titleBar}>
-                        <Text style={styles.title}>Donaciones</Text>
+                        <Text style={styles.title}>Donaciones monetarias</Text>
                     </View>
                     <FlatList
                         data={donationsInfo}
@@ -72,14 +73,16 @@ const CardsDonationAllUsers = () => {
 }
 
 const styles = StyleSheet.create({
-        titleBar: {
+    titleBar: {
         alignItems: "center",
-        marginTop: "5%",
-        backgroundColor: "#b0bdd0",
-        },
-        title: {
-        fontSize: 25,
-        }
+        justifyContent: "center",
+        height: 50,
+        backgroundColor: "white",
+    },
+    title: {
+        fontSize: 22,
+        fontWeight: "bold",
+    }
     });
 
 

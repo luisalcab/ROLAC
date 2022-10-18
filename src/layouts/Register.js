@@ -3,7 +3,7 @@ import {StyleSheet, View, Image, Dimensions} from 'react-native';
 import RegisterDonorForm from '../components/RegisterDonorForm';
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const screen = Dimensions.get("screen");
+const screen = Dimensions.get("window");
 
 const Register = ({navigation}) => {
 

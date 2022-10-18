@@ -6,12 +6,6 @@ import {Button} from "@rneui/themed"
 const BtnEditCC = ({navigation}) => {
     const {setCCEditViewS} = useContext(CCContext);
 
-    navigation.setOptions({
-        title: "Menú Principal",
-        headerBackVisible: false,
-        headerLeft: null
-    });
-
     return(
         <View>
             <Button

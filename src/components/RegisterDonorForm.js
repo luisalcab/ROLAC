@@ -5,14 +5,15 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {doc, setDoc} from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import firebaseConection from '../contexts/FBConnection';
+import { enviromentVariables } from '../../utils/enviromentVariables';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const RegisterDonorForm = ({navigation}) => {
     const [loading, isLoading] = useState(false);
     const [accept, setAccept] = useState(false);
+    const {db} = enviromentVariables;
 
-    const screen = Dimensions.get("screen");
+    const screen = Dimensions.get("window");
 
     const auth = getAuth();
     const donorSchema = Yup.object().shape({
@@ -45,7 +46,7 @@ const RegisterDonorForm = ({navigation}) => {
                     createUserWithEmailAndPassword(auth, values.email, values.password)
                     .then(userCredential => {
                         const user = userCredential;                    
-                        setDoc(doc(firebaseConection.db, "donor", user.user.uid), {
+                        setDoc(doc(db, "donor", user.user.uid), {
                             lastName: values.lastName,
                             name: values.name
                         })

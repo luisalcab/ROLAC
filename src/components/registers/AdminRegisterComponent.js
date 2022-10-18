@@ -1,14 +1,16 @@
 import React from 'react'
-import { View } from 'react-native';
-import { Input, Icon, Button, } from "@rneui/themed";
+import { View, Dimensions, StyleSheet } from 'react-native';
+import { Input, Icon, Button } from "@rneui/themed";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { doc, setDoc } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import firebaseConection from '../../contexts/FBConnection';
+import { enviromentVariables } from '../../../utils/enviromentVariables';
 
 const AdminRegisterComponent = ({ navigation }) => {
-    const auth = getAuth();    
+    const auth = getAuth();   
+    const { db } = enviromentVariables;
+
     const donorSchema = Yup.object().shape({
         name:Yup.
             string().
@@ -38,7 +40,7 @@ const AdminRegisterComponent = ({ navigation }) => {
                     .then(userCredential => {
                         const user = userCredential;
 
-                        setDoc(doc(firebaseConection.db, "BAMXmanager", user.user.uid), {
+                        setDoc(doc(db, "BAMXmanager", user.user.uid), {
                             lastName: values.lastName,
                             name: values.name
                         })
@@ -66,47 +68,46 @@ const AdminRegisterComponent = ({ navigation }) => {
                     return(
                         <>
                             <View style={{width:"100%", height:"100%" ,flex:1 ,alignItems:"center"}}>
-                                <Input
-                                    placeholder="Nombre"
-                                    leftIcon={<Icon type="material" name="person"/>}
-                                    onChangeText={handleChange("name")}
-                                    errorMessage={errors.name && touched.name ? errors.name : ""}
-                                    value={values.name}
-                                />
-                                <Input
-                                    placeholder="Apellidos"
-                                    leftIcon={<Icon type="material" name="people"/>}
-                                    onChangeText={handleChange("lastName")}
-                                    errorMessage={errors.name && touched.name ? errors.name : ""}
-                                    value={values.lastName}
-                                />
-                                <Input
-                                    placeholder="Email"
-                                    leftIcon={<Icon type="material" name="mail"/>}
-                                    onChangeText={handleChange("email")}
-                                    errorMessage={errors.email && touched.email ? errors.email : ""}
-                                    value={values.email}
-                                />
-                                <Input
-                                    placeholder="Contraseña"
-                                    secureTextEntry={true}
-                                    leftIcon={<Icon type="material" name="lock"/>}
-                                    onChangeText={handleChange("password")}
-                                    errorMessage={errors.password && touched.password ? errors.password : ""}
-                                    value={values.password}
-                                />
-                                <View style={{flex:1,justifyContent:"flex-start",width:"100%",height:"auto"}}>
+                                <View style={styles.form}>
+                                    <Input
+                                        placeholder="Nombre"
+                                        leftIcon={<Icon type="material" name="person"/>}
+                                        onChangeText={handleChange("name")}
+                                        errorMessage={errors.name && touched.name ? errors.name : ""}
+                                        value={values.name}
+                                    />
+                                    <Input
+                                        placeholder="Apellidos"
+                                        leftIcon={<Icon type="material" name="people"/>}
+                                        onChangeText={handleChange("lastName")}
+                                        errorMessage={errors.name && touched.name ? errors.name : ""}
+                                        value={values.lastName}
+                                    />
+                                    <Input
+                                        placeholder="Email"
+                                        leftIcon={<Icon type="material" name="mail"/>}
+                                        onChangeText={handleChange("email")}
+                                        errorMessage={errors.email && touched.email ? errors.email : ""}
+                                        value={values.email}
+                                    />
+                                    <Input
+                                        placeholder="Contraseña"
+                                        secureTextEntry={true}
+                                        leftIcon={<Icon type="material" name="lock"/>}
+                                        onChangeText={handleChange("password")}
+                                        errorMessage={errors.password && touched.password ? errors.password : ""}
+                                        value={values.password}
+                                    />
                                 </View>
                                 <Button
                                     onPress={handleSubmit}
                                     title="Agregar"
                                     buttonStyle={{
-                                        width:"50%",
+                                        width: screen.width*0.8,
                                         height:50,
                                         borderRadius: 5,
-                                        backgroundColor:"#0E4DA4",
+                                        backgroundColor:"orange",
                                         marginBottom: "5%",
-
                                         shadowColor: "#000",
                                         shadowOffset: {
                                             width: 0,
@@ -117,7 +118,6 @@ const AdminRegisterComponent = ({ navigation }) => {
                                         elevation: 6
                                     }}
                                     titleStyle={{
-                                        marginRight: 35,
                                         color:"white",
                                         fontSize:20
                                     }}
@@ -130,5 +130,16 @@ const AdminRegisterComponent = ({ navigation }) => {
         </>
     )
 }
+
+const screen = Dimensions.get("window");
+
+const styles = StyleSheet.create({
+    form:{
+        width:"100%",
+        alignItems:"center",
+        justifyContent:"center",
+        padding: 30,
+    }
+})
 
 export default AdminRegisterComponent

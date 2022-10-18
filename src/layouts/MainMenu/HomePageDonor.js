@@ -11,16 +11,44 @@ import Map from "../../components/MainMenu/Map.js";
 import { UserInformation } from "../../contexts/userInformation.js";
 import { getAuth, signOut } from "firebase/auth";
 import { Dropdown } from "react-native-element-dropdown";
-
+import { CartContext } from "../../contexts/CartContext.js";
+import { enviromentVariables } from "../../../utils/enviromentVariables.js";
+import {collection, getDocs} from "firebase/firestore";
 
 const HomePageDonor = ({navigation}) => {
   const {userInformation, setUserInformation} = useContext(UserInformation);
   const [refresh, setRefresh] = useState(false);
+  const {cart, setCart} = useContext(CartContext);
+  const {db} = enviromentVariables;
+
+  // Getting the user information from the database
+  useEffect(() => {
+    const getUserInformation = async () => {
+      const querySnapshot = await getDocs(collection(db, "donor"));
+      querySnapshot.forEach((doc) => {
+        if (doc.id == userInformation.id) {
+          setCart(doc.data().cart);
+        } else {
+          setCart([]);
+        }
+      });
+    };
+    getUserInformation();
+  }, []);
+
+  const nav2Qr = () => {
+    console.log(cart);
+    if(cart[0]==undefined){
+        alert("Necesitas agregar al menos un producto para poder continuar")
+    } else {
+        navigation.navigate("QRGenerator");
+    }
+  }
   
   return (
     <View>
         <View style={styles.containerNav}>
-          <TouchableOpacity onPress={() => { navigation.navigate('QRScanner', {navigation: navigation}) }}>
+          <TouchableOpacity onPress={() => nav2Qr()}>
             <Icon name="qrcode" type="font-awesome" size={50}/>
           </TouchableOpacity>
           <Text style={styles.title1}>Hola {userInformation.name}</Text>
@@ -28,7 +56,7 @@ const HomePageDonor = ({navigation}) => {
             data={[
               {
                 label: "Perfil",
-                onPress: () => {
+                onPress: () => { 
                   setRefresh(!refresh);
                   navigation.navigate('ManagerDonorComponent', {navigation: navigation})
                 }

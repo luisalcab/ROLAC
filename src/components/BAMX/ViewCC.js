@@ -12,7 +12,6 @@ const ViewCC = () => {
         <View style={styles.container}>
             <ScrollView styles={styles.screen} contentContainerStyle={styles.list}>
                 {CCData.map(CC => (<ViewCCCard key={CC.id} data={CC.data}/>))}
-                {/* {CCData.map(CC => (<Text key={CC.id}>{CC.data.name}</Text>))} */}
             </ScrollView>
         </View>
     )

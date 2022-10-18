@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import {
   StyleSheet,
   View,
@@ -6,17 +6,21 @@ import {
   TouchableOpacity,
   Dimensions
 } from "react-native";
-import { Icon, Overlay } from "@rneui/base";
+import { Icon } from "@rneui/base";
 import { getAuth, signOut } from "firebase/auth";
 import { Dropdown } from "react-native-element-dropdown";
 import { UserInformation } from "../../contexts/userInformation.js";
 import { Alert, ScrollView } from "react-native";
+import {BAMXContext} from "../../contexts/BAMXContext";
+import {Badge} from "react-native-elements";
+import ReportColltionsPending from '../../components/PdfGenerator/ReportCollectionsPending';
+const screen = Dimensions.get("window");
 
-const screen = Dimensions.get("screen");
 
 const HomePageManagerBAMX = ({navigation}) => {
   const [refresh, setRefresh] = useState(false);
   const {userInformation, setUserInformation} = useContext(UserInformation);
+  const {docsNum, editRequestsNum} = useContext(BAMXContext);
 
   return (
     <View>
@@ -67,7 +71,7 @@ const HomePageManagerBAMX = ({navigation}) => {
         </View>
         <View>
           <View style={styles.containerBox}>
-            <View style={styles.containerBtt}>
+            <View style={styles.containerBtts}>
               <TouchableOpacity
               onPress={() => navigation.navigate('AdminRegister', {navigation: navigation})}
               style={styles.button}
@@ -79,23 +83,51 @@ const HomePageManagerBAMX = ({navigation}) => {
           </View>  
           <View style={styles.containerBox}>
             <Text style={styles.title2}>Centros de Donación</Text>
-            <View style={styles.containerBtt}>
+            <View style={styles.containerBtts}>
               <TouchableOpacity
               onPress={() => navigation.navigate("CCRequest")}
               style={styles.button}
               >
-                <Icon name="bookmark" type="font-awesome" size={55}/>
-                <Text style={styles.textButton}>Solicitudes de registro</Text>
+                {(docsNum !== null) ? (
+                  <>
+                    <Icon name="user-check" type="feather" size={55}/>
+                    <Text style={styles.textButton}>Solicitudes de registro</Text>
+                    <Badge
+                      value={docsNum}
+                      status="error"
+                      containerStyle={styles.badge}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Icon name="user-check" type="feather" size={55}/>
+                    <Text style={styles.textButton}>Solicitudes de registro</Text>
+                  </>
+                )}
               </TouchableOpacity>
               <TouchableOpacity
               onPress={() => navigation.navigate("CCEditRequest")}
               style={styles.button}
               >
-                <Icon name="update" type="material-community-icons" size={55}/>
-                <Text style={styles.textButton}>Solicitudes de actualización</Text>
+                {(editRequestsNum !== null) ? (
+                  <>
+                    <Icon name="update" type="material-community-icons" size={55}/>
+                    <Text style={styles.textButton}>Solicitudes de actualización</Text>
+                    <Badge
+                      value={editRequestsNum}
+                      status="error"
+                      containerStyle={styles.badge}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Icon name="update" type="material-community-icons" size={55}/>
+                    <Text style={styles.textButton}>Solicitudes de actualización</Text>
+                  </>
+                )}
               </TouchableOpacity>
             </View>
-            <View style={styles.containerBtt}>
+            <View style={styles.containerBtts}>
               <TouchableOpacity
               onPress={() => navigation.navigate("ViewCC")}
               style={styles.button}
@@ -106,36 +138,8 @@ const HomePageManagerBAMX = ({navigation}) => {
             </View>
           </View>
           <View style={styles.containerBox}>
-            <Text style={styles.title2}>Donaciones</Text>
-            <View style={styles.containerBtt}>
-              <TouchableOpacity
-              onPress={() => Alert.alert('En construcción')}
-              style={styles.button}
-              >
-                <Icon name="money" type="font-awesome" size={55}/>
-                <Text style={styles.textButton}>Donaciones monetarias</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-              onPress={() => Alert.alert('En construcción')}
-              style={styles.button}
-              >
-                <Icon name="text-document" type="entypo" size={55}/>
-                <Text style={styles.textButton}>Reportes donaciones pendientes</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.containerBtt}>
-                <TouchableOpacity
-                onPress={() => Alert.alert('En construcción')}
-                style={styles.button}
-                >
-                  <Icon name="text-document" type="entypo" size={55}/>
-                  <Text style={styles.textButton}>Reportes por Centro</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.containerBox}>
             <Text style={styles.title2}>Productos</Text>
-            <View style={styles.containerBtt}>
+            <View style={styles.containerBtts}>
               <TouchableOpacity
               onPress={() => {
                 navigation.navigate('Administración de productos', {navigation: navigation})
@@ -145,6 +149,34 @@ const HomePageManagerBAMX = ({navigation}) => {
               >
                 <Icon name="shopping-basket" type="font-awesome" size={50}/>
                 <Text style={styles.textButton}>Administración de productos</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.containerBox}>
+            <Text style={styles.title2}>Donaciones</Text>
+            <View style={styles.containerBtts}>
+              <TouchableOpacity
+              onPress={() => navigation.navigate("CardsDonationAllUsers", {navigation: navigation})}
+              style={styles.button}
+              >
+                <Icon name="money" type="font-awesome" size={55}/>
+                <Text style={styles.textButton}>Donaciones monetarias</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+              onPress={() => ReportColltionsPending()}
+              style={styles.button}
+              >
+                <Icon name="text-document" type="entypo" size={55}/>
+                <Text style={styles.textButton}>Reportes donaciones pendientes</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.containerBtts}>
+                <TouchableOpacity
+                onPress={() => navigation.navigate("SearcherCC", {navigation: navigation})}
+                style={styles.button}
+                >
+                  <Icon name="text-document" type="entypo" size={55}/>
+                  <Text style={styles.textButton}>Reportes por Centro</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -165,7 +197,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: screen.height * 0.01,
     marginHorizontal: screen.width * 0.03,
-    marginBottom: screen.height * 0.01,
+    marginBottom: screen.height * 0.01
   },
   title1: {
     fontSize: screen.fontScale * 25,
@@ -177,7 +209,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonContainer: {
-    margin: 20,
+    margin: screen.width * 0.03,
     borderRadius: 25,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -233,13 +265,19 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: screen.height * 0.01,
   },
-  containerBtt: {
+  containerBtts: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginHorizontal: screen.width * 0.02,
   },
   containerBox: {
     marginBottom: screen.height * 0.02,
+  },
+  badge: {
+    position: "absolute",
+    zIndex: screen.width * 0.01,
+    top: -4,
+    right: -4,
   },
 });
 

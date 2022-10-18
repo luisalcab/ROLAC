@@ -3,7 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
-  Image
+  Dimensions
 } from "react-native";
 import AdminRegisterComponent from "../../components/registers/AdminRegisterComponent";
 
@@ -16,18 +16,21 @@ const AdminRegister = ({navigation}) => {
   );
 };
 
+const screen = Dimensions.get("window");
+
 const styles = StyleSheet.create({
   screen: {
       flex: 1,
       justifyContent: "flex-start",
-      width: "100%",
-      height: "100%"
+      width: screen.width*1,
+      height: screen.height*1,
   },
   title: {
-      fontSize: 25,
-      marginLeft: "20%",
-      marginTop: "5%",
-      marginBottom: "10%"
+      fontSize: screen.fontScale*20,
+      fontWeight: "bold",
+      alignSelf: "center",
+      marginTop: screen.height*0.02,
+      marginBottom: screen.height*0.02
   }
 })
 

@@ -1,9 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 // import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { Text, Card } from '@rneui/themed';
+import ListKindDonation from "./ListKindDonation";
 
-const CardsMonetaryDonations = ({idDonation, date, name, last4, postalCode, amount }) => {
+const CardsKindDonations = ({idDonation, date, collectionCenterName, items }) => {
+    const renderItem = ({item}) => (   
+      <ListKindDonation
+          name = {item.name}
+          count = {item.count}
+      />
+    )
 
     return (
       <View style={styles.container}>
@@ -15,17 +22,16 @@ const CardsMonetaryDonations = ({idDonation, date, name, last4, postalCode, amou
               <View>
                 <Text style = {styles.infoText}>Fecha:</Text>
                 <Text style={styles.verticalItems}>{date}</Text>
-                <Text style = {styles.infoText}>Nombre:</Text>
-                <Text>{name}</Text>
+                <Text style = {styles.infoText}>Nombre centro de acopio:</Text>
+                <Text style={styles.verticalItems}>{collectionCenterName}</Text>
               </View>
-              <Text style={styles.amountDonation}>${amount}</Text>
             </View>
-            <Card.Divider style = {styles.divider}/>
-            <View style={styles.containerRow}>
-              <Text style = {styles.infoText}>
-                Tarjeta: ...{last4}
-              </Text>
-              <Text style = {styles.infoText}>C.P: {postalCode}</Text>
+            <View style = {styles.productsContainer}>
+              <Text style = {styles.infoText}>Productos</Text>
+              <FlatList
+                data={items}
+                renderItem={renderItem}
+                keyExtractor={items => items.id}/>
             </View>
           </View>
         </Card>
@@ -38,20 +44,17 @@ const CardsMonetaryDonations = ({idDonation, date, name, last4, postalCode, amou
     },
     verticalItems: {
       marginBottom: 3,
+      alignSelf: "center",
     },
     amountDonation: {
       textAlignVertical: "center",
       textAlign: "center",
-      fontSize: 25,
-      fontWeight: "bold",
-      alignSelf: "center",
-      color: "#FF0000",
+      fontSize: 25
     },
     containerRow: {
       flexDirection: 'row',
       marginBottom: 6,
       justifyContent: "space-around",
-      marginTop: -10,
     },
     card: {
       backgroundColor: "#FFE4D3",
@@ -64,6 +67,7 @@ const CardsMonetaryDonations = ({idDonation, date, name, last4, postalCode, amou
       },
       shadowOpacity: 0.36,
       shadowRadius: 6.68,
+
       elevation: 11,
     },
     titleBar: {
@@ -83,10 +87,15 @@ const CardsMonetaryDonations = ({idDonation, date, name, last4, postalCode, amou
       color: "#FF8300",
     },
     infoText: {
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: "bold",
       color: "#FF8300",
+      alignSelf: "center",
+      marginBottom: 3,
     },
-  });
+    productsContainer: {
+      marginTop: 10,
+    },
+    });
 
-export default CardsMonetaryDonations;
+export default CardsKindDonations;

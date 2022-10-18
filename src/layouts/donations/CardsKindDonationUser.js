@@ -1,44 +1,42 @@
 import React, {useEffect, useState, useContext} from "react"
 import {View, Text, FlatList, StyleSheet, ActivityIndicator} from 'react-native'
-import CardsMonetaryDonations from "../../components/cardsDonations/CardsMonetaryDonations";
+import CardsKindDonations from "../../components/cardsDonations/CardsKindDonations";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { enviromentVariables } from "../../../utils/enviromentVariables";
 import { UserInformation } from "../../contexts/userInformation";
+import {enviromentVariables} from "../../../utils/enviromentVariables";
 import moment from "moment";
-const CardsDonationUser = ({navigation}) => {
+
+const CardsKindDonationUser = ({navigation}) => {
     const [donationsInfo, setDonationsInfo] = useState(null)
+
     const {db} = enviromentVariables;
     
     //Contexts
     const { userInformation, setUserInformation } = useContext(UserInformation);
 
     const renderItem = ({item}) => (   
-        <CardsMonetaryDonations
+        <CardsKindDonations
             idDonation = {item.idDonation}
             date = {item.date}
-            name = {item.name}
-            last4 = {item.last4}
-            postalCode = {item.postalCode}
-            amount = {item.amount}
+            collectionCenterName = {item.collectionCenterName}
+            items = {item.items}
         />
     )
     
     const getDonationsByID = async (idUser) => {
         const donationInformation = [];
 
-        const q = query(collection(db, "monetary_donation"), where("idUser", "==", idUser));
+        const q = query(collection(db, "donations_in_kind"), where("donor", "==", idUser));
 
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            const { date, name, last4, postalCode, amount } = doc.data()
+            const { dateTime, collectionCenterName , items } = doc.data()
             donationInformation.push({
                 idDonation: doc.id, 
-                date: moment(date).format("DD-MM-YY hh:mm:ss"), 
-                name, 
-                last4, 
-                postalCode, 
-                amount,
-                dateTime: moment(date).valueOf()
+                date: moment(dateTime).format("DD-MM-YY hh:mm:ss"), 
+                collectionCenterName,
+                items,
+                dateTime: moment(dateTime).valueOf()
             })
         });
         
@@ -56,7 +54,7 @@ const CardsDonationUser = ({navigation}) => {
             donationsInfo ? (
                 <>
                     <View style={styles.titleBar}>
-                        <Text style={styles.title}>Donaciones monetarias pasadas</Text>
+                        <Text style={styles.title}>Donaciones en especie pasadas</Text>
                     </View>
                     <FlatList
                         data={donationsInfo}
@@ -92,4 +90,4 @@ const styles = StyleSheet.create({
 
 
 
-export default CardsDonationUser;
+export default CardsKindDonationUser;

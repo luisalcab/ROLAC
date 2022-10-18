@@ -12,12 +12,12 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-root-toast';
 
 const LogInForm = ({navigation}) => {
-    const {setUserInformation} = useContext(UserInformation);
+    const {setUserInformation, userInformation} = useContext(UserInformation);
     const {setCCUser} = useContext(CCContext);
     const [loading, isLoading] = useState(false);
     const {db, app} = enviromentVariables;
 
-    const screen = Dimensions.get("screen");
+    const screen = Dimensions.get("window");
 
     const auth = getAuth(app);
 
@@ -65,7 +65,7 @@ const LogInForm = ({navigation}) => {
                 case 1:
                     isLoading(false);
                     const {name, lastName} = user.userData;
-                    setUserInformation({auth, id, name, lastName});
+                    await setUserInformation({auth, id, name, lastName});
                     Toast.show(
                         "Bienvenid@", 
                         {position: Toast.positions.CENTER, 
@@ -76,7 +76,7 @@ const LogInForm = ({navigation}) => {
                             delay: 0,
                             backgroundColor: "#000000",
                             textColor: "#ffffff"});
-                    navigation.navigate(i === 0 ? "RegisterDonor" : "HomePageManagerBAMX", {navigation});
+                    navigation.navigate(i === 0 ? "HomePageDonor" : "HomePageManagerBAMX", {navigation});
                     break;
                 case 2:
                     isLoading(false);
@@ -91,7 +91,7 @@ const LogInForm = ({navigation}) => {
                             delay: 0,
                             backgroundColor: "#000000",
                             textColor: "#ffffff"});
-                    navigation.navigate("CCmenu");
+                    navigation.navigate("HomePageCollectionCenter");
                     break;
             }
         }catch(e){
@@ -205,3 +205,4 @@ const LogInForm = ({navigation}) => {
 )}
 
 export default LogInForm;
+

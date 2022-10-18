@@ -45,7 +45,7 @@ const RegisterCCForm = ({navigation}) => {
             string().
             required("Coordenadas requeridas").
             matches(/^-?([0-9]{1-2}|1[0-7][0-9]|180)(\.[0-9]{14})$/, "Coordenadas no válidas"),
-            latitude:Yup.
+        latitude:Yup.
             string().
             required("Coordenadas Requeridas").
             matches(/^-?([0-8]?[0-9]|90)(\.[0-9]{14})$/, "Coordenadas no válidas"),
@@ -187,15 +187,14 @@ const RegisterCCForm = ({navigation}) => {
   )
 }
 
-const screen = Dimensions.get("screen");
+const screen = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     screen:{
         flex: 1,
         alignItems:"center",
-        width: screen.width*1,
-        height: screen.height*1,
-        backgroundColor: "white"
+        width: "100%",
+        height: "100%",
     },
     text:{
         fontWeight: 'bold',

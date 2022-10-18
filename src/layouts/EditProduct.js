@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import EditProductForm from '../components/EditProductForm';
 
 const EditProduct = ({navigation}) => {
@@ -12,12 +12,15 @@ const EditProduct = ({navigation}) => {
     )
 }
 
+const screen = Dimensions.get("window");
+
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
         justifyContent: "flex-start",
-        width: "100%",
-        height: "100%"
+        width: screen.width*1,
+        height: screen.height*1,
+        backgroundColor: "white"
     }
 });
 

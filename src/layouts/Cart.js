@@ -1,18 +1,16 @@
 import React, {useContext} from "react"
-import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
-import {CartContext} from "../contexts/CartContext"
+import {View, Text, FlatList, StyleSheet} from 'react-native'
+import {CartContextMonetary} from "../contexts/CartContextMonetary"
 import CartItem from "../components/CartItem"
 import { StripeProvider } from '@stripe/stripe-react-native';
 import {publishableKey} from '../../utils/enviromentVariables';
 import PaymentScreen from "../components/stripe/PaymentScreen";
 import { ItemsContext } from "../contexts/ItemsContext";
+import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 const Cart = ({navigation}) => {
 
-    const {cart} = useContext(CartContext);
-
-    const nav2QR = () => {
-        navigation.navigate("QRGenerator");
-    }
+    const {cartMonetary} = useContext(CartContextMonetary)
 
     const renderItem = ({item}) => (
         <CartItem
@@ -25,11 +23,12 @@ const Cart = ({navigation}) => {
 
     const grandTotal = () => {
         let sum = 0;
-        cart.map(item => {sum += item.count * item.cost});
+        cartMonetary.map(item => {sum += item.count * item.cost});
         return sum;
     }
 
     return (
+        <>
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Carrito</Text>
@@ -41,11 +40,16 @@ const Cart = ({navigation}) => {
             </View>
             <View style={styles.listContainer}>
                 <FlatList
-                    data={cart}
+                    data={cartMonetary}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
-                    extraData={cart}
+                    extraData={cartMonetary}
                 />
+            </View>
+            <KeyboardAwareScrollView
+                enableOnAndroid={true}
+                enableAutomaticScroll = {true}
+            >
                 <View style={styles.totalBox}>
                     <Text style={styles.total}>{"TOTAL: " + (Math.round(grandTotal() * 100)/ 100).toFixed(2)}</Text>
                 </View>
@@ -53,22 +57,20 @@ const Cart = ({navigation}) => {
                     publishableKey="pk_test_51LkUu8L3fb2NBnm32ovLcCuet2FDgfprjfA1lAaL0cqZ8SdJHzS1v7erGYck9PWWpY43cfquaZAJUudpNihX0bqu00WVCmQvro">
                     <PaymentScreen grandTotal = { grandTotal() } navigation = { navigation }/>
                 </StripeProvider>
-            </View>
+            </KeyboardAwareScrollView>
         </View>
-
-
+        </>
     );
 }
 
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: { // Whole layout
         flex: 1
     },
     header: { // Header section with back button, title and filter
-        height: "6%",
+        height: "5%",
         justifyContent: "center",
-        paddingBottom: 10,
         backgroundColor: "rgb(251, 249, 250)"
     },
     title: { // Title text
@@ -91,15 +93,15 @@ styles = StyleSheet.create({
     },
     listContainer: { // Container of flat-list
         flex: 1,
-        width: "100%"
+        width: "100%",
     },
     totalBox: {
         paddingVertical: 10,
         alignItems: "center",
         borderTopColor: "rgb(97, 88, 88)",
         borderBottomColor: "rgb(97, 88, 88)",
+        borderBottomWidth: 2,
         borderTopWidth: 2,
-        borderBottomWidth: 2
     },
     total: {
         fontSize: 18,
