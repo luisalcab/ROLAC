@@ -72,8 +72,11 @@ const ManagerAdminComponent = ({ navigation }) => {
 
   const updateManager = async (value) => {
     const { email, id, lastName, name } = value;
+    console.log(value,"|||||||||", manager);
 
     if (email != manager.email) {
+      console.log("ENTRO", userInformation, "||||||||", email)
+
       updateEmail(userInformation.auth.currentUser, email).catch(() => {
         alert("Ha habido un error a la hora de actualizar el usuario");
         navigation.navigate("HomePageManagerBAMX", { navigation: navigation });
