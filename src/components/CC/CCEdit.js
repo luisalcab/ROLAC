@@ -5,9 +5,9 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {CCContext} from "../../contexts/CCContext";
 import DatePicker from '../../components/DatePicker';
-import BackButton from '../BackButton';
 import Toast from 'react-native-root-toast';
 import LottieView from 'lottie-react-native';
+import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const CCEdit = ({navigation}) => {
     const {setCCEditViewS, addEdit, CCUser, getCCData} = useContext(CCContext);
@@ -30,16 +30,12 @@ const CCEdit = ({navigation}) => {
         const setUp = async() => {
             const d = await getCCData();
             setData(d);
+            console.log("DATA", d.dates)
+            await setSchedule(d.dates);
         }
         
         setUp();
     }, [])
-        
-    navigation.setOptions({
-        title: "Editar Datos",
-        headerBackVisible: false,
-        headerLeft: () => (<BackButton onPress={() => setCCEditViewS(false)}/>)
-    });
 
     const nav2CCmenu = () => navigation.navigate("CCmenu");
 
@@ -93,8 +89,6 @@ const CCEdit = ({navigation}) => {
                     Toast.show("Solicitud Enviada",{position: Toast.positions.BOTTOM});
                     resetForm();
 
-                    await setCCEditViewS(false);
-
                     nav2CCmenu();
                 }catch(error){
                     console.log(error, "EDIT");
@@ -104,60 +98,66 @@ const CCEdit = ({navigation}) => {
         >
             {({errors, touched, handleChange, handleSubmit, values}) => {
                 return(
-                    <ScrollView style={{width:"100%", height: "100%"}} contentContainerStyle={{alignItems: "center"}}>
-                        <Input
-                            placeholder="Nombre"
-                            leftIcon={<Icon type="feather" name="user"/>}
-                            onChangeText={handleChange("name")}
-                            errorMessage={errors.name && touched.name ? errors.name : ""}
-                            value={values.name}
-                        />
-                        <Input
-                            placeholder="Email"
-                            leftIcon={<Icon type="material" name="mail"/>}
-                            onChangeText={handleChange("email")}
-                            errorMessage={errors.email && touched.email ? errors.email : ""}
-                            value={values.email}
-                        />
-                        <Input
-                            placeholder="Dirección"
-                            leftIcon={<Icon type="fontisto" name="direction-sign"/>}
-                            onChangeText={handleChange("address")}
-                            errorMessage={errors.address && touched.address ? errors.address : ""}
-                            value={values.address}
-                        />
-
-                        <View style={styles.days}>
-                            <Text style={styles.text}>Horario de Atención</Text>
-                            {days.map((day, index) => <DatePicker key={index} day={day} setSchedule={setSchedule} schedule={schedule}/>)}
-                        </View>
-
-                        <Text style={styles.text}>Dirección</Text>
-                        <Input
-                            placeholder="Longitud"
-                            leftIcon={<Icon type="material" name="mail"/>}
-                            onChangeText={handleChange("longitude")}
-                            errorMessage={errors.longitude && touched.longitude ? errors.longitude : ""}
-                            value={values.longitude}
-                        />
-                        <Input
-                            placeholder="Latitiud"
-                            leftIcon={<Icon type="material" name="mail"/>}
-                            onChangeText={handleChange("latitude")}
-                            errorMessage={errors.latitude && touched.latitude ? errors.latitude : ""}
-                            value={values.latitude}
-                        />
-                        <View style={styles.btnContainer}>
-                            <Button
-                                onPress={handleSubmit}
-                                title="Mandar solicitud"
-                                buttonStyle={styles.btn}
-                                titleStyle={styles.title}
-                                icon={<Icon name="arrow-forward-ios" type="material"/>}
-                                iconRight={true}
+                    <View style={styles.screen}>
+                        <KeyboardAwareScrollView
+                        enableOnAndroid={true}
+                        enableAutomaticScroll = {true}
+                        extraHeight = {10}
+                        extraScrollHeight = {10}>
+                        <View style={styles.form}>
+                            <Input
+                                placeholder="Nombre"
+                                leftIcon={<Icon type="feather" name="user"/>}
+                                onChangeText={handleChange("name")}
+                                errorMessage={errors.name && touched.name ? errors.name : ""}
+                                value={values.name}
                             />
+                            <Input
+                                placeholder="Email"
+                                leftIcon={<Icon type="material" name="mail"/>}
+                                onChangeText={handleChange("email")}
+                                errorMessage={errors.email && touched.email ? errors.email : ""}
+                                value={values.email}
+                            />
+                            <Input
+                                placeholder="Dirección"
+                                leftIcon={<Icon type="fontisto" name="direction-sign"/>}
+                                onChangeText={handleChange("address")}
+                                errorMessage={errors.address && touched.address ? errors.address : ""}
+                                value={values.address}
+                            />
+                            <Text style={styles.text}>Horario de Atención</Text>
+                            <View style={styles.days}>
+                                {days.map((day, index) => <DatePicker key={index} day={day} setSchedule={setSchedule} schedule={schedule}/>)}
+                            </View>
+                            <Text style={styles.text}>Dirección</Text>
+                            <Input
+                                placeholder="Longitud"
+                                leftIcon={<Icon type="material" name="mail"/>}
+                                onChangeText={handleChange("longitude")}
+                                errorMessage={errors.longitude && touched.longitude ? errors.longitude : ""}
+                                value={values.longitude}
+                            />
+                            <Input
+                                placeholder="Latitiud"
+                                leftIcon={<Icon type="material" name="mail"/>}
+                                onChangeText={handleChange("latitude")}
+                                errorMessage={errors.latitude && touched.latitude ? errors.latitude : ""}
+                                value={values.latitude}
+                            />
+                            <View style={styles.btnContainer}>
+                                <Button
+                                    onPress={handleSubmit}
+                                    title="Mandar solicitud"
+                                    buttonStyle={styles.btn}
+                                    titleStyle={styles.title}
+                                    icon={<Icon name="arrow-forward-ios" type="material" color="white"/>}
+                                    iconRight={true}
+                                />
+                            </View>
                         </View>
-                    </ScrollView>
+                        </KeyboardAwareScrollView>
+                    </View>
                 )
             }}
         </Formik>) : (
@@ -180,56 +180,57 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems:"center",
         width: "100%",
-        height: "100%"
+        height: "100%",
+        backgroundColor: "white",
     },
     ScrollView:{
         width:"100%",
         height:"100%"
     },
     text:{
-        fontWeight: 'bold',
-        textDecorationLine: 'underline',
-        marginBottom:"5%",
-        marginLeft: 10
+        ontWeight: 'bold',
+        marginTop: 10,
+        fontSize: screen.fontScale*20,
+        height: screen.height*.05,
     },
     form:{
-        width:"100%",
-        height:"100%",
+        width: screen.width*1,
         flex:1,
         justifyContent:"flex-start",
-        alignItems:"center"
+        alignItems:"center",
+        padding: screen.width*.07
     },
     title:{
-        color:"black",
+        color:"white",
         width:"80%",
-        height:"100%",
-        marginTop:"5%",
         marginBottom:"1%",
         fontSize:screen.fontScale * 30
     },
     btn:{
         width:screen.width * .8,
-        height:screen.height * 0.1,
-        marginBottom: 300,
+        height:screen.height * 0.06,
+        marginBottom: 100,
         borderRadius: 5,
-        backgroundColor:"white",
+        backgroundColor:"orange",
         padding: "1%",
         shadowColor: "#000",
         shadowOpacity: 0.27,
         shadowRadius: 4.65,
-        elevation: 6
+        elevation: 6,
+        borderRadius: 5
     },
     days:{
         width:"100%", 
         height:"40%", 
-        marginBottom: "10%"
+        marginBottom: "5%"
     },
     btnContainer:{
         height:"100%", 
         width:"100%", 
         flex:1, 
         justifyContent:"center", 
-        alignItems:"center"
+        alignItems:"center",
+        borderRadius: 5
     }
 })
 

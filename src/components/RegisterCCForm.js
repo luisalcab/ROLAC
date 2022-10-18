@@ -193,9 +193,8 @@ const styles = StyleSheet.create({
     screen:{
         flex: 1,
         alignItems:"center",
-        width: screen.width*1,
-        height: screen.height*1,
-        backgroundColor: "white"
+        width: "100%",
+        height: "100%",
     },
     text:{
         fontWeight: 'bold',

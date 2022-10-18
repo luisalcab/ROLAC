@@ -35,52 +35,56 @@ const CompareEdit = ({route}) => {
     return(
         <View style={styles.container}>
             {(currentCC !== null && !isloading) ? (
-                <ScrollView styles={styles.screen} contentContainerStyle={styles.list}>
-                    <View style={styles.card}>
-                        <Text style={styles.name}>{currentCC.name}</Text>
-                        <Text style={styles.label}>Dirección</Text>
-                        <Text style={styles.generalData}>{currentCC.address}</Text>
-                        <Text style={styles.label}>Email</Text>
-                        <Text style={styles.generalData}>{currentCC.email}</Text>
-                        <Text style={styles.label}>Latitud</Text>
-                        <Text style={styles.generalData}>{currentCC.latitude}</Text>
-                        <Text style={styles.label}>Longitud</Text>
-                        <Text style={styles.generalData}>{currentCC.longitude}</Text>
-                        <Text style={styles.label}>Horarios</Text>
-                        <Text style={styles.generalData}>Lunes: {currentCC.dates.Lunes.open}--{currentCC.dates.Lunes.close}</Text>
-                        <Text style={styles.generalData}>Martes: {currentCC.dates.Martes.open}--{currentCC.dates.Martes.close}</Text>
-                        <Text style={styles.generalData}>Miércoles: {currentCC.dates.Miercoles.open}--{currentCC.dates.Miercoles.close}</Text>
-                        <Text style={styles.generalData}>Jueves: {currentCC.dates.Jueves.open}--{currentCC.dates.Jueves.close}</Text>
-                        <Text style={styles.generalData}>Viernes: {currentCC.dates.Viernes.open}--{currentCC.dates.Viernes.close}</Text>
-                        <Text style={styles.generalData}>Sábado: {currentCC.dates.Sabado.open}--{currentCC.dates.Sabado.close}</Text>
-                        <Text style={styles.generalData}>Domingo: {currentCC.dates.Domingo.open}--{currentCC.dates.Domingo.close}</Text>
+                <View style = {styles.containerScreen}>
+                    <ScrollView styles={styles.screen} contentContainerStyle={styles.list}>
+                        <View style={styles.card}>
+                            <Text style={styles.name}>{currentCC.name}</Text>
+                            <Text style={styles.label}>Dirección</Text>
+                            <Text style={styles.generalData}>{currentCC.address}</Text>
+                            <Text style={styles.label}>Email</Text>
+                            <Text style={styles.generalData}>{currentCC.email}</Text>
+                            <Text style={styles.label}>Latitud</Text>
+                            <Text style={styles.generalData}>{currentCC.latitude}</Text>
+                            <Text style={styles.label}>Longitud</Text>
+                            <Text style={styles.generalData}>{currentCC.longitude}</Text>
+                            <Text style={styles.label}>Horarios</Text>
+                            <Text style={styles.generalData}>Lunes: {currentCC.dates.Lunes.open}--{currentCC.dates.Lunes.close}</Text>
+                            <Text style={styles.generalData}>Martes: {currentCC.dates.Martes.open}--{currentCC.dates.Martes.close}</Text>
+                            <Text style={styles.generalData}>Miércoles: {currentCC.dates.Miercoles.open}--{currentCC.dates.Miercoles.close}</Text>
+                            <Text style={styles.generalData}>Jueves: {currentCC.dates.Jueves.open}--{currentCC.dates.Jueves.close}</Text>
+                            <Text style={styles.generalData}>Viernes: {currentCC.dates.Viernes.open}--{currentCC.dates.Viernes.close}</Text>
+                            <Text style={styles.generalData}>Sábado: {currentCC.dates.Sabado.open}--{currentCC.dates.Sabado.close}</Text>
+                            <Text style={styles.generalData}>Domingo: {currentCC.dates.Domingo.open}--{currentCC.dates.Domingo.close}</Text>
+                        </View>
+                        <View style={styles.card}>
+                            <Text style={styles.name}>{name}</Text>
+                            <Text style={styles.label}>Dirección</Text>
+                            <Text style={styles.generalData}>{address}</Text>
+                            <Text style={styles.label}>Email</Text>
+                            <Text style={styles.generalData}>{email}</Text>
+                            <Text style={styles.label}>Latitud</Text>
+                            <Text style={styles.generalData}>{latitude}</Text>
+                            <Text style={styles.label}>Longitud</Text>
+                            <Text style={styles.generalData}>{longitude}</Text>
+                            <Text style={styles.label}>Horarios</Text>
+                            <Text style={styles.generalData}>Lunes: {dates.Lunes.open}--{dates.Lunes.close}</Text>
+                            <Text style={styles.generalData}>Martes: {dates.Martes.open}--{dates.Martes.close}</Text>
+                            <Text style={styles.generalData}>Miércoles: {dates.Miercoles.open}--{dates.Miercoles.close}</Text>
+                            <Text style={styles.generalData}>Jueves: {dates.Jueves.open}--{dates.Jueves.close}</Text>
+                            <Text style={styles.generalData}>Viernes: {dates.Viernes.open}--{dates.Viernes.close}</Text>
+                            <Text style={styles.generalData}>Sábado: {dates.Sabado.open}--{dates.Sabado.close}</Text>
+                            <Text style={styles.generalData}>Domingo: {dates.Domingo.open}--{dates.Domingo.close}</Text>
+                        </View>
+                    </ScrollView>
+                    <View style={styles.buttonContainer}>
+                        <Button
+                            title="Aceptar cambio"
+                            onPress={() => handleSubmit(CCUser, id, fullData)}
+                            buttonStyle={styles.button}
+                            titleStyle={styles.title}
+                        />
                     </View>
-                    <View style={styles.card}>
-                        <Text style={styles.name}>{name}</Text>
-                        <Text style={styles.label}>Dirección</Text>
-                        <Text style={styles.generalData}>{address}</Text>
-                        <Text style={styles.label}>Email</Text>
-                        <Text style={styles.generalData}>{email}</Text>
-                        <Text style={styles.label}>Latitud</Text>
-                        <Text style={styles.generalData}>{latitude}</Text>
-                        <Text style={styles.label}>Longitud</Text>
-                        <Text style={styles.generalData}>{longitude}</Text>
-                        <Text style={styles.label}>Horarios</Text>
-                        <Text style={styles.generalData}>Lunes: {dates.Lunes.open}--{dates.Lunes.close}</Text>
-                        <Text style={styles.generalData}>Martes: {dates.Martes.open}--{dates.Martes.close}</Text>
-                        <Text style={styles.generalData}>Miércoles: {dates.Miercoles.open}--{dates.Miercoles.close}</Text>
-                        <Text style={styles.generalData}>Jueves: {dates.Jueves.open}--{dates.Jueves.close}</Text>
-                        <Text style={styles.generalData}>Viernes: {dates.Viernes.open}--{dates.Viernes.close}</Text>
-                        <Text style={styles.generalData}>Sábado: {dates.Sabado.open}--{dates.Sabado.close}</Text>
-                        <Text style={styles.generalData}>Domingo: {dates.Domingo.open}--{dates.Domingo.close}</Text>
-                    </View>
-                    <Button
-                        title="Aceptar cambio"
-                        onPress={() => handleSubmit(CCUser, id, fullData)}
-                        buttonStyle={styles.button}
-                        titleStyle={styles.title}
-                    />
-                </ScrollView>
+                </View>
                 ) : (
                     <View style={styles.container}>
                         <LottieView
@@ -99,7 +103,7 @@ const screen = Dimensions.get("screen");
 const styles = StyleSheet.create({
     container:{
         width: "100%",
-        height: "100%"
+        height: "100%",
     },
     screen:{
         flex:1
@@ -117,21 +121,21 @@ const styles = StyleSheet.create({
         flex:1,
         flexWrap: "wrap",
         alignContent: "stretch",
-        flexGrow:1
+        flexGrow:1,
+        padding: 15,
     },
     label:{
         flex:2,
         fontSize: screen.fontScale * 20,
-        fontWeight: "500",
-        marginLeft: 5,
-        marginBottom:5
+        fontWeight: "bold",
+        color: "black",
+        fontWeight: "bold",
+        marginTop: 10,
     },
     name:{
-        textDecorationLine: "underline",
-        fontSize: screen.fontScale * 40,
+        fontSize: screen.fontScale * 30,
         fontWeight: "500",
         marginLeft: 5,
-        marginBottom: 10
     },
     generalData:{
         flex:1,
@@ -141,17 +145,28 @@ const styles = StyleSheet.create({
     },
     button:{
         width: screen.width * .8,
-        height: screen.height * .08,
-        backgroundColor:"white",
+        backgroundColor:"orange",
         borderRadius: 10,
         elevation: 10,
-        shadowColor: "#000"
+        shadowColor: "#000",
+        marginBottom: 15,
     },
     title:{
-        color:"black",
-        fontSize:screen.fontScale * 15
-    }
-
+        color:"white",
+        fontSize:screen.fontScale * 20,
+        fontWeight: "bold"
+    },
+    buttonContainer:{
+        alignItems: "center",
+        justifyContent: "center",
+        height: screen.height * .1,
+        width: screen.width,
+        backgroundColor: "#E2E2E2",
+    },
+    containerScreen:{
+        flex:1,
+        alignItems: "center",
+    },
 })
 
 export default CompareEdit;

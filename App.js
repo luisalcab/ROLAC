@@ -127,30 +127,30 @@ export default function App() {
                     <StatusBar barStyle="dark-content" backgroundColor={"white"}/>
                         <Stack.Navigator>
                             <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
-                            <Stack.Screen name="ViewCC" component={ViewCC} options={{title: "Centros de Acopio"}}/>
+                            <Stack.Screen name="ViewCC" component={ViewCC} options={{title: "Centros de Donación", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
                             <Stack.Screen name='CardsDonationUser' component={CardsDonationUser} options={{title: 'Donaciones pasadas', headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="TerminosyCondiciones" component={TerminosyCondiciones} options={{title: "Términos y Condiciones", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="RegisterDonor" component={RegisterDonor} options={{title:"Registro Donador", headerBackTitle: "ATRÁS"}}/>
-                            <Stack.Screen name="CCEdit" component={CCEdit} />
+                            <Stack.Screen name="CCEdit" component={CCEdit} options = {{title: "Editar información", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="CCDeleteList" component={CCDeleteList} />
                             <Stack.Screen name="CCmenu" component={CCmenu} options={navigation => ({title: "Menú Principal", headerBackVisible: false})}/>
-                            <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
-                            <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
-                            <Stack.Screen name="SearcherCC" component={SearcherCC} />
+                            <Stack.Screen name="CCEditRequest" component={CCEditRequest} options = {{title: "Solicitudes de actualización", headerBackTitle: "ATRÁS"}}/>
+                            <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes", headerBackTitle: "ATRÁS"}}/>
+                            <Stack.Screen name="SearcherCC" component={SearcherCC} options = {{title: "Reportes por Centro", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="CompareEdit" component={CompareEdit} />
                             <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal', headerBackVisible: false}}/>
                             <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta', headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal', headerBackVisible: false}}/>
-                            <Stack.Screen name='HomePageCollectionCenter' component={HomePageCollectionCenter} options={{title: 'Menú principal'}}/>
+                            <Stack.Screen name='HomePageCollectionCenter' component={HomePageCollectionCenter} options={{title: 'Menú principal', headerBackVisible: false}}/>
                             <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent} options={{title: 'Administrar cuenta', headerBackTitle: "ATRÁS"}}/>
-                            <Stack.Screen name="QRScanner" component={QRScanner} />
+                            <Stack.Screen name="QRScanner" component={QRScanner} options = {{title: "Escaner QR", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="QRGenerator" component={QRGenerator} options = {{headerShown: false}}/>
                             <Stack.Screen name="CardsKindDonationUser" component={CardsKindDonationUser} options={{title: 'Donaciones pasadas', headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="Cart" component={Cart} options = {{title: "Carrito", headerBackTitle: "ATRÁS"}}/> 
                             <Stack.Screen name="ItemSelector" component={ItemSelector} options={{title:"Banco de alimentos", headerBackTitle: "ATRÁS"}}/> 
-                            <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers} />  
+                            <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers} options = {{title: "", headerBackTitle: "ATRÁS"}}/>  
                             <Stack.Screen name="AdminRegister" component={AdminRegister} options={{title:"Registro Administrador", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{title:"Recuperar contraseña", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="Administración de productos" component={ProductsAdmin}  options = {{headerBackTitle: "ATRÁS"}}/>

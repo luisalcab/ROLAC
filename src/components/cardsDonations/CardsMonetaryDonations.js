@@ -8,20 +8,24 @@ const CardsMonetaryDonations = ({idDonation, date, name, last4, postalCode, amou
     return (
       <View style={styles.container}>
         <Card containerStyle={styles.card}>
-          <Card.Title>ID donacion: {idDonation}</Card.Title>
+          <Card.Title style = {styles.titleCard}>ID donacion: {idDonation}</Card.Title>
+          <Card.Divider style = {styles.divider}/>
           <View>
             <View style={styles.containerRow}>
               <View>
-                <Text>Fecha:</Text>
+                <Text style = {styles.infoText}>Fecha:</Text>
                 <Text style={styles.verticalItems}>{date}</Text>
-                <Text>Nombre:</Text>
+                <Text style = {styles.infoText}>Nombre:</Text>
                 <Text>{name}</Text>
               </View>
               <Text style={styles.amountDonation}>${amount}</Text>
             </View>
+            <Card.Divider style = {styles.divider}/>
             <View style={styles.containerRow}>
-              <Text>Tarjeta: ...{last4}</Text>
-              <Text>C.P: {postalCode}</Text>
+              <Text style = {styles.infoText}>
+                Tarjeta: ...{last4}
+              </Text>
+              <Text style = {styles.infoText}>C.P: {postalCode}</Text>
             </View>
           </View>
         </Card>
@@ -38,16 +42,20 @@ const CardsMonetaryDonations = ({idDonation, date, name, last4, postalCode, amou
     amountDonation: {
       textAlignVertical: "center",
       textAlign: "center",
-      fontSize: 25
+      fontSize: 25,
+      fontWeight: "bold",
+      alignSelf: "center",
+      color: "#FF0000",
     },
     containerRow: {
       flexDirection: 'row',
       marginBottom: 6,
-      justifyContent: "space-around" 
+      justifyContent: "space-around",
+      marginTop: -10,
     },
     card: {
-      backgroundColor: "#bdc2d5",
-      borderColor: "#bdc2d5",
+      backgroundColor: "#FFE4D3",
+      borderColor: "#EE5E00",
       borderRadius: 25,
       shadowColor: "#000",
       shadowOffset: {
@@ -56,17 +64,29 @@ const CardsMonetaryDonations = ({idDonation, date, name, last4, postalCode, amou
       },
       shadowOpacity: 0.36,
       shadowRadius: 6.68,
-
       elevation: 11,
     },
     titleBar: {
       alignItems: "center",
       marginTop: "5%",
-      backgroundColor: "#b0bdd0",
     },
     title: {
       fontSize: 25,
-    }
-    });
+    },
+    divider: {
+      borderWidth: 0.5,
+      borderColor: "#EE5E00",
+    },
+    titleCard: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: "#FF8300",
+    },
+    infoText: {
+      fontSize: 14,
+      fontWeight: "bold",
+      color: "#FF8300",
+    },
+  });
 
 export default CardsMonetaryDonations;
