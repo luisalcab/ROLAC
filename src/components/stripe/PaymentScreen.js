@@ -1,19 +1,29 @@
-import { useContext, useState } from 'react';
-import { CardField, useStripe, useConfirmPayment } from '@stripe/stripe-react-native';
-import { View, Button, Alert, StyleSheet } from 'react-native';
+import { useContext, useEffect, useState } from 'react';
+import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
+import { View, Button, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { UserInformation } from '../../contexts/userInformation';
 import * as Location from 'expo-location';
 import { addDoc, collection } from 'firebase/firestore';
 import firebaseConection from '../../contexts/FBConnection';
-import { CartContext } from '../../contexts/CartContext';
-import { styled } from 'tailwindcss-react-native';
+import { CartContextMonetary } from '../../contexts/CartContextMonetary';
 import moment from 'moment';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 function PaymentScreen({grandTotal, navigation}) {    
     //Contexts
     const { userInformation, setUserInformation } = useContext(UserInformation);    
-    const {cart, setCart} = useContext(CartContext);
+    const {cartMonetary, setCartMonetary} = useContext(CartContextMonetary);
+    const [load, isLoad] = useState(false);
+    const [active, setActive] = useState(false);
+
+    useEffect(() => {
+      if(grandTotal >= 10){
+        setActive(true);
+      } else {
+        setActive(false);
+      }
+    }, [grandTotal]);
 
     // Initialization confirm payment
     const {confirmPayment, loading} = useConfirmPayment();
@@ -33,13 +43,14 @@ function PaymentScreen({grandTotal, navigation}) {
       postalCode: '',
       name: `${userInformation.name} ${userInformation.lastName}`,
       amount: grandTotal,
-      id: userInformation.uid
+      id: userInformation.id
     });
 
 
     handleError = () => {
-      setCart([]);
+      setCartMonetary([]);
       props.idCase = 1;
+      isLoad(false);
       navigation.navigate("PaymentMessage", { props: props });
       
     }
@@ -60,6 +71,7 @@ function PaymentScreen({grandTotal, navigation}) {
       };
     
       const handlePayPress = async () => {
+        isLoad(!load);
         Location.installWebGeolocationPolyfill()
         navigator.geolocation.getCurrentPosition(async (position) => {
               // Gather the customer's billing information (for example, email)
@@ -98,12 +110,13 @@ function PaymentScreen({grandTotal, navigation}) {
                     date: date
                   })
                   .then(() => {
-                    setCart([]);
+                    setCartMonetary([]);
                     props.idCase = 0;
+                    isLoad(false);
                     navigation.navigate("PaymentMessage", { props: props });
                     
                   })
-                  .catch(() => { setCart([]); handleError(); }); 
+                  .catch(() => { setCartMonetary([]); handleError(); }); 
                 }
               }
             },
@@ -114,12 +127,18 @@ function PaymentScreen({grandTotal, navigation}) {
       };
 
       const handleCancelPayPress = async() => {
-        setCart([]);
+        setCartMonetary([]);
         props.idCase = 2;
         navigation.navigate("PaymentMessage", { props: props });
       }
 
   return (
+    <>
+    <Spinner
+      visible={load}
+      textContent={'Cargando...'}
+      textStyle={styles.spinnerTextStyle}
+    />
     <View>
       <CardField
         postalCodeEnabled={true}
@@ -147,26 +166,59 @@ function PaymentScreen({grandTotal, navigation}) {
         // }}
       />
 
-      <Button 
-        onPress={handlePayPress} 
-        title="Donar" 
-        disabled={loading} />
-
-      <View style={styles.cancelButtonStyle}>
-        <Button 
-          color="#E74C3C" 
-          onPress={handleCancelPayPress} 
-          title="Cancelar" 
-          disabled={loading} />
+      <View style = {styles.Button}>
+        <View style = {styles.ButtonDonation}>
+          <Button 
+            onPress={handlePayPress} 
+            title="Donar" 
+            disabled={
+              !payment.last4 ||
+              !payment.postalCode ||
+              loading ||
+              !active
+            }
+            color="#fff"
+          />
+        </View>
+        <View style = {styles.ButtonCancel}>
+          <Button 
+            color={"white"}
+            style = {{fontSize: 20}}
+            onPress={handleCancelPayPress} 
+            title="Cancelar" 
+            disabled={loading}
+          />
+        </View>
       </View>
-
     </View>
+    </>
   );
 }
 
-styles = StyleSheet.create({
-  cancelButtonStyle: {
-    marginTop: "5%",
-  }
+const styles = StyleSheet.create({
+  Button: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10
+  },
+  ButtonDonation: {
+    width: 200,
+    height: 40,
+    backgroundColor: '#1d5dec',
+    borderRadius: 10,
+    justifyContent: 'center',
+    marginBottom: 10
+  },
+  ButtonCancel: {
+    width: 200,
+    height: 40,
+    backgroundColor: 'red',
+    borderRadius: 10,
+    justifyContent: 'center',
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
+  },
 })
 export default PaymentScreen;

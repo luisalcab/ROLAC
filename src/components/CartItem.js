@@ -1,12 +1,13 @@
 import {useContext} from "react";
 import {View, Text, StyleSheet, TouchableOpacity, useColorScheme} from "react-native"
-import {CartContext} from "../contexts/CartContext";
+import {CartContextMonetary} from "../contexts/CartContextMonetary"
 
 const CartItem = ({id, name, cost, count}) => {
-    const {cart, setCart} = useContext(CartContext);
+    const {cartMonetary, setCartMonetary} = useContext(CartContextMonetary);
 
     const removeItem = () => {
-        setCart(cart.filter(item => item.id != id));
+        setCartMonetary(cartMonetary.filter(item => item.id !== id));
+        console.log(count);
     }
 
     return(

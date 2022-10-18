@@ -8,15 +8,15 @@ const ViewCCCard = ({data}) => {
     return (
         <View style={styles.card}>
             <Text style={styles.name}>{name}</Text>
-            <Text style={styles.label}>Dirección</Text>
+            <Text style={styles.label}>Dirección:</Text>
             <Text style={styles.generalData}>{address}</Text>
-            <Text style={styles.label}>Email</Text>
+            <Text style={styles.label}>Email:</Text>
             <Text style={styles.generalData}>{email}</Text>
-            <Text style={styles.label}>Latitud</Text>
+            <Text style={styles.label}>Latitud:</Text>
             <Text style={styles.generalData}>{latitude}</Text>
-            <Text style={styles.label}>Longitud</Text>
+            <Text style={styles.label}>Longitud:</Text>
             <Text style={styles.generalData}>{longitude}</Text>
-            <Text style={styles.label}>Horarios</Text>
+            <Text style={styles.label}>Horarios:</Text>
             <Text style={styles.generalData}>Lunes: {Lunes.open}--{Lunes.close}</Text>
             <Text style={styles.generalData}>Martes: {Martes.open}--{Martes.close}</Text>
             <Text style={styles.generalData}>Miércoles: {Miercoles.open}--{Miercoles.close}</Text>
@@ -41,21 +41,21 @@ const styles = StyleSheet.create({
         flex:1,
         flexWrap: "wrap",
         alignContent: "stretch",
-        flexGrow:1
+        flexGrow:1,
+        padding: 15,
     },
     label:{
         flex:2,
         fontSize: screen.fontScale * 20,
-        fontWeight: "500",
-        marginLeft: 5,
-        marginBottom:5
+        fontWeight: "bold",
+        color: "black",
+        fontWeight: "bold",
+        marginTop: 10,
     },
     name:{
-        textDecorationLine: "underline",
-        fontSize: screen.fontScale * 40,
+        fontSize: screen.fontScale * 30,
         fontWeight: "500",
         marginLeft: 5,
-        marginBottom: 10
     },
     generalData:{
         flex:1,
@@ -63,10 +63,6 @@ const styles = StyleSheet.create({
         fontSize: screen.fontScale * 20,
         marginLeft: 5
     },
-    title:{
-        color: "black",
-        fontSize:screen.fontScale * 15
-    }
 })
 
 export default ViewCCCard;

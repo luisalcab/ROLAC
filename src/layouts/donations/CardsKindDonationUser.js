@@ -2,11 +2,14 @@ import React, {useEffect, useState, useContext} from "react"
 import {View, Text, FlatList, StyleSheet, ActivityIndicator} from 'react-native'
 import CardsKindDonations from "../../components/cardsDonations/CardsKindDonations";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import FBConnection from "../../contexts/FBConnection";
 import { UserInformation } from "../../contexts/userInformation";
+import {enviromentVariables} from "../../../utils/enviromentVariables";
 import moment from "moment";
+
 const CardsKindDonationUser = ({navigation}) => {
     const [donationsInfo, setDonationsInfo] = useState(null)
+
+    const {db} = enviromentVariables;
     
     //Contexts
     const { userInformation, setUserInformation } = useContext(UserInformation);
@@ -23,7 +26,7 @@ const CardsKindDonationUser = ({navigation}) => {
     const getDonationsByID = async (idUser) => {
         const donationInformation = [];
 
-        const q = query(collection(FBConnection.db, "donations_in_kind"), where("donor", "==", idUser));
+        const q = query(collection(db, "donations_in_kind"), where("donor", "==", idUser));
 
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -42,7 +45,7 @@ const CardsKindDonationUser = ({navigation}) => {
     }
     //Hooks
     useEffect(() => {
-        getDonationsByID(userInformation.uid)
+        getDonationsByID(userInformation.id)
     },[])
 
     return (
@@ -51,7 +54,7 @@ const CardsKindDonationUser = ({navigation}) => {
             donationsInfo ? (
                 <>
                     <View style={styles.titleBar}>
-                        <Text style={styles.title}>Donaciones</Text>
+                        <Text style={styles.title}>Donaciones en especie pasadas</Text>
                     </View>
                     <FlatList
                         data={donationsInfo}
@@ -75,11 +78,13 @@ const CardsKindDonationUser = ({navigation}) => {
 const styles = StyleSheet.create({
         titleBar: {
             alignItems: "center",
-            marginTop: "5%",
-            backgroundColor: "#b0bdd0",
+            justifyContent: "center",
+            height: 50,
+            backgroundColor: "white",
         },
-            title: {
-            fontSize: 25,
+        title: {
+            fontSize: 22,
+            fontWeight: "bold",
         }
     });
 

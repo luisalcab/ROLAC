@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import {
   TextInput,
   View,
-  ScrollView,
   StyleSheet,
   Text,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import { Input, Icon, Dialog, Button } from "@rneui/themed";
 import { Formik } from "formik";
@@ -81,7 +81,6 @@ const ManagerDonorComponent = ({ navigation }) => {
     const { email, uid, lastName, name } = value;
     console.log("data")
     if(email != donor.email){
-      console.log(email, "---------------", userInformation.auth.currentUser)
       updateEmail(userInformation.auth.currentUser, email).catch(() => {
         Alert.alert(
           "Error",
@@ -144,7 +143,7 @@ const ManagerDonorComponent = ({ navigation }) => {
       .then((userCredential) => {
         userCredential.user.delete().then(() => {
           deleteDoc(
-            doc(db, "donor", userInformation.uid)
+            doc(db, "donor", userInformation.id)
           ).then(() => {
             Alert.alert(
               "Usuario borrado exitosamente",
@@ -208,7 +207,6 @@ const ManagerDonorComponent = ({ navigation }) => {
     navigation.navigate('CardsDonationUser', {navigation: navigation})
   }
   const pastKindDonation = () => {
-    console.log("Hola mundo")
     navigation.navigate('CardsKindDonationUser', {navigation: navigation})
   }
   //Hooks
@@ -330,7 +328,8 @@ const ManagerDonorComponent = ({ navigation }) => {
                       borderRadius: 10,
                       backgroundColor: "#0E4DA4",
                       marginHorizontal: "5%",
-                      shadowColor: "#000"
+                      shadowColor: "#000",
+                      marginBottom: "5%"
                     }}
                     onPress={() => sendEmailRecoverPassword()}
                     title="Actualizar contraseña"
@@ -345,10 +344,10 @@ const ManagerDonorComponent = ({ navigation }) => {
                       backgroundColor: "#0E4DA4",
                       marginHorizontal: "5%",
                       shadowColor: "#000",
-                      marginTop: 10
+                      marginBottom: "5%"
                     }}
                     onPress={() => pastDonation()}
-                    title="Ver donaciones pasadas"
+                    title="Ver donaciones monetarias pasadas"
                     titleStyle={{
                       color: "white",
                       fontWeight: "bold",
@@ -356,21 +355,18 @@ const ManagerDonorComponent = ({ navigation }) => {
                   />
                   <Button
                     buttonStyle = {{
-                      borderRadius: 5,
+                      borderRadius: 10,
                       backgroundColor: "#0E4DA4",
                       marginHorizontal: "5%",
                       shadowColor: "#000",
-                      shadowOffset: {
-                        width: 0,
-                        height: 12,
-                      },
-                      shadowOpacity: 0.58,
-                      shadowRadius: 16.00,
-                      elevation: 24,
-                      marginTop: 10
+                      marginBottom: "5%"
                     }}
                     onPress={() => pastKindDonation()}
                     title="Ver donaciones en especie pasadas"
+                    titleStyle={{
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
                   />
                 </View>
               </View>
@@ -385,6 +381,8 @@ const ManagerDonorComponent = ({ navigation }) => {
     </>
   );
 };
+
+const screen = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {

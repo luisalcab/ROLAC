@@ -12,7 +12,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ReportDonationsByCollectionCenter from './ReportDonationsByCollectionCenter';
 import { color } from 'react-native-reanimated';
 
-const SearcherCC = () => {
+const SearcherCC = ({navigation}) => {
     const [collectionCenter, setCollectionCenter] = useState([]);
     const {refresh, setRefresh} = useContext(RefresherContext);
     const [refreshing, setRefreshing] = useState(refresh);
@@ -76,14 +76,19 @@ const SearcherCC = () => {
     }
     
     const generateReport = ()  => {
-        console.log("Validando")
-        
         if(moment(intervalTime.beginDate).isValid() && moment(intervalTime.endDate).isValid()) {
-            console.log("Entrando")
             ReportDonationsByCollectionCenter(
                 intervalTime.beginDate, 
                 intervalTime.endDate,
-                collectionCenterSelected.id);
+                collectionCenterSelected.id)
+            .then(() => {
+                navigation.navigate('HomePageManagerBAMX',{navigation: navigation})
+            })
+            .catch(() => {
+                alert("Ha habido un error durante la generación del reporte")
+                navigation.navigate('HomePageManagerBAMX',{navigation: navigation})
+            });
+                
         } else {
             alert("Aún no has seleccionado un intervalo de fechas valido");
         }
@@ -133,25 +138,19 @@ const SearcherCC = () => {
                     }
                 >
                     {collectionCenter.map((colCenter) => {
-                        console.log(colCenter)
                         return (
                             <Card key = {colCenter.id} style = {styles.card}>
-                                <View >
+                                <View style = {styles.cardContainer}>
                                     <View>
                                         <Text style = {styles.cardTitle}>{colCenter.name}</Text>
                                         <Text style = {styles.cardSubtitle}>ID: {colCenter.id}</Text>
                                     </View>
                                     <View>
-                                        <Button  containerStyle={styles.button} onPress={() => {selectCC(colCenter)}}>Seleccionar</Button>
+                                        <TouchableOpacity onPress = {() => selectCC(colCenter)} style = {styles.buttonSelect}>
+                                            <Text style = {styles.textButtonSelect}>Seleccionar</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
-                                {/* <View style = {styles.cardContent}>
-                                    <Text style = {styles.cardTitle}>{colCenter.name}</Text>
-                                    <Text style = {styles.cardSubtitle}>ID: {colCenter.id}</Text>
-                                    <View style = {styles.cardButton}>
-                                        <Button  containerStyle={styles.button} onPress={() => {selectCC(colCenter)}}>Seleccionar</Button>
-                                    </View>
-                                </View> */}
                             </Card>
                         )
                     })}
@@ -160,13 +159,21 @@ const SearcherCC = () => {
                 ) :
                 (
                     <>
-                        <Text>Nombre centro de donación: {collectionCenterSelected.name}</Text>
-                        <Text>ID: {collectionCenterSelected.id}</Text>
-                        <Text>Dirección {collectionCenterSelected.address}</Text>
-                        <Text>Email  {collectionCenterSelected.email}</Text>
+                    <View style = {styles.container}>
+                        <Text style = {styles.titles}>Nombre centro de donación:</Text>
+                        <Text style = {styles.textInfo}>{collectionCenterSelected.name}</Text>
+                        <Text style = {styles.titles}>ID:</Text>
+                        <Text style = {styles.textInfo}>{collectionCenterSelected.id}</Text>
+                        <Text style = {styles.titles}>Dirección:</Text>
+                        <Text style = {styles.textInfo}>{collectionCenterSelected.address}</Text>
+                        <Text style = {styles.titles}>Email:</Text>
+                        <Text style = {styles.textInfo}>{collectionCenterSelected.email}</Text>
 
-                        <Text>Desde: {intervalTime.beginDate}</Text>
-                        <Text>Hasta: {intervalTime.endDate}</Text>
+                        <Text style = {styles.titles}>Desde:</Text>
+                        <Text style = {styles.textInfo}>{intervalTime.beginDate}</Text>
+                        <Text style = {styles.titles}>Hasta:</Text>
+                        <Text style = {styles.textInfo}>{intervalTime.endDate}</Text>
+                    </View>
                         <DateTimePickerModal
                         isVisible={isDatePickerVisible}
                         mode="date"
@@ -212,7 +219,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "flex-start",
         width: "100%",
-        height: "100%"
+        height: "100%",
+        backgroundColor: "#fff",
     },
     title:{
         fontSize: 20,
@@ -226,20 +234,15 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     card:{
-        width: "90%",
-        marginHorizontal: "5%",
-        marginVertical: "2%",
-        flexDirection: "row",
-        justifyContent: "center",
-        borderRadius: "25"
+        width: "100%",
     },
     button:{
-        width: "50%",
+        width: "45%",
         height: 40,
         justifyContent: "center",
+        borderRadius: 10,
         backgroundColor: "orange",
         borderRadius: 10,
-        marginBottom: 10
     },
     collectionCenter:{
         flex: 1,
@@ -251,14 +254,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         textAlign: "center",
-        color: "white"
+        color: "white",
     },
     box1:{
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
         height: 70,
-        backgroundColor: "#E8E8E8"
+        backgroundColor: "white",
     },
     cardContent:{
         flexDirection: "row",
@@ -279,19 +282,17 @@ const styles = StyleSheet.create({
     },
     cardSubtitle: {
         fontSize: 10,
+        width: "100%",
     },
     cardButton:{
-        // width: "10%",
         color: "orange",
         height: 40,
         justifyContent: "center",
         flexDirection: "row",
-        marginHorizontal: 10
+        marginHorizontal: 10,
     },
     cardText:{
-        // flexDirection: "row",
-        // flexWrap: "wrap",
-        width: "40%",
+        width: "35%",
     },
     searchBar:{
         width: "100%",
@@ -300,6 +301,43 @@ const styles = StyleSheet.create({
         borderBottomColor: "transparent",
         borderTopColor: "transparent",
         backfaceVisibility: "hidden"
+    },
+    cardContainer:{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+        alignItems: "center",
+        width: "100%",
+        padding: 10
+    },
+    buttonSelect:{
+        backgroundColor: "#007CFF",
+        width: "100%",
+        height: 40,
+        justifyContent: "center",
+        borderRadius: 10,
+        
+    },
+    textButtonSelect:{
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "white",
+        marginHorizontal: 5
+    },
+    titles:{
+        fontSize: 20,
+        fontWeight: "bold",
+        textAlign: "left",
+        width: "100%",
+        marginTop: 10
+    },
+    textInfo:{
+        fontSize: 18,
+    },
+    container:{
+        width: "100%",
+        backgroundColor: "white",
+        paddingHorizontal: 20,
     }
 });
 

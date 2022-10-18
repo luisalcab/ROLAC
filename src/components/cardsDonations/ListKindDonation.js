@@ -13,8 +13,9 @@ const styles = StyleSheet.create({
     format: {
         textAlignVertical: "center",
         textAlign: "left",
-        marginLeft:5,
-        fontSize: 20
+        marginLeft: 5,
+        fontSize: 16,
+        alignSelf: "center",
       }
 })    
 export default ListKindDonation;

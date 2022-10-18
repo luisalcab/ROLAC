@@ -1,30 +1,47 @@
 import {View, Text, Image, StyleSheet, TouchableOpacity} from "react-native"
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useState, useCallback} from "react";
 import NumberInput from "./NumberInput";
 import {CartContext} from "../contexts/CartContext";
+import { CartContextMonetary } from "../contexts/CartContextMonetary";
 
 const Item = ({id, name, source, unit, cost, urgent, kind}) => {
     const [count, setCount] = useState(0);
     const [active, setActive] = useState(false);
 
     const {cart, setCart} = useContext(CartContext);
+    const {cartMonetary, setCartMonetary} = useContext(CartContextMonetary);
 
     useEffect(() => {
-        if (cart.find(e => e.id === id)){
-            setActive(true);
+        if (kind) {
+            const val = cart.find(e => e.id === id);
+            setCount(val ? val.count : 0);
+            setActive(val ? true : false);
         } else {
-            setActive(false);
+            const val = cartMonetary.find(e => e.id === id);
+            setCount(val ? val.count : 0);
+            setActive(val ? true : false);
         }
-    }, [cart]);
+    }, [cartMonetary, cart]);
 
     const manageActivation = () => {
-        if (!active && count > 0){
-            setCart([...cart, {id, name, cost, count}]);
-            setActive(true);
-        } else if (active){
-            setCart(cart.filter(item => item.id !== id));
-            setActive(false);
-            setCount(0);
+        if (kind) {
+            if (cart.find(e => e.id === id)){
+                setCart(cart.filter(e => e.id !== id));
+                setActive(false);
+                setCount(0);
+            } else {
+                setCart([...cart, {id, name, source, unit, cost, urgent, count}]);
+                setActive(true);
+            }
+        } else {
+            if (cartMonetary.find(e => e.id === id)){
+                setCartMonetary(cartMonetary.filter(e => e.id !== id));
+                setActive(false);
+                setCount(0);
+            } else {
+                setCartMonetary([...cartMonetary, {id, name, source, unit, cost, urgent, count}]);
+                setActive(true);
+            }
         }
     }
     
@@ -49,6 +66,7 @@ const Item = ({id, name, source, unit, cost, urgent, kind}) => {
                             count={count}
                             updateCount={setCount}
                             active={active}
+                            kind={kind}
                             style={styles.counter}/>
                         <TouchableOpacity 
                             style={[styles.btn, !active ? styles.add : styles.remove]} 

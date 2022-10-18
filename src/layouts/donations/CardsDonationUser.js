@@ -47,7 +47,7 @@ const CardsDonationUser = ({navigation}) => {
     }
     //Hooks
     useEffect(() => {
-        getDonationsByID(userInformation.uid)
+        getDonationsByID(userInformation.id)
     },[])
 
     return (
@@ -56,7 +56,7 @@ const CardsDonationUser = ({navigation}) => {
             donationsInfo ? (
                 <>
                     <View style={styles.titleBar}>
-                        <Text style={styles.title}>Donaciones</Text>
+                        <Text style={styles.title}>Donaciones monetarias pasadas</Text>
                     </View>
                     <FlatList
                         data={donationsInfo}
@@ -80,11 +80,13 @@ const CardsDonationUser = ({navigation}) => {
 const styles = StyleSheet.create({
         titleBar: {
             alignItems: "center",
-            marginTop: "5%",
-            backgroundColor: "#b0bdd0",
+            justifyContent: "center",
+            height: 50,
+            backgroundColor: "white",
         },
-            title: {
-            fontSize: 25,
+        title: {
+            fontSize: 22,
+            fontWeight: "bold",
         }
     });
 

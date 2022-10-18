@@ -41,52 +41,59 @@ const styles = StyleSheet.create({
     card:{
         width: screen.width * .9,
         height: screen.height * .20,
-        marginBottom: 10,
         borderRadius: 10,
         borderWidth: 1,
         backgroundColor: "white",
         flex:1,
         flexWrap: "wrap",
-        alignContent: "space-between"
+        alignContent: "space-between",
+        flexGrow:1,
+        padding: 16,
+        marginTop: 10,
     },
     info:{
-        width: "50%",
-        height: "100%"
+        width: screen.width * .5,
+        height: screen.height * 1,
     },
     name:{
-        fontSize: screen.fontScale * 30,
+        fontSize: screen.fontScale * 26,
         fontWeight: "500",
-        marginLeft: 5
+        marginLeft: 5,
     },
     address:{
         marginLeft: 5
     },
     buttonContainer:{
-        width: "40%",
-        height: "100%"
+        width: screen.width * .28,
+        height: screen.height * 0.16,
+        marginRight: 5,
     },
     buttonFlex:{
-        width: "100%",
-        height: "100%",
-        flex:1, 
-        justifyContent: "space-around",
-        alignItems: "center"
+        width: screen.width *0.28,
+        height: screen.height * 1,
+        flex:1,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
     },
     btnA:{
-        width: "100%",
-        minWidth: screen.width * .3,
-        maxWidth: screen.width * .3,
-        borderRadius: 10
-    },
-    btnR:{
-        width: "100%",
+        width: screen.width * .28,
         minWidth: screen.width * .3,
         maxWidth: screen.width * .3,
         borderRadius: 10,
-        backgroundColor: "red"
+        margin: 5,
+    },
+    btnR:{
+        width: screen.width * .28,
+        minWidth: screen.width * .3,
+        maxWidth: screen.width * .3,
+        borderRadius: 10,
+        backgroundColor: "red",
+        margin: 5,
     },
     btnT:{
-        fontSize: screen.fontScale * 15
+        fontSize: screen.fontScale * 15,
+        margin: 5,
     }
 })
 
