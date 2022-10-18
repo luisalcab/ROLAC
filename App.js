@@ -127,7 +127,7 @@ export default function App() {
                     <StatusBar barStyle="dark-content" backgroundColor={"white"}/>
                         <Stack.Navigator>
                             <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
-                            <Stack.Screen name="ViewCC" component={ViewCC} options={{title: "Centros de Acopio"}}/>
+                            <Stack.Screen name="ViewCC" component={ViewCC} options={{title: "Centros de Donación", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
                             <Stack.Screen name='CardsDonationUser' component={CardsDonationUser} options={{title: 'Donaciones pasadas', headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="TerminosyCondiciones" component={TerminosyCondiciones} options={{title: "Términos y Condiciones", headerBackTitle: "ATRÁS"}}/>
@@ -135,8 +135,8 @@ export default function App() {
                             <Stack.Screen name="CCEdit" component={CCEdit} options = {{title: "Editar información", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="CCDeleteList" component={CCDeleteList} />
                             <Stack.Screen name="CCmenu" component={CCmenu} options={navigation => ({title: "Menú Principal", headerBackVisible: false})}/>
-                            <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
-                            <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
+                            <Stack.Screen name="CCEditRequest" component={CCEditRequest} options = {{title: "Solicitudes de actualización", headerBackTitle: "ATRÁS"}}/>
+                            <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="SearcherCC" component={SearcherCC} options = {{title: "Reportes por Centro", headerBackTitle: "ATRÁS"}}/>
                             <Stack.Screen name="CompareEdit" component={CompareEdit} />
                             <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros", headerBackTitle: "ATRÁS"}}/>

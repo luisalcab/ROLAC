@@ -14,7 +14,7 @@ const CCItem = ({params, navigation}) => {
                 <View style={styles.buttonFlex}>
                     <Button
                         onPress={() => navigation.navigate("CompareEdit", {fullData, id, navigation})}
-                        title="Ver Cambios"
+                        title="Ver cambios"
                         buttonStyle={styles.btnA}
                         titleStyle={styles.btnT}
                     />
@@ -36,7 +36,9 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         flex:1,
         flexWrap: "wrap",
-        alignContent: "space-between"
+        alignContent: "space-between",
+        flexGrow:1,
+        padding: 15,
     },
     info:{
         width: "50%",
@@ -65,10 +67,11 @@ const styles = StyleSheet.create({
         width: "100%",
         minWidth: screen.width * .3,
         maxWidth: screen.width * .3,
-        borderRadius: 10
+        borderRadius: 10,
     },
     btnT:{
-        fontSize: screen.fontScale * 15
+        fontSize: screen.fontScale * 16,
+        fontWeight: "bold"
     }
 })
 
