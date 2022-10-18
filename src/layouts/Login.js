@@ -1,9 +1,9 @@
-import React from 'react'
-import {StyleSheet, View} from 'react-native';
+import {useState} from 'react'
+import {StyleSheet, View, Dimensions, Linking} from 'react-native';
 import {Image} from '@rneui/themed';
 import LogInForm from '../components/LogInForm';
 import { initializeApp } from "firebase/app";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
  
@@ -20,9 +20,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
+const screen = Dimensions.get("window");
+
 const Login = ({navigation}) => {
+  const [egg, setEgg] = useState(1);
   
   return (
     <View style={styles.screen}>
@@ -31,7 +33,17 @@ const Login = ({navigation}) => {
         enableAutomaticScroll = {true}
         extraHeight = {10}
         extraScrollHeight = {10}>
-            <Image source={require("../img/5e8827daba0aa_logo.png")} style={styles.pic}/>
+            <Image 
+              source={require("../img/5e8827daba0aa_logo.png")} 
+              style={styles.pic}
+              onPress={() => {
+                setEgg(prevState => ++prevState);
+                if(egg === 13){
+                  Linking.openURL('https://youtu.be/jsVBZsH5JXI')
+                  setEgg(0);
+                }
+              }}
+            />
             <LogInForm navigation={navigation}/>
         </KeyboardAwareScrollView>
     </View>
@@ -42,18 +54,16 @@ const styles = StyleSheet.create({
     screen:{
         flex: 1,
         justifyContent: "flex-start",
-        width: "100%",
-        height: "100%",
-        backgroundColor: "#fff",
-        marginTop: 0
+        width: screen.width*1,
+        height: screen.height*1,
+        backgroundColor: "#fff"
     },
     pic:{
-        width: "90%",
-        height: 250,
-        marginBottom: 20,
-        marginTop: 100,
-        marginHorizontal: 20,
-        borderRadius: 40  
+        width: screen.width*.8,
+        height: screen.height*.3,
+        marginTop: screen.height*.05,
+        marginHorizontal: screen.width*.1,
+        borderRadius: 40
     }
 })
 

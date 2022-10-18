@@ -13,10 +13,7 @@ const CompareEdit = ({route}) => {
     
     const {fullData, id, navigation} = route.params;
     const {name, email, address, dates, latitude, longitude, CCUser} = fullData;
-    console.log("FULLDATA",fullData)
-    console.log("CURRENTCC", currentCC)
-    console.log("IDDD", id)
-
+    
     useEffect(() => {
         const getData = async() => {
             if(currentCC === null){

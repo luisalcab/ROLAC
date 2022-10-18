@@ -10,7 +10,7 @@ import {
 import { Formik } from "formik";
 
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
-import firebaseConection from "../../contexts/FBConnection";
+import { enviromentVariables } from "../../../utils/enviromentVariables";
 import {
   getAuth,
   EmailAuthProvider,
@@ -24,6 +24,8 @@ import { UserInformation } from "../../contexts/userInformation";
 const ManagerAdminComponent = ({ navigation }) => {
   //Initialize auth instance
   const auth = getAuth();
+
+  const {db} = enviromentVariables;
 
   //Contexts
   const { userInformation, setUserInformation } = useContext(UserInformation);
@@ -51,7 +53,7 @@ const ManagerAdminComponent = ({ navigation }) => {
   };
 
   const getManagerById = async (id) => {
-    await getDoc(doc(firebaseConection.db, "BAMXmanager", id))
+    await getDoc(doc(db, "BAMXmanager", id))
       .then((querySnapshot) => {
         const { lastName, name } = querySnapshot.data();
 
@@ -69,9 +71,12 @@ const ManagerAdminComponent = ({ navigation }) => {
   };
 
   const updateManager = async (value) => {
-    const { email, uid, lastName, name } = value;
+    const { email, id, lastName, name } = value;
+    console.log(value,"|||||||||", manager);
 
     if (email != manager.email) {
+      console.log("ENTRO", userInformation, "||||||||", email)
+
       updateEmail(userInformation.auth.currentUser, email).catch(() => {
         alert("Ha habido un error a la hora de actualizar el usuario");
         navigation.navigate("HomePageManagerBAMX", { navigation: navigation });
@@ -81,7 +86,7 @@ const ManagerAdminComponent = ({ navigation }) => {
     if(lastName != manager.lastName || name != manager.name){
       console.log("UID: ", uid)
       await updateDoc(
-        doc(firebaseConection.db, "BAMXmanager", uid),
+        doc(db, "BAMXmanager", id),
         {
           name: name,
           lastName: lastName,
@@ -113,7 +118,7 @@ const ManagerAdminComponent = ({ navigation }) => {
       .then((userCredential) => {
         userCredential.user.delete().then(() => {
           deleteDoc(
-            doc(firebaseConection.db, "BAMXmanager", userInformation.uid)
+            doc(db, "BAMXmanager", userInformation.id)
           ).then(() => {
             alert("Usuario borrado exitosamente");
             navigation.navigate("Login");
@@ -145,7 +150,7 @@ const ManagerAdminComponent = ({ navigation }) => {
 
   //Hooks
   useEffect(() => {
-    getManagerById(userInformation.uid);
+    getManagerById(userInformation.id);
   }, []);
 
   return (

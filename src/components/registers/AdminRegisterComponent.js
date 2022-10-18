@@ -1,14 +1,17 @@
 import React from 'react'
-import { View } from 'react-native';
-import { Input, Icon, Button, } from "@rneui/themed";
+import { View, Dimensions } from 'react-native';
+import { Input, Icon, Button } from "@rneui/themed";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { doc, setDoc } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import firebaseConection from '../../contexts/FBConnection';
+import { enviromentVariables } from '../../../utils/enviromentVariables';
 
 const AdminRegisterComponent = ({ navigation }) => {
-    const auth = getAuth();    
+    const auth = getAuth();   
+    const { db } = enviromentVariables;
+    const screen = Dimensions.get("window");
+
     const donorSchema = Yup.object().shape({
         name:Yup.
             string().
@@ -38,7 +41,7 @@ const AdminRegisterComponent = ({ navigation }) => {
                     .then(userCredential => {
                         const user = userCredential;
 
-                        setDoc(doc(firebaseConection.db, "BAMXmanager", user.user.uid), {
+                        setDoc(doc(db, "BAMXmanager", user.user.uid), {
                             lastName: values.lastName,
                             name: values.name
                         })

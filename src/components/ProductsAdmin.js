@@ -106,7 +106,7 @@ const ProductsAdmin = ({navigation}) => {
                                             <Icon name = "edit" size = {30} color = "black"/>
                                         </TouchableOpacity>
                                         <TouchableOpacity style = {styles.button2} onPress = {() => removeProduct(product.id)}>
-                                            <Icon type='feather' name = "trash" size = {30} color = "black"/>
+                                            <Icon type='feather' name = "trash" size = {30} color = "#BD0000"/>
                                         </TouchableOpacity>
                                     </View>
                                 </View>

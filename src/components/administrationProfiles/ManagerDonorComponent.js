@@ -17,7 +17,7 @@ import {
   updateEmail,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import firebaseConection from "../../contexts/FBConnection";
+import { enviromentVariables } from "../../../utils/enviromentVariables";
 import { UserInformation } from "../../contexts/userInformation";
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Alert } from "react-native";
@@ -25,8 +25,14 @@ import { Alert } from "react-native";
 const ManagerDonorComponent = ({ navigation }) => {
   //Initialize auth instance
   const auth = getAuth();
+<<<<<<< HEAD
   console.log("Esto es auth en donor: ", auth)
   
+=======
+
+  const {db} = enviromentVariables;
+
+>>>>>>> 5f7a37c8d26e9e6b15e5d3fde0fbe71743e03d6f
   //Contexts
   const { userInformation, setUserInformation } = useContext(UserInformation);
 
@@ -52,7 +58,7 @@ const ManagerDonorComponent = ({ navigation }) => {
   };
 
   const getManagerById = async (id) => {
-    await getDoc(doc(firebaseConection.db, "donor", id))
+    await getDoc(doc(db, "donor", id))
     .then((querySnapshot) => {
       const { lastName, name } = querySnapshot.data();
       setDonor({
@@ -96,7 +102,7 @@ const ManagerDonorComponent = ({ navigation }) => {
     }
 
     if(name != donor.name || lastName != donor.lastName){
-      await updateDoc(doc(firebaseConection.db, "donor", uid), {
+      await updateDoc(doc(db, "donor", uid), {
         name: name,
         lastName: lastName,
       })
@@ -143,7 +149,7 @@ const ManagerDonorComponent = ({ navigation }) => {
       .then((userCredential) => {
         userCredential.user.delete().then(() => {
           deleteDoc(
-            doc(firebaseConection.db, "donor", userInformation.uid)
+            doc(db, "donor", userInformation.uid)
           ).then(() => {
             Alert.alert(
               "Usuario borrado exitosamente",
@@ -212,7 +218,7 @@ const ManagerDonorComponent = ({ navigation }) => {
   }
   //Hooks
   useEffect(() => {
-    getManagerById(userInformation.uid);
+    getManagerById(userInformation.id);
   }, []);
 
   return (
@@ -347,11 +353,33 @@ const ManagerDonorComponent = ({ navigation }) => {
                       marginTop: 10
                     }}
                     onPress={() => pastDonation()}
+<<<<<<< HEAD
                     title="Ver donaciones pasadas"
                     titleStyle={{
                       color: "white",
                       fontWeight: "bold",
                     }}
+=======
+                    title="Ver donaciones monetarias pasadas"
+                  />
+                  <Button
+                    buttonStyle = {{
+                      borderRadius: 5,
+                      backgroundColor: "#0E4DA4",
+                      marginHorizontal: "5%",
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 12,
+                      },
+                      shadowOpacity: 0.58,
+                      shadowRadius: 16.00,
+                      elevation: 24,
+                      marginTop: 10
+                    }}
+                    onPress={() => pastKindDonation()}
+                    title="Ver donaciones en especie pasadas"
+>>>>>>> 5f7a37c8d26e9e6b15e5d3fde0fbe71743e03d6f
                   />
                 </View>
               </View>

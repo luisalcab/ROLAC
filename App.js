@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect} from 'react';
-import { LogBox } from 'react-native';
+import { LogBox, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import NetInfo from "@react-native-community/netinfo";
@@ -17,7 +17,6 @@ import HomePageManagerBAMX from './src/layouts/MainMenu/HomePageManagerBAMX';
 import HomePageCollectionCenter from './src/layouts/MainMenu/HomePageCollectionCenter';
 import ManagerAdminComponent from './src/components/administrationProfiles/ManagerAdminComponent';
 import AdminRegister from './src/layouts/register/AdminRegister';
-import BAMXmenu from './src/layouts/BAMXmenu';
 import CCRequest from './src/components/BAMX/CCRequest';
 import CCEditRequest from './src/components/BAMX/CCEditRequest';
 import CompareEdit from "./src/components/BAMX/CompareEdit";
@@ -33,6 +32,8 @@ import ForgotPassword from './src/components/ForgotPassword';
 import ProductsAdmin from './src/components/ProductsAdmin';
 import CreateProduct from './src/layouts/CreateProduct';
 import EditProduct from './src/layouts/EditProduct';
+import ViewCC from './src/components/BAMX/ViewCC';
+import CardsKindDonationUser from './src/layouts/donations/CardsKindDonationUser';
 
 //Contexts
 import {CartContext} from './src/contexts/CartContext';
@@ -45,9 +46,13 @@ import {ProductContextProvider} from './src/contexts/ProductContext';
 import {RefresherProvider} from './src/contexts/RefresherContext';
 import {ProductInfoProvider} from './src/contexts/ProductInfoContext';
 
-import AdminSettings from './src/layouts/AdminSettings';
 import QRGenerator from './src/layouts/QRGenerator';
 import QRScanner from './src/layouts/QRScanner';
+
+import SearcherCC from './src/components/PdfGenerator/SearcherCC';
+
+//Import utils
+import enviromentVariables from './utils/enviromentVariables';
 
 //Ignore warnings
 LogBox.ignoreLogs([
@@ -112,43 +117,48 @@ export default function App() {
                 <ProductInfoProvider>
                 <ProductContextProvider>
                 <UserInformation.Provider value={providerUserInformation}>
+                <PdfDocDefinitionContext.Provider value={ProviderPdfDocDefinition}>
                 <ItemsContext.Provider value={providerItems}>
-                    <CartContext.Provider value={providerCart}>
-                        <NavigationContainer initialRouteName="Login">
-                            <Stack.Navigator>
-                                <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
-                                <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
-                                <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
-                                <Stack.Screen name="TerminosyCondiciones" component={TerminosyCondiciones} options={{title: "Términos y Condiciones", headerBackTitle: "ATRÁS"}}/>
-                                <Stack.Screen name="RegisterDonor" component={RegisterDonor} options={{title:"Registro Donador", headerBackTitle: "ATRÁS"}}/>
-                                <Stack.Screen name="BAMXmenu" component={BAMXmenu} options={{title: "Menú Principal", headerBackVisible: false}}/>{/*r */}
-                                <Stack.Screen name="CCEdit" component={CCEdit} />
-                                <Stack.Screen name="CCDeleteList" component={CCDeleteList} />
-                                <Stack.Screen name="CCmenu" component={CCmenu} options={navigation => ({title: "Menú Principal", headerBackVisible: false})}/>
-                                <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
-                                <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
-                                <Stack.Screen name="CompareEdit" component={CompareEdit} />
-                                <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros", headerBackTitle: "ATRÁS"}}/>
-                                <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal', headerBackVisible: false}}/>
-                                <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta', headerBackTitle: "ATRÁS"}}/>
-                                <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal', headerBackVisible: false}}/>
-                                <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
-                                options={{title: 'Administrar cuenta'}}/>
-                                <Stack.Screen name="QRScanner" component={QRScanner} />
-                                <Stack.Screen name="QRGenerator" component={QRGenerator} />
-                                <Stack.Screen name="AdminSettings" component={AdminSettings} /> 
-                                <Stack.Screen name="Cart" component={Cart} /> 
-                                <Stack.Screen name="ItemSelector" component={ItemSelector} options={{title:"Banco de alimentos"}}/> 
-                                <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>  
-                                <Stack.Screen name="AdminRegister" component={AdminRegister} options={{title:"Registro Administrador", headerBackTitle: "ATRÁS"}}/>
-                                <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{title:"Recuperar contraseña", headerBackTitle: "ATRÁS"}}/>
-                                <Stack.Screen name="Administración de productos" component={ProductsAdmin}  options = {{headerBackTitle: "ATRÁS"}}/>
-                                <Stack.Screen name="Crear producto" component={CreateProduct} options = {{headerBackTitle: "ATRÁS"}}/>
-                                <Stack.Screen name="Editar producto" component={EditProduct} options = {{headerBackTitle: "ATRÁS"}}/>
-                            </Stack.Navigator>
-                        </NavigationContainer>
-                    </CartContext.Provider>
+                <CartContext.Provider value={providerCart}>
+                    <NavigationContainer initialRouteName="Login">
+                    <StatusBar barStyle="dark-content" backgroundColor={"white"}/>
+                        <Stack.Navigator>
+                            <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+                            <Stack.Screen name="ViewCC" component={ViewCC} options={{title: "Centros de Acopio"}}/>
+                            <Stack.Screen name="PaymentMessage" component={PaymentMessage}/>
+                            <Stack.Screen name='CardsDonationUser' component={CardsDonationUser}/>
+                            <Stack.Screen name="TerminosyCondiciones" component={TerminosyCondiciones} options={{title: "Términos y Condiciones", headerBackTitle: "ATRÁS"}}/>
+                            <Stack.Screen name="RegisterDonor" component={RegisterDonor} options={{title:"Registro Donador", headerBackTitle: "ATRÁS"}}/>
+                            <Stack.Screen name="CCEdit" component={CCEdit} />
+                            <Stack.Screen name="CCDeleteList" component={CCDeleteList} />
+                            <Stack.Screen name="CCmenu" component={CCmenu} options={navigation => ({title: "Menú Principal", headerBackVisible: false})}/>
+                            <Stack.Screen name="CCEditRequest" component={CCEditRequest} />
+                            <Stack.Screen name="CCRequest" component={CCRequest} options={{title: "Solicitudes"}}/>
+                            <Stack.Screen name="SearcherCC" component={SearcherCC} />
+                            <Stack.Screen name="CompareEdit" component={CompareEdit} />
+                            <Stack.Screen name="RegisterCCForm" component={RegisterCCForm} options={{title:"Pre-Registro Centros", headerBackTitle: "ATRÁS"}}/>
+                            <Stack.Screen name="HomePageDonor" component={HomePageDonor} options={{title: 'Menú principal', headerBackVisible: false}}/>
+                            <Stack.Screen name="ManagerDonorComponent"  component={ManagerDonorComponent} options={{title: 'Administrar cuenta', headerBackTitle: "ATRÁS"}}/>
+                            <Stack.Screen name='HomePageManagerBAMX' component={HomePageManagerBAMX} options={{title: 'Menú principal', headerBackVisible: false}}/>
+                            <Stack.Screen name='HomePageCollectionCenter' component={HomePageCollectionCenter} options={{title: 'Menú principal'}}/>
+                            <Stack.Screen name="ManagerAdminComponent" component={ManagerAdminComponent}
+                            options={{title: 'Administrar cuenta'}}/>
+                            <Stack.Screen name="QRScanner" component={QRScanner} />
+                            <Stack.Screen name="QRGenerator" component={QRGenerator} />
+                            <Stack.Screen name="CardsKindDonationUser" component={CardsKindDonationUser}/>
+                            <Stack.Screen name="Cart" component={Cart} /> 
+                            <Stack.Screen name="ItemSelector" component={ItemSelector} options={{title:"Banco de alimentos"}}/> 
+                            <Stack.Screen name='CardsDonationAllUsers' component={CardsDonationAllUsers}/>  
+                            <Stack.Screen name="AdminRegister" component={AdminRegister} options={{title:"Registro Administrador", headerBackTitle: "ATRÁS"}}/>
+                            <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{title:"Recuperar contraseña", headerBackTitle: "ATRÁS"}}/>
+                            <Stack.Screen name="Administración de productos" component={ProductsAdmin}  options = {{headerBackTitle: "ATRÁS"}}/>
+                            <Stack.Screen name="Crear producto" component={CreateProduct} options = {{headerBackTitle: "ATRÁS"}}/>
+                            <Stack.Screen name="Editar producto" component={EditProduct} options = {{headerBackTitle: "ATRÁS"}}/>
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </CartContext.Provider>
                 </ItemsContext.Provider>
+                </PdfDocDefinitionContext.Provider>
                 </UserInformation.Provider>
                 </ProductContextProvider>
                 </ProductInfoProvider>
