@@ -23,7 +23,7 @@ const QRGenerator = ({navigation}) => {
                 <Button
                     onPress={returnToMenu} 
                     color="#E74C3C" 
-                    title="Regrsar"/>
+                    title="Regresar"/>
             </View>
         </View>
     );

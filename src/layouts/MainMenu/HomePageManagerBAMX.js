@@ -16,6 +16,7 @@ import {Badge} from "react-native-elements";
 
 const screen = Dimensions.get("window");
 
+
 const HomePageManagerBAMX = ({navigation}) => {
   const [refresh, setRefresh] = useState(false);
   const {userInformation, setUserInformation} = useContext(UserInformation);
