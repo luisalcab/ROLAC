@@ -19,7 +19,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { Dialog, Input, Icon, Button } from "@rneui/themed";
-import { UserInformation, setUserInformation } from "../../contexts/userInformation";
+import { UserInformation, setUserInformation } from "../../Contexts/userInformation";
 import { async } from "@firebase/util";
 
 const ManagerAdminComponent = ({ navigation }) => {
@@ -77,7 +77,6 @@ const ManagerAdminComponent = ({ navigation }) => {
       const {email, lastName, name} = value;
       await setDoc(doc(db, "BAMXmanager", id),{name,lastName});
       await updateEmail(userInformation.auth.currentUser, email);
-      //setUserInformation({...userInformation, name, lastName, email});
       navigation.navigate("HomePageManagerBAMX", {navigation}, {name});
     }catch(err){
       console.log(err)
@@ -170,7 +169,8 @@ const ManagerAdminComponent = ({ navigation }) => {
           />
         </View>
       </Dialog>
-      {manager ? (
+      {manager ? 
+      (
         <Formik
           initialValues={manager}
           onSubmit={(values) => updateManager(values)}
