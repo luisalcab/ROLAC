@@ -138,7 +138,6 @@ const SearcherCC = ({navigation}) => {
                     }
                 >
                     {collectionCenter.map((colCenter) => {
-                        console.log(colCenter)
                         return (
                             <Card key = {colCenter.id} style = {styles.card}>
                                 <View >
