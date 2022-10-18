@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 
-import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, deleteDoc, setDoc } from "firebase/firestore";
 import { enviromentVariables } from "../../../utils/enviromentVariables";
 import {
   getAuth,
@@ -19,7 +19,8 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { Dialog, Input, Icon, Button } from "@rneui/themed";
-import { UserInformation } from "../../contexts/userInformation";
+import { UserInformation, setUserInformation } from "../../contexts/userInformation";
+import { async } from "@firebase/util";
 
 const ManagerAdminComponent = ({ navigation }) => {
   //Initialize auth instance
@@ -28,7 +29,8 @@ const ManagerAdminComponent = ({ navigation }) => {
   const {db} = enviromentVariables;
 
   //Contexts
-  const { userInformation, setUserInformation } = useContext(UserInformation);
+  const {userInformation} = useContext(UserInformation);
+  const {id} = userInformation;
 
   //useState
   const [manager, setManager] = useState(null);
@@ -71,40 +73,17 @@ const ManagerAdminComponent = ({ navigation }) => {
   };
 
   const updateManager = async (value) => {
-    const { email, id, lastName, name } = value;
-    console.log(value,"|||||||||", manager);
-
-    if (email != manager.email) {
-      console.log("ENTRO", userInformation, "||||||||", email)
-
-      updateEmail(userInformation.auth.currentUser, email).catch(() => {
-        alert("Ha habido un error a la hora de actualizar el usuario");
-        navigation.navigate("HomePageManagerBAMX", { navigation: navigation });
-      });
+    try{
+      const {email, lastName, name} = value;
+      await setDoc(doc(db, "BAMXmanager", id),{name,lastName});
+      await updateEmail(userInformation.auth.currentUser, email);
+      //setUserInformation({...userInformation, name, lastName, email});
+      navigation.navigate("HomePageManagerBAMX", {navigation}, {name});
+    }catch(err){
+      console.log(err)
+      alert("Ha habido un error a la hora de actualizar el usuario");
+      navigation.navigate("HomePageManagerBAMX", {navigation});
     }
-
-    if(lastName != manager.lastName || name != manager.name){
-      await updateDoc(
-        doc(db, "BAMXmanager", id),
-        {
-          name: name,
-          lastName: lastName,
-        }
-      )
-      .then(() => {
-        setUserInformation({
-          ...userInformation,
-          name: name,
-          lastName: lastName,
-        });
-      })
-      .catch(() => {
-        alert("Ha habido un error a la hora de actualizar el usuario");
-        navigation.navigate("HomePageManagerBAMX", { navigation: navigation });
-      });
-    }
-    // alert("Se ha actualizado la información");
-    navigation.navigate("HomePageManagerBAMX", { navigation: navigation });
   };
 
   const removeManager = async () => {
