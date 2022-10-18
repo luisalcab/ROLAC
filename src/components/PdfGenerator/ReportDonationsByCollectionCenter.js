@@ -90,7 +90,7 @@ const stylesExcel = {
 
 }
 
-const ReportDonationsByCollectionCenter = async (beginDate, endDate, uid, navigation) => {
+const ReportDonationsByCollectionCenter = async (beginDate, endDate, uid) => {
 
     var sheets = [];
     var sheetsDataForTheReport = []; 
@@ -189,8 +189,7 @@ const ReportDonationsByCollectionCenter = async (beginDate, endDate, uid, naviga
                 nameSheet: "Historico de donaciones"
             },
         )
-        ExcelGenerator(sheets);
-        console.log("Hola miund")
+        return ExcelGenerator(sheets);
     } else { 
         alert("No se encontraron donaciones para ese centro de acopio, en ese intervalo de tiempo");
 

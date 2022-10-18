@@ -19,7 +19,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { Dialog, Input, Icon, Button } from "@rneui/themed";
-import { UserInformation, setUserInformation } from "../../Contexts/userInformation";
+import { UserInformation, setUserInformation } from "../../contexts/userInformation";
 import { async } from "@firebase/util";
 
 const ManagerAdminComponent = ({ navigation }) => {

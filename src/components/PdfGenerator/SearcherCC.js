@@ -12,7 +12,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ReportDonationsByCollectionCenter from './ReportDonationsByCollectionCenter';
 import { color } from 'react-native-reanimated';
 
-const SearcherCC = () => {
+const SearcherCC = ({navigation}) => {
     const [collectionCenter, setCollectionCenter] = useState([]);
     const {refresh, setRefresh} = useContext(RefresherContext);
     const [refreshing, setRefreshing] = useState(refresh);
@@ -76,14 +76,19 @@ const SearcherCC = () => {
     }
     
     const generateReport = ()  => {
-        console.log("Validando")
-        
         if(moment(intervalTime.beginDate).isValid() && moment(intervalTime.endDate).isValid()) {
-            console.log("Entrando")
             ReportDonationsByCollectionCenter(
                 intervalTime.beginDate, 
                 intervalTime.endDate,
-                collectionCenterSelected.id);
+                collectionCenterSelected.id)
+            .then(() => {
+                navigation.navigate('HomePageManagerBAMX',{navigation: navigation})
+            })
+            .catch(() => {
+                alert("Ha habido un error durante la generación del reporte")
+                navigation.navigate('HomePageManagerBAMX',{navigation: navigation})
+            });
+                
         } else {
             alert("Aún no has seleccionado un intervalo de fechas valido");
         }

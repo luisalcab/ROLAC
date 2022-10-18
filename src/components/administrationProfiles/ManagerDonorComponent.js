@@ -18,7 +18,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { enviromentVariables } from "../../../utils/enviromentVariables";
-import { UserInformation } from "../../Contexts/userInformation";
+import { UserInformation } from "../../contexts/userInformation";
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Alert } from "react-native";
 
