@@ -45,7 +45,7 @@ import {CCProvider} from './src/contexts/CCContext';
 import {ProductContextProvider} from './src/contexts/ProductContext';
 import {RefresherProvider} from './src/contexts/RefresherContext';
 import {ProductInfoProvider} from './src/contexts/ProductInfoContext';
-
+import { PdfDocDefinitionContext } from './src/contexts/PdfDocDefinitionContext';
 import QRGenerator from './src/layouts/QRGenerator';
 import QRScanner from './src/layouts/QRScanner';
 
