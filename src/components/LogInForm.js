@@ -205,3 +205,4 @@ const LogInForm = ({navigation}) => {
 )}
 
 export default LogInForm;
+

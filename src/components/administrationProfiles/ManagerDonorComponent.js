@@ -18,7 +18,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { enviromentVariables } from "../../../utils/enviromentVariables";
-import { UserInformation } from "../../contexts/userInformation";
+import { UserInformation } from "../../Contexts/userInformation";
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Alert } from "react-native";
 
@@ -79,8 +79,9 @@ const ManagerDonorComponent = ({ navigation }) => {
 
   const updateDonor = async (value) => {
     const { email, uid, lastName, name } = value;
-
+    console.log("data")
     if(email != donor.email){
+      console.log(email, "---------------", userInformation.auth.currentUser)
       updateEmail(userInformation.auth.currentUser, email).catch(() => {
         Alert.alert(
           "Error",
@@ -257,7 +258,8 @@ const ManagerDonorComponent = ({ navigation }) => {
       {donor ? (
         <Formik
           initialValues={donor}
-          onSubmit={(values) => updateDonor(values)}
+          onSubmit={(values) => {
+            updateDonor(values)}}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <KeyboardAwareScrollView
@@ -346,7 +348,11 @@ const ManagerDonorComponent = ({ navigation }) => {
                       marginTop: 10
                     }}
                     onPress={() => pastDonation()}
-                    title="Ver donaciones monetarias pasadas"
+                    title="Ver donaciones pasadas"
+                    titleStyle={{
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
                   />
                   <Button
                     buttonStyle = {{
