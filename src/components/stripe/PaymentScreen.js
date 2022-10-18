@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
 import { View, Button, StyleSheet } from 'react-native';
 import axios from 'axios';
@@ -15,6 +15,15 @@ function PaymentScreen({grandTotal, navigation}) {
     const { userInformation, setUserInformation } = useContext(UserInformation);    
     const {cartMonetary, setCartMonetary} = useContext(CartContextMonetary);
     const [load, isLoad] = useState(false);
+    const [active, setActive] = useState(false);
+
+    useEffect(() => {
+      if(grandTotal >= 10){
+        setActive(true);
+      } else {
+        setActive(false);
+      }
+    }, [grandTotal]);
 
     // Initialization confirm payment
     const {confirmPayment, loading} = useConfirmPayment();
@@ -118,7 +127,6 @@ function PaymentScreen({grandTotal, navigation}) {
       };
 
       const handleCancelPayPress = async() => {
-        isLoad(!load);
         setCartMonetary([]);
         props.idCase = 2;
         navigation.navigate("PaymentMessage", { props: props });
@@ -163,7 +171,12 @@ function PaymentScreen({grandTotal, navigation}) {
           <Button 
             onPress={handlePayPress} 
             title="Donar" 
-            disabled={loading}
+            disabled={
+              !payment.last4 ||
+              !payment.postalCode ||
+              loading ||
+              !active
+            }
             color="#fff"
           />
         </View>

@@ -15,18 +15,19 @@ const CardsKindDonations = ({idDonation, date, collectionCenterName, items }) =>
     return (
       <View style={styles.container}>
         <Card containerStyle={styles.card}>
-          <Card.Title>ID donacion: {idDonation}</Card.Title>
+          <Card.Title style = {styles.titleCard}>ID donacion: {idDonation}</Card.Title>
+          <Card.Divider style = {styles.divider}/>
           <View>
             <View style={styles.containerRow}>
               <View>
-                <Text>Fecha: {date}</Text>
-                <Text style={styles.verticalItems}></Text>
-                <Text>Nombre centro de acopio: {collectionCenterName}</Text>
-                <Text></Text>
+                <Text style = {styles.infoText}>Fecha:</Text>
+                <Text style={styles.verticalItems}>{date}</Text>
+                <Text style = {styles.infoText}>Nombre centro de acopio:</Text>
+                <Text style={styles.verticalItems}>{collectionCenterName}</Text>
               </View>
             </View>
-            <View>
-              <Text>Productos</Text>
+            <View style = {styles.productsContainer}>
+              <Text style = {styles.infoText}>Productos</Text>
               <FlatList
                 data={items}
                 renderItem={renderItem}
@@ -43,6 +44,7 @@ const CardsKindDonations = ({idDonation, date, collectionCenterName, items }) =>
     },
     verticalItems: {
       marginBottom: 3,
+      alignSelf: "center",
     },
     amountDonation: {
       textAlignVertical: "center",
@@ -52,11 +54,11 @@ const CardsKindDonations = ({idDonation, date, collectionCenterName, items }) =>
     containerRow: {
       flexDirection: 'row',
       marginBottom: 6,
-      justifyContent: "space-around" 
+      justifyContent: "space-around",
     },
     card: {
-      backgroundColor: "#bdc2d5",
-      borderColor: "#bdc2d5",
+      backgroundColor: "#FFE4D3",
+      borderColor: "#EE5E00",
       borderRadius: 25,
       shadowColor: "#000",
       shadowOffset: {
@@ -71,11 +73,29 @@ const CardsKindDonations = ({idDonation, date, collectionCenterName, items }) =>
     titleBar: {
       alignItems: "center",
       marginTop: "5%",
-      backgroundColor: "#b0bdd0",
     },
     title: {
       fontSize: 25,
-    }
+    },
+    divider: {
+      borderWidth: 0.5,
+      borderColor: "#EE5E00",
+    },
+    titleCard: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: "#FF8300",
+    },
+    infoText: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: "#FF8300",
+      alignSelf: "center",
+      marginBottom: 3,
+    },
+    productsContainer: {
+      marginTop: 10,
+    },
     });
 
 export default CardsKindDonations;

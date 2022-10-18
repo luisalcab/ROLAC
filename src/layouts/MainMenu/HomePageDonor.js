@@ -28,6 +28,8 @@ const HomePageDonor = ({navigation}) => {
       querySnapshot.forEach((doc) => {
         if (doc.id == userInformation.id) {
           setCart(doc.data().cart);
+        } else {
+          setCart([]);
         }
       });
     };
