@@ -25,14 +25,9 @@ import { Alert } from "react-native";
 const ManagerDonorComponent = ({ navigation }) => {
   //Initialize auth instance
   const auth = getAuth();
-<<<<<<< HEAD
-  console.log("Esto es auth en donor: ", auth)
-  
-=======
 
   const {db} = enviromentVariables;
 
->>>>>>> 5f7a37c8d26e9e6b15e5d3fde0fbe71743e03d6f
   //Contexts
   const { userInformation, setUserInformation } = useContext(UserInformation);
 
@@ -353,14 +348,11 @@ const ManagerDonorComponent = ({ navigation }) => {
                       marginTop: 10
                     }}
                     onPress={() => pastDonation()}
-<<<<<<< HEAD
                     title="Ver donaciones pasadas"
                     titleStyle={{
                       color: "white",
                       fontWeight: "bold",
                     }}
-=======
-                    title="Ver donaciones monetarias pasadas"
                   />
                   <Button
                     buttonStyle = {{
@@ -379,7 +371,6 @@ const ManagerDonorComponent = ({ navigation }) => {
                     }}
                     onPress={() => pastKindDonation()}
                     title="Ver donaciones en especie pasadas"
->>>>>>> 5f7a37c8d26e9e6b15e5d3fde0fbe71743e03d6f
                   />
                 </View>
               </View>

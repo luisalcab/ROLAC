@@ -13,7 +13,7 @@ import { UserInformation } from "../../contexts/userInformation.js";
 import { Alert, ScrollView } from "react-native";
 import {BAMXContext} from "../../contexts/BAMXContext";
 import {Badge} from "react-native-elements";
-
+import ReportColltionsPending from '../../components/PdfGenerator/ReportCollectionsPending';
 const screen = Dimensions.get("window");
 
 
@@ -163,7 +163,7 @@ const HomePageManagerBAMX = ({navigation}) => {
                 <Text style={styles.textButton}>Donaciones monetarias</Text>
               </TouchableOpacity>
               <TouchableOpacity
-              onPress={() => Alert.alert('En construcción')}
+              onPress={() => ReportColltionsPending()}
               style={styles.button}
               >
                 <Icon name="text-document" type="entypo" size={55}/>

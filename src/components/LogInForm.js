@@ -205,7 +205,4 @@ const LogInForm = ({navigation}) => {
 )}
 
 export default LogInForm;
-<<<<<<< HEAD
 
-=======
->>>>>>> 5f7a37c8d26e9e6b15e5d3fde0fbe71743e03d6f
