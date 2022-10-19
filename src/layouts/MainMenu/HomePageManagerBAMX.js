@@ -17,16 +17,19 @@ import ReportColltionsPending from '../../components/PdfGenerator/ReportCollecti
 const screen = Dimensions.get("window");
 
 
-const HomePageManagerBAMX = ({navigation}) => {
+const HomePageManagerBAMX = ({navigation, route}) => {
   const [refresh, setRefresh] = useState(false);
   const {userInformation, setUserInformation} = useContext(UserInformation);
   const {docsNum, editRequestsNum} = useContext(BAMXContext);
+
+  const {name} = route.params;
+  console.log(name)
 
   return (
     <View>
       <ScrollView>
         <View style={styles.containerNav}>
-          <Text style={styles.title1}>Hola {userInformation.name}</Text>
+          <Text style={styles.title1}>Hola {name ? name : userInformation.name}</Text>
           <Dropdown
             data={[
               {
