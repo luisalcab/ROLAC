@@ -182,6 +182,7 @@ const screen = Dimensions.get("screen");
 const styles = StyleSheet.create({
     btnO:{
         width: "80%",
+        minWidth: screen.width * .8,
         height: screen.height * .085,
         borderRadius: 10,
         backgroundColor:"orange"
@@ -189,6 +190,7 @@ const styles = StyleSheet.create({
     btnR:{
         width: "80%",
         height: screen.height * .085,
+        minWidth: screen.width * .8,
         borderRadius: 10,
         backgroundColor:"red"
     },
