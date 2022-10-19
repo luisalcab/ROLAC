@@ -5,10 +5,11 @@ import firebaseConnection from "../contexts/FBConnection";
 import {updateDoc, addDoc, getDoc, doc, collection} from "firebase/firestore";
 import moment from "moment";
 import {UserInformation} from "../contexts/userInformation";
+import { CCContext } from "../contexts/CCContext";
 
 const ScannerCart = ({id, setModalVisible}) => {
     const [cart, setCart] = useState([]);
-    const {userInformation} = useContext(UserInformation);
+    const {CCUser} = useContext(CCContext);
 
     const consultCart = () => {
         const query = doc(firebaseConnection.db, "donor", id);
@@ -25,7 +26,8 @@ const ScannerCart = ({id, setModalVisible}) => {
     const handleAproval = () => {
         const items = cart.map(item => ({count: item.count, id: item.id, name: item.name}))
         const coll = collection(firebaseConnection.db, "donations_in_kind");
-        const donation = {items, dateTime: moment().format(), donor: id, donationCenter: userInformation.uid}
+        console.log("user inf: ", CCUser);
+        const donation = {items, dateTime: moment().format(), donor: id, donationCenter: CCUser, collected: 0}
         console.log(donation);
         addDoc(coll, donation);
 
