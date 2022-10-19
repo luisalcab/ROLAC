@@ -1,5 +1,5 @@
 import {useContext, useState} from 'react';
-import {View, Alert, TouchableOpacity, Dimensions} from 'react-native';
+import {View, Alert, TouchableOpacity, Dimensions, StyleSheet} from 'react-native';
 import {CCContext} from '../contexts/CCContext';
 import {UserInformation} from '../contexts/userInformation';
 import {Input, Icon, Button, Text} from "@rneui/themed";
@@ -16,8 +16,6 @@ const LogInForm = ({navigation}) => {
     const {setCCUser} = useContext(CCContext);
     const [loading, isLoading] = useState(false);
     const {db, app} = enviromentVariables;
-
-    const screen = Dimensions.get("window");
 
     const auth = getAuth(app);
 
@@ -141,51 +139,26 @@ const LogInForm = ({navigation}) => {
                                     value={values.password}
                                 />
                             </View>
-                            <View style={{justifyContent:"space-around", flexDirection:"column"}}>    
+                            <View style={styles.btnContainer}>    
                                 <Button 
                                     onPress={handleSubmit} 
                                     title="Entrar"
-                                    buttonStyle={{
-                                        width: screen.width*0.8,
-                                        height: screen.height*0.06,
-                                        borderRadius: 10,
-                                        backgroundColor:"red",
-                                        alignSelf:"center"
-                                    }}
-                                    titleStyle={{
-                                        width: screen.width*0.7,
-                                        color:"white",
-                                        fontSize: screen.fontScale*25,
-                                        fontWeight:"bold"
-                                    }}
+                                    buttonStyle={styles.btnR}
+                                    titleStyle={styles.btnText}
                                     icon={<Icon name="arrow-forward-ios" type="material" color ="white"/>}
                                     iconRight={true}
                                 />
                                 <Button 
                                     onPress={() => navigation.navigate("RegisterDonor")} 
                                     title="Registrarse"
-                                    buttonStyle={{
-                                        width: screen.width*0.8,
-                                        height: screen.height*0.06,
-                                        borderRadius: 10,
-                                        backgroundColor:"orange",
-                                        alignSelf:"center",
-                                        marginTop: screen.height*0.01
-                                    }}
-                                    titleStyle={{
-                                        width: screen.width*0.7,
-                                        color:"white",
-                                        fontSize: screen.fontScale*25,
-                                        fontWeight:"bold"
-                                    }}
+                                    buttonStyle={styles.btnO}
+                                    titleStyle={styles.btnText}
                                     icon={<Icon name="arrow-forward-ios" type="material" color ="white"/>}
                                     iconRight={true}
                                 />
                                 <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
                                     <Text style={{
-                                            color:"black", 
-                                            alignSelf:"center", 
-                                            marginTop: screen.height*0.04, 
+                                            color:"black",
                                             fontSize: screen.fontScale*16,
                                             textDecorationLine: "underline",
                                             textDecorationColor: "black",
@@ -204,5 +177,32 @@ const LogInForm = ({navigation}) => {
     </>
 )}
 
-export default LogInForm;
+const screen = Dimensions.get("screen");
 
+const styles = StyleSheet.create({
+    btnO:{
+        width: "80%",
+        height: screen.height * .085,
+        borderRadius: 10,
+        backgroundColor:"orange"
+    },
+    btnR:{
+        width: "80%",
+        height: screen.height * .085,
+        borderRadius: 10,
+        backgroundColor:"red"
+    },
+    btnText:{
+        flex: 1,
+        fontSize: screen.fontScale*25
+    },
+    btnContainer:{
+        flex:0,
+        width: "100%",
+        height: screen.height * .3,
+        justifyContent: "space-evenly",
+        alignItems: "center"
+    }
+})
+
+export default LogInForm;
