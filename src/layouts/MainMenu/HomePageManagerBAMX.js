@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, {useState, useContext} from "react";
 import {
   StyleSheet,
   View,
@@ -10,7 +10,7 @@ import { Icon } from "@rneui/base";
 import { getAuth, signOut } from "firebase/auth";
 import { Dropdown } from "react-native-element-dropdown";
 import { UserInformation } from "../../contexts/userInformation.js";
-import { Alert, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import {BAMXContext} from "../../contexts/BAMXContext";
 import {Badge} from "react-native-elements";
 import ReportColltionsPending from '../../components/PdfGenerator/ReportCollectionsPending';
@@ -19,11 +19,10 @@ const screen = Dimensions.get("window");
 
 const HomePageManagerBAMX = ({navigation, route}) => {
   const [refresh, setRefresh] = useState(false);
-  const {userInformation, setUserInformation} = useContext(UserInformation);
+  const {userInformation} = useContext(UserInformation);
   const {docsNum, editRequestsNum} = useContext(BAMXContext);
 
   const {name} = route.params;
-  console.log(name)
 
   return (
     <View>
@@ -55,6 +54,7 @@ const HomePageManagerBAMX = ({navigation, route}) => {
               }
             ]}
             style={styles.dropdown}
+            containerStyle={styles.dropdownContainer}
             labelField="label"
             value="label"
             onChange={(item) => item.onPress()}
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   positionTitle: {
-    alignItems: "center",
+    alignItems: "center"
   },
   buttonContainer: {
     margin: screen.width * 0.03,
@@ -223,11 +223,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 20,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 10,
-      height: 10,
-    },
-    shadowOpacity: 0.05,
+    elevation: 20
+  },
+  dropdownContainer:{
+    borderRadius: 20,
+    elevation: 20
   },
   placeholderContainer: {
     height: "100%",
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 10,
-    paddingTop: 5,
+    paddingTop: 5
   },
   textDrop: {
     fontSize: screen.fontScale * 15,
