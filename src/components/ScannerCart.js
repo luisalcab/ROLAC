@@ -19,21 +19,26 @@ const ScannerCart = ({id, setModalVisible}) => {
             })
     }
 
+    const getCollCenterName = () => {
+        
+    }
+
     useEffect(() => {
         consultCart();
     }, []);
 
     const handleAproval = () => {
-        const items = cart.map(item => ({count: item.count, id: item.id, name: item.name}))
+        const ref = doc(firebaseConnection.db, "collection_center", CCUser);
+        getDoc(ref).then((collCenter) => {
+            const items = cart.map(item => ({count: item.count, id: item.id, name: item.name}))
         const coll = collection(firebaseConnection.db, "donations_in_kind");
-        console.log("user inf: ", CCUser);
-        const donation = {items, dateTime: moment().format(), donor: id, donationCenter: CCUser, collected: 0}
-        console.log(donation);
+        const donation = {items, collectionCenterName: collCenter.data().name, dateTime: moment().format(), donor: id, donationCenter: CCUser, collected: 0}
         addDoc(coll, donation);
 
         const query = doc(firebaseConnection.db, "donor", id);
         updateDoc(query, {cart: []});
         setModalVisible(false);
+        });
     }
 
     const renderItem = ({item}) => (
