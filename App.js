@@ -43,14 +43,15 @@ import { CartContextMonetary } from './src/contexts/CartContextMonetary';
 import {ItemsContext} from './src/contexts/ItemsContext';
 import { UserInformation } from './src/contexts/userInformation';
 import {RegisterCCProvider} from "./src/contexts/RegisterCC"
-import {BAMXProvider} from "./src/contexts/BAMXContext"
+import {BAMXProvider} from "./src/contexts/BAMXContext";
 import {CCProvider} from './src/contexts/CCContext';
 import {ProductContextProvider} from './src/contexts/ProductContext';
 import {RefresherProvider} from './src/contexts/RefresherContext';
 import {ProductInfoProvider} from './src/contexts/ProductInfoContext';
-import { PdfDocDefinitionContext } from './src/contexts/PdfDocDefinitionContext';
+import { PdfDocDefinitionContext} from './src/contexts/PdfDocDefinitionContext';
 import QRGenerator from './src/layouts/QRGenerator';
 import QRScanner from './src/layouts/QRScanner';
+
 //Import utils
 import enviromentVariables from './utils/enviromentVariables';
 
@@ -86,29 +87,6 @@ export default function App() {
         }, 2000);
     }, []);
 
-    // const [initializing, setInitilizing] = useState(false);
-    // const auth = getAuth();
-
-    // onAuthStateChanged(auth, (user) => {
-    //     const now = Date.now();
-    //     console.log("Esto es USE: ", user)
-    //     if (user) {
-    //         if(now < user.stsTokenManager.expirationTime){
-    //             setInitilizing(true);
-    //         } else {
-    //             setInitilizing(false);
-    //             signOut(auth).then(() => {
-    //                 // Sign-out successful.
-    //                 console.log("Usuario deslogeado")
-    //                 }).catch((error) => {
-    //                 // An error happened.
-                    
-    //               });   
-    //         }
-            
-    //     }
-    //     else setInitilizing(false) 
-    // });
     return (
         <>
             {isConnected ? (

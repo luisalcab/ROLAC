@@ -77,7 +77,7 @@ const ManagerAdminComponent = ({ navigation }) => {
       const {email, lastName, name} = value;
       await setDoc(doc(db, "BAMXmanager", id),{name,lastName});
       await updateEmail(userInformation.auth.currentUser, email);
-      navigation.navigate("HomePageManagerBAMX", {navigation}, {name});
+      navigation.navigate("HomePageManagerBAMX", {navigation, name});
     }catch(err){
       console.log(err)
       alert("Ha habido un error a la hora de actualizar el usuario");

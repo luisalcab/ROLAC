@@ -5,6 +5,7 @@ import BtnEditCC from "../components/CC/BtnEditCC";
 import CCEdit from "../components/CC/CCEdit";
 import LottieView from 'lottie-react-native';
 import BtnCCuserConfig from '../components/CC/BtnCCuserConfig';
+import BtnScannerCC from '../components/CC/BtnScannerCC';
 
 const CCmenu = ({navigation}) => {
     const {CCEditViewS} = useContext(CCContext);
