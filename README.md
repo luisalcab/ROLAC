@@ -24,4 +24,6 @@ Multiplatform mobile app for managing the logistic aspect of a food bank social 
 
 Click [here](https://www.figma.com/file/OEWBadLRA2yYAZs4OJlBrF/BAMX?type=design&node-id=0-1&t=PK6BS7330hvFAKaz-0) to go to the project's Figma.
 
+## Copyright:
+
 Todos los derechos reservados © 2022 | Red de Bancos de Alimentos de México.
