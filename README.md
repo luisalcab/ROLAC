@@ -1,5 +1,5 @@
 # ROLAC
-Multiplatform mobile app for managing the logistic aspect of a food bank social organization.
+React Native multiplatform mobile app for managing the logistic aspect of a food bank social organization.
 
 ## Developed  by:
 * Vicente Javier Viera Guízar
