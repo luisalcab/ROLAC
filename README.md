@@ -15,3 +15,7 @@ Multiplatform mobile app for managing the logistic aspect of a food bank social 
 4. Run npm install or npm i (you can use the package mannager you desire)
 5. Run in the path of the proyect tne command: npx expo start
 6. Install the Expo client app inyour phone and scan the qr code shown in the terminal
+
+# Video of the application running:
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/Gq-PVjziytk/0.jpg)](http://www.youtube.com/watch?v=Gq-PVjziytk "Video Title")
