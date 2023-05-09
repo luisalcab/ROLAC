@@ -18,7 +18,7 @@ Multiplatform mobile app for managing the logistic aspect of a food bank social 
 
 ## Video of the application running:
 
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/Gq-PVjziytk/0.jpg)](http://www.youtube.com/watch?v=Gq-PVjziytk "Video Title")
+[![IMAGE ALT TEXT](https://makeagif.com/gif/aplicacion-rolac-OcLTHv)](http://www.youtube.com/watch?v=Gq-PVjziytk "ROLAC")
 
 ## Figma:
 
