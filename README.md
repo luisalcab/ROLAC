@@ -18,7 +18,7 @@ Multiplatform mobile app for managing the logistic aspect of a food bank social 
 
 ## Video of the application running:
 
-[![IMAGE ALT TEXT](https://github.com/luisalcab/ROLAC/assets/79459748/642559f7-87f6-47a4-bb67-9480b14f2f12)](http://www.youtube.com/watch?v=Gq-PVjziytk "ROLAC")
+[![IMAGE ALT TEXT](https://github.com/luisalcab/ROLAC/assets/79459748/edc9f600-7da7-4958-9219-2c0b95ca9c0c)](http://www.youtube.com/watch?v=Gq-PVjziytk "ROLAC")
 
 ## Figma:
 
